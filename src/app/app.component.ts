@@ -12,16 +12,10 @@ import { Task } from './models/task.interface'
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, MatToolbarModule, MatIconModule, TaskComponent, NgFor],
+  imports: [RouterOutlet, MatToolbarModule, MatIconModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
-export class AppComponent implements OnInit {
-  protected todos!: Task[];
+export class AppComponent {
 
-  constructor(private taskService: TaskService) { }
-
-  ngOnInit(): void {
-    this.todos = this.taskService.todos
-  }
 }
