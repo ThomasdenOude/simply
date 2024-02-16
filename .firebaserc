@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "practicekanban": {
+      "hosting": {
+        "practice-kanban": [
+          "practicekanban"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "practicekanban"
+  }
+}

@@ -68,6 +68,7 @@ export class TaskManagerComponent implements OnInit {
         if (!result) {
           return;
         }
+        this.taskService.addTodo(result.task)
         this.todo.push(result.task);
       });
   }
@@ -87,6 +88,4 @@ export class TaskManagerComponent implements OnInit {
       event.currentIndex
     );
   }
-
-
 }
