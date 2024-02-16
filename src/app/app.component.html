@@ -2,4 +2,7 @@
   <mat-icon>local_fire_department</mat-icon>
   <span>Kanban fire</span>
 </mat-toolbar>
+
+<app-task *ngFor="let todo of todos" [task]="todo"></app-task>
+
 <router-outlet />
