@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Signal, WritableSignal, computed } from '@angular/core';
 import { NgFor, NgIf } from '@angular/common';
 
 import { DragDropModule, CdkDragDrop, transferArrayItem } from '@angular/cdk/drag-drop'
@@ -7,7 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
 
 import { TaskService } from '../../services/task.service';
-import { Task, TaskDialogResult } from '../../models/task.interface';
+import { Task, TaskDialogResult, TaskStatus } from '../../models/task.interface';
 import { TaskComponent } from '../task/task.component';
 import { TaskDialogComponent } from '../task-dialog/task-dialog.component'
 
@@ -19,9 +19,10 @@ import { TaskDialogComponent } from '../task-dialog/task-dialog.component'
   styleUrl: './task-manager.component.scss'
 })
 export class TaskManagerComponent implements OnInit {
-  protected todo!: Task[];
-  protected inProgress: Task[] = [];
-  protected done: Task[] = [];
+  protected TaskStatus = TaskStatus;
+  protected todo!: Signal<Task[]>;
+  protected inProgress!: Signal<Task[]>;
+  protected done!: Signal<Task[]>;
 
   constructor(
     private taskService: TaskService,
@@ -29,10 +30,13 @@ export class TaskManagerComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.todo = this.taskService.todos
+    this.todo = computed(() => this.taskService.taskList().filter((task: Task) => task.status === TaskStatus.Todo));
+    this.inProgress = computed(() => this.taskService.taskList().filter((task: Task) => task.status === TaskStatus.Inprogress));
+    this.done = computed(() => this.taskService.taskList().filter((task: Task) => task.status === TaskStatus.Done))
   }
 
-  protected editTask(list: 'done' | 'todo' | 'inProgress', task: Task): void {
+  protected editTask(taskStatus: TaskStatus, task: Task): void {
+
     const dialogRef = this.dialog.open(TaskDialogComponent, {
       width: '270px',
       data: {
@@ -41,38 +45,37 @@ export class TaskManagerComponent implements OnInit {
       },
     });
     dialogRef.afterClosed().subscribe((result: TaskDialogResult | undefined) => {
+
       if (!result) {
         return;
       }
-      const dataList = this[list];
-      const taskIndex = dataList.indexOf(task);
       if (result.delete) {
-        dataList.splice(taskIndex, 1);
-      } else {
-        dataList[taskIndex] = task;
+        this.taskService.deleteTask(task)
+      } else if (result.editTask) {
+        this.taskService.editTask(result.editTask)
       }
     });
   }
-
 
   protected newTask(): void {
     const dialogRef = this.dialog.open(TaskDialogComponent, {
       width: '270px',
       data: {
-        task: {},
-      },
+        task: null
+      }
     });
     dialogRef
       .afterClosed()
-      .subscribe((result: TaskDialogResult | undefined) => {
+      .subscribe((result: TaskDialogResult | null) => {
+
         if (!result) {
           return;
         }
-        this.taskService.addTodo(result.task)
-        this.todo.push(result.task);
+        if (result.addTask) {
+          this.taskService.addTask(result.addTask)
+        }
       });
   }
-
 
   protected drop(event: CdkDragDrop<Task[]>): void {
     if (event.previousContainer === event.container) {

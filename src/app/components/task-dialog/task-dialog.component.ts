@@ -1,10 +1,10 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms'
 
 import { MatInputModule } from '@angular/material/input'
 import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon'
-import { Task, TaskDialogData } from '../../models/task.interface';
+import { Task, TaskDialogData, TaskDialogResult, TaskStatus } from '../../models/task.interface';
 import { NgIf } from '@angular/common';
 
 @Component({
@@ -14,18 +14,52 @@ import { NgIf } from '@angular/common';
   templateUrl: './task-dialog.component.html',
   styleUrl: './task-dialog.component.scss'
 })
-export class TaskDialogComponent {
-  private backupTask: Partial<Task> = { ...this.data.task };
+export class TaskDialogComponent implements OnInit {
+  protected title = '';
+  protected description = ''
 
   constructor(
     public dialogRef: MatDialogRef<TaskDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: TaskDialogData
   ) { }
 
-  cancel(): void {
-    this.data.task.title = this.backupTask.title;
-    this.data.task.description = this.backupTask.description;
-    this.dialogRef.close(this.data);
+  ngOnInit(): void {
+    if (this.data.task) {
+      this.title = this.data.task.title
+      this.description = this.data.task.description
+    }
+  }
+  protected submitTask(): void {
+    const result: TaskDialogResult = {}
+
+    if (this.data.task) {
+      result.editTask = {
+        ...this.data.task,
+        title: this.title,
+        description: this.description
+      }
+    } else {
+      result.addTask = {
+        title: this.title,
+        description: this.description,
+        status: TaskStatus.Todo
+      }
+    }
+    this.dialogRef.close(result)
+  }
+
+  protected deleteTask(): void {
+    if (this.data.task) {
+      const result: TaskDialogResult = {
+        editTask: this.data.task,
+        delete: true
+      }
+      this.dialogRef.close(result);
+    }
+  }
+
+  protected cancel(): void {
+    this.dialogRef.close(null);
   }
 
 }
