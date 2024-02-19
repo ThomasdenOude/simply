@@ -1,5 +1,4 @@
-import { Component, OnInit, Signal, WritableSignal, computed } from '@angular/core';
-import { NgFor, NgIf } from '@angular/common';
+import { Component, OnInit, Signal, computed } from '@angular/core';
 
 import { DragDropModule, CdkDragDrop, transferArrayItem, moveItemInArray } from '@angular/cdk/drag-drop'
 import { MatButtonModule } from '@angular/material/button';
@@ -14,7 +13,7 @@ import { TaskDialogComponent } from '../task-dialog/task-dialog.component'
 @Component({
   selector: 'app-task-manager',
   standalone: true,
-  imports: [NgIf, NgFor, DragDropModule, MatButtonModule, MatIconModule, TaskComponent, TaskDialogComponent],
+  imports: [DragDropModule, MatButtonModule, MatIconModule, TaskComponent, TaskDialogComponent],
   templateUrl: './task-manager.component.html',
   styleUrl: './task-manager.component.scss'
 })
@@ -30,10 +29,13 @@ export class TaskManagerComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.TODO = computed(() => this.taskService.taskList().filter((task: Task) => task.status === TaskStatus.Todo).sort((a, b) => a.index - b.index));
-    this.INPROGRESS = computed(() => this.taskService.taskList().filter((task: Task) => task.status === TaskStatus.Inprogress).sort((a, b) => a.index - b.index));
-    this.DONE = computed(() => this.taskService.taskList().filter((task: Task) => task.status === TaskStatus.Done).sort((a, b) => a.index - b.index))
+    const sortTasks = ((a: Task, b: Task) => a.index - b.index)
+    this.TODO = computed(() => this.taskService.taskList().filter((task: Task) => task.status === TaskStatus.Todo).sort(sortTasks));
+    this.INPROGRESS = computed(() => this.taskService.taskList().filter((task: Task) => task.status === TaskStatus.Inprogress).sort(sortTasks));
+    this.DONE = computed(() => this.taskService.taskList().filter((task: Task) => task.status === TaskStatus.Done).sort(sortTasks));
   }
+
+
 
   protected editTask(taskStatus: TaskStatus, task: Task): void {
 

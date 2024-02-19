@@ -1,6 +1,6 @@
-import { Injectable, Signal, WritableSignal, inject, signal } from '@angular/core';
+import { Injectable, WritableSignal, inject, signal } from '@angular/core';
 
-import { Firestore, collection, collectionData, addDoc, getDocs, CollectionReference, DocumentReference, deleteDoc, doc, updateDoc } from '@angular/fire/firestore';
+import { Firestore, collection, addDoc, getDocs, CollectionReference, DocumentReference, deleteDoc, doc, updateDoc } from '@angular/fire/firestore';
 
 import { CreateTask, Task, TaskDto, TaskStatus } from '../models/task.interface';
 

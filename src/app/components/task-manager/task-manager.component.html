@@ -11,10 +11,13 @@
             <mat-card cdkDropList [id]="TaskStatus.Todo" #todoList="cdkDropList" [cdkDropListData]="TODO()"
                 [cdkDropListConnectedTo]="[doneList, inProgressList]" (cdkDropListDropped)="updateTask($event)"
                 class="list">
-                <p class="empty-label" *ngIf="TODO().length === 0">Empty list</p>
-                <app-task (editTask)="editTask(TaskStatus.Todo, $event)" *ngFor="let task of TODO()" cdkDrag
-                    [task]="task"></app-task>
+                @for (task of TODO(); track task.id) {
+                <app-task (editTask)="editTask(TaskStatus.Todo, $event)" cdkDrag [task]="task"></app-task>
+                } @empty {
+                <p class="empty-label">Empty list</p>
+                }
             </mat-card>
+
         </div>
 
         <div class="container">
@@ -23,9 +26,11 @@
             <mat-card cdkDropList [id]="TaskStatus.Inprogress" #inProgressList="cdkDropList"
                 [cdkDropListData]="INPROGRESS()" [cdkDropListConnectedTo]="[todoList, doneList]"
                 (cdkDropListDropped)="updateTask($event)" class="list">
-                <p class="empty-label" *ngIf="INPROGRESS().length === 0">Empty list</p>
-                <app-task (editTask)="editTask(TaskStatus.Inprogress, $event)" *ngFor="let task of INPROGRESS()" cdkDrag
-                    [task]="task"></app-task>
+                @for (task of INPROGRESS(); track task.id) {
+                <app-task (editTask)="editTask(TaskStatus.Inprogress, $event)" cdkDrag [task]="task"></app-task>
+                } @empty {
+                <p class="empty-label">Empty list</p>
+                }
             </mat-card>
         </div>
 
@@ -35,9 +40,11 @@
             <mat-card cdkDropList [id]="TaskStatus.Done" #doneList="cdkDropList" [cdkDropListData]="DONE()"
                 [cdkDropListConnectedTo]="[todoList, inProgressList]" (cdkDropListDropped)="updateTask($event)"
                 class="list">
-                <p class="empty-label" *ngIf="DONE().length === 0">Empty list</p>
-                <app-task (editTask)="editTask(TaskStatus.Done, $event)" *ngFor="let task of DONE()" cdkDrag
-                    [task]="task"></app-task>
+                @for (task of DONE(); track task.id) {
+                <app-task (editTask)="editTask(TaskStatus.Done, $event)" cdkDrag [task]="task"></app-task>
+                } @empty {
+                <p class="empty-label">Empty list</p>
+                }
             </mat-card>
         </div>
     </div>

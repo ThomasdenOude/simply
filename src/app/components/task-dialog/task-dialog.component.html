@@ -9,9 +9,11 @@
 </mat-form-field>
 
 <div mat-dialog-actions>
-    <button *ngIf="data.enableDelete" mat-fab color="primary" aria-label="Delete" (click)="deleteTask()">
+    @if (data.enableDelete) {
+    <button mat-fab color="primary" aria-label="Delete" (click)="deleteTask()">
         <mat-icon>delete</mat-icon>
     </button>
+    }
     <button mat-button (click)="cancel()">Cancel</button>
     <button mat-button (click)="submitTask()">OK</button>
 </div>

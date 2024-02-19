@@ -1,7 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
-import { NgIf } from '@angular/common';
-
 import { MatCardModule } from '@angular/material/card'
 
 import { Task } from '../../models/task.interface';
@@ -9,7 +7,7 @@ import { Task } from '../../models/task.interface';
 @Component({
   selector: 'app-task',
   standalone: true,
-  imports: [MatCardModule, NgIf],
+  imports: [MatCardModule],
   templateUrl: './task.component.html',
   styleUrl: './task.component.scss'
 })

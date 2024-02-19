@@ -1,4 +1,6 @@
-<mat-card class="task-item" *ngIf="task" (dblclick)="onEditTask(task)">
+@if (task) {
+<mat-card class="task-item" (dblclick)="onEditTask(task)">
     <h2>{{ task.title }}</h2>
     <p>{{ task.description }}</p>
 </mat-card>
+}
