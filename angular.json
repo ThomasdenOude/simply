@@ -105,7 +105,13 @@
           "configurations": {
             "production": {
               "buildTarget": "practice-kanban:build:production",
-              "serveTarget": "practice-kanban:serve:production"
+              "serveTarget": "practice-kanban:serve:production",
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.production.ts"
+                }
+              ]
             },
             "development": {
               "buildTarget": "practice-kanban:build:development",

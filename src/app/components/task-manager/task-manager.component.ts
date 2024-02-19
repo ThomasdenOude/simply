@@ -89,8 +89,6 @@ export class TaskManagerComponent implements OnInit {
     const currentList: Task[] = event.container.data;
     const currentIndex: number = event.currentIndex;
 
-    debugger
-
     if (event.container === event.previousContainer) {
       moveItemInArray(
         currentList,
