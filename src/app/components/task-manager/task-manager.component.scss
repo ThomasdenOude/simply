@@ -1,25 +1,33 @@
+.add-button {
+    margin-left: 2rem;
+}
+
 .content-wrapper {
-    max-width: 1400px;
+    width: 100%;
     margin: auto;
 }
 
 .container-wrapper {
+    margin-top: 2rem;
     display: flex;
     justify-content: space-around;
 }
 
 .container {
-    width: 400px;
-    margin: 0 25px 25px 0;
+    width: 25%;
+    margin: 0 2rem 2rem 0;
+    border-radius: 8px;
+    border: 1px solid gray;
+    padding: 1rem;
 }
 
 .list {
-    border: solid 1px #ccc;
+    margin-top: 1rem;
     min-height: 60px;
-    border-radius: 4px;
 }
 
-app-new-task {
+app-task {
+    display: block;
     margin-bottom: 30px;
 }
 

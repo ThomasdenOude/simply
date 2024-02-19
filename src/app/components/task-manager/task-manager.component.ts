@@ -1,7 +1,7 @@
 import { Component, OnInit, Signal, WritableSignal, computed } from '@angular/core';
 import { NgFor, NgIf } from '@angular/common';
 
-import { DragDropModule, CdkDragDrop, transferArrayItem } from '@angular/cdk/drag-drop'
+import { DragDropModule, CdkDragDrop, transferArrayItem, moveItemInArray } from '@angular/cdk/drag-drop'
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
@@ -20,9 +20,9 @@ import { TaskDialogComponent } from '../task-dialog/task-dialog.component'
 })
 export class TaskManagerComponent implements OnInit {
   protected TaskStatus = TaskStatus;
-  protected todo!: Signal<Task[]>;
-  protected inProgress!: Signal<Task[]>;
-  protected done!: Signal<Task[]>;
+  protected TODO!: Signal<Task[]>;
+  protected INPROGRESS!: Signal<Task[]>;
+  protected DONE!: Signal<Task[]>;
 
   constructor(
     private taskService: TaskService,
@@ -30,9 +30,9 @@ export class TaskManagerComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.todo = computed(() => this.taskService.taskList().filter((task: Task) => task.status === TaskStatus.Todo));
-    this.inProgress = computed(() => this.taskService.taskList().filter((task: Task) => task.status === TaskStatus.Inprogress));
-    this.done = computed(() => this.taskService.taskList().filter((task: Task) => task.status === TaskStatus.Done))
+    this.TODO = computed(() => this.taskService.taskList().filter((task: Task) => task.status === TaskStatus.Todo).sort((a, b) => a.index - b.index));
+    this.INPROGRESS = computed(() => this.taskService.taskList().filter((task: Task) => task.status === TaskStatus.Inprogress).sort((a, b) => a.index - b.index));
+    this.DONE = computed(() => this.taskService.taskList().filter((task: Task) => task.status === TaskStatus.Done).sort((a, b) => a.index - b.index))
   }
 
   protected editTask(taskStatus: TaskStatus, task: Task): void {
@@ -77,18 +77,33 @@ export class TaskManagerComponent implements OnInit {
       });
   }
 
-  protected drop(event: CdkDragDrop<Task[]>): void {
-    if (event.previousContainer === event.container) {
-      return;
+  protected updateTask(event: CdkDragDrop<Task[]>): void {
+
+    const previousStatus: TaskStatus = event.previousContainer.id as TaskStatus;
+    const previousList: Task[] = event.previousContainer.data
+    const previousIndex: number = event.previousIndex;
+
+    const currentStatus: TaskStatus = event.container.id as TaskStatus;
+    const currentList: Task[] = event.container.data;
+    const currentIndex: number = event.currentIndex;
+
+    debugger
+
+    if (event.container === event.previousContainer) {
+      moveItemInArray(
+        currentList,
+        previousIndex,
+        currentIndex
+      )
+      this.taskService.updateIndex(currentStatus, currentList)
+    } else {
+      transferArrayItem(
+        previousList,
+        currentList,
+        previousIndex,
+        currentIndex
+      )
+      this.taskService.updateIndexAndStatus(previousStatus, previousList, currentStatus, currentList)
     }
-    if (!event.container.data || !event.previousContainer.data) {
-      return;
-    }
-    transferArrayItem(
-      event.previousContainer.data,
-      event.container.data,
-      event.previousIndex,
-      event.currentIndex
-    );
   }
 }

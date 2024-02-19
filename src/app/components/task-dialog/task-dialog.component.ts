@@ -42,7 +42,7 @@ export class TaskDialogComponent implements OnInit {
       result.addTask = {
         title: this.title,
         description: this.description,
-        status: TaskStatus.Todo
+        status: TaskStatus.Todo,
       }
     }
     this.dialogRef.close(result)

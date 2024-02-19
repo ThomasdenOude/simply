@@ -1,11 +1,15 @@
-export interface Task extends CreateTask {
+export interface Task extends TaskDto {
     id: string,
+}
+
+export interface TaskDto extends CreateTask {
+    index: number
 }
 
 export interface CreateTask {
     title: string;
     description: string;
-    status: TaskStatus
+    status: TaskStatus;
 }
 
 export interface TaskDialogData {
