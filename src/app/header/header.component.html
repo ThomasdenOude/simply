@@ -3,6 +3,7 @@
     <nav>
         <button mat-stroked-button color="primary" class="header__nav-button">logout<mat-icon
                 iconPositionEnd>logout</mat-icon></button>
-        <button mat-flat-button color="primary" class="header__nav-button"><mat-icon>login</mat-icon>login</button>
+        <button mat-flat-button color="primary" class="header__nav-button"
+            (click)="openLoginDialog()"><mat-icon>login</mat-icon>login</button>
     </nav>
 </header>
