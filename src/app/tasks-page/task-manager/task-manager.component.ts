@@ -5,10 +5,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
 
-import { TaskService } from '../../services/task.service';
-import { Task, TaskDialogResult, TaskStatus } from '../../models/task.interface';
-import { TaskComponent } from '../task/task.component';
-import { TaskDialogComponent } from '../task-dialog/task-dialog.component'
+import { TaskService } from '../services/task.service';
+import { Task, TaskDialogResult, TaskStatus } from '../models/task.interface';
+import { TaskComponent } from '../components/task/task.component';
+import { TaskDialogComponent } from '../components/task-dialog/task-dialog.component'
 
 @Component({
   selector: 'app-task-manager',

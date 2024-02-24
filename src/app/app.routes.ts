@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 
-import { TaskManagerComponent } from './components/task-manager/task-manager.component';
+import { TaskManagerComponent } from './tasks-page/task-manager/task-manager.component';
 
 export const routes: Routes = [
     {
@@ -11,7 +11,7 @@ export const routes: Routes = [
     {
         path: 'task-manager',
         loadComponent: () =>
-            import('./components/task-manager/task-manager.component')
+            import('./tasks-page/task-manager/task-manager.component')
                 .then((mod) => mod.TaskManagerComponent)
     }
 ];
