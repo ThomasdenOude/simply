@@ -1,4 +1,5 @@
 import { Component, inject } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
 
 import { Observable } from 'rxjs';
 
@@ -9,7 +10,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { LoginDialogComponent } from '../authentication/components/login-dialog/login-dialog.component';
 import { Credentials } from '../authentication/models/credentials.interface';
 import { AuthenticationService } from '../authentication/services/authentication.service';
-import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-header',

@@ -1,32 +1,19 @@
 import { Injectable, inject } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { Observable, map } from 'rxjs';
-import { Auth, user, User, authState, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from '@angular/fire/auth';
+import { Auth, user, User, authState, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from '@angular/fire/auth';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService {
 
+  private router: Router = inject(Router);
   private auth: Auth = inject(Auth);
+
   private user$: Observable<User | null> = user(this.auth);
   private authState$: Observable<User | null> = authState(this.auth)
-
-  constructor() {
-    this.authState$.subscribe(user => {
-      console.log('Authstate: ', user);
-
-    })
-    onAuthStateChanged(this.auth, (user) => {
-      if (user) {
-        console.log('Change: ', user);
-
-      }
-      else {
-        console.log('Change, logout')
-      }
-    })
-  }
 
   public get isLoggedIn$(): Observable<boolean> {
     return this.authState$.pipe(
@@ -35,13 +22,11 @@ export class AuthenticationService {
   }
 
   public creatUser(email: string, password: string): void {
-    createUserWithEmailAndPassword(this.auth, email, password)
-      .then((userCredential) => {
-        // Signed up 
-        const user = userCredential.user;
-        console.log('Created user: ', userCredential);
 
-        // ...
+    createUserWithEmailAndPassword(this.auth, email, password)
+      .then(() => {
+        // Signed up 
+        this.router.navigate(['/task-manager'])
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -51,13 +36,11 @@ export class AuthenticationService {
   }
 
   public login(email: string, password: string): void {
-    signInWithEmailAndPassword(this.auth, email, password)
-      .then((userCredential) => {
-        // Signed in 
-        const user = userCredential.user;
-        console.log('Logged in: ', userCredential);
 
-        // ...
+    signInWithEmailAndPassword(this.auth, email, password)
+      .then(() => {
+        // Signed in 
+        this.router.navigate(['/task-manager'])
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -66,16 +49,16 @@ export class AuthenticationService {
   }
 
   public logout(): void {
-    console.log('Logout service');
 
-    signOut(this.auth).then(
-      () => {
-        console.log('Logged out succesfully');
+    signOut(this.auth)
+      .then(() => {
+        // Signed out
+        this.router.navigate(['/sign-in'])
       }
-    )
-      .catch(() => {
-        console.log('Error during logout');
-
+      )
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
       })
   }
 }
