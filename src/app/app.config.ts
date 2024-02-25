@@ -23,6 +23,8 @@ export const appConfig: ApplicationConfig = {
     })),
     importProvidersFrom(provideAuth(() => {
       const auth = getAuth();
+      console.log('prod', environment.production);
+
       if (!environment.production) {
         connectAuthEmulator(auth, 'http://localhost:9099', { disableWarnings: true })
       }
