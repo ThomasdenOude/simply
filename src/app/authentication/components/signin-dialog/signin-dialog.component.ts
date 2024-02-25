@@ -4,6 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { AuthenticationService } from '../../services/authentication.service';
 
 @Component({
   selector: 'app-signin-dialog',
@@ -13,6 +14,8 @@ import { MatInputModule } from '@angular/material/input';
   styleUrl: './signin-dialog.component.scss'
 })
 export class SigninDialogComponent {
+  private authService: AuthenticationService = inject(AuthenticationService);
+
   private matDialogRef: MatDialogRef<SigninDialogComponent> = inject(MatDialogRef<SigninDialogComponent>)
 
   protected signInForm: FormGroup = new FormGroup({
@@ -22,7 +25,9 @@ export class SigninDialogComponent {
   })
 
   protected signIn(): void {
-    console.log(this.signInForm.getRawValue());
+    const form = this.signInForm.value;
+
+    this.authService.creatUser(form.email, form.password);
   }
 
   protected cancel(): void {

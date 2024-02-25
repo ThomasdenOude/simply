@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 
 import { TaskManagerComponent } from './tasks-page/task-manager/task-manager.component';
-import { SignInComponent } from './authentication/sign-in/sign-in.component';
+import { SignInComponent } from './authentication/sign-in-page/sign-in.component';
 
 export const routes: Routes = [
     {

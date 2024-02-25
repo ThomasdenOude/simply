@@ -5,6 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { Credentials } from '../../models/credentials.interface';
 
 @Component({
   selector: 'app-login-dialog',
@@ -22,7 +23,12 @@ export class LoginDialogComponent {
   })
 
   protected login(): void {
-    console.log(this.loginForm.getRawValue());
+    const form = this.loginForm.value;
+    const user: Credentials = {
+      email: form.email,
+      password: form.password
+    }
+    this.dialogRef.close(user);
   }
 
   protected cancel(): void {

@@ -4,6 +4,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { connectFirestoreEmulator, getFirestore, provideFirestore } from '@angular/fire/firestore';
+import { connectAuthEmulator, getAuth, provideAuth } from '@angular/fire/auth';
 
 import { environment } from '../environments/environment';
 import { routes } from './app.routes';
@@ -20,5 +21,12 @@ export const appConfig: ApplicationConfig = {
       }
       return firestore
     })),
+    importProvidersFrom(provideAuth(() => {
+      const auth = getAuth();
+      if (!environment.production) {
+        connectAuthEmulator(auth, 'http://localhost:9099', { disableWarnings: true })
+      }
+      return auth
+    }))
   ],
 };
