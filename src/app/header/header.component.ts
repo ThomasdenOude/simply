@@ -35,7 +35,6 @@ export class HeaderComponent {
   }
 
   protected logout(): void {
-    console.log('Logout from header');
 
     this.authService.logout();
   }

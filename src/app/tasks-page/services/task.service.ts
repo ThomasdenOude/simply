@@ -108,7 +108,7 @@ export class TaskService {
 
 
   public async addTask(task: CreateTask) {
-    debugger
+
     const totalTodos: number = this.taskList().filter(task => task.status === TaskStatus.Todo).length
 
     const taskDto: TaskDto = {
