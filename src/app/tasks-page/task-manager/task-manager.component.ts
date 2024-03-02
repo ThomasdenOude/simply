@@ -1,4 +1,4 @@
-import { Component, OnInit, Signal, computed } from '@angular/core';
+import { Component, OnInit, Signal, computed, inject } from '@angular/core';
 
 import { DragDropModule, CdkDragDrop, transferArrayItem, moveItemInArray } from '@angular/cdk/drag-drop'
 import { MatButtonModule } from '@angular/material/button';
@@ -6,7 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
 
 import { TaskService } from '../services/task.service';
-import { Task, TaskDialogResult, TaskStatus } from '../models/task.interface';
+import { Task, TaskDialogData, TaskStatus } from '../models/task.interface';
 import { TaskComponent } from '../components/task/task.component';
 import { TaskDialogComponent } from '../components/task-dialog/task-dialog.component'
 
@@ -18,15 +18,14 @@ import { TaskDialogComponent } from '../components/task-dialog/task-dialog.compo
   styleUrl: './task-manager.component.scss'
 })
 export class TaskManagerComponent implements OnInit {
+
+  private taskService: TaskService = inject(TaskService);
+  private dialog: MatDialog = inject(MatDialog);
+
   protected TaskStatus = TaskStatus;
   protected TODO!: Signal<Task[]>;
   protected INPROGRESS!: Signal<Task[]>;
   protected DONE!: Signal<Task[]>;
-
-  constructor(
-    private taskService: TaskService,
-    private dialog: MatDialog
-  ) { }
 
   ngOnInit(): void {
     const sortTasks = ((a: Task, b: Task) => a.index - b.index)
@@ -35,48 +34,20 @@ export class TaskManagerComponent implements OnInit {
     this.DONE = computed(() => this.taskService.taskList().filter((task: Task) => task.status === TaskStatus.Done).sort(sortTasks));
   }
 
+  protected editTask(task: Task): void {
 
-
-  protected editTask(taskStatus: TaskStatus, task: Task): void {
-
-    const dialogRef = this.dialog.open(TaskDialogComponent, {
+    this.dialog.open<TaskDialogComponent, TaskDialogData, null>(TaskDialogComponent, {
       width: '270px',
-      data: {
-        task,
-        enableDelete: true,
-      },
-    });
-    dialogRef.afterClosed().subscribe((result: TaskDialogResult | undefined) => {
-
-      if (!result) {
-        return;
-      }
-      if (result.delete) {
-        this.taskService.deleteTask(task)
-      } else if (result.editTask) {
-        this.taskService.editTask(result.editTask)
-      }
+      data: task,
     });
   }
 
   protected newTask(): void {
-    const dialogRef = this.dialog.open(TaskDialogComponent, {
+    this.dialog.open<TaskDialogComponent, TaskDialogData, null>(TaskDialogComponent, {
       width: '270px',
-      data: {
-        task: null
-      }
+      data: null
     });
-    dialogRef
-      .afterClosed()
-      .subscribe((result: TaskDialogResult | null) => {
 
-        if (!result) {
-          return;
-        }
-        if (result.addTask) {
-          this.taskService.addTask(result.addTask)
-        }
-      });
   }
 
   protected updateTask(event: CdkDragDrop<Task[]>): void {

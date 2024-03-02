@@ -1,9 +1,11 @@
+import { FormControl, FormGroup } from "@angular/forms";
+
 export interface Task extends TaskDto {
-    id: string,
+    id: string;
 }
 
 export interface TaskDto extends CreateTask {
-    index: number
+    index: number;
 }
 
 export interface CreateTask {
@@ -12,16 +14,12 @@ export interface CreateTask {
     status: TaskStatus;
 }
 
-export interface TaskDialogData {
-    task: Task | null;
-    enableDelete: boolean;
-}
+export type CreateTaskFormgroup = FormGroup<{
+    [Key in keyof CreateTask]: FormControl<CreateTask[Key] | null>
+}>
 
-export interface TaskDialogResult {
-    editTask?: Task;
-    addTask?: CreateTask;
-    delete?: boolean;
-}
+export type TaskDialogData = Task | null;
+
 
 export enum TaskStatus {
     Todo = "TODO",

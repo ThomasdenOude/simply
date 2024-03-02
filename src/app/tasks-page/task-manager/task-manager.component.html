@@ -12,7 +12,7 @@
                 [cdkDropListConnectedTo]="[doneList, inProgressList]" (cdkDropListDropped)="updateTask($event)"
                 class="list">
                 @for (task of TODO(); track task.id) {
-                <app-task (editTask)="editTask(TaskStatus.Todo, $event)" cdkDrag [task]="task"></app-task>
+                <app-task (editTask)="editTask($event)" cdkDrag [task]="task"></app-task>
                 } @empty {
                 <p class="empty-label">Empty list</p>
                 }
@@ -27,7 +27,7 @@
                 [cdkDropListData]="INPROGRESS()" [cdkDropListConnectedTo]="[todoList, doneList]"
                 (cdkDropListDropped)="updateTask($event)" class="list">
                 @for (task of INPROGRESS(); track task.id) {
-                <app-task (editTask)="editTask(TaskStatus.Inprogress, $event)" cdkDrag [task]="task"></app-task>
+                <app-task (editTask)="editTask($event)" cdkDrag [task]="task"></app-task>
                 } @empty {
                 <p class="empty-label">Empty list</p>
                 }
@@ -41,7 +41,7 @@
                 [cdkDropListConnectedTo]="[todoList, inProgressList]" (cdkDropListDropped)="updateTask($event)"
                 class="list">
                 @for (task of DONE(); track task.id) {
-                <app-task (editTask)="editTask(TaskStatus.Done, $event)" cdkDrag [task]="task"></app-task>
+                <app-task (editTask)="editTask($event)" cdkDrag [task]="task"></app-task>
                 } @empty {
                 <p class="empty-label">Empty list</p>
                 }

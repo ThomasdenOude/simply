@@ -5,8 +5,7 @@
     "start": "firebase emulators:start",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "deploy": "ng deploy",
-    "foo": ". ./deploy/deploy.sh"
+    "deploy": ". ./deploy/deploy.sh"
   },
   "private": true,
   "dependencies": {

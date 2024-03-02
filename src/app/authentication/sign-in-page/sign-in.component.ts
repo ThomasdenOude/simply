@@ -16,6 +16,7 @@ import { Credentials } from '../models/credentials.interface';
   styleUrl: './sign-in.component.scss'
 })
 export class SignInComponent {
+
   private authService: AuthenticationService = inject(AuthenticationService);
   private dialog: MatDialog = inject(MatDialog);
 

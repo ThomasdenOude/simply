@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, Signal, inject } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
 
 import { Observable } from 'rxjs';
@@ -22,7 +22,7 @@ export class HeaderComponent {
   private authService: AuthenticationService = inject(AuthenticationService);
   private matDialog: MatDialog = inject(MatDialog);
 
-  protected isLoggedIn$: Observable<boolean> = this.authService.isLoggedIn$
+  protected isLoggedIn: Signal<boolean> = this.authService.isLoggedIn
 
   protected openLoginDialog(): void {
     const loginDialogRef: MatDialogRef<LoginDialogComponent> = this.matDialog.open(LoginDialogComponent)

@@ -1,7 +1,7 @@
 <header class="header__container">
     <h1>Simply<mat-icon>task_alt</mat-icon></h1>
     <nav>
-        @if (isLoggedIn$ | async) {
+        @if (isLoggedIn()) {
         <button mat-stroked-button color="primary" class="header__nav-button" (click)="logout()">logout<mat-icon
                 iconPositionEnd>logout</mat-icon></button>
         } @else {

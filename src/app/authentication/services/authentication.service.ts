@@ -1,9 +1,8 @@
-import { Injectable, WritableSignal, signal, inject, Signal, computed } from '@angular/core';
+import { Injectable, inject, Signal, computed } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop'
 import { Router } from '@angular/router';
 
-import { Observable, map } from 'rxjs';
-import { Auth, user, User, authState, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from '@angular/fire/auth';
+import { Auth, User, authState, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from '@angular/fire/auth';
 
 @Injectable({
   providedIn: 'root'
@@ -13,31 +12,28 @@ export class AuthenticationService {
   private router: Router = inject(Router);
   private auth: Auth = inject(Auth);
 
-  private authState$: Observable<User | null> = authState(this.auth)
-  private authState: Signal<User | null | undefined> = toSignal(this.authState$);
+  private _authState: Signal<User | null | undefined> = toSignal(authState(this.auth));
+  private _isLoggedIn: Signal<boolean> = computed(() => !!this._authState())
+  private _user: Signal<User | null> = computed(() => this._authState() ?? null)
 
   public get user(): Signal<User | null> {
-    return computed(() => this.authState() ?? null)
+    return this._user;
   }
 
-  public get isLoggedIn$(): Observable<boolean> {
-    return this.authState$.pipe(
-      map((user: User | null) => !!user)
-    )
+  public get isLoggedIn(): Signal<boolean> {
+    return this._isLoggedIn;
   }
 
   public creatUser(email: string, password: string): void {
 
     createUserWithEmailAndPassword(this.auth, email, password)
-      .then((userCredential) => {
+      .then(() => {
         // Signed up 
-        userCredential.user
         this.router.navigate(['/task-manager'])
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        // ..
       });
   }
 

@@ -1,64 +1,77 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms'
+import { Component, OnInit, inject } from '@angular/core';
+import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms'
 
 import { MatInputModule } from '@angular/material/input'
 import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon'
-import { TaskDialogData, TaskDialogResult, TaskStatus } from '../../models/task.interface';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatButtonModule } from '@angular/material/button';
+
+import { Task } from '../../models/task.interface';
+import { TaskService } from '../../services/task.service';
+import { CreateTask, CreateTaskFormgroup, TaskDialogData, TaskStatus } from '../../models/task.interface';
 
 @Component({
   selector: 'app-task-dialog',
   standalone: true,
-  imports: [FormsModule, MatInputModule, MatDialogModule, MatIconModule],
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    MatInputModule,
+    MatDialogModule,
+    MatIconModule,
+    MatFormFieldModule,
+    MatButtonModule
+  ],
   templateUrl: './task-dialog.component.html',
   styleUrl: './task-dialog.component.scss'
 })
 export class TaskDialogComponent implements OnInit {
-  protected title = '';
-  protected description = ''
+  private taskData: TaskDialogData = inject(MAT_DIALOG_DATA);
+  private dialogRef: MatDialogRef<TaskDialogComponent, null> = inject(MatDialogRef);
+  private taskService: TaskService = inject(TaskService);
+  private formBuilder: FormBuilder = new FormBuilder();
 
-  constructor(
-    public dialogRef: MatDialogRef<TaskDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: TaskDialogData
-  ) { }
+  protected taskForm!: CreateTaskFormgroup;
+  protected isEditTask: boolean = !!this.taskData;
 
   ngOnInit(): void {
-    if (this.data.task) {
-      this.title = this.data.task.title
-      this.description = this.data.task.description
-    }
+    this.taskForm = this.formBuilder.group({
+      title: new FormControl(this.taskData?.title ?? ''),
+      description: new FormControl(this.taskData?.description ?? ''),
+      status: new FormControl(this.taskData?.status ?? TaskStatus.Todo)
+    })
   }
   protected submitTask(): void {
-    const result: TaskDialogResult = {}
+    const result = this.taskForm.value;
 
-    if (this.data.task) {
-      result.editTask = {
-        ...this.data.task,
-        title: this.title,
-        description: this.description
+    if (this.taskData) {
+      const editedTask: Task = {
+        ...this.taskData,
+        title: result.title ?? this.taskData.title,
+        description: result.description ?? this.taskData.description,
+        status: result.status ?? this.taskData.status
       }
+      this.taskService.editTask(editedTask);
     } else {
-      result.addTask = {
-        title: this.title,
-        description: this.description,
-        status: TaskStatus.Todo,
+      const addTask: CreateTask = {
+        title: result.title ?? '',
+        description: result.description ?? '',
+        status: result.status ?? TaskStatus.Todo,
       }
+      this.taskService.addTask(addTask);
     }
-    this.dialogRef.close(result)
+    this.dialogRef.close(null)
   }
 
   protected deleteTask(): void {
-    if (this.data.task) {
-      const result: TaskDialogResult = {
-        editTask: this.data.task,
-        delete: true
-      }
-      this.dialogRef.close(result);
+    if (this.taskData) {
+      this.taskService.deleteTask(this.taskData)
     }
+    this.dialogRef.close(null);
   }
 
   protected cancel(): void {
     this.dialogRef.close(null);
   }
-
 }

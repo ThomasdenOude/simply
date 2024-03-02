@@ -16,6 +16,7 @@ import { Credentials } from '../../models/credentials.interface';
   styleUrl: './login-dialog.component.scss'
 })
 export class LoginDialogComponent {
+
   private dialogRef: MatDialogRef<LoginDialogComponent> = inject(MatDialogRef<LoginDialogComponent>)
 
   protected loginForm: FormGroup = new FormGroup({

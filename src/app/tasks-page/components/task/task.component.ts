@@ -19,10 +19,9 @@ export class TaskComponent {
   @Output()
   public editTask = new EventEmitter<Task>();
 
-  protected onEditTask(task: Task | null): void {
-    if (task) {
-      this.editTask.emit(task)
-    }
+  protected onEditTask(task: Task): void {
+
+    this.editTask.emit(task)
   }
 
 }

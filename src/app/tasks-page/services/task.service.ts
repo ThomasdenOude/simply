@@ -1,10 +1,20 @@
 import { Injectable, WritableSignal, inject, signal } from '@angular/core';
 
-import { Firestore, collection, addDoc, getDocs, CollectionReference, DocumentReference, deleteDoc, doc, updateDoc, namedQuery } from '@angular/fire/firestore';
+import {
+  Firestore,
+  collection,
+  addDoc,
+  getDocs,
+  CollectionReference,
+  DocumentReference,
+  deleteDoc,
+  doc,
+  updateDoc,
+} from '@angular/fire/firestore';
+import { User } from '@angular/fire/auth';
 
 import { CreateTask, Task, TaskDto, TaskStatus } from '../models/task.interface';
 import { AuthenticationService } from '../../authentication/services/authentication.service';
-import { User } from '@angular/fire/auth';
 
 @Injectable({
   providedIn: 'root'
@@ -19,18 +29,18 @@ export class TaskService {
     this.initTasks()
   }
 
-  private getUser(): User | null {
+  private get user(): User | null {
     return this.authService.user();
   }
 
-  private getCollectionName(): string | null {
-    const userUid: string | null = this.getUser()?.uid ?? null;
+  private get collectionName(): string | null {
+    const userUid: string | null = this.user?.uid ?? null;
 
     return userUid ? `${userUid}` : null
   }
 
   private getCollection(): CollectionReference | null {
-    const collectionName: string | null = this.getCollectionName();
+    const collectionName: string | null = this.collectionName;
 
     return collectionName ? collection(this.firestore, collectionName) : null;
   }
@@ -53,8 +63,29 @@ export class TaskService {
     }
   }
 
+  public async addTask(task: CreateTask) {
+    const collection: CollectionReference | null = this.getCollection();
+    if (collection) {
+
+      const totalTodos: number = this.taskList().filter(task => task.status === TaskStatus.Todo).length
+
+      const taskDto: TaskDto = {
+        ...task,
+        index: totalTodos
+      }
+      const docRef: DocumentReference = await addDoc(collection, <TaskDto>taskDto);
+
+      const addTask: Task = {
+        ...taskDto,
+        id: docRef.id,
+      }
+
+      this.taskList.update((taskList) => [...taskList, addTask]);
+    }
+  }
+
   public async editTask(editTask: Task) {
-    const collectionName: string | null = this.getCollectionName();
+    const collectionName: string | null = this.collectionName;
     if (collectionName) {
       this.taskList.update((taskList) => {
 
@@ -72,11 +103,20 @@ export class TaskService {
     }
   }
 
+  public async deleteTask(deleteTask: Task) {
+    const collectionName: string | null = this.collectionName;
+    if (collectionName) {
+      this.taskList.update((taskList) => taskList.filter((task: Task) => task.id !== deleteTask.id));
+
+      await deleteDoc(doc(this.firestore, collectionName, deleteTask.id));
+    }
+  }
+
   public updateIndex(
     status: TaskStatus,
     newList: Task[]
   ) {
-    const collectionName: string | null = this.getCollectionName();
+    const collectionName: string | null = this.collectionName;
     if (collectionName) {
       newList.forEach((task: Task, index: number) => {
         this.postIndex(task.id, index, collectionName);
@@ -96,7 +136,7 @@ export class TaskService {
     currentStatus: TaskStatus,
     currentList: Task[]
   ) {
-    const collectionName: string | null = this.getCollectionName();
+    const collectionName: string | null = this.collectionName;
     if (collectionName) {
       currentList.forEach((task: Task, index: number) => {
         this.postIndexAndStatus(task.id, index, currentStatus, collectionName);
@@ -126,35 +166,5 @@ export class TaskService {
       index: newIndex,
       status: newStatus
     })
-  }
-
-  public async deleteTask(deleteTask: Task) {
-    const collectionName: string | null = this.getCollectionName();
-    if (collectionName) {
-      this.taskList.update((taskList) => taskList.filter((task: Task) => task.id !== deleteTask.id));
-
-      await deleteDoc(doc(this.firestore, collectionName, deleteTask.id));
-    }
-  }
-
-  public async addTask(task: CreateTask) {
-    const collection: CollectionReference | null = this.getCollection();
-    if (collection) {
-
-      const totalTodos: number = this.taskList().filter(task => task.status === TaskStatus.Todo).length
-
-      const taskDto: TaskDto = {
-        ...task,
-        index: totalTodos
-      }
-      const docRef: DocumentReference = await addDoc(collection, <TaskDto>taskDto);
-
-      const addTask: Task = {
-        ...taskDto,
-        id: docRef.id,
-      }
-
-      this.taskList.update((taskList) => [...taskList, addTask]);
-    }
   }
 }
