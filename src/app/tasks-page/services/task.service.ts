@@ -1,16 +1,17 @@
 import { Injectable, WritableSignal, inject, signal } from '@angular/core';
 
-import { Firestore, collection, addDoc, getDocs, CollectionReference, DocumentReference, deleteDoc, doc, updateDoc } from '@angular/fire/firestore';
+import { Firestore, collection, addDoc, getDocs, CollectionReference, DocumentReference, deleteDoc, doc, updateDoc, namedQuery } from '@angular/fire/firestore';
 
 import { CreateTask, Task, TaskDto, TaskStatus } from '../models/task.interface';
+import { AuthenticationService } from '../../authentication/services/authentication.service';
+import { User } from '@angular/fire/auth';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TaskService {
   private firestore: Firestore = inject(Firestore);
-  private readonly collectionName = 'todos'
-  private todosCollection: CollectionReference = collection(this.firestore, this.collectionName);
+  private authService: AuthenticationService = inject(AuthenticationService);
 
   public taskList: WritableSignal<Task[]> = signal([])
 
@@ -18,51 +19,75 @@ export class TaskService {
     this.initTasks()
   }
 
-  private async initTasks() {
-    const todosSnapshot = await getDocs(this.todosCollection);
-    let taskList: Task[] = [];
+  private getUser(): User | null {
+    return this.authService.user();
+  }
 
-    todosSnapshot.forEach(doc => {
-      const taskDto = doc.data() as TaskDto
-      const task: Task = {
-        ...taskDto,
-        id: doc.id,
-      }
-      taskList.push(task);
-    });
-    this.taskList.set(taskList);
+  private getCollectionName(): string | null {
+    const userUid: string | null = this.getUser()?.uid ?? null;
+
+    return userUid ? `${userUid}` : null
+  }
+
+  private getCollection(): CollectionReference | null {
+    const collectionName: string | null = this.getCollectionName();
+
+    return collectionName ? collection(this.firestore, collectionName) : null;
+  }
+
+  private async initTasks() {
+    const collection: CollectionReference | null = this.getCollection();
+    if (collection) {
+      const todosSnapshot = await getDocs(collection);
+      let taskList: Task[] = [];
+
+      todosSnapshot.forEach(doc => {
+        const taskDto = doc.data() as TaskDto
+        const task: Task = {
+          ...taskDto,
+          id: doc.id,
+        }
+        taskList.push(task);
+      });
+      this.taskList.set(taskList);
+    }
   }
 
   public async editTask(editTask: Task) {
+    const collectionName: string | null = this.getCollectionName();
+    if (collectionName) {
+      this.taskList.update((taskList) => {
 
-    this.taskList.update((taskList) => {
-
-      const index = taskList.findIndex((task: Task) => task.id === editTask.id);
-      if (index > -1) {
-        taskList[index] = { ...editTask }
-      }
-      return [...taskList];
-    })
-    await updateDoc(doc(this.firestore, this.collectionName, editTask.id), {
-      title: editTask.title,
-      description: editTask.description,
-      status: editTask.status
-    })
+        const index = taskList.findIndex((task: Task) => task.id === editTask.id);
+        if (index > -1) {
+          taskList[index] = { ...editTask }
+        }
+        return [...taskList];
+      })
+      await updateDoc(doc(this.firestore, collectionName, editTask.id), {
+        title: editTask.title,
+        description: editTask.description,
+        status: editTask.status
+      })
+    }
   }
 
   public updateIndex(
     status: TaskStatus,
     newList: Task[]
   ) {
-    newList.forEach((task: Task, index: number) => {
-      this.postIndex(task.id, index)
-      task.index = index;
-    })
-    this.taskList.update(list => {
-      const otherStatusses: Task[] = list.filter(task => task.status !== status)
+    const collectionName: string | null = this.getCollectionName();
+    if (collectionName) {
+      newList.forEach((task: Task, index: number) => {
+        this.postIndex(task.id, index, collectionName);
+        task.index = index;
+      })
+      this.taskList.update(list => {
+        const otherStatusses: Task[] = list.filter(task => task.status !== status)
 
-      return [...otherStatusses, ...newList]
-    })
+        return [...otherStatusses, ...newList]
+      })
+    }
   }
 
   public updateIndexAndStatus(
@@ -71,57 +96,65 @@ export class TaskService {
     currentStatus: TaskStatus,
     currentList: Task[]
   ) {
-    currentList.forEach((task: Task, index: number) => {
-      this.postIndexAndStatus(task.id, index, currentStatus);
-      task.status = currentStatus,
-        task.index = index
-    })
-    previousList.forEach((task: Task, index: number) => {
-      this.postIndex(task.id, index);
-      task.index = index;
-    })
-    this.taskList.update(list => {
-      const otherStatus = list.filter(task => task.status !== previousStatus && task.status !== currentStatus)
+    const collectionName: string | null = this.getCollectionName();
+    if (collectionName) {
+      currentList.forEach((task: Task, index: number) => {
+        this.postIndexAndStatus(task.id, index, currentStatus, collectionName);
+        task.status = currentStatus,
+          task.index = index
+      })
+      previousList.forEach((task: Task, index: number) => {
+        this.postIndex(task.id, index, collectionName);
+        task.index = index;
+      })
+      this.taskList.update(list => {
+        const otherStatus = list.filter(task => task.status !== previousStatus && task.status !== currentStatus)
 
-      return [...otherStatus, ...previousList, ...currentList]
-    })
+        return [...otherStatus, ...previousList, ...currentList]
+      })
+    }
   }
 
-  private async postIndex(taskId: string, newIndex: number) {
-    await updateDoc(doc(this.firestore, this.collectionName, taskId), {
+  private async postIndex(taskId: string, newIndex: number, collectionName: string) {
+    await updateDoc(doc(this.firestore, collectionName, taskId), {
       index: newIndex
     })
   }
 
-  private async postIndexAndStatus(taskId: string, newIndex: number, newStatus: TaskStatus) {
-    await updateDoc(doc(this.firestore, this.collectionName, taskId), {
+  private async postIndexAndStatus(taskId: string, newIndex: number, newStatus: TaskStatus, collectionName: string) {
+    await updateDoc(doc(this.firestore, collectionName, taskId), {
       index: newIndex,
       status: newStatus
     })
   }
 
   public async deleteTask(deleteTask: Task) {
-    this.taskList.update((taskList) => taskList.filter((task: Task) => task.id !== deleteTask.id));
+    const collectionName: string | null = this.getCollectionName();
+    if (collectionName) {
+      this.taskList.update((taskList) => taskList.filter((task: Task) => task.id !== deleteTask.id));
 
-    await deleteDoc(doc(this.firestore, this.collectionName, deleteTask.id));
+      await deleteDoc(doc(this.firestore, collectionName, deleteTask.id));
+    }
   }
 
-
   public async addTask(task: CreateTask) {
+    const collection: CollectionReference | null = this.getCollection();
+    if (collection) {
 
-    const totalTodos: number = this.taskList().filter(task => task.status === TaskStatus.Todo).length
+      const totalTodos: number = this.taskList().filter(task => task.status === TaskStatus.Todo).length
 
-    const taskDto: TaskDto = {
-      ...task,
-      index: totalTodos
+      const taskDto: TaskDto = {
+        ...task,
+        index: totalTodos
+      }
+      const docRef: DocumentReference = await addDoc(collection, <TaskDto>taskDto);
+
+      const addTask: Task = {
+        ...taskDto,
+        id: docRef.id,
+      }
+
+      this.taskList.update((taskList) => [...taskList, addTask]);
     }
-    const docRef: DocumentReference = await addDoc(this.todosCollection, <TaskDto>taskDto);
-
-    const addTask: Task = {
-      ...taskDto,
-      id: docRef.id,
-    }
-
-    this.taskList.update((taskList) => [...taskList, addTask]);
   }
 }

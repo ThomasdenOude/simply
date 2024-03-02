@@ -1,4 +1,5 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, WritableSignal, signal, inject, Signal, computed } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop'
 import { Router } from '@angular/router';
 
 import { Observable, map } from 'rxjs';
@@ -12,8 +13,12 @@ export class AuthenticationService {
   private router: Router = inject(Router);
   private auth: Auth = inject(Auth);
 
-  private user$: Observable<User | null> = user(this.auth);
   private authState$: Observable<User | null> = authState(this.auth)
+  private authState: Signal<User | null | undefined> = toSignal(this.authState$);
+
+  public get user(): Signal<User | null> {
+    return computed(() => this.authState() ?? null)
+  }
 
   public get isLoggedIn$(): Observable<boolean> {
     return this.authState$.pipe(
@@ -24,8 +29,9 @@ export class AuthenticationService {
   public creatUser(email: string, password: string): void {
 
     createUserWithEmailAndPassword(this.auth, email, password)
-      .then(() => {
+      .then((userCredential) => {
         // Signed up 
+        userCredential.user
         this.router.navigate(['/task-manager'])
       })
       .catch((error) => {
