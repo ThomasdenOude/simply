@@ -1,10 +1,18 @@
-.header__container {
-    padding: 32px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
+@use '../../styles/theme';
 
-.header__nav-button {
-    margin-left: 32px;
+.header {
+    &__container {
+        padding: 32px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    &__logo {
+        color: theme.$simply-primary-color;
+    }
+
+    &____nav-button {
+        margin-left: 32px;
+    }
 }

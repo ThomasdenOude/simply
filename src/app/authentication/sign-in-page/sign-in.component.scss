@@ -1,6 +1,12 @@
-.sign-in__container {
-    display: flex;
-    flex-flow: row;
-    justify-content: center;
-    align-items: center;
+.sign-in {
+    &__container {
+        display: flex;
+        flex-flow: row;
+        justify-content: center;
+        align-items: center;
+    }
+
+    &__wrapper {
+        width: 50%;
+    }
 }
