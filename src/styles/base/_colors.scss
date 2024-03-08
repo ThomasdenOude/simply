@@ -1,0 +1,65 @@
+@use '@angular/material' as mat;
+
+$simply-dark-blue: #051f4a; // oxford-blue - 900
+$simply-dark-blue-grey: #273148; // A400
+$simply-off-white: #F1F2F3;
+
+//  Color palettes
+$dark-blue-palette: (
+    50: #e5e8ef,
+    100: #bcc5d8,
+    200: #92a0bd,
+    300: #687ca2,
+    400: #486291,
+    500: #254881,
+    600: #1e4179,
+    700: #15386e,
+    800: #0e2f61,
+    900: #051f4a,
+    // $oxford-blue
+    A100: #58627B,
+    A200: #454F68,
+    A400: #273148,
+    A700: #051126,
+    // text-dark
+    contrast: (50: $simply-dark-blue-grey,
+        100: $simply-dark-blue-grey,
+        200: $simply-dark-blue-grey,
+        300: $simply-off-white,
+        400: $simply-off-white,
+        500: $simply-off-white,
+        600: $simply-off-white,
+        700: $simply-off-white,
+        800: $simply-off-white,
+        900: $simply-off-white,
+        A100-contrast: $simply-off-white,
+        A200-contrast: $simply-off-white,
+        A400-contrast: $simply-off-white,
+        A700-contrast: $simply-off-white,
+    )
+);
+
+$orange-palette: (
+    50: #fff7e2,
+    100: #ffe9b4,
+    200: #ffdc85,
+    300: #ffcf56,
+    // Light orange - sunglow #051f4a
+    400: #fec336,
+    500: #feba22,
+    600: #fdac1f,
+    700: #fc9a1e,
+    800: #fb891d,
+    900: #f96a1a,
+    contrast: (50: $simply-dark-blue-grey,
+        100: $simply-dark-blue-grey,
+        200: $simply-dark-blue-grey,
+        300: $simply-dark-blue-grey,
+        400: $simply-dark-blue-grey,
+        500: $simply-dark-blue-grey,
+        600: $simply-dark-blue-grey,
+        700: $simply-dark-blue-grey,
+        800: $simply-dark-blue-grey,
+        900: $simply-dark-blue-grey,
+    )
+);
