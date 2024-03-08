@@ -1,0 +1,19 @@
+%full-size {
+    width: 100%;
+    height: 100%;
+}
+
+:host {
+    @extend %full-size;
+}
+
+.task-column {
+    &__dropzone {
+        @extend %full-size;
+    }
+
+    &__task {
+        display: block;
+        margin-bottom: 1rem;
+    }
+}

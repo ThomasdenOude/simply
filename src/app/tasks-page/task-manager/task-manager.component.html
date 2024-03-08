@@ -8,44 +8,22 @@
         <div class="container">
             <h2>Backlog</h2>
 
-            <mat-card cdkDropList [id]="TaskStatus.Todo" #todoList="cdkDropList" [cdkDropListData]="TODO()"
-                [cdkDropListConnectedTo]="[doneList, inProgressList]" (cdkDropListDropped)="updateTask($event)"
-                class="list">
-                @for (task of TODO(); track task.id) {
-                <app-task (editTask)="editTask($event)" cdkDrag [task]="task"></app-task>
-                } @empty {
-                <p class="empty-label">Empty list</p>
-                }
-            </mat-card>
+            <mat-card><app-task-column [taskStatus]="TaskStatus.Todo"></app-task-column></mat-card>
 
         </div>
 
         <div class="container">
             <h2>In progress</h2>
 
-            <mat-card cdkDropList [id]="TaskStatus.Inprogress" #inProgressList="cdkDropList"
-                [cdkDropListData]="INPROGRESS()" [cdkDropListConnectedTo]="[todoList, doneList]"
-                (cdkDropListDropped)="updateTask($event)" class="list">
-                @for (task of INPROGRESS(); track task.id) {
-                <app-task (editTask)="editTask($event)" cdkDrag [task]="task"></app-task>
-                } @empty {
-                <p class="empty-label">Empty list</p>
-                }
-            </mat-card>
+            <mat-card><app-task-column [taskStatus]="TaskStatus.Inprogress"></app-task-column></mat-card>
+
         </div>
 
         <div class="container">
             <h2>Done</h2>
 
-            <mat-card cdkDropList [id]="TaskStatus.Done" #doneList="cdkDropList" [cdkDropListData]="DONE()"
-                [cdkDropListConnectedTo]="[todoList, inProgressList]" (cdkDropListDropped)="updateTask($event)"
-                class="list">
-                @for (task of DONE(); track task.id) {
-                <app-task (editTask)="editTask($event)" cdkDrag [task]="task"></app-task>
-                } @empty {
-                <p class="empty-label">Empty list</p>
-                }
-            </mat-card>
+            <mat-card><app-task-column [taskStatus]="TaskStatus.Done"></app-task-column></mat-card>
+
         </div>
     </div>
 </div>
