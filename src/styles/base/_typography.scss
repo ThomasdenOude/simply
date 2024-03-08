@@ -52,7 +52,7 @@ $simply-hero-header: mat.define-typography-level($font-family: map.get($simply-f
 $simply-hero-sub-header: mat.define-typography-level($font-family: map.get($simply-fonts, "main"),
         $font-weight: map.get($simply-font-weights, "regular"),
         $font-size: map.get($simply-font-size, "display"),
-        $line-height: map.get($simply-line-height, "regular"),
+        $line-height: map.get($simply-line-height, "large"),
         $letter-spacing: normal,
 
     );

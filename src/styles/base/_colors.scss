@@ -1,7 +1,7 @@
 @use '@angular/material' as mat;
 
-$simply-dark-blue: #051f4a; // oxford-blue
-$simply-dark-blue-grey: #273148;
+$simply-dark-blue: #051f4a; // oxford-blue - 900
+$simply-dark-blue-grey: #273148; // A400
 $simply-off-white: #F1F2F3;
 
 //  Color palettes
@@ -32,6 +32,10 @@ $dark-blue-palette: (
         700: $simply-off-white,
         800: $simply-off-white,
         900: $simply-off-white,
+        A100-contrast: $simply-off-white,
+        A200-contrast: $simply-off-white,
+        A400-contrast: $simply-off-white,
+        A700-contrast: $simply-off-white,
     )
 );
 
