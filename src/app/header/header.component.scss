@@ -1,12 +1,16 @@
 .header {
     &__container {
-        padding: 32px;
+        padding: 16px;
         display: flex;
         flex-direction: row;
-        justify-content: space-between;
+        align-items: center;
     }
 
-    &____nav-button {
-        margin-left: 32px;
+    &__logo {
+        margin-right: 4px;
+    }
+
+    &__icon {
+        flex: auto;
     }
 }
