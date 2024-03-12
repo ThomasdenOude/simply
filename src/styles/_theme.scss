@@ -2,6 +2,7 @@
 @use 'sass:map';
 @use './base/colors';
 @use './base/typography';
+@use './base/theme-mixins';
 
 @include mat.core();
 
@@ -18,7 +19,6 @@ $simply-light-theme: mat.define-light-theme((color: (primary: $simply-primary,
                         density: 0));
 
 @include mat.core-theme($simply-light-theme);
-
 @include mat.button-theme($simply-light-theme);
 @include mat.icon-theme($simply-light-theme);
 @include mat.card-theme($simply-light-theme);
@@ -27,11 +27,9 @@ $simply-light-theme: mat.define-light-theme((color: (primary: $simply-primary,
 
 @include mat.typography-hierarchy(typography.$simply-typography-config);
 
-/*      Custom typography - light theme      */
-$simply-text-color: colors.$simply-dark-blue-grey;
+@include theme-mixins.simply-custom-color($simply-light-theme);
 
 body.mat-typography {
-        color: $simply-text-color;
         @include typography.text-margins;
 }
 
@@ -42,22 +40,13 @@ body.mat-typography {
         $simply-dark-theme: mat.define-dark-theme((color: (primary: $simply-primary-light,
                                         accent: $simply-accent-light,
                                         warn: $simply-warn)));
-        $simply-primary-color: map.get(mat.$light-blue-palette, 300);
 
         @include mat.core-color($simply-dark-theme);
-
         @include mat.button-color($simply-dark-theme);
         @include mat.icon-color($simply-dark-theme);
         @include mat.card-color($simply-dark-theme);
         @include mat.dialog-color($simply-dark-theme);
         @include mat.form-field-color($simply-dark-theme);
 
-        /*      Custom typography - dark theme          */
-        body.mat-typography {
-                color: colors.$simply-off-white;
-
-                .primary-text {
-                        color: $simply-primary-color;
-                }
-        }
+        @include theme-mixins.simply-custom-color($simply-dark-theme);
 }

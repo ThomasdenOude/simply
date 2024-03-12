@@ -30,14 +30,13 @@ export class TaskManagerComponent implements OnInit {
 
   protected newTask(): void {
     this.dialog.open<TaskDialogComponent, TaskDialogData, null>(TaskDialogComponent, {
-      width: '270px',
       data: null
     });
   }
   protected editTask(task: Task) {
 
     this.dialog.open<TaskDialogComponent, TaskDialogData, null>(TaskDialogComponent, {
-      width: '270px',
+      width: '600px',
       data: task,
     });
   }

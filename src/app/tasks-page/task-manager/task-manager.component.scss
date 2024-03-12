@@ -23,7 +23,8 @@
     &__one-column {
         flex: 1 1 auto;
         padding: l.space() l.space("small") l.space("small") l.space("small");
-        border: 1px solid white;
+        border-width: 1px;
+        border-style: solid;
         border-radius: 16px;
     }
 

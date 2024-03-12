@@ -27,9 +27,9 @@ import { CreateTask, CreateTaskFormgroup, TaskDialogData, TaskStatus } from '../
   styleUrl: './task-dialog.component.scss'
 })
 export class TaskDialogComponent implements OnInit {
+  private taskService: TaskService = inject(TaskService);
   private taskData: TaskDialogData = inject(MAT_DIALOG_DATA);
   private dialogRef: MatDialogRef<TaskDialogComponent, null> = inject(MatDialogRef);
-  private taskService: TaskService = inject(TaskService);
   private formBuilder: FormBuilder = new FormBuilder();
 
   protected taskForm!: CreateTaskFormgroup;
