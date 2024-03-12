@@ -1,3 +1,12 @@
-.task-item {
-    padding: 1rem;
+@use '../../../../styles/base/layout' as l;
+
+.task {
+    &__card {
+        padding: l.space("small");
+    }
+
+    &__title {
+        margin: 0;
+    }
+
 }

@@ -26,3 +26,14 @@ export enum TaskStatus {
     Inprogress = "INPROGRESS",
     Done = "DONE"
 }
+
+export interface UpdateTaskIndex {
+    currentStatus: TaskStatus;
+    currentList: Task[];
+}
+
+export interface UpdateTaskIndexAndStatus extends UpdateTaskIndex {
+    previousStatus: TaskStatus;
+    previousList: Task[];
+}
+

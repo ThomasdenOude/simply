@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, InputSignal, Output, input } from '@angular/core';
 
 import { MatCardModule } from '@angular/material/card'
 
@@ -13,15 +13,13 @@ import { Task } from '../../models/task.interface';
 })
 export class TaskComponent {
 
-  @Input()
-  public task: Task | null = null
+  public task: InputSignal<Task> = input.required<Task>();
 
   @Output()
   public editTask = new EventEmitter<Task>();
 
-  protected onEditTask(task: Task): void {
+  protected onEditTask(): void {
 
-    this.editTask.emit(task)
+    this.editTask.emit(this.task())
   }
-
 }

@@ -1,12 +1,9 @@
-import { Component, Input, OnChanges, Signal, SimpleChanges, computed, inject } from '@angular/core';
+import { Component, EventEmitter, InputSignal, Output, Signal, WritableSignal, computed, input, signal } from '@angular/core';
 import { LowerCasePipe } from '@angular/common';
 
-import { MatDialog } from '@angular/material/dialog';
 import { DragDropModule, CdkDragDrop, transferArrayItem, moveItemInArray } from '@angular/cdk/drag-drop';
 
-import { TaskDialogComponent } from '../task-dialog/task-dialog.component';
-import { TaskStatus, Task, TaskDialogData } from '../../models/task.interface';
-import { TaskService } from '../../services/task.service';
+import { TaskStatus, Task, UpdateTaskIndex, UpdateTaskIndexAndStatus } from '../../models/task.interface';
 import { TaskComponent } from '../task/task.component';
 
 @Component({
@@ -16,27 +13,25 @@ import { TaskComponent } from '../task/task.component';
   templateUrl: './task-column.component.html',
   styleUrl: './task-column.component.scss'
 })
-export class TaskColumnComponent implements OnChanges {
-  private taskService = inject(TaskService);
-  private dialog = inject(MatDialog);
-  private taskStatusList: TaskStatus[] = Object.values(TaskStatus);
-  protected connectedList!: TaskStatus[];
-  protected taskList!: Signal<Task[]>
+export class TaskColumnComponent {
+  public taskStatus: InputSignal<TaskStatus> = input.required<TaskStatus>();
+  public taskList: InputSignal<Task[]> = input.required<Task[]>();
 
-  @Input() taskStatus!: TaskStatus
+  protected connectedStatussesList: Signal<TaskStatus[]> = computed(() =>
+    Object.values(TaskStatus)
+      .filter(status => status !== this.taskStatus())
+  );
+  protected taskColumnList: Signal<Task[]> = computed(() =>
+    this.taskList()
+      .filter((task: Task) => task.status === this.taskStatus())
+      .sort((a: Task, b: Task) => a.index - b.index)
+  );
 
-  ngOnChanges(changes: SimpleChanges): void {
-    const newTaskStatus: TaskStatus = changes['taskStatus'].currentValue;
-    const previousTaskStatus: TaskStatus = changes['taskStatu']?.previousValue
-    if (newTaskStatus !== previousTaskStatus) {
-      this.connectedList = this.taskStatusList.filter(status => status !== newTaskStatus);
-      this.taskList = computed(
-        () => this.taskService.taskList()
-          .filter((task: Task) => task.status === newTaskStatus)
-          .sort((a: Task, b: Task) => a.index - b.index)
-      );
-    }
-  }
+  @Output() taskEdit: EventEmitter<Task> = new EventEmitter<Task>();
+
+  @Output() updateIndex: EventEmitter<UpdateTaskIndex> = new EventEmitter<UpdateTaskIndex>();
+
+  @Output() updateIndexAndStatus: EventEmitter<UpdateTaskIndexAndStatus> = new EventEmitter<UpdateTaskIndexAndStatus>();
 
   protected updateTask(event: CdkDragDrop<Task[]>): void {
 
@@ -54,7 +49,10 @@ export class TaskColumnComponent implements OnChanges {
         previousIndex,
         currentIndex
       )
-      this.taskService.updateIndex(currentStatus, currentList)
+      this.updateIndex.next({
+        currentStatus: currentStatus,
+        currentList: currentList
+      });
     } else {
       transferArrayItem(
         previousList,
@@ -62,15 +60,17 @@ export class TaskColumnComponent implements OnChanges {
         previousIndex,
         currentIndex
       )
-      this.taskService.updateIndexAndStatus(previousStatus, previousList, currentStatus, currentList)
+      this.updateIndexAndStatus.next({
+        previousStatus: previousStatus,
+        previousList: previousList,
+        currentStatus: currentStatus,
+        currentList: currentList
+      });
     }
   }
 
   protected editTask(task: Task): void {
 
-    this.dialog.open<TaskDialogComponent, TaskDialogData, null>(TaskDialogComponent, {
-      width: '270px',
-      data: task,
-    });
+    this.taskEdit.emit(task);
   }
 }

@@ -1,3 +1,5 @@
+@use '../../../styles/base/layout' as l;
+
 :host {
     flex: 1 1 auto;
     position: relative;
@@ -5,7 +7,7 @@
 
 .sign-in {
     &__container {
-        padding: 0 16px;
+        padding: 0 l.space();
         position: relative;
         top: 20%;
     }

@@ -1,29 +1,11 @@
-<div class="content-wrapper">
-
-    <button (click)="newTask()" mat-flat-button color="primary" class="add-button">
-        <mat-icon>add</mat-icon> Add Task
-    </button>
-
-    <div class="container-wrapper">
-        <div class="container">
-            <h2>Backlog</h2>
-
-            <mat-card><app-task-column [taskStatus]="TaskStatus.Todo"></app-task-column></mat-card>
-
-        </div>
-
-        <div class="container">
-            <h2>In progress</h2>
-
-            <mat-card><app-task-column [taskStatus]="TaskStatus.Inprogress"></app-task-column></mat-card>
-
-        </div>
-
-        <div class="container">
-            <h2>Done</h2>
-
-            <mat-card><app-task-column [taskStatus]="TaskStatus.Done"></app-task-column></mat-card>
-
-        </div>
+<div class="task-board__container">
+    <div class="task-board__one-column">
+        <h3>{{ TaskStatus.Todo }}</h3>
+        <app-task-column [taskStatus]="TaskStatus.Todo" [taskList]="taskList()"
+            (taskEdit)="editTask($event)"></app-task-column>
     </div>
 </div>
+
+<button mat-fab color="primary" class="task-board__add-button" (click)="newTask()">
+    <mat-icon>add</mat-icon>
+</button>
