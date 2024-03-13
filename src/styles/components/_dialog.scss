@@ -1,0 +1,22 @@
+@mixin simply-dialog {
+    .simply-dialog {
+        .mat-mdc-dialog-content {
+            display: flex;
+            flex-direction: column;
+
+            .mat-mdc-form-field {
+                padding-top: 8px;
+            }
+        }
+
+        .mat-mdc-dialog-actions {
+            padding: 0 24px 24px 24px;
+        }
+
+        &__left-align-wrapper {
+            display: flex;
+            justify-content: flex-start;
+            flex: 1 1 auto;
+        }
+    }
+}

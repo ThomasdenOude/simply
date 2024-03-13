@@ -24,6 +24,7 @@ $simply-light-theme: mat.define-light-theme((color: (primary: $simply-primary,
 @include mat.card-theme($simply-light-theme);
 @include mat.dialog-theme($simply-light-theme);
 @include mat.form-field-theme($simply-light-theme);
+@include mat.tooltip-theme($simply-light-theme);
 
 @include mat.typography-hierarchy(typography.$simply-typography-config);
 
@@ -47,6 +48,7 @@ body.mat-typography {
         @include mat.card-color($simply-dark-theme);
         @include mat.dialog-color($simply-dark-theme);
         @include mat.form-field-color($simply-dark-theme);
+        @include mat.tooltip-color($simply-dark-theme);
 
         @include theme-mixins.simply-custom-color($simply-dark-theme);
 }

@@ -28,16 +28,10 @@ export class TaskManagerComponent implements OnInit {
     this.taskList = this.taskService.taskList;
   }
 
-  protected newTask(): void {
-    this.dialog.open<TaskDialogComponent, TaskDialogData, null>(TaskDialogComponent, {
-      data: null
-    });
-  }
-  protected editTask(task: Task) {
+  protected editTask(task?: Task) {
 
     this.dialog.open<TaskDialogComponent, TaskDialogData, null>(TaskDialogComponent, {
-      width: '600px',
-      data: task,
+      data: task ?? null,
     });
   }
 }

@@ -6,6 +6,8 @@ import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { connectFirestoreEmulator, getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { connectAuthEmulator, getAuth, provideAuth } from '@angular/fire/auth';
 
+import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
+
 import { environment } from '../environments/environment';
 import { routes } from './app.routes';
 
@@ -28,6 +30,14 @@ export const appConfig: ApplicationConfig = {
         connectAuthEmulator(auth, 'http://localhost:9099', { disableWarnings: true })
       }
       return auth
-    }))
+    })),
+    {
+      provide: MAT_DIALOG_DEFAULT_OPTIONS,
+      useValue: {
+        disableClose: true,
+        width: '600px',
+        autoFocus: true
+      }
+    }
   ],
 };

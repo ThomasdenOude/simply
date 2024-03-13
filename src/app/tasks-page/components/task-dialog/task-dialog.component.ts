@@ -6,6 +6,7 @@ import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/materia
 import { MatIconModule } from '@angular/material/icon'
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { Task } from '../../models/task.interface';
 import { TaskService } from '../../services/task.service';
@@ -21,7 +22,8 @@ import { CreateTask, CreateTaskFormgroup, TaskDialogData, TaskStatus } from '../
     MatDialogModule,
     MatIconModule,
     MatFormFieldModule,
-    MatButtonModule
+    MatButtonModule,
+    MatTooltipModule,
   ],
   templateUrl: './task-dialog.component.html',
   styleUrl: './task-dialog.component.scss'
