@@ -22,6 +22,7 @@ export class TaskColumnComponent {
       .filter(status => status !== this.taskStatus())
   );
   protected taskColumnList: Signal<Task[]> = computed(() =>
+
     this.taskList()
       .filter((task: Task) => task.status === this.taskStatus())
       .sort((a: Task, b: Task) => a.index - b.index)

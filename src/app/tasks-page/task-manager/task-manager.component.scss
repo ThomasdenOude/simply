@@ -14,18 +14,22 @@
         padding: l.space();
     }
 
-    &__add-button {
-        position: fixed;
-        bottom: l.space("large");
-        right: l.space("large");
-    }
-
     &__one-column {
         flex: 1 1 auto;
-        padding: l.space() l.space("small") l.space("small") l.space("small");
+        padding: l.space() 0 0 0;
         border-width: 1px;
         border-style: solid;
         border-radius: 16px;
     }
 
+    &__label {
+        // padding: l.space("small") 0;
+    }
+
+    &__add-button {
+        position: fixed;
+        bottom: l.space("large");
+        right: l.space("large");
+        z-index: 2;
+    }
 }

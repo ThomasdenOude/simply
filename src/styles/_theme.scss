@@ -20,6 +20,8 @@ $simply-light-theme: mat.define-light-theme((color: (primary: $simply-primary,
 
 @include mat.core-theme($simply-light-theme);
 @include mat.button-theme($simply-light-theme);
+@include mat.fab-theme($simply-light-theme);
+@include mat.tabs-theme($simply-light-theme);
 @include mat.icon-theme($simply-light-theme);
 @include mat.card-theme($simply-light-theme);
 @include mat.dialog-theme($simply-light-theme);
@@ -44,6 +46,8 @@ body.mat-typography {
 
         @include mat.core-color($simply-dark-theme);
         @include mat.button-color($simply-dark-theme);
+        @include mat.fab-color($simply-dark-theme);
+        @include mat.tabs-color($simply-dark-theme);
         @include mat.icon-color($simply-dark-theme);
         @include mat.card-color($simply-dark-theme);
         @include mat.dialog-color($simply-dark-theme);
