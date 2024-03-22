@@ -1,39 +1,37 @@
-import { FormControl, FormGroup } from "@angular/forms";
+import { FormControl, FormGroup } from '@angular/forms';
 
 export interface Task extends TaskDto {
-    id: string;
+	id: string;
 }
 
 export interface TaskDto extends CreateTask {
-    index: number;
+	index: number;
 }
 
 export interface CreateTask {
-    title: string;
-    description: string;
-    status: TaskStatus;
+	title: string;
+	description: string;
+	status: TaskStatus;
 }
 
-export type CreateTaskFormgroup = FormGroup<{
-    [Key in keyof CreateTask]: FormControl<CreateTask[Key] | null>
-}>
+export type CreateTaskFormGroup = FormGroup<{
+	[Key in keyof CreateTask]: FormControl<CreateTask[Key] | null>;
+}>;
 
 export type TaskDialogData = Task | null;
 
-
 export enum TaskStatus {
-    Todo = "TODO",
-    Inprogress = "INPROGRESS",
-    Done = "DONE"
+	Todo = 'TODO',
+	Inprogress = 'INPROGRESS',
+	Done = 'DONE',
 }
 
 export interface UpdateTaskIndex {
-    currentStatus: TaskStatus;
-    currentList: Task[];
+	currentStatus: TaskStatus;
+	currentList: Task[];
 }
 
 export interface UpdateTaskIndexAndStatus extends UpdateTaskIndex {
-    previousStatus: TaskStatus;
-    previousList: Task[];
+	previousStatus: TaskStatus;
+	previousList: Task[];
 }
-

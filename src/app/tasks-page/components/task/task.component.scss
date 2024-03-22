@@ -1,12 +1,11 @@
 @use '../../../../styles/base/layout' as l;
 
 .task {
-    &__card {
-        padding: l.space("small");
-    }
+	&__card {
+		padding: l.space('small');
+	}
 
-    &__title {
-        margin: 0;
-    }
-
+	&__title {
+		margin: 0;
+	}
 }

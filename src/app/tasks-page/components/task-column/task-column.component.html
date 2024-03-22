@@ -1,6 +1,17 @@
-<div class="task-column__dropzone" [id]="taskStatus()" cdkDropList [cdkDropListData]="taskColumnList()"
-    [cdkDropListConnectedTo]="connectedStatussesList()" (cdkDropListDropped)="updateTask($event)">
-    @for (task of taskColumnList(); track task.id) {
-    <app-task class="task-column__task" (editTask)="editTask($event)" cdkDrag [task]="task"></app-task>
-    }
+<div
+	class="task-column__dropzone"
+	[id]="taskStatus()"
+	cdkDropList
+	[cdkDropListData]="taskColumnList()"
+	[cdkDropListConnectedTo]="connectedStatussesList()"
+	(cdkDropListDropped)="updateTask($event)"
+>
+	@for (task of taskColumnList(); track task.id) {
+		<app-task
+			class="task-column__task"
+			(editTask)="editTask($event)"
+			cdkDrag
+			[task]="task"
+		></app-task>
+	}
 </div>

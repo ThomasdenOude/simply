@@ -1,21 +1,27 @@
 <div class="task-board__container">
-    <div class="task-board__one-column simply-border-color">
-        <mat-tab-group dynamicHeight color="primary">
-            @for (status of taskStatusses; track status) {
-            <mat-tab>
-                <ng-template mat-tab-label>
-                    <span class="task-board__label">{{
-                        status
-                        }}</span>
-                </ng-template>
-                <app-task-column [taskStatus]="status" [taskList]="taskList()"
-                    (taskEdit)="editTask($event)"></app-task-column>
-            </mat-tab>
-            }
-        </mat-tab-group>
-    </div>
+	<div class="task-board__one-column simply-border-color">
+		<mat-tab-group dynamicHeight color="primary">
+			@for (status of taskStatusses; track status) {
+				<mat-tab>
+					<ng-template mat-tab-label>
+						<span class="task-board__label">{{ status }}</span>
+					</ng-template>
+					<app-task-column
+						[taskStatus]="status"
+						[taskList]="taskList()"
+						(taskEdit)="editTask($event)"
+					></app-task-column>
+				</mat-tab>
+			}
+		</mat-tab-group>
+	</div>
 </div>
 
-<button mat-mini-fab color="accent" class="task-board__add-button" (click)="editTask()">
-    <mat-icon>add</mat-icon>
+<button
+	mat-mini-fab
+	color="accent"
+	class="task-board__add-button"
+	(click)="editTask()"
+>
+	<mat-icon>add</mat-icon>
 </button>

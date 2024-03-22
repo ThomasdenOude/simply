@@ -3,110 +3,123 @@
 
 /*      Font variables      */
 $simply-fonts: (
-    "header": ('Fira Sans', sans-serif),
-    "main": (Roboto, sans-serif)
+	'header': (
+		'Fira Sans',
+		sans-serif,
+	),
+	'main': (
+		Roboto,
+		sans-serif,
+	),
 );
 $simply-font-weights: (
-    "regular": 400,
-    "medium": 500
+	'regular': 400,
+	'medium': 500,
 );
 $simply-font-size: (
-    "small": 0.9rem,
-    "regular": 1rem,
-    "large": 1.25rem,
-    "extra-large": 1.5rem,
-    "display": 1.4rem,
-    "display-large": 3rem
+	'small': 0.9rem,
+	'regular': 1rem,
+	'large': 1.25rem,
+	'extra-large': 1.5rem,
+	'display': 1.4rem,
+	'display-large': 3rem,
 );
 $simply-line-height: (
-    "small": 1,
-    "regular": 1.2,
-    "large": 1.5
+	'small': 1,
+	'regular': 1.2,
+	'large': 1.5,
 );
 
 @mixin text-margins {
-    h1 {
-        margin: 0;
-    }
+	h1 {
+		margin: 0;
+	}
 
-    h2,
-    h3,
-    .mat-headline-1 {
-        margin: 0 0 map.get($simply-font-size, "large");
-    }
+	h2,
+	h3,
+	.mat-headline-1 {
+		margin: 0 0 map.get($simply-font-size, 'large');
+	}
 
-    p,
-    .mat-headline-2 {
-        margin: 0 0 map.get($simply-font-size, "regular") 0;
-    }
+	p,
+	.mat-headline-2 {
+		margin: 0 0 map.get($simply-font-size, 'regular') 0;
+	}
 }
 
 /*      Material typography          */
-$simply-hero-header: mat.define-typography-level($font-family: map.get($simply-fonts, "header"),
-        $font-weight: map.get($simply-font-weights, "medium"),
-        $font-size: map.get($simply-font-size, "display-large"),
-        $line-height: map.get($simply-line-height, "small"),
-        $letter-spacing: normal,
-    );
+$simply-hero-header: mat.define-typography-level(
+	$font-family: map.get($simply-fonts, 'header'),
+	$font-weight: map.get($simply-font-weights, 'medium'),
+	$font-size: map.get($simply-font-size, 'display-large'),
+	$line-height: map.get($simply-line-height, 'small'),
+	$letter-spacing: normal,
+);
 
-$simply-hero-sub-header: mat.define-typography-level($font-family: map.get($simply-fonts, "main"),
-        $font-weight: map.get($simply-font-weights, "regular"),
-        $font-size: map.get($simply-font-size, "display"),
-        $line-height: map.get($simply-line-height, "large"),
-        $letter-spacing: normal,
+$simply-hero-sub-header: mat.define-typography-level(
+	$font-family: map.get($simply-fonts, 'main'),
+	$font-weight: map.get($simply-font-weights, 'regular'),
+	$font-size: map.get($simply-font-size, 'display'),
+	$line-height: map.get($simply-line-height, 'large'),
+	$letter-spacing: normal,
+);
 
-    );
+$simply-h1: mat.define-typography-level(
+	$font-family: map.get($simply-fonts, 'header'),
+	$font-weight: map.get($simply-font-weights, 'medium'),
+	$font-size: map.get($simply-font-size, 'display'),
+	$line-height: map.get($simply-line-height, 'small'),
+	$letter-spacing: normal,
+);
 
-$simply-h1: mat.define-typography-level($font-family: map.get($simply-fonts, "header"),
-        $font-weight: map.get($simply-font-weights, "medium"),
-        $font-size: map.get($simply-font-size, "display"),
-        $line-height: map.get($simply-line-height, "small"),
-        $letter-spacing: normal,
-    );
+$simply-h2: mat.define-typography-level(
+	$font-family: map.get($simply-fonts, 'header'),
+	$font-weight: map.get($simply-font-weights, 'medium'),
+	$font-size: map.get($simply-font-size, 'extra-large'),
+	$line-height: map.get($simply-line-height, 'small'),
+	$letter-spacing: normal,
+);
 
-$simply-h2: mat.define-typography-level($font-family: map.get($simply-fonts, "header"),
-        $font-weight: map.get($simply-font-weights, "medium"),
-        $font-size: map.get($simply-font-size, "extra-large"),
-        $line-height: map.get($simply-line-height, "small"),
-        $letter-spacing: normal,
-    );
+$simply-h3: mat.define-typography-level(
+	$font-family: map.get($simply-fonts, 'main'),
+	$font-weight: map.get($simply-font-weights, 'medium'),
+	$font-size: map.get($simply-font-size, 'large'),
+	$line-height: map.get($simply-line-height, 'small'),
+	$letter-spacing: normal,
+);
 
-$simply-h3: mat.define-typography-level($font-family: map.get($simply-fonts, "main"),
-        $font-weight: map.get($simply-font-weights, "medium"),
-        $font-size: map.get($simply-font-size, "large"),
-        $line-height: map.get($simply-line-height, "small"),
-        $letter-spacing: normal,
+$simply-body: mat.define-typography-level(
+	$font-family: map.get($simply-fonts, 'main'),
+	$font-weight: map.get($simply-font-weights, 'regular'),
+	$font-size: map.get($simply-font-size, 'regular'),
+	$line-height: map.get($simply-line-height, 'large'),
+	$letter-spacing: normal,
+);
 
-    );
+$simply-caption: mat.define-typography-level(
+	$font-family: map.get($simply-fonts, 'main'),
+	$font-weight: map.get($simply-font-weights, 'medium'),
+	$font-size: map.get($simply-font-size, 'small'),
+	$line-height: map.get($simply-line-height, 'small'),
+	$letter-spacing: normal,
+);
 
-$simply-body: mat.define-typography-level($font-family: map.get($simply-fonts, "main"),
-        $font-weight: map.get($simply-font-weights, "regular"),
-        $font-size: map.get($simply-font-size, "regular"),
-        $line-height: map.get($simply-line-height, "large"),
-        $letter-spacing: normal,
-    );
+$simply-button: mat.define-typography-level(
+	$font-family: map.get($simply-fonts, 'main'),
+	$font-weight: map.get($simply-font-weights, 'medium'),
+	$font-size: map.get($simply-font-size, 'small'),
+	$line-height: map.get($simply-line-height, 'small'),
+	$letter-spacing: normal,
+);
 
-$simply-caption: mat.define-typography-level($font-family: map.get($simply-fonts, "main"),
-        $font-weight: map.get($simply-font-weights, "medium"),
-        $font-size: map.get($simply-font-size, "small"),
-        $line-height: map.get($simply-line-height, "small"),
-        $letter-spacing: normal,
-    );
-
-$simply-button: mat.define-typography-level($font-family: map.get($simply-fonts, "main"),
-        $font-weight: map.get($simply-font-weights, "medium"),
-        $font-size: map.get($simply-font-size, "small"),
-        $line-height: map.get($simply-line-height, "small"),
-        $letter-spacing: normal,
-    );
-
-$simply-typography-config: mat.define-typography-config($headline-1: $simply-hero-header,
-        $headline-2: $simply-hero-sub-header,
-        $headline-5: $simply-h1,
-        $headline-6: $simply-h2,
-        $subtitle-1: $simply-h3,
-        $body-1: $simply-body,
-        $body-2: $simply-body,
-        $caption: $simply-button,
-        $button: $simply-button,
-    );
+$simply-typography-config: mat.define-typography-config(
+	$headline-1: $simply-hero-header,
+	$headline-2: $simply-hero-sub-header,
+	$headline-5: $simply-h1,
+	$headline-6: $simply-h2,
+	$subtitle-1: $simply-h3,
+	$body-1: $simply-body,
+	$body-2: $simply-body,
+	$caption: $simply-button,
+	$button: $simply-button,
+);

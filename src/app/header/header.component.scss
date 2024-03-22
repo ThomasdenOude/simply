@@ -1,16 +1,16 @@
 .header {
-    &__container {
-        padding: 16px;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-    }
+	&__container {
+		padding: 16px;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+	}
 
-    &__logo {
-        margin-right: 4px;
-    }
+	&__logo {
+		margin-right: 4px;
+	}
 
-    &__icon {
-        flex: auto;
-    }
+	&__icon {
+		flex: auto;
+	}
 }

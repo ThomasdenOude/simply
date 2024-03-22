@@ -1,35 +1,34 @@
 @use '../../../styles/base/layout' as l;
 
-
 :host {
-    flex: 1 1 auto;
+	flex: 1 1 auto;
 }
 
 .task-board {
-    &__container {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        height: 100%;
-        padding: l.space();
-    }
+	&__container {
+		display: flex;
+		flex-direction: column;
+		width: 100%;
+		height: 100%;
+		padding: l.space();
+	}
 
-    &__one-column {
-        flex: 1 1 auto;
-        padding: l.space() 0 0 0;
-        border-width: 1px;
-        border-style: solid;
-        border-radius: 16px;
-    }
+	&__one-column {
+		flex: 1 1 auto;
+		padding: l.space() 0 0 0;
+		border-width: 1px;
+		border-style: solid;
+		border-radius: 16px;
+	}
 
-    &__label {
-        // padding: l.space("small") 0;
-    }
+	&__label {
+		// padding: l.space("small") 0;
+	}
 
-    &__add-button {
-        position: fixed;
-        bottom: l.space("large");
-        right: l.space("large");
-        z-index: 2;
-    }
+	&__add-button {
+		position: fixed;
+		bottom: l.space('large');
+		right: l.space('large');
+		z-index: 2;
+	}
 }

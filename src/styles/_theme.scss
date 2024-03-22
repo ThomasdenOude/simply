@@ -11,12 +11,17 @@ $simply-primary: mat.define-palette(colors.$dark-blue-palette, 900);
 $simply-accent: mat.define-palette(colors.$orange-palette, 500, 300, 600);
 $simply-warn: mat.define-palette(colors.$orange-palette, 900);
 
-$simply-light-theme: mat.define-light-theme((color: (primary: $simply-primary,
-                                accent: $simply-accent,
-                                warn: $simply-warn,
-                        ),
-                        typography: typography.$simply-typography-config,
-                        density: 0));
+$simply-light-theme: mat.define-light-theme(
+	(
+		color: (
+			primary: $simply-primary,
+			accent: $simply-accent,
+			warn: $simply-warn,
+		),
+		typography: typography.$simply-typography-config,
+		density: 0,
+	)
+);
 
 @include mat.core-theme($simply-light-theme);
 @include mat.button-theme($simply-light-theme);
@@ -33,26 +38,42 @@ $simply-light-theme: mat.define-light-theme((color: (primary: $simply-primary,
 @include theme-mixins.simply-custom-color($simply-light-theme);
 
 body.mat-typography {
-        @include typography.text-margins;
+	@include typography.text-margins;
 }
 
 /*      Dark theme - only colors        */
 @media (prefers-color-scheme: dark) {
-        $simply-primary-light: mat.define-palette(mat.$light-blue-palette, 300, 200, 600);
-        $simply-accent-light: mat.define-palette(colors.$orange-palette, 400, 300, 600);
-        $simply-dark-theme: mat.define-dark-theme((color: (primary: $simply-primary-light,
-                                        accent: $simply-accent-light,
-                                        warn: $simply-warn)));
+	$simply-primary-light: mat.define-palette(
+		mat.$light-blue-palette,
+		300,
+		200,
+		600
+	);
+	$simply-accent-light: mat.define-palette(
+		colors.$orange-palette,
+		400,
+		300,
+		600
+	);
+	$simply-dark-theme: mat.define-dark-theme(
+		(
+			color: (
+				primary: $simply-primary-light,
+				accent: $simply-accent-light,
+				warn: $simply-warn,
+			),
+		)
+	);
 
-        @include mat.core-color($simply-dark-theme);
-        @include mat.button-color($simply-dark-theme);
-        @include mat.fab-color($simply-dark-theme);
-        @include mat.tabs-color($simply-dark-theme);
-        @include mat.icon-color($simply-dark-theme);
-        @include mat.card-color($simply-dark-theme);
-        @include mat.dialog-color($simply-dark-theme);
-        @include mat.form-field-color($simply-dark-theme);
-        @include mat.tooltip-color($simply-dark-theme);
+	@include mat.core-color($simply-dark-theme);
+	@include mat.button-color($simply-dark-theme);
+	@include mat.fab-color($simply-dark-theme);
+	@include mat.tabs-color($simply-dark-theme);
+	@include mat.icon-color($simply-dark-theme);
+	@include mat.card-color($simply-dark-theme);
+	@include mat.dialog-color($simply-dark-theme);
+	@include mat.form-field-color($simply-dark-theme);
+	@include mat.tooltip-color($simply-dark-theme);
 
-        @include theme-mixins.simply-custom-color($simply-dark-theme);
+	@include theme-mixins.simply-custom-color($simply-dark-theme);
 }

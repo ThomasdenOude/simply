@@ -1,4 +1,4 @@
 export enum Devices {
-    HandsetLandscape = "HandsetLandscape",
-    Unknown = "Unknown"
+	HandsetLandscape = 'HandsetLandscape',
+	Unknown = 'Unknown',
 }

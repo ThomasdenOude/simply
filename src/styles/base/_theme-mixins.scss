@@ -2,28 +2,28 @@
 @use '../base/colors';
 
 @mixin simply-custom-color($theme) {
-    $type: mat.get-theme-type($theme);
+	$type: mat.get-theme-type($theme);
 
-    $primary-default: mat.get-theme-color($theme, primary, default);
-    $accent-default: mat.get-theme-color($theme, accent, default);
-    $primary-dark: mat.get-theme-color($theme, primary, A400);
+	$primary-default: mat.get-theme-color($theme, primary, default);
+	$accent-default: mat.get-theme-color($theme, accent, default);
+	$primary-dark: mat.get-theme-color($theme, primary, A400);
 
-    $text-default: if($type ==dark, colors.$simply-off-white, $primary-dark);
+	$text-default: if($type ==dark, colors.$simply-off-white, $primary-dark);
 
-    .simply-border-color {
-        border-color: $text-default;
-    }
+	.simply-border-color {
+		border-color: $text-default;
+	}
 
-    .simply-text-color,
-    body.mat-typography {
-        color: $text-default;
-    }
+	.simply-text-color,
+	body.mat-typography {
+		color: $text-default;
+	}
 
-    .simply-primary-background {
-        background-color: $primary-default;
-    }
+	.simply-primary-background {
+		background-color: $primary-default;
+	}
 
-    .simply-accent-background {
-        background-color: $accent-default;
-    }
+	.simply-accent-background {
+		background-color: $accent-default;
+	}
 }

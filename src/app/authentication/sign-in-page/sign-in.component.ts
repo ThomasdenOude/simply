@@ -12,28 +12,30 @@ import { Credentials } from '../models/credentials.interface';
 import { Devices } from '../../core/models/devices';
 
 @Component({
-  selector: 'app-sign-in',
-  standalone: true,
-  imports: [MatButtonModule, MatIconModule, SigninDialogComponent, NgClass],
-  templateUrl: './sign-in.component.html',
-  styleUrl: './sign-in.component.scss'
+	selector: 'app-sign-in',
+	standalone: true,
+	imports: [MatButtonModule, MatIconModule, SigninDialogComponent, NgClass],
+	templateUrl: './sign-in.component.html',
+	styleUrl: './sign-in.component.scss',
 })
 export class SignInComponent {
+	private authService: AuthenticationService = inject(AuthenticationService);
+	private responsiveService: ResponsiveService = inject(ResponsiveService);
+	private dialog: MatDialog = inject(MatDialog);
 
-  private authService: AuthenticationService = inject(AuthenticationService);
-  private responsiveService: ResponsiveService = inject(ResponsiveService);
-  private dialog: MatDialog = inject(MatDialog);
+	protected device: Signal<Devices> = this.responsiveService.device;
+	protected devices = Devices;
 
-  protected device: Signal<Devices> = this.responsiveService.device;
-  protected devices = Devices;
+	protected openSignInDialog(): void {
+		const signInDialogRef: MatDialogRef<SigninDialogComponent> =
+			this.dialog.open(SigninDialogComponent);
 
-  protected openSignInDialog(): void {
-    const signInDialogRef: MatDialogRef<SigninDialogComponent> = this.dialog.open(SigninDialogComponent);
-
-    signInDialogRef.afterClosed().subscribe((credentials: Credentials | null) => {
-      if (credentials) {
-        this.authService.creatUser(credentials.email, credentials.password);
-      }
-    })
-  }
+		signInDialogRef
+			.afterClosed()
+			.subscribe((credentials: Credentials | null) => {
+				if (credentials) {
+					this.authService.creatUser(credentials.email, credentials.password);
+				}
+			});
+	}
 }
