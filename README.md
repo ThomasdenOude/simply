@@ -1,27 +1,14 @@
-# PracticeKanban
+# Simply
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.2.0.
+Simply is a *basic* todo app. You can watch a live demo at [Simply](https://practicekanban.web.app/)![task](src/assets/task_alt_FILL0_wght400_GRAD0_opsz24.svg).
 
-## Development server
+> “You can do anything, but not everything.”  -- David Allen
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Development
 
-## Code scaffolding
+Simply is an [Angular](https://angular.io) 17 application.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+- Run the app locally with: `npm run start`.
+- Deploy a new version with: `npm run deploy`.
 
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+---
