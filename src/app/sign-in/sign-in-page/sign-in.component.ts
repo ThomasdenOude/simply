@@ -6,7 +6,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 
 import { ResponsiveService } from '../../core/services/responsive.service';
-import { AuthenticationService } from '../services/authentication.service';
+import { AuthenticationService } from '../../core/services/authentication.service';
 import { SigninDialogComponent } from '../components/signin-dialog/signin-dialog.component';
 import { Credentials } from '../models/credentials.interface';
 import { Devices } from '../../core/models/devices';

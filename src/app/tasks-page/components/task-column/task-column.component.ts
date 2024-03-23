@@ -4,10 +4,8 @@ import {
 	InputSignal,
 	Output,
 	Signal,
-	WritableSignal,
 	computed,
 	input,
-	signal,
 } from '@angular/core';
 import { LowerCasePipe } from '@angular/common';
 
@@ -37,7 +35,7 @@ export class TaskColumnComponent {
 	public taskStatus: InputSignal<TaskStatus> = input.required<TaskStatus>();
 	public taskList: InputSignal<Task[]> = input.required<Task[]>();
 
-	protected connectedStatussesList: Signal<TaskStatus[]> = computed(() =>
+	protected connectedStatusesList: Signal<TaskStatus[]> = computed(() =>
 		Object.values(TaskStatus).filter(status => status !== this.taskStatus())
 	);
 	protected taskColumnList: Signal<Task[]> = computed(() =>

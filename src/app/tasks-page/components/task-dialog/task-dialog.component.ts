@@ -69,21 +69,21 @@ export class TaskDialogComponent implements OnInit {
 				description: result.description ?? this.taskData.description,
 				status: result.status ?? this.taskData.status,
 			};
-			this.taskService.editTask(editedTask);
+			this.taskService.editTask(editedTask).then();
 		} else {
 			const addTask: CreateTask = {
 				title: result.title ?? '',
 				description: result.description ?? '',
 				status: result.status ?? TaskStatus.Todo,
 			};
-			this.taskService.addTask(addTask);
+			this.taskService.addTask(addTask).then();
 		}
 		this.dialogRef.close(null);
 	}
 
 	protected deleteTask(): void {
 		if (this.taskData) {
-			this.taskService.deleteTask(this.taskData);
+			this.taskService.deleteTask(this.taskData).then();
 		}
 		this.dialogRef.close(null);
 	}

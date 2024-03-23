@@ -19,7 +19,7 @@ import {
 	TaskDto,
 	TaskStatus,
 } from '../models/task.interface';
-import { AuthenticationService } from '../../authentication/services/authentication.service';
+import { AuthenticationService } from '../../core/services/authentication.service';
 
 @Injectable({
 	providedIn: 'root',

@@ -3,7 +3,7 @@
 	[id]="taskStatus()"
 	cdkDropList
 	[cdkDropListData]="taskColumnList()"
-	[cdkDropListConnectedTo]="connectedStatussesList()"
+	[cdkDropListConnectedTo]="connectedStatusesList()"
 	(cdkDropListDropped)="updateTask($event)"
 >
 	@for (task of taskColumnList(); track task.id) {

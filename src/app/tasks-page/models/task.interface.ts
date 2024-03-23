@@ -22,7 +22,7 @@ export type TaskDialogData = Task | null;
 
 export enum TaskStatus {
 	Todo = 'TODO',
-	Inprogress = 'INPROGRESS',
+	Doing = 'DOING',
 	Done = 'DONE',
 }
 

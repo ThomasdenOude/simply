@@ -7,7 +7,7 @@ import {
 } from '@angular/fire/auth-guard';
 
 import { TaskManagerComponent } from './tasks-page/task-manager/task-manager.component';
-import { SignInComponent } from './authentication/sign-in-page/sign-in.component';
+import { SignInComponent } from './sign-in/sign-in-page/sign-in.component';
 
 const redirectUnauthorizedToSignIn = () => redirectUnauthorizedTo(['sign-in']);
 const redirectLoggedInToTaskManager = () =>
