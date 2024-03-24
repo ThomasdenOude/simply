@@ -1,16 +1,41 @@
 <div class="task-board__container">
 	<div class="task-board__one-column simply-border-color">
-		<mat-tab-group dynamicHeight color="primary">
-			@for (status of taskStatusses; track status) {
+		<mat-tab-group
+      dynamicHeight
+      color="primary"
+      (selectedTabChange)="tabChange($event)"
+      [selectedIndex]="currentTabIndex()"
+    >
+			@for (status of taskStatuses; track status) {
 				<mat-tab>
 					<ng-template mat-tab-label>
-						<span class="task-board__label">{{ status }}</span>
+						<div
+              class="task-board__label"
+              cdkDropList
+              [id]="'TAB_' + status"
+              (cdkDropListDropped)="tabDrop($event)"
+              [cdkDropListConnectedTo]="currentStatus()"
+            >
+              {{ status }}
+            </div>
 					</ng-template>
-					<app-task-column
-						[taskStatus]="status"
-						[taskList]="taskList()"
-						(taskEdit)="editTask($event)"
-					></app-task-column>
+          <div
+            class="task-column__dropzone"
+            cdkDropList
+            [id]="status"
+            [cdkDropListData]="currentList()"
+            [cdkDropListConnectedTo]="connectedLists()"
+            (cdkDropListDropped)="updateTask($event)"
+          >
+            @for (task of currentList(); track task.id) {
+              <app-task
+                class="task-column__task"
+                cdkDrag
+                (editTask)="editTask($event)"
+                [task]="task"
+              ></app-task>
+            }
+          </div>
 				</mat-tab>
 			}
 		</mat-tab-group>

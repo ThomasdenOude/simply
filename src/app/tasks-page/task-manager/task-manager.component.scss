@@ -22,7 +22,7 @@
 	}
 
 	&__label {
-		// padding: l.space("small") 0;
+    padding: 1rem;
 	}
 
 	&__add-button {
@@ -31,4 +31,14 @@
 		right: l.space('large');
 		z-index: 2;
 	}
+}
+
+.task-column {
+  &__dropzone {
+    padding: l.space() l.space('small') l.space('small') l.space('small');
+  }
+  &__task {
+    display: block;
+    margin-bottom: 1rem;
+  }
 }
