@@ -1,3 +1,6 @@
-<mat-card class="task__card" (dblclick)="onEditTask()">
-	<p class="task__title">{{ task().title }}</p>
+<mat-card
+  class="task__card"
+  #taskCard
+>
+  <p class="task__title">{{ task().title }}</p>
 </mat-card>
