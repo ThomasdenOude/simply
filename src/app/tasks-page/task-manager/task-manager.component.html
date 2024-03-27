@@ -1,52 +1,89 @@
 <div class="task-board__container">
-	<div class="task-board__one-column simply-border-color">
-		<mat-tab-group
-      dynamicHeight
-      color="primary"
-      (selectedTabChange)="tabChange($event)"
-      [selectedIndex]="currentTabIndex()"
-    >
-			@for (status of taskStatuses; track status) {
-				<mat-tab>
-					<ng-template mat-tab-label>
-						<div
-              class="task-board__label"
+  @if (device() !== Devices.WideScreen) {
+    <div class="task-board__one-column-card simply-border-color">
+      <mat-tab-group
+        dynamicHeight
+        color="primary"
+        (selectedTabChange)="tabChange($event)"
+        [selectedIndex]="currentTabIndex()"
+      >
+        @for (status of taskStatuses; track status) {
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <h3
+                class="task-board__label"
+                cdkDropList
+                [id]="'TAB_' + status"
+                (cdkDropListDropped)="updateTask($event, true)"
+                [cdkDropListConnectedTo]="connectedListSignal(status)()"
+              >
+                {{ status }}
+              </h3>
+            </ng-template>
+            <div
+              class="task-board__dropzone"
               cdkDropList
-              [id]="'TAB_' + status"
-              (cdkDropListDropped)="tabDrop($event)"
-              [cdkDropListConnectedTo]="currentStatus()"
+              [id]="status"
+              [cdkDropListData]="taskListSignal(status)()"
+              [cdkDropListConnectedTo]="connectedListSignal(status)()"
+              (cdkDropListDropped)="updateTask($event)"
             >
-              {{ status }}
+              @for (task of taskListSignal(status)(); track task.id) {
+                <app-task
+                  class="task-board__task"
+                  cdkDrag
+                  (editTask)="addOrEditTask($event)"
+                  [task]="task"
+                ></app-task>
+              }
             </div>
-					</ng-template>
-          <div
-            class="task-column__dropzone"
-            cdkDropList
-            [id]="status"
-            [cdkDropListData]="currentList()"
-            [cdkDropListConnectedTo]="connectedLists()"
-            (cdkDropListDropped)="updateTask($event)"
-          >
-            @for (task of currentList(); track task.id) {
-              <app-task
-                class="task-column__task"
-                cdkDrag
-                (editTask)="editTask($event)"
-                [task]="task"
-              ></app-task>
-            }
-          </div>
-				</mat-tab>
-			}
-		</mat-tab-group>
-	</div>
+          </mat-tab>
+        }
+      </mat-tab-group>
+    </div>
+
+    <button
+      mat-mini-fab
+      color="accent"
+      class="task-board__add-button"
+      (click)="addOrEditTask()"
+    >
+      <mat-icon>add</mat-icon>
+    </button>
+  } @else {
+    <div class="task-board__action-menu">
+      <button
+        mat-flat-button
+        color="accent"
+        (click)="addOrEditTask()"
+      >
+        Add task
+      </button></div>
+    <div class="task-board__three-column-container">
+    @for (status of taskStatuses; track status) {
+        <mat-card
+          cdkDropList
+          class="task-board__three-column-card simply-border-color"
+          [id]="status"
+          [cdkDropListData]="taskListSignal(status)()"
+          [cdkDropListConnectedTo]="connectedListSignal(status)()"
+          (cdkDropListDropped)="updateTask($event)"
+          (dblclick)="addOrEditTask()"
+        >
+          <h3>{{ status }}</h3>
+          @for (task of taskListSignal(status)(); track task.id) {
+            <app-task
+              class="task-board__task"
+              cdkDrag
+              (editTask)="addOrEditTask($event)"
+              [task]="task"
+            ></app-task>
+          }
+        </mat-card>
+    }
+    </div>
+  }
 </div>
 
-<button
-	mat-mini-fab
-	color="accent"
-	class="task-board__add-button"
-	(click)="editTask()"
->
-	<mat-icon>add</mat-icon>
-</button>
+
+

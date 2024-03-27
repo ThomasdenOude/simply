@@ -10,9 +10,6 @@ import {
 	OnDestroy,
 } from '@angular/core';
 
-import { MatCardModule } from '@angular/material/card';
-
-import { Task } from '../../models/task.interface';
 import {
 	fromEvent,
 	Observable,
@@ -21,6 +18,9 @@ import {
 	takeUntil,
 	timer,
 } from 'rxjs';
+import { MatCardModule } from '@angular/material/card';
+
+import { Task } from '../../models/task.interface';
 
 @Component({
 	selector: 'app-task',

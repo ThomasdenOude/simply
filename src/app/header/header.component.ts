@@ -5,9 +5,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 
+import { AuthenticationService } from '../core/services/authentication.service';
 import { LoginDialogComponent } from '../sign-in/components/login-dialog/login-dialog.component';
 import { Credentials } from '../sign-in/models/credentials.interface';
-import { AuthenticationService } from '../core/services/authentication.service';
 
 @Component({
 	selector: 'app-header',

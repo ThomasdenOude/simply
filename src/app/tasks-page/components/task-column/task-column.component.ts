@@ -16,13 +16,13 @@ import {
 	moveItemInArray,
 } from '@angular/cdk/drag-drop';
 
+import { TaskComponent } from '../task/task.component';
 import {
 	TaskStatus,
 	Task,
 	UpdateTaskIndex,
 	UpdateTaskIndexAndStatus,
 } from '../../models/task.interface';
-import { TaskComponent } from '../task/task.component';
 
 @Component({
 	selector: 'app-task-column',

@@ -24,7 +24,6 @@ export class SignInComponent {
 	private dialog: MatDialog = inject(MatDialog);
 
 	protected device: Signal<Devices> = this.responsiveService.device;
-	protected devices = Devices;
 
 	protected openSignInDialog(): void {
 		const signInDialogRef: MatDialogRef<SigninDialogComponent> =
@@ -38,4 +37,6 @@ export class SignInComponent {
 				}
 			});
 	}
+
+	protected readonly Devices = Devices;
 }

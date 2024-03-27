@@ -17,8 +17,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-import { Task } from '../../models/task.interface';
 import { TaskService } from '../../services/task.service';
+import { Task } from '../../models/task.interface';
 import {
 	CreateTask,
 	CreateTaskFormGroup,
