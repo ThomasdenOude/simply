@@ -24,7 +24,6 @@ import { MatTabChangeEvent, MatTabsModule } from '@angular/material/tabs';
 import { ResponsiveService } from '../../core/services/responsive.service';
 import { TaskService } from '../services/task.service';
 import { TaskDialogComponent } from '../components/task-dialog/task-dialog.component';
-import { TaskColumnComponent } from '../components/task-column/task-column.component';
 import { TaskComponent } from '../components/task/task.component';
 import { Task, TaskDialogData, TaskStatus } from '../models/task.interface';
 import { Devices } from '../../core/models/devices';
@@ -38,7 +37,6 @@ import { Devices } from '../../core/models/devices';
 		MatIconModule,
 		MatCardModule,
 		TaskDialogComponent,
-		TaskColumnComponent,
 		DragDropModule,
 		TaskComponent,
 		NgClass,
@@ -70,41 +68,25 @@ export class TaskManagerComponent implements OnInit {
 	}
 
 	protected connectedListSignal(status: TaskStatus): Signal<string[]> {
-		return computed(() =>
+		return computed(() => {
+			const connectedList: string[] = [];
+
 			this.taskStatuses
 				.filter(taskStatus => taskStatus !== status)
-				.map(taskStatus =>
-					this.device() === Devices.WideScreen
-						? taskStatus
-						: 'TAB_' + taskStatus
-				)
-		);
+				.forEach(taskStatus => {
+					connectedList.push(taskStatus);
+					if (this.device() !== Devices.WideScreen) {
+						connectedList.push('TAB_' + taskStatus);
+					}
+				});
+			return connectedList;
+		});
 	}
 
-	protected tabChange(currentTab: MatTabChangeEvent): void {
+	protected selectedNewTab(currentTab: MatTabChangeEvent): void {
 		if (currentTab.index !== this.currentTabIndex()) {
 			this.currentTabIndex.set(currentTab.index);
 		}
-	}
-
-	protected tabDrop(event: CdkDragDrop<Task[]>): void {
-		const previousStatus: TaskStatus = event.previousContainer.id as TaskStatus;
-		const previousList: Task[] = event.previousContainer.data;
-		const previousIndex: number = event.previousIndex;
-
-		const currentStatus: TaskStatus = event.container.id.slice(4) as TaskStatus;
-		const currentList: Task[] = this.taskListSignal(currentStatus)();
-		const currentIndex: number = 0;
-
-		transferArrayItem(previousList, currentList, previousIndex, currentIndex);
-		this.taskService.updateIndexAndStatus(
-			previousStatus,
-			previousList,
-			currentStatus,
-			currentList
-		);
-		const newIndex = this.taskStatuses.indexOf(currentStatus);
-		this.currentTabIndex.set(newIndex);
 	}
 
 	protected addOrEditTask(task?: Task) {
@@ -114,6 +96,11 @@ export class TaskManagerComponent implements OnInit {
 				data: task ?? null,
 			}
 		);
+	}
+
+	protected switchTab(status: TaskStatus): void {
+		const newIndex = this.taskStatuses.indexOf(status);
+		this.currentTabIndex.set(newIndex);
 	}
 
 	protected updateTask(event: CdkDragDrop<Task[]>, tabDrop = false): void {
@@ -140,6 +127,9 @@ export class TaskManagerComponent implements OnInit {
 				currentStatus,
 				currentList
 			);
+		}
+		if (tabDrop) {
+			this.switchTab(currentStatus);
 		}
 	}
 }

@@ -4,7 +4,7 @@
       <mat-tab-group
         dynamicHeight
         color="primary"
-        (selectedTabChange)="tabChange($event)"
+        (selectedTabChange)="selectedNewTab($event)"
         [selectedIndex]="currentTabIndex()"
       >
         @for (status of taskStatuses; track status) {
@@ -15,6 +15,7 @@
                 cdkDropList
                 [id]="'TAB_' + status"
                 (cdkDropListDropped)="updateTask($event, true)"
+                (cdkDropListEntered)="switchTab(status)"
                 [cdkDropListConnectedTo]="connectedListSignal(status)()"
               >
                 {{ status }}
@@ -84,6 +85,3 @@
     </div>
   }
 </div>
-
-
-
