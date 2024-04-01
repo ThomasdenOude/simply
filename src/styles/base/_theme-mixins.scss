@@ -10,22 +10,22 @@
 
 	$text-default: if($type ==dark, colors.$simply-off-white, $primary-dark);
 
-  .simply {
-    .simply-text-color,
-    &.mat-typography {
-      color: $text-default;
-    }
+	.simply {
+		.simply-text-color,
+		&.mat-typography {
+			color: $text-default;
+		}
 
-    .simply-border-color {
-      border-color: $text-default;
-    }
+		.simply-border-color {
+			border-color: $text-default;
+		}
 
-    .simply-primary-background {
-      background-color: $primary-default;
-    }
+		.simply-primary-background {
+			background-color: $primary-default;
+		}
 
-    .simply-accent-background {
-      background-color: $accent-default;
-    }
+		.simply-accent-background {
+			background-color: $accent-default;
+		}
 	}
 }

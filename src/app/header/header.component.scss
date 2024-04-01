@@ -6,9 +6,9 @@
 		display: flex;
 		flex-direction: row;
 		align-items: center;
-    &.large-screen {
-      padding: l.space('large');
-    }
+		&.large-screen {
+			padding: l.space('large');
+		}
 	}
 
 	&__logo {
