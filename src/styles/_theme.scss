@@ -3,11 +3,18 @@
 @use './base/colors';
 @use './base/typography';
 @use './base/theme-mixins';
+@use 'components/scrollbar';
+
+/*
+ *  1 - Set default light theme and typography for mobile
+ *  2 - Set dark theme
+ *  3 - Set typography for medium to large screens
+ */
 
 @include mat.core();
 
-/*      Light theme with typography      */
-$simply-primary: mat.define-palette(colors.$dark-blue-palette, 900);
+/*      1- Light theme with typography      */
+$simply-primary: mat.define-palette(colors.$dark-blue-palette, 800);
 $simply-accent: mat.define-palette(colors.$orange-palette, 500, 300, 600);
 $simply-warn: mat.define-palette(colors.$orange-palette, 900);
 
@@ -41,8 +48,11 @@ $simply-light-theme: mat.define-light-theme(
 body.mat-typography {
 	@include typography.text-margins;
 }
+body {
+	@include scrollbar.simply-scrollbar($simply-light-theme);
+}
 
-/*      Dark theme - only colors        */
+/*      2 - Dark theme - only colors        */
 @media (prefers-color-scheme: dark) {
 	$simply-primary-light: mat.define-palette(
 		mat.$light-blue-palette,
@@ -78,8 +88,12 @@ body.mat-typography {
 	@include mat.tooltip-color($simply-dark-theme);
 
 	@include theme-mixins.simply-custom-color($simply-dark-theme);
+	body {
+		@include scrollbar.simply-scrollbar($simply-dark-theme);
+	}
 }
 
+/*    3 - Set typography for medium to large screens    */
 @media (min-width: 960px) {
 	$simply-medium-theme: mat.define-light-theme(
 		(
