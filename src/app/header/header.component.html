@@ -1,12 +1,33 @@
-<header class="header__container">
-    <h1 class="header__logo primary-text">Simply <mat-icon color="accent">task_alt</mat-icon></h1>
-    <nav>
-        @if (isLoggedIn()) {
-        <button mat-stroked-button color="primary" class="header__nav-button" (click)="logout()">logout<mat-icon
-                iconPositionEnd>logout</mat-icon></button>
-        } @else {
-        <button mat-flat-button color="primary" class="header__nav-button"
-            (click)="openLoginDialog()"><mat-icon>login</mat-icon>login</button>
-        }
-    </nav>
+<header
+	class="header__container"
+	[ngClass]="{
+		'large-screen':
+			device() === Devices.Small || device() === Devices.WideScreen
+	}"
+>
+	@if (!isLoggedIn()) {
+		<h1 class="header__logo primary-text">Simply</h1>
+	}
+	<mat-icon class="header__icon" color="accent">task_alt</mat-icon>
+	<nav class="header__nav">
+		@if (isLoggedIn()) {
+			<button
+				mat-icon-button
+				color="primary"
+				class="header__nav-button"
+				(click)="logout()"
+			>
+				<mat-icon iconPositionEnd>logout</mat-icon>
+			</button>
+		} @else {
+			<button
+				mat-flat-button
+				color="primary"
+				class="header__nav-button"
+				(click)="openLoginDialog()"
+			>
+				<mat-icon>login</mat-icon>login
+			</button>
+		}
+	</nav>
 </header>

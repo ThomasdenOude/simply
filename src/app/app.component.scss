@@ -1,7 +1,6 @@
-mat-toolbar {
-    margin-bottom: 20px;
-}
-
-mat-toolbar>span {
-    margin-left: 10px;
+:host {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	height: 100%;
 }

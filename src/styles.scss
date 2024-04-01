@@ -1,2 +1,5 @@
 @use './styles/base/reset';
 @use './styles/theme';
+@use './styles/components/dialog';
+
+@include dialog.simply-dialog;

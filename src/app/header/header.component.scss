@@ -1,12 +1,21 @@
-.header {
-    &__container {
-        padding: 32px;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-    }
+@use '../../styles/base/layout' as l;
 
-    &____nav-button {
-        margin-left: 32px;
-    }
+.header {
+	&__container {
+		padding: l.space('regular');
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		&.large-screen {
+			padding: l.space('large');
+		}
+	}
+
+	&__logo {
+		margin-right: l.space('extra-small');
+	}
+
+	&__icon {
+		flex: auto;
+	}
 }

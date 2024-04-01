@@ -1,0 +1,23 @@
+/.angular
+/.firebase
+/deploy
+/node_modules
+
+# configuration files
+.editorconfig
+.firebaserc
+.gitignore
+.prettierignore
+.prettierrc
+.tool-versions
+tsconfig.json
+tsconfig.spec.json
+tsconfig.app.json
+angular.json
+firebase.json
+package.json
+package-lock.json
+flavicon.ico
+README.md
+
+

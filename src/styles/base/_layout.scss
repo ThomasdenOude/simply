@@ -1,0 +1,19 @@
+@use 'sass:map';
+
+$simply-margins: (
+	'extra-small': 4px,
+	'small': 8px,
+	'regular': 16px,
+	'large': 32px,
+	'extra-large': 64px,
+);
+
+@function space($margin: 'regular') {
+	$temp: map.get($simply-margins, $margin);
+
+	@if $temp {
+		@return $temp;
+	} @else {
+		@return map.get($simply-margins, 'regular');
+	}
+}
