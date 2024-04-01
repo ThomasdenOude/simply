@@ -1,4 +1,4 @@
-<div class="task-board__container">
+<div class="task-board__container" [ngClass]="{'large-screen': device() === Devices.Small || device() === Devices.WideScreen }">
   @if (device() !== Devices.WideScreen) {
     <div class="task-board__one-column-card simply-border-color">
       <mat-tab-group
@@ -24,6 +24,7 @@
             <div
               class="task-board__dropzone"
               cdkDropList
+              [ngClass]="{'large-screen': device() === Devices.Small || device() === Devices.WideScreen }"
               [id]="status"
               [cdkDropListData]="taskListSignal(status)()"
               [cdkDropListConnectedTo]="connectedListSignal(status)()"
@@ -47,6 +48,7 @@
       mat-mini-fab
       color="accent"
       class="task-board__add-button"
+      [ngClass]="{'large-screen': device() === Devices.Small || device() === Devices.WideScreen }"
       (click)="addOrEditTask()"
     >
       <mat-icon>add</mat-icon>

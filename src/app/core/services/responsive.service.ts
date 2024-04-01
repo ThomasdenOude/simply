@@ -9,6 +9,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { Observable } from 'rxjs';
 
 import { Devices } from '../models/devices';
+import { B } from '@angular/cdk/keycodes';
 
 @Injectable({
 	providedIn: 'root',
@@ -18,6 +19,7 @@ export class ResponsiveService {
 	private breakpointState$: Observable<BreakpointState> =
 		this.breakpointObserver.observe([
 			Breakpoints.HandsetLandscape,
+			Breakpoints.Small,
 			Breakpoints.Medium,
 			Breakpoints.Large,
 			Breakpoints.XLarge,
@@ -31,6 +33,12 @@ export class ResponsiveService {
 			this.breakpointState()?.breakpoints ?? {};
 		if (breakpoints[Breakpoints.HandsetLandscape]) {
 			return Devices.HandsetLandscape;
+		}
+		if (
+			breakpoints[Breakpoints.Small] &&
+			!breakpoints[Breakpoints.HandsetLandscape]
+		) {
+			return Devices.Small;
 		}
 		if (
 			breakpoints[Breakpoints.Medium] ||

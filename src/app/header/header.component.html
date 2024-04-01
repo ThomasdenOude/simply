@@ -1,4 +1,7 @@
-<header class="header__container">
+<header
+  class="header__container"
+  [ngClass]="{'large-screen': device() === Devices.Small || device() === Devices.WideScreen }"
+>
 	@if (!isLoggedIn()) {
 		<h1 class="header__logo primary-text">Simply</h1>
 	}
