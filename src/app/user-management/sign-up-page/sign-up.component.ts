@@ -8,7 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { ResponsiveService } from '../../core/services/responsive.service';
 import { AuthenticationService } from '../../core/services/authentication.service';
 import { SignUpDialogComponent } from '../components/sign-up-dialog/sign-up-dialog.component';
-import { Credentials } from '../models/credentials.interface';
+import { Credentials } from '../models/credentials.model';
 import { Devices } from '../../core/models/devices';
 
 @Component({

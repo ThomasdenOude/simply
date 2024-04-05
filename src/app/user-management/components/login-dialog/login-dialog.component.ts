@@ -11,7 +11,7 @@ import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 
-import { Credentials } from '../../models/credentials.interface';
+import { Credentials } from '../../models/credentials.model';
 
 @Component({
 	selector: 'app-login-dialog',

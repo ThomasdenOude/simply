@@ -1,4 +1,4 @@
-<form [formGroup]="signInForm" (ngSubmit)="signIn()" class="simply-dialog">
+<form [formGroup]="signUpForm" (ngSubmit)="signUp()" class="simply-dialog">
 	<h3 mat-dialog-title>
 		Sign up to Simply <mat-icon color="accent">task_alt</mat-icon>
 	</h3>
@@ -7,23 +7,19 @@
 		<mat-form-field appearance="outline">
 			<mat-label>Email</mat-label>
 			<input type="text" matInput formControlName="email" />
-			@if (signInForm.get('email')?.hasError('required')) {
+			@if (signUpForm.get('email')?.hasError('required')) {
 				<mat-error>You have to fill in your email</mat-error>
 			}
-			@if (signInForm.get('email')?.hasError('email')) {
+			@if (signUpForm.get('email')?.hasError('email')) {
 				<mat-error>You have to provide a valid email </mat-error>
 			}
 		</mat-form-field>
 
-		<mat-form-field appearance="outline">
-			<mat-label>Password</mat-label>
-			<input type="password" matInput formControlName="password" />
-		</mat-form-field>
-
-		<mat-form-field appearance="outline">
-			<mat-label>Repeat password</mat-label>
-			<input type="password" matInput formControlName="repeatPassword" />
-		</mat-form-field>
+		<app-new-password-form-field
+			formControlName="password"
+			[markAsTouched]="invalidSubmit()"
+			(isSubmitted)="signUp()"
+		></app-new-password-form-field>
 	</mat-dialog-content>
 
 	<mat-dialog-actions align="end">
