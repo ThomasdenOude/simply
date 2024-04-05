@@ -4,6 +4,7 @@ import {
 	FormGroup,
 	FormsModule,
 	ReactiveFormsModule,
+	Validators,
 } from '@angular/forms';
 
 import { MatButtonModule } from '@angular/material/button';
@@ -12,9 +13,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 
 import { Credentials } from '../../models/credentials.interface';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
-	selector: 'app-signin-dialog',
+	selector: 'app-sign-up-dialog',
 	standalone: true,
 	imports: [
 		FormsModule,
@@ -23,17 +25,18 @@ import { Credentials } from '../../models/credentials.interface';
 		MatFormFieldModule,
 		MatButtonModule,
 		MatInputModule,
+		MatIconModule,
 	],
-	templateUrl: './signin-dialog.component.html',
-	styleUrl: './signin-dialog.component.scss',
+	templateUrl: './sign-up-dialog.component.html',
+	styleUrl: './sign-up-dialog.component.scss',
 })
-export class SigninDialogComponent {
-	private matDialogRef: MatDialogRef<SigninDialogComponent> = inject(
-		MatDialogRef<SigninDialogComponent>
+export class SignUpDialogComponent {
+	private matDialogRef: MatDialogRef<SignUpDialogComponent> = inject(
+		MatDialogRef<SignUpDialogComponent>
 	);
 
 	protected signInForm: FormGroup = new FormGroup({
-		email: new FormControl(''),
+		email: new FormControl('', [Validators.required, Validators.email]),
 		password: new FormControl(''),
 		repeatPassword: new FormControl(''),
 	});

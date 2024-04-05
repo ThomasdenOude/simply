@@ -7,8 +7,8 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { ResponsiveService } from '../core/services/responsive.service';
 import { AuthenticationService } from '../core/services/authentication.service';
-import { LoginDialogComponent } from '../sign-in/components/login-dialog/login-dialog.component';
-import { Credentials } from '../sign-in/models/credentials.interface';
+import { LoginDialogComponent } from '../user-management/components/login-dialog/login-dialog.component';
+import { Credentials } from '../user-management/models/credentials.interface';
 import { Devices } from '../core/models/devices';
 
 @Component({

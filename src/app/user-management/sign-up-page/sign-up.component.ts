@@ -7,18 +7,18 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { ResponsiveService } from '../../core/services/responsive.service';
 import { AuthenticationService } from '../../core/services/authentication.service';
-import { SigninDialogComponent } from '../components/signin-dialog/signin-dialog.component';
+import { SignUpDialogComponent } from '../components/sign-up-dialog/sign-up-dialog.component';
 import { Credentials } from '../models/credentials.interface';
 import { Devices } from '../../core/models/devices';
 
 @Component({
-	selector: 'app-sign-in',
+	selector: 'app-user-management',
 	standalone: true,
-	imports: [MatButtonModule, MatIconModule, SigninDialogComponent, NgClass],
-	templateUrl: './sign-in.component.html',
-	styleUrl: './sign-in.component.scss',
+	imports: [MatButtonModule, MatIconModule, SignUpDialogComponent, NgClass],
+	templateUrl: './sign-up.component.html',
+	styleUrl: './sign-up.component.scss',
 })
-export class SignInComponent {
+export class SignUpComponent {
 	private authService: AuthenticationService = inject(AuthenticationService);
 	private responsiveService: ResponsiveService = inject(ResponsiveService);
 	private dialog: MatDialog = inject(MatDialog);
@@ -26,8 +26,8 @@ export class SignInComponent {
 	protected device: Signal<Devices> = this.responsiveService.device;
 
 	protected openSignInDialog(): void {
-		const signInDialogRef: MatDialogRef<SigninDialogComponent> =
-			this.dialog.open(SigninDialogComponent);
+		const signInDialogRef: MatDialogRef<SignUpDialogComponent> =
+			this.dialog.open(SignUpDialogComponent);
 
 		signInDialogRef
 			.afterClosed()

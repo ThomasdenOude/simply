@@ -7,21 +7,17 @@ import {
 } from '@angular/fire/auth-guard';
 
 import { TaskManagerComponent } from './tasks-page/task-manager/task-manager.component';
-import { SignInComponent } from './sign-in/sign-in-page/sign-in.component';
+import { SignUpComponent } from './user-management/sign-up-page/sign-up.component';
 
-const redirectUnauthorizedToSignIn = () => redirectUnauthorizedTo(['sign-in']);
+const redirectUnauthorizedToSignIn = () =>
+	redirectUnauthorizedTo(['user-management']);
 const redirectLoggedInToTaskManager = () =>
 	redirectLoggedInTo(['task-manager']);
 
 export const routes: Routes = [
 	{
 		path: '',
-		redirectTo: '/sign-in',
-		pathMatch: 'full',
-	},
-	{
-		path: 'sign-in',
-		component: SignInComponent,
+		component: SignUpComponent,
 		canActivate: [AuthGuard],
 		data: { authGuardPipe: redirectLoggedInToTaskManager },
 	},
@@ -33,5 +29,9 @@ export const routes: Routes = [
 			),
 		canActivate: [AuthGuard],
 		data: { authGuardPipe: redirectUnauthorizedToSignIn },
+	},
+	{
+		path: '**',
+		redirectTo: '',
 	},
 ];
