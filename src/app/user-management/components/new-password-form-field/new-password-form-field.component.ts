@@ -9,6 +9,7 @@ import {
 	ViewChild,
 	ElementRef,
 	AfterViewInit,
+	OnInit,
 } from '@angular/core';
 import {
 	ControlValueAccessor,
@@ -23,7 +24,7 @@ import {
 } from '@angular/forms';
 
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
+import { MatInput, MatInputModule } from '@angular/material/input';
 import { filter, fromEvent, Subject, takeUntil } from 'rxjs';
 
 import { matchingPasswordsValidator } from './new-password-validator/matching-passwords-validator';
@@ -57,7 +58,7 @@ import {
 	],
 })
 export class NewPasswordFormFieldComponent
-	implements OnDestroy, AfterViewInit, ControlValueAccessor
+	implements OnInit, AfterViewInit, OnDestroy, ControlValueAccessor
 {
 	private destroy: Subject<void> = new Subject<void>();
 	private _onChange: ((password: string) => void) | undefined;
@@ -71,6 +72,8 @@ export class NewPasswordFormFieldComponent
 	public markAsTouched = input<boolean>(false);
 	@ViewChild('form', { read: ElementRef })
 	private form: ElementRef | undefined;
+	@ViewChild('newPasswordInput', { read: MatInput, static: true })
+	private newPasswordInput: MatInput | undefined;
 	@Output()
 	public isSubmitted = new EventEmitter<void>();
 
@@ -94,6 +97,10 @@ export class NewPasswordFormFieldComponent
 				repeat?.markAsTouched();
 			}
 		});
+	}
+
+	ngOnInit() {
+		this.newPasswordInput?.focus();
 	}
 
 	ngAfterViewInit() {

@@ -11,7 +11,7 @@ import {
 import { connectAuthEmulator, getAuth, provideAuth } from '@angular/fire/auth';
 
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
-
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { environment } from '../environments/environment';
 import { routes } from './app.routes';
 
@@ -49,6 +49,14 @@ export const appConfig: ApplicationConfig = {
 				disableClose: true,
 				width: '600px',
 				autoFocus: true,
+			},
+		},
+		{
+			provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
+			useValue: {
+				appearance: 'outline',
+				color: 'primary',
+				hideRequiredMarker: true,
 			},
 		},
 	],

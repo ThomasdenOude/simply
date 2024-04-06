@@ -17,3 +17,23 @@ $simply-margins: (
 		@return map.get($simply-margins, 'regular');
 	}
 }
+
+@mixin page-container {
+	:host {
+		flex: 1 1 auto;
+		position: relative;
+	}
+	.page {
+		&__container {
+			position: relative;
+			top: 20%;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			padding: 0 space();
+		}
+		&__container.is-phone-landscape {
+			top: 5%;
+		}
+	}
+}

@@ -1,14 +1,17 @@
 <div
-	class="sign-in__container"
-	[ngClass]="{ 'is-phone-landscape': device() === Devices.HandsetLandscape }"
+	class="page__container"
+	[ngClass]="{
+		'is-phone-landscape': device() === Devices.HandsetLandscape,
+		'is-wide-screen': device() === Devices.WideScreen
+	}"
 >
-	<div class="sign-in__content">
+	<div class="page__content test">
 		<h2 class="mat-headline-1">Simply</h2>
 		<p class="mat-headline-2">
 			Get things done.<br />Focus on what mattters most.<br />Clear your mind
 			and work on your goals
 		</p>
-		<button mat-flat-button color="accent" (click)="openSignInDialog()">
+		<button mat-flat-button color="accent" routerLink="/sign-up">
 			Sign up
 			<mat-icon iconPositionEnd>task_alt</mat-icon>
 		</button>
