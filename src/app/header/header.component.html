@@ -19,14 +19,14 @@
 			>
 				<mat-icon iconPositionEnd>logout</mat-icon>
 			</button>
-		} @else {
+		} @else if (!isOnLoginPage()) {
 			<button
 				mat-flat-button
 				color="primary"
 				class="header__nav-button"
-				(click)="openLoginDialog()"
+				routerLink="/log-in"
 			>
-				<mat-icon>login</mat-icon>login
+				<mat-icon>login</mat-icon>Log in
 			</button>
 		}
 	</nav>

@@ -9,6 +9,7 @@ import {
 import { TaskManagerComponent } from './tasks-page/task-manager/task-manager.component';
 import { WelcomeComponent } from './user-management/welcome/welcome.component';
 import { SignUpComponent } from './user-management/components/sign-up/sign-up.component';
+import { LoginComponent } from './user-management/components/login/login.component';
 
 const redirectUnauthorizedToSignIn = () =>
 	redirectUnauthorizedTo(['user-management']);
@@ -24,6 +25,12 @@ export const routes: Routes = [
 	{
 		path: 'sign-up',
 		component: SignUpComponent,
+		canActivate: [AuthGuard],
+		data: { authGuardPipe: redirectLoggedInToTaskBoard },
+	},
+	{
+		path: 'log-in',
+		component: LoginComponent,
 		canActivate: [AuthGuard],
 		data: { authGuardPipe: redirectLoggedInToTaskBoard },
 	},

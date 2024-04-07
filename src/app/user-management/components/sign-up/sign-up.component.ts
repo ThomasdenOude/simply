@@ -12,20 +12,20 @@ import {
 	ReactiveFormsModule,
 	Validators,
 } from '@angular/forms';
+import { NgClass } from '@angular/common';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-
-import { MatIconModule } from '@angular/material/icon';
-import { NewPasswordFormFieldComponent } from '../new-password-form-field/new-password-form-field.component';
-import { SignUp, SignUpForm } from '../../models/sign-up-form.model';
-import { AuthenticationService } from '../../../core/services/authentication.service';
-import { NgClass } from '@angular/common';
-import { ResponsiveService } from '../../../core/services/responsive.service';
-import { Devices } from '../../../core/models/devices';
 import { MatDivider } from '@angular/material/divider';
+import { MatIconModule } from '@angular/material/icon';
+
+import { AuthenticationService } from '../../../core/services/authentication.service';
+import { ResponsiveService } from '../../../core/services/responsive.service';
+import { NewPasswordFormFieldComponent } from '../new-password-form-field/new-password-form-field.component';
+import { Credentials, CredentialsForm } from '../../models/credentials.model';
+import { Devices } from '../../../core/models/devices';
 
 @Component({
 	selector: 'app-sign-up',
@@ -55,7 +55,7 @@ export class SignUpComponent {
 	protected continue: WritableSignal<boolean> = signal(false);
 	protected invalidSubmit: WritableSignal<boolean> = signal(false);
 
-	protected signUpForm: FormGroup<SignUpForm> = new FormGroup({
+	protected signUpForm: FormGroup<CredentialsForm> = new FormGroup({
 		email: new FormControl('', [Validators.required, Validators.email]),
 		password: new FormControl(''),
 	});
@@ -69,7 +69,7 @@ export class SignUpComponent {
 
 	protected signUp(): void {
 		if (this.signUpForm.valid) {
-			const form: Partial<SignUp> = this.signUpForm.value;
+			const form: Partial<Credentials> = this.signUpForm.value;
 			const email = form.email;
 			const password = form.password;
 			if (email && password) {

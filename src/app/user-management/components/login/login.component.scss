@@ -1,0 +1,7 @@
+@use '../../../../styles/base/layout';
+
+@include layout.page-container;
+
+.login__button {
+	width: 100%;
+}
