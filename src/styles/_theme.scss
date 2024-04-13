@@ -16,7 +16,7 @@
 /*      1- Light theme with typography      */
 $simply-primary: mat.define-palette(colors.$dark-blue-palette, 800);
 $simply-accent: mat.define-palette(colors.$orange-palette, 500, 300, 600);
-$simply-warn: mat.define-palette(colors.$orange-palette, 900);
+$simply-warn: mat.define-palette(colors.$green-palette, 600);
 
 $simply-light-theme: mat.define-light-theme(
 	(
@@ -66,12 +66,13 @@ body {
 		300,
 		600
 	);
+	$simply-warn-light: mat.define-palette(colors.$green-palette, 300, 200, 700);
 	$simply-dark-theme: mat.define-dark-theme(
 		(
 			color: (
 				primary: $simply-primary-light,
 				accent: $simply-accent-light,
-				warn: $simply-warn,
+				warn: $simply-warn-light,
 			),
 		)
 	);

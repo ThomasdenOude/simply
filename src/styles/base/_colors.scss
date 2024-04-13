@@ -66,3 +66,28 @@ $orange-palette: (
 		900: $simply-dark-blue-grey,
 	),
 );
+
+$green-palette: (
+	50: #e3f7ed,
+	100: #bbead2,
+	200: #8cddb5,
+	300: #52d097,
+	400: #00c581,
+	500: #00ba6b,
+	600: #00aa60,
+	700: #009753,
+	800: #008647,
+	900: #006631,
+	contrast: (
+		50: $simply-dark-blue-grey,
+		100: $simply-dark-blue-grey,
+		200: $simply-dark-blue-grey,
+		300: $simply-dark-blue-grey,
+		400: $simply-off-white,
+		500: $simply-off-white,
+		600: $simply-off-white,
+		700: $simply-off-white,
+		800: $simply-off-white,
+		900: $simply-off-white,
+	),
+);
