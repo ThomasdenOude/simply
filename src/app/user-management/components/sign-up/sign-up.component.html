@@ -10,6 +10,7 @@
 		@if (authenticationError() !== AuthenticationErrors.None) {
 			<app-error-message
 				[errorMessage]="authenticationError()"
+				[form]="signUpForm"
 				(resetError)="resetError()"
 			></app-error-message>
 		}

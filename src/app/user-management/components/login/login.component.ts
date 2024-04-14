@@ -16,10 +16,10 @@ import { MatIcon } from '@angular/material/icon';
 
 import { AuthenticationService } from '../../../base/services/authentication.service';
 import { ResponsiveService } from '../../../base/services/responsive.service';
+import { ErrorMessageComponent } from '../../../base/components/error-message/error-message.component';
 import { Credentials, CredentialsForm } from '../../models/credentials.model';
 import { Devices } from '../../../base/models/devices';
 import { AuthenticationErrors } from '../../../base/models/authentication-errors';
-import { ErrorMessageComponent } from '../../../base/components/error-message/error-message.component';
 
 @Component({
 	selector: 'app-login',
@@ -53,6 +53,10 @@ export class LoginComponent {
 		email: new FormControl('', [Validators.required, Validators.email]),
 		password: new FormControl('', [Validators.required]),
 	});
+
+	constructor() {
+		this.authService.resetAuthenticationError();
+	}
 
 	protected login(): void {
 		if (this.loginForm.valid) {

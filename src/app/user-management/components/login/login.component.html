@@ -8,6 +8,7 @@
 		@if (authenticationError() !== AuthenticationErrors.None) {
 			<app-error-message
 				[errorMessage]="authenticationError()"
+				[form]="loginForm"
 				(resetError)="resetError()"
 			></app-error-message>
 		}

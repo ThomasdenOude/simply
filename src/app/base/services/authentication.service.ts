@@ -18,6 +18,7 @@ import {
 	User,
 } from '@angular/fire/auth';
 import { FirebaseError } from '@firebase/util';
+
 import {
 	authenticationErrorMap,
 	AuthenticationErrors,
@@ -71,7 +72,6 @@ export class AuthenticationService {
 				this.router.navigate(['/task-manager']);
 			})
 			.catch((error: FirebaseError) => {
-				console.log(error);
 				this.setAuthenticationError(error);
 			});
 	}

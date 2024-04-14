@@ -24,9 +24,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { AuthenticationService } from '../../../base/services/authentication.service';
 import { ResponsiveService } from '../../../base/services/responsive.service';
 import { NewPasswordFormFieldComponent } from '../new-password-form-field/new-password-form-field.component';
+import { ErrorMessageComponent } from '../../../base/components/error-message/error-message.component';
 import { Credentials, CredentialsForm } from '../../models/credentials.model';
 import { Devices } from '../../../base/models/devices';
-import { ErrorMessageComponent } from '../../../base/components/error-message/error-message.component';
 import { AuthenticationErrors } from '../../../base/models/authentication-errors';
 
 @Component({
@@ -66,6 +66,9 @@ export class SignUpComponent {
 		password: new FormControl(''),
 	});
 
+	constructor() {
+		this.authService.resetAuthenticationError();
+	}
 	protected setContinue(): void {
 		const email = this.signUpForm.get('email');
 		if (email?.valid) {
