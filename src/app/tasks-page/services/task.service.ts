@@ -14,12 +14,7 @@ import {
 import { User } from '@angular/fire/auth';
 
 import { AuthenticationService } from '../../base/services/authentication.service';
-import {
-	CreateTask,
-	Task,
-	TaskDto,
-	TaskStatus,
-} from '../models/task.interface';
+import { CreateTask, Task, TaskDto, TaskStatus } from '../models/task.model';
 
 @Injectable({
 	providedIn: 'root',

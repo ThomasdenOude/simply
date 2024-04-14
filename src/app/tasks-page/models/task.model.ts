@@ -1,18 +1,18 @@
 import { FormControl, FormGroup } from '@angular/forms';
 
-export interface Task extends TaskDto {
+export type Task = TaskDto & {
 	id: string;
-}
+};
 
-export interface TaskDto extends CreateTask {
+export type TaskDto = CreateTask & {
 	index: number;
-}
+};
 
-export interface CreateTask {
+export type CreateTask = {
 	title: string;
 	description: string;
 	status: TaskStatus;
-}
+};
 
 export type CreateTaskFormGroup = FormGroup<{
 	[Key in keyof CreateTask]: FormControl<CreateTask[Key] | null>;
@@ -26,12 +26,12 @@ export enum TaskStatus {
 	Done = 'DONE',
 }
 
-export interface UpdateTaskIndex {
+export type UpdateTaskIndex = {
 	currentStatus: TaskStatus;
 	currentList: Task[];
-}
+};
 
-export interface UpdateTaskIndexAndStatus extends UpdateTaskIndex {
+export type UpdateTaskIndexAndStatus = UpdateTaskIndex & {
 	previousStatus: TaskStatus;
 	previousList: Task[];
-}
+};

@@ -18,13 +18,13 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { TaskService } from '../../services/task.service';
-import { Task } from '../../models/task.interface';
+import { Task } from '../../models/task.model';
 import {
 	CreateTask,
 	CreateTaskFormGroup,
 	TaskDialogData,
 	TaskStatus,
-} from '../../models/task.interface';
+} from '../../models/task.model';
 
 @Component({
 	selector: 'app-task-dialog',

@@ -20,7 +20,7 @@ import {
 } from 'rxjs';
 import { MatCardModule } from '@angular/material/card';
 
-import { Task } from '../../models/task.interface';
+import { Task } from '../../models/task.model';
 
 @Component({
 	selector: 'app-task',

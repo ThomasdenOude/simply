@@ -25,7 +25,7 @@ import { ResponsiveService } from '../../base/services/responsive.service';
 import { TaskService } from '../services/task.service';
 import { TaskDialogComponent } from '../components/task-dialog/task-dialog.component';
 import { TaskComponent } from '../components/task/task.component';
-import { Task, TaskDialogData, TaskStatus } from '../models/task.interface';
+import { Task, TaskDialogData, TaskStatus } from '../models/task.model';
 import { Devices } from '../../base/models/devices';
 
 @Component({
