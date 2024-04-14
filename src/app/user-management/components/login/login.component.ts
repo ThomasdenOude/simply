@@ -14,10 +14,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIcon } from '@angular/material/icon';
 
-import { AuthenticationService } from '../../../core/services/authentication.service';
-import { ResponsiveService } from '../../../core/services/responsive.service';
+import { AuthenticationService } from '../../../base/services/authentication.service';
+import { ResponsiveService } from '../../../base/services/responsive.service';
 import { Credentials, CredentialsForm } from '../../models/credentials.model';
-import { Devices } from '../../../core/models/devices';
+import { Devices } from '../../../base/models/devices';
+import { AuthenticationErrors } from '../../../base/models/authentication-errors';
+import { ErrorMessageComponent } from '../../../base/components/error-message/error-message.component';
 
 @Component({
 	selector: 'app-login',
@@ -31,6 +33,7 @@ import { Devices } from '../../../core/models/devices';
 		ReactiveFormsModule,
 		NgClass,
 		MatIcon,
+		ErrorMessageComponent,
 	],
 	templateUrl: './login.component.html',
 	styleUrl: './login.component.scss',
@@ -38,6 +41,10 @@ import { Devices } from '../../../core/models/devices';
 export class LoginComponent {
 	private authService: AuthenticationService = inject(AuthenticationService);
 	private responsiveService: ResponsiveService = inject(ResponsiveService);
+
+	protected readonly AuthenticationErrors = AuthenticationErrors;
+	protected authenticationError: Signal<AuthenticationErrors> =
+		this.authService.authenticationError;
 
 	protected device: Signal<Devices> = this.responsiveService.device;
 	protected readonly Devices = Devices;
@@ -57,5 +64,9 @@ export class LoginComponent {
 				this.authService.login(email, password);
 			}
 		}
+	}
+
+	protected resetError() {
+		this.authService.resetAuthenticationError();
 	}
 }

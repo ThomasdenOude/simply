@@ -65,7 +65,10 @@ export class NewPasswordFormFieldComponent
 	private _onTouched: (() => void) | undefined;
 
 	protected newPasswordForm: FormGroup<NewPasswordForm> = new FormGroup({
-		newPassword: new FormControl('', [Validators.required]),
+		newPassword: new FormControl('', [
+			Validators.required,
+			Validators.minLength(8),
+		]),
 		repeatPassword: new FormControl('', [Validators.required]),
 	});
 

@@ -4,6 +4,7 @@
 @use './base/typography';
 @use './base/theme-mixins';
 @use 'components/scrollbar';
+@use 'components/error-message' as error;
 
 /*
  *  1 - Set default light theme and typography for mobile
@@ -51,6 +52,7 @@ body.mat-typography {
 body {
 	@include scrollbar.simply-scrollbar($simply-light-theme);
 }
+@include error.color($simply-light-theme);
 
 /*      2 - Dark theme - only colors        */
 @media (prefers-color-scheme: dark) {
@@ -92,6 +94,7 @@ body {
 	body {
 		@include scrollbar.simply-scrollbar($simply-dark-theme);
 	}
+	@include error.color($simply-dark-theme);
 }
 
 /*    3 - Set typography for medium to large screens    */

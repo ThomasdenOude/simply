@@ -21,11 +21,13 @@ import { MatInputModule } from '@angular/material/input';
 import { MatDivider } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 
-import { AuthenticationService } from '../../../core/services/authentication.service';
-import { ResponsiveService } from '../../../core/services/responsive.service';
+import { AuthenticationService } from '../../../base/services/authentication.service';
+import { ResponsiveService } from '../../../base/services/responsive.service';
 import { NewPasswordFormFieldComponent } from '../new-password-form-field/new-password-form-field.component';
 import { Credentials, CredentialsForm } from '../../models/credentials.model';
-import { Devices } from '../../../core/models/devices';
+import { Devices } from '../../../base/models/devices';
+import { ErrorMessageComponent } from '../../../base/components/error-message/error-message.component';
+import { AuthenticationErrors } from '../../../base/models/authentication-errors';
 
 @Component({
 	selector: 'app-sign-up',
@@ -41,6 +43,7 @@ import { Devices } from '../../../core/models/devices';
 		NewPasswordFormFieldComponent,
 		NgClass,
 		MatDivider,
+		ErrorMessageComponent,
 	],
 	templateUrl: './sign-up.component.html',
 	styleUrl: './sign-up.component.scss',
@@ -49,6 +52,9 @@ export class SignUpComponent {
 	private authService: AuthenticationService = inject(AuthenticationService);
 	private responsiveService: ResponsiveService = inject(ResponsiveService);
 
+	protected readonly AuthenticationErrors = AuthenticationErrors;
+	protected authenticationError: Signal<AuthenticationErrors> =
+		this.authService.authenticationError;
 	protected device: Signal<Devices> = this.responsiveService.device;
 	protected readonly Devices = Devices;
 
@@ -80,5 +86,9 @@ export class SignUpComponent {
 			this.invalidSubmit.update(() => true);
 		}
 		this.setContinue();
+	}
+
+	protected resetError() {
+		this.authService.resetAuthenticationError();
 	}
 }

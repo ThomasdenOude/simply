@@ -4,8 +4,8 @@ import { NgClass } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
-import { ResponsiveService } from '../../core/services/responsive.service';
-import { Devices } from '../../core/models/devices';
+import { ResponsiveService } from '../../base/services/responsive.service';
+import { Devices } from '../../base/models/devices';
 import { RouterLink } from '@angular/router';
 
 @Component({

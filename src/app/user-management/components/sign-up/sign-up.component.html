@@ -7,6 +7,13 @@
 			Sign up to Simply <mat-icon color="accent">task_alt</mat-icon>
 		</h3>
 
+		@if (authenticationError() !== AuthenticationErrors.None) {
+			<app-error-message
+				[errorMessage]="authenticationError()"
+				(resetError)="resetError()"
+			></app-error-message>
+		}
+
 		<mat-form-field>
 			<mat-label>Email</mat-label>
 			<input type="text" matInput formControlName="email" />

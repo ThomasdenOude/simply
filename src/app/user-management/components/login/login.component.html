@@ -5,6 +5,12 @@
 	<form class="page__content" [formGroup]="loginForm" (ngSubmit)="login()">
 		<h3>Log in to Simply <mat-icon color="accent">task_alt</mat-icon></h3>
 
+		@if (authenticationError() !== AuthenticationErrors.None) {
+			<app-error-message
+				[errorMessage]="authenticationError()"
+				(resetError)="resetError()"
+			></app-error-message>
+		}
 		<mat-form-field appearance="outline">
 			<mat-label>Email</mat-label>
 			<input type="text" matInput formControlName="email" />

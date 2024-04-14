@@ -5,9 +5,9 @@ import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
-import { ResponsiveService } from '../core/services/responsive.service';
-import { AuthenticationService } from '../core/services/authentication.service';
-import { Devices } from '../core/models/devices';
+import { ResponsiveService } from '../base/services/responsive.service';
+import { AuthenticationService } from '../base/services/authentication.service';
+import { Devices } from '../base/models/devices';
 import { filter, map } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 

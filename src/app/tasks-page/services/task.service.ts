@@ -13,7 +13,7 @@ import {
 } from '@angular/fire/firestore';
 import { User } from '@angular/fire/auth';
 
-import { AuthenticationService } from '../../core/services/authentication.service';
+import { AuthenticationService } from '../../base/services/authentication.service';
 import {
 	CreateTask,
 	Task,
