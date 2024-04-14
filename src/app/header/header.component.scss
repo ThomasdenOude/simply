@@ -4,7 +4,7 @@
 	&__container {
 		padding: l.space('regular');
 		display: flex;
-		flex-direction: row;
+		justify-content: space-between;
 		align-items: center;
 		&.large-screen {
 			padding: l.space('large');
