@@ -1,0 +1,36 @@
+<div
+	class="page__container"
+	[ngClass]="{ 'is-phone-landscape': device() === Devices.HandsetLandscape }"
+>
+	<div class="page__content">
+		<h3 class="page__text"><mat-icon>settings</mat-icon> Settings</h3>
+		<p class="page__text">Email: {{ userEmail() }}</p>
+		<button
+			mat-stroked-button
+			(click)="logout()"
+			color="primary"
+			class="settings-menu__button"
+		>
+			<span>Log out</span>
+			<mat-icon>logout</mat-icon>
+		</button>
+		<mat-divider></mat-divider>
+		<p class="page__text"><mat-icon>security</mat-icon> Security settings</p>
+		<button mat-stroked-button color="primary">
+			<mat-icon>password</mat-icon>Change password
+		</button>
+		<mat-divider></mat-divider>
+		@if (authenticationMessage() === AuthenticationMessages.FailedDeleteUser) {
+			<app-error-message
+				[errorMessage]="AuthenticationMessages.FailedDeleteUser"
+			></app-error-message>
+		}
+		<button
+			mat-stroked-button
+			color="primary"
+			(click)="openRemoveAccountDialog()"
+		>
+			<mat-icon>delete</mat-icon> Remove account
+		</button>
+	</div>
+</div>

@@ -11,8 +11,7 @@ import { WelcomeComponent } from './user-management/welcome/welcome.component';
 import { SignUpComponent } from './user-management/components/sign-up/sign-up.component';
 import { LoginComponent } from './user-management/components/login/login.component';
 
-const redirectUnauthorizedToSignIn = () =>
-	redirectUnauthorizedTo(['user-management']);
+const redirectUnauthorizedToSignUp = () => redirectUnauthorizedTo(['']);
 const redirectLoggedInToTaskBoard = () => redirectLoggedInTo(['task-board']);
 
 export const routes: Routes = [
@@ -41,7 +40,16 @@ export const routes: Routes = [
 				mod => mod.TaskManagerComponent
 			),
 		canActivate: [AuthGuard],
-		data: { authGuardPipe: redirectUnauthorizedToSignIn },
+		data: { authGuardPipe: redirectUnauthorizedToSignUp },
+	},
+	{
+		path: 'settings',
+		loadComponent: () =>
+			import('./user-management/components/settings/settings.component').then(
+				mod => mod.SettingsComponent
+			),
+		canActivate: [AuthGuard],
+		data: { authGuardPipe: redirectUnauthorizedToSignUp },
 	},
 	{
 		path: '**',

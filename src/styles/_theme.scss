@@ -52,7 +52,7 @@ body.mat-typography {
 body {
 	@include scrollbar.simply-scrollbar($simply-light-theme);
 }
-@include error.color($simply-light-theme);
+@include error.message-color($simply-light-theme);
 
 /*      2 - Dark theme - only colors        */
 @media (prefers-color-scheme: dark) {
@@ -94,7 +94,7 @@ body {
 	body {
 		@include scrollbar.simply-scrollbar($simply-dark-theme);
 	}
-	@include error.color($simply-dark-theme);
+	@include error.message-color($simply-dark-theme);
 }
 
 /*    3 - Set typography for medium to large screens    */

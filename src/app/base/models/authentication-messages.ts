@@ -3,7 +3,7 @@
  *
  *   https://firebase.google.com/docs/reference/js/auth#autherrorcodes
  */
-export enum AuthenticationErrors {
+export enum AuthenticationMessages {
 	None = 'NONE',
 	EmailExists = 'EMAIL_EXISTS',
 	InvalidEmail = 'INVALID_EMAIL',
@@ -15,49 +15,50 @@ export enum AuthenticationErrors {
 	InvalidPassword = 'INVALID_PASSWORD',
 	TooManyAttempts = 'TOO_MANY_ATTEMPTS_TRY_LATER',
 	WeakPassword = 'WEAK_PASSWORD',
+	FailedDeleteUser = 'FAILED_DELETE_USER',
 	Default = 'SOMETHING_WENT_WRONG',
 }
 
-export const authenticationErrorMap: Map<string, AuthenticationErrors> =
+export const authenticationErrorMap: Map<string, AuthenticationMessages> =
 	new Map();
 
 authenticationErrorMap.set(
 	'auth/email-already-in-use',
-	AuthenticationErrors.EmailExists
+	AuthenticationMessages.EmailExists
 );
 authenticationErrorMap.set(
 	'auth/invalid-email',
-	AuthenticationErrors.InvalidEmail
+	AuthenticationMessages.InvalidEmail
 );
 authenticationErrorMap.set(
 	'auth/user-not-found',
-	AuthenticationErrors.UserDeleted
+	AuthenticationMessages.UserDeleted
 );
 authenticationErrorMap.set(
 	'auth/user-disabled',
-	AuthenticationErrors.UserDisabled
+	AuthenticationMessages.UserDisabled
 );
 authenticationErrorMap.set(
 	'auth/invalid-recipient-email',
-	AuthenticationErrors.InvalidRecipientEmail
+	AuthenticationMessages.InvalidRecipientEmail
 );
 authenticationErrorMap.set(
 	'auth/unverified-email',
-	AuthenticationErrors.UnverifiedEmail
+	AuthenticationMessages.UnverifiedEmail
 );
 authenticationErrorMap.set(
 	'auth/email-change-needs-verification',
-	AuthenticationErrors.EmailChangeNeedsVerification
+	AuthenticationMessages.EmailChangeNeedsVerification
 );
 authenticationErrorMap.set(
 	'auth/wrong-password',
-	AuthenticationErrors.InvalidPassword
+	AuthenticationMessages.InvalidPassword
 );
 authenticationErrorMap.set(
 	'auth/too-many-requests',
-	AuthenticationErrors.TooManyAttempts
+	AuthenticationMessages.TooManyAttempts
 );
 authenticationErrorMap.set(
 	'auth/weak-password',
-	AuthenticationErrors.WeakPassword
+	AuthenticationMessages.WeakPassword
 );

@@ -15,14 +15,15 @@ import {
 	createUserWithEmailAndPassword,
 	signInWithEmailAndPassword,
 	signOut,
+	deleteUser,
 	User,
 } from '@angular/fire/auth';
 import { FirebaseError } from '@firebase/util';
 
 import {
 	authenticationErrorMap,
-	AuthenticationErrors,
-} from '../models/authentication-errors';
+	AuthenticationMessages,
+} from '../models/authentication-messages';
 
 @Injectable({
 	providedIn: 'root',
@@ -38,9 +39,8 @@ export class AuthenticationService {
 	private _user: Signal<User | null> = computed(
 		() => this._authState() ?? null
 	);
-	private _authenticationError: WritableSignal<AuthenticationErrors> = signal(
-		AuthenticationErrors.None
-	);
+	private _authenticationMessage: WritableSignal<AuthenticationMessages> =
+		signal(AuthenticationMessages.None);
 
 	public get user(): Signal<User | null> {
 		return this._user;
@@ -50,8 +50,8 @@ export class AuthenticationService {
 		return this._isLoggedIn;
 	}
 
-	public get authenticationError(): Signal<AuthenticationErrors> {
-		return this._authenticationError;
+	public get authenticationMessage(): Signal<AuthenticationMessages> {
+		return this._authenticationMessage;
 	}
 
 	public creatUser(email: string, password: string): void {
@@ -61,7 +61,7 @@ export class AuthenticationService {
 				this.router.navigate(['/task-manager']);
 			})
 			.catch((error: FirebaseError) => {
-				this.setAuthenticationError(error);
+				this.setAuthenticationMessage(error);
 			});
 	}
 
@@ -72,7 +72,7 @@ export class AuthenticationService {
 				this.router.navigate(['/task-manager']);
 			})
 			.catch((error: FirebaseError) => {
-				this.setAuthenticationError(error);
+				this.setAuthenticationMessage(error);
 			});
 	}
 
@@ -83,17 +83,25 @@ export class AuthenticationService {
 				this.router.navigate(['/sign-in']);
 			})
 			.catch((error: FirebaseError) => {
-				this.setAuthenticationError(error);
+				this.setAuthenticationMessage(error);
 			});
 	}
 
-	private setAuthenticationError(error: FirebaseError): void {
-		const message: AuthenticationErrors | undefined =
+	public deleteUser(user: User): Promise<void> {
+		return deleteUser(user);
+	}
+
+	public updateAuthenticationMessage(message: AuthenticationMessages): void {
+		this._authenticationMessage.set(message);
+	}
+
+	private setAuthenticationMessage(error: FirebaseError): void {
+		const message: AuthenticationMessages | undefined =
 			authenticationErrorMap.get(error.code);
-		this._authenticationError.set(message ?? AuthenticationErrors.Default);
+		this._authenticationMessage.set(message ?? AuthenticationMessages.Default);
 	}
 
 	public resetAuthenticationError(): void {
-		this._authenticationError.set(AuthenticationErrors.None);
+		this._authenticationMessage.set(AuthenticationMessages.None);
 	}
 }

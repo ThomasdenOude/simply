@@ -29,7 +29,7 @@ import { NewPasswordFormFieldComponent } from '../new-password-form-field/new-pa
 import { ErrorMessageComponent } from '../../../base/components/error-message/error-message.component';
 import { Credentials, CredentialsForm } from '../../models/credentials.model';
 import { Devices } from '../../../base/models/devices';
-import { AuthenticationErrors } from '../../../base/models/authentication-errors';
+import { AuthenticationMessages } from '../../../base/models/authentication-messages';
 
 @Component({
 	selector: 'app-sign-up',
@@ -54,9 +54,9 @@ export class SignUpComponent implements OnInit {
 	private authService: AuthenticationService = inject(AuthenticationService);
 	private responsiveService: ResponsiveService = inject(ResponsiveService);
 
-	protected readonly AuthenticationErrors = AuthenticationErrors;
-	protected authenticationError: Signal<AuthenticationErrors> =
-		this.authService.authenticationError;
+	protected readonly AuthenticationErrors = AuthenticationMessages;
+	protected authenticationError: Signal<AuthenticationMessages> =
+		this.authService.authenticationMessage;
 	protected device: Signal<Devices> = this.responsiveService.device;
 	protected readonly Devices = Devices;
 

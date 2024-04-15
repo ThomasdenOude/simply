@@ -8,7 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { ResponsiveService } from '../base/services/responsive.service';
 import { AuthenticationService } from '../base/services/authentication.service';
 import { Devices } from '../base/models/devices';
-import { filter, map } from 'rxjs';
+import { filter, map, Observable } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { MatMenu, MatMenuItem, MatMenuTrigger } from '@angular/material/menu';
 import { CdkMenu, CdkMenuItem, CdkMenuTrigger } from '@angular/cdk/menu';
@@ -46,14 +46,22 @@ export class HeaderComponent {
 
 	protected isLoggedIn: Signal<boolean> = this.authService.isLoggedIn;
 	protected isOnLoginPage: Signal<boolean | undefined> = toSignal(
-		this.router.events.pipe(
-			filter(event => event instanceof NavigationEnd),
-			map(event => (event as NavigationEnd).url.includes('log-in'))
-		)
+		this.isOnPath('log-in')
 	);
+	protected isOnSettingsPage: Signal<boolean | undefined> = toSignal(
+		this.isOnPath('settings')
+	);
+
 	protected userEmail: Signal<string> = computed(
 		() => this.authService.user()?.email ?? ''
 	);
+
+	private isOnPath(path: string): Observable<boolean> {
+		return this.router.events.pipe(
+			filter(event => event instanceof NavigationEnd),
+			map(event => (event as NavigationEnd).url.includes(path))
+		);
+	}
 
 	protected logout(): void {
 		this.authService.logout();
