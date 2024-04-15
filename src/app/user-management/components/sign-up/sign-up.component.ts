@@ -15,6 +15,9 @@ import {
 	Validators,
 } from '@angular/forms';
 import { NgClass } from '@angular/common';
+import { Router } from '@angular/router';
+
+import { FirebaseError } from '@firebase/util';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -53,25 +56,27 @@ import { AuthenticationMessages } from '../../../base/models/authentication-mess
 export class SignUpComponent implements OnInit {
 	private authService: AuthenticationService = inject(AuthenticationService);
 	private responsiveService: ResponsiveService = inject(ResponsiveService);
+	private router: Router = inject(Router);
 
-	protected readonly AuthenticationErrors = AuthenticationMessages;
-	protected authenticationError: Signal<AuthenticationMessages> =
-		this.authService.authenticationMessage;
+	protected readonly AuthenticationMessages = AuthenticationMessages;
 	protected device: Signal<Devices> = this.responsiveService.device;
 	protected readonly Devices = Devices;
 
 	protected continue: WritableSignal<boolean> = signal(false);
 	protected invalidSubmit: WritableSignal<boolean> = signal(false);
+	protected signupError: WritableSignal<AuthenticationMessages> = signal(
+		AuthenticationMessages.None
+	);
 
-	protected signUpForm: FormGroup<CredentialsForm> = new FormGroup({
-		email: new FormControl('', [Validators.required, Validators.email]),
-		password: new FormControl(''),
-	});
+	protected signUpForm: FormGroup<CredentialsForm> =
+		new FormGroup<CredentialsForm>({
+			email: new FormControl('', [Validators.required, Validators.email]),
+			password: new FormControl(''),
+		});
 
 	@ViewChild('emailInput', { read: MatInput, static: true })
 	private emailInput?: MatInput;
 	ngOnInit() {
-		this.authService.resetAuthenticationError();
 		this.emailInput?.focus();
 	}
 
@@ -88,7 +93,17 @@ export class SignUpComponent implements OnInit {
 			const email = form.email;
 			const password = form.password;
 			if (email && password) {
-				this.authService.creatUser(email, password);
+				this.authService
+					.creatUser(email, password)
+					.then(() => {
+						// Signed up
+						this.router.navigate(['/task-manager']);
+					})
+					.catch((error: FirebaseError) => {
+						this.signupError.set(
+							this.authService.getAuthenticationMessage(error)
+						);
+					});
 			}
 		}
 		if (this.continue()) {
@@ -98,6 +113,6 @@ export class SignUpComponent implements OnInit {
 	}
 
 	protected resetError() {
-		this.authService.resetAuthenticationError();
+		this.signupError.set(AuthenticationMessages.None);
 	}
 }

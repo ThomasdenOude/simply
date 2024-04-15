@@ -9,7 +9,7 @@ export enum AuthenticationMessages {
 	InvalidEmail = 'INVALID_EMAIL',
 	InvalidRecipientEmail = 'INVALID_RECIPIENT_EMAIL',
 	UnverifiedEmail = 'UNVERIFIED_EMAIL',
-	UserDeleted = 'USER_DELETED',
+	UserNotFound = 'USER_NOT_FOUND',
 	UserDisabled = 'USER_DISABLED',
 	EmailChangeNeedsVerification = 'EMAIL_CHANGE_NEEDS_VERIFICATION',
 	InvalidPassword = 'INVALID_PASSWORD',
@@ -32,7 +32,7 @@ authenticationErrorMap.set(
 );
 authenticationErrorMap.set(
 	'auth/user-not-found',
-	AuthenticationMessages.UserDeleted
+	AuthenticationMessages.UserNotFound
 );
 authenticationErrorMap.set(
 	'auth/user-disabled',

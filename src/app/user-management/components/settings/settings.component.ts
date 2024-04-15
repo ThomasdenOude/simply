@@ -1,5 +1,13 @@
-import { Component, computed, inject, Signal } from '@angular/core';
+import {
+	Component,
+	computed,
+	inject,
+	signal,
+	Signal,
+	WritableSignal,
+} from '@angular/core';
 import { NgClass } from '@angular/common';
+import { Router } from '@angular/router';
 
 import { Devices } from '../../../base/models/devices';
 import { MatIcon } from '@angular/material/icon';
@@ -12,8 +20,8 @@ import { User } from '@angular/fire/auth';
 import { AuthenticationService } from '../../../base/services/authentication.service';
 import { ResponsiveService } from '../../../base/services/responsive.service';
 import { RemoveAccountComponent } from '../remove-account/remove-account.component';
-import { AuthenticationMessages } from '../../../base/models/authentication-messages';
 import { ErrorMessageComponent } from '../../../base/components/error-message/error-message.component';
+import { AuthenticationMessages } from '../../../base/models/authentication-messages';
 
 @Component({
 	selector: 'app-settings',
@@ -25,18 +33,27 @@ import { ErrorMessageComponent } from '../../../base/components/error-message/er
 export class SettingsComponent {
 	private authService: AuthenticationService = inject(AuthenticationService);
 	private responsiveService: ResponsiveService = inject(ResponsiveService);
+	private router: Router = inject(Router);
 	private matDialog: MatDialog = inject(MatDialog);
 
 	protected userEmail: Signal<string> = computed(
 		() => this.authService.user()?.email ?? ''
 	);
-	protected authenticationMessage: Signal<AuthenticationMessages> =
-		this.authService.authenticationMessage;
+	protected readonly AuthenticationMessages = AuthenticationMessages;
+	protected removeError: WritableSignal<AuthenticationMessages> = signal(
+		AuthenticationMessages.None
+	);
 	protected device: Signal<Devices> = this.responsiveService.device;
 	protected readonly Devices = Devices;
 
 	protected logout(): void {
-		this.authService.logout();
+		this.authService
+			.logout()
+			.then(() => {
+				// Signed out
+				this.router.navigate(['/sign-in']);
+			})
+			.catch();
 	}
 
 	protected openRemoveAccountDialog(): void {
@@ -53,20 +70,14 @@ export class SettingsComponent {
 					this.authService
 						.deleteUser(user)
 						.then(() => {
-							this.authService.logout();
+							this.logout();
 						})
 						.catch(error => {
-							this.authService.updateAuthenticationMessage(
-								AuthenticationMessages.FailedDeleteUser
-							);
+							this.removeError.set(AuthenticationMessages.FailedDeleteUser);
 						});
 				}
-				this.authService.updateAuthenticationMessage(
-					AuthenticationMessages.FailedDeleteUser
-				);
+				this.removeError.set(AuthenticationMessages.FailedDeleteUser);
 			}
 		});
 	}
-
-	protected readonly AuthenticationMessages = AuthenticationMessages;
 }

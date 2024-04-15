@@ -20,10 +20,8 @@
 			<mat-icon>password</mat-icon>Change password
 		</button>
 		<mat-divider></mat-divider>
-		@if (authenticationMessage() === AuthenticationMessages.FailedDeleteUser) {
-			<app-error-message
-				[errorMessage]="AuthenticationMessages.FailedDeleteUser"
-			></app-error-message>
+		@if (removeError() !== AuthenticationMessages.None) {
+			<app-error-message [errorMessage]="removeError()"></app-error-message>
 		}
 		<button
 			mat-stroked-button

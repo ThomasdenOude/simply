@@ -7,9 +7,9 @@
 			Sign up to Simply <mat-icon color="accent">task_alt</mat-icon>
 		</h3>
 
-		@if (authenticationError() !== AuthenticationErrors.None) {
+		@if (signupError() !== AuthenticationMessages.None) {
 			<app-error-message
-				[errorMessage]="authenticationError()"
+				[errorMessage]="signupError()"
 				[form]="signUpForm"
 				(resetError)="resetError()"
 			></app-error-message>

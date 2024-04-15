@@ -1,4 +1,12 @@
-import { Component, inject, OnInit, Signal, ViewChild } from '@angular/core';
+import {
+	Component,
+	inject,
+	OnInit,
+	signal,
+	Signal,
+	ViewChild,
+	WritableSignal,
+} from '@angular/core';
 import {
 	FormControl,
 	FormGroup,
@@ -7,6 +15,9 @@ import {
 	Validators,
 } from '@angular/forms';
 import { NgClass } from '@angular/common';
+import { Router } from '@angular/router';
+
+import { FirebaseError } from '@firebase/util';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -41,24 +52,26 @@ import { AuthenticationMessages } from '../../../base/models/authentication-mess
 export class LoginComponent implements OnInit {
 	private authService: AuthenticationService = inject(AuthenticationService);
 	private responsiveService: ResponsiveService = inject(ResponsiveService);
+	private router: Router = inject(Router);
 
 	protected readonly AuthenticationErrors = AuthenticationMessages;
-	protected authenticationError: Signal<AuthenticationMessages> =
-		this.authService.authenticationMessage;
+	protected loginError: WritableSignal<AuthenticationMessages> = signal(
+		AuthenticationMessages.None
+	);
 
 	protected device: Signal<Devices> = this.responsiveService.device;
 	protected readonly Devices = Devices;
 
-	protected loginForm: FormGroup<CredentialsForm> = new FormGroup({
-		email: new FormControl('', [Validators.required, Validators.email]),
-		password: new FormControl('', [Validators.required]),
-	});
+	protected loginForm: FormGroup<CredentialsForm> =
+		new FormGroup<CredentialsForm>({
+			email: new FormControl('', [Validators.required, Validators.email]),
+			password: new FormControl('', [Validators.required]),
+		});
 
 	@ViewChild('emailInput', { read: MatInput, static: true })
 	private emailInput?: MatInput;
 
 	ngOnInit() {
-		this.authService.resetAuthenticationError();
 		this.emailInput?.focus();
 	}
 
@@ -69,12 +82,22 @@ export class LoginComponent implements OnInit {
 			const password = user.password;
 
 			if (email && password) {
-				this.authService.login(email, password);
+				this.authService
+					.login(email, password)
+					.then(() => {
+						// Signed in
+						this.router.navigate(['/task-manager']);
+					})
+					.catch((error: FirebaseError) => {
+						this.loginError.set(
+							this.authService.getAuthenticationMessage(error)
+						);
+					});
 			}
 		}
 	}
 
 	protected resetError() {
-		this.authService.resetAuthenticationError();
+		this.loginError.set(AuthenticationMessages.None);
 	}
 }

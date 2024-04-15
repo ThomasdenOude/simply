@@ -2,18 +2,18 @@ import { Component, Signal, inject, computed } from '@angular/core';
 import { AsyncPipe, NgClass } from '@angular/common';
 import { NavigationEnd, Router, RouterLink } from '@angular/router';
 
+import { filter, map, Observable } from 'rxjs';
+import { toSignal } from '@angular/core/rxjs-interop';
+
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatDivider } from '@angular/material/divider';
+import { MatCard } from '@angular/material/card';
+import { CdkMenu, CdkMenuItem, CdkMenuTrigger } from '@angular/cdk/menu';
 
 import { ResponsiveService } from '../base/services/responsive.service';
 import { AuthenticationService } from '../base/services/authentication.service';
 import { Devices } from '../base/models/devices';
-import { filter, map, Observable } from 'rxjs';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { MatMenu, MatMenuItem, MatMenuTrigger } from '@angular/material/menu';
-import { CdkMenu, CdkMenuItem, CdkMenuTrigger } from '@angular/cdk/menu';
-import { MatDivider } from '@angular/material/divider';
-import { MatCard } from '@angular/material/card';
 
 @Component({
 	selector: 'app-header',
@@ -24,10 +24,7 @@ import { MatCard } from '@angular/material/card';
 		MatIconModule,
 		AsyncPipe,
 		RouterLink,
-		MatMenu,
 		CdkMenuTrigger,
-		MatMenuTrigger,
-		MatMenuItem,
 		MatDivider,
 		CdkMenuItem,
 		CdkMenu,
@@ -64,6 +61,12 @@ export class HeaderComponent {
 	}
 
 	protected logout(): void {
-		this.authService.logout();
+		this.authService
+			.logout()
+			.then(() => {
+				// Signed out
+				this.router.navigate(['/sign-in']);
+			})
+			.catch();
 	}
 }
