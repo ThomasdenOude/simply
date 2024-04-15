@@ -19,3 +19,16 @@
 		flex: auto;
 	}
 }
+
+.settings-menu {
+	&__container {
+		display: flex;
+		flex-direction: column;
+		min-width: 300px;
+		padding: l.space('regular');
+	}
+	&__settings-button,
+	&__divider {
+		margin-bottom: l.space('regular');
+	}
+}

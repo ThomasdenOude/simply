@@ -12,7 +12,7 @@
 			isLoggedIn() ? 'Navigate to task board' : 'Navigate to home page'
 		"
 	>
-		@if (!isLoggedIn()) {
+		@if (!isLoggedIn() || device() === Devices.WideScreen) {
 			<h1 class="header__logo primary-text">Simply</h1>
 		}
 		<mat-icon class="header__icon" color="accent">task_alt</mat-icon>
@@ -23,10 +23,34 @@
 				mat-icon-button
 				color="primary"
 				class="header__nav-button"
-				(click)="logout()"
+				[cdkMenuTriggerFor]="settingsMenu"
 			>
-				<mat-icon iconPositionEnd>logout</mat-icon>
+				<mat-icon>menu</mat-icon>
 			</button>
+			<ng-template #settingsMenu>
+				<mat-card class="settings-menu__container" cdkMenu>
+					<h3>Logged in as</h3>
+					<p>{{ userEmail() }}</p>
+					<mat-divider class="settings-menu__divider"></mat-divider>
+					<button
+						mat-stroked-button
+						color="primary"
+						class="settings-menu__settings-button"
+					>
+						<mat-icon>settings</mat-icon>
+						<span>Settings</span>
+					</button>
+					<button
+						mat-stroked-button
+						(click)="logout()"
+						color="primary"
+						class="settings-menu__button"
+					>
+						<span>Log out</span>
+						<mat-icon>logout</mat-icon>
+					</button>
+				</mat-card>
+			</ng-template>
 		} @else if (!isOnLoginPage()) {
 			<button
 				mat-flat-button
@@ -34,7 +58,8 @@
 				class="header__nav-button"
 				routerLink="/log-in"
 			>
-				<mat-icon>login</mat-icon>Log in
+				<mat-icon>login</mat-icon>
+				<span>Log in</span>
 			</button>
 		}
 	</nav>
