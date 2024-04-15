@@ -74,9 +74,9 @@ export class NewPasswordFormFieldComponent
 
 	public markAsTouched = input<boolean>(false);
 	@ViewChild('form', { read: ElementRef })
-	private form: ElementRef | undefined;
+	private form?: ElementRef;
 	@ViewChild('newPasswordInput', { read: MatInput, static: true })
-	private newPasswordInput: MatInput | undefined;
+	private newPasswordInput?: MatInput;
 	@Output()
 	public isSubmitted = new EventEmitter<void>();
 

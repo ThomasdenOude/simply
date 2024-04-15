@@ -5,7 +5,13 @@
 			device() === Devices.Small || device() === Devices.WideScreen
 	}"
 >
-	<a mat-button [routerLink]="isLoggedIn() ? '/task-board' : '/'">
+	<a
+		mat-button
+		[routerLink]="isLoggedIn() ? '/task-board' : '/'"
+		[attr.aria-label]="
+			isLoggedIn() ? 'Navigate to task board' : 'Navigate to home page'
+		"
+	>
 		@if (!isLoggedIn()) {
 			<h1 class="header__logo primary-text">Simply</h1>
 		}

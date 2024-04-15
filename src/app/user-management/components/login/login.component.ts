@@ -1,4 +1,4 @@
-import { Component, inject, Signal } from '@angular/core';
+import { Component, inject, OnInit, Signal, ViewChild } from '@angular/core';
 import {
 	FormControl,
 	FormGroup,
@@ -11,7 +11,7 @@ import { NgClass } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
+import { MatInput, MatInputModule } from '@angular/material/input';
 import { MatIcon } from '@angular/material/icon';
 
 import { AuthenticationService } from '../../../base/services/authentication.service';
@@ -38,7 +38,7 @@ import { AuthenticationErrors } from '../../../base/models/authentication-errors
 	templateUrl: './login.component.html',
 	styleUrl: './login.component.scss',
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
 	private authService: AuthenticationService = inject(AuthenticationService);
 	private responsiveService: ResponsiveService = inject(ResponsiveService);
 
@@ -54,8 +54,12 @@ export class LoginComponent {
 		password: new FormControl('', [Validators.required]),
 	});
 
-	constructor() {
+	@ViewChild('emailInput', { read: MatInput, static: true })
+	private emailInput?: MatInput;
+
+	ngOnInit() {
 		this.authService.resetAuthenticationError();
+		this.emailInput?.focus();
 	}
 
 	protected login(): void {

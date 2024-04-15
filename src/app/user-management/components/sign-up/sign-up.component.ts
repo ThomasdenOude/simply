@@ -1,8 +1,10 @@
 import {
 	Component,
 	inject,
+	OnInit,
 	Signal,
 	signal,
+	ViewChild,
 	WritableSignal,
 } from '@angular/core';
 import {
@@ -17,7 +19,7 @@ import { NgClass } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
+import { MatInput, MatInputModule } from '@angular/material/input';
 import { MatDivider } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 
@@ -48,7 +50,7 @@ import { AuthenticationErrors } from '../../../base/models/authentication-errors
 	templateUrl: './sign-up.component.html',
 	styleUrl: './sign-up.component.scss',
 })
-export class SignUpComponent {
+export class SignUpComponent implements OnInit {
 	private authService: AuthenticationService = inject(AuthenticationService);
 	private responsiveService: ResponsiveService = inject(ResponsiveService);
 
@@ -66,9 +68,13 @@ export class SignUpComponent {
 		password: new FormControl(''),
 	});
 
-	constructor() {
+	@ViewChild('emailInput', { read: MatInput, static: true })
+	private emailInput?: MatInput;
+	ngOnInit() {
 		this.authService.resetAuthenticationError();
+		this.emailInput?.focus();
 	}
+
 	protected setContinue(): void {
 		const email = this.signUpForm.get('email');
 		if (email?.valid) {
