@@ -18,16 +18,54 @@
 		</button>
 		<mat-divider class="settings-menu__divider"></mat-divider>
 
-		<app-menu-dropdown iconName="password" menuTitle="Change password">
-			<button mat-stroked-button color="primary">
-				<mat-icon>password</mat-icon>Change password
-			</button>
+		<app-menu-dropdown
+			iconName="password"
+			menuTitle="Change password"
+			(menuOpened)="resetAll()"
+		>
+			@if (changePasswordMessage() !== AuthenticationMessages.None) {
+				<app-error-message
+					[errorMessage]="changePasswordMessage()"
+					(closed)="resetChangePasswordMessage()"
+				></app-error-message>
+			}
+			@if (
+				!passwordConfirmed() &&
+				changePasswordMessage() !==
+					AuthenticationMessages.SuccessfulPasswordChange
+			) {
+				<p>Confirm your password to continue</p>
+				<app-confirm-password
+					(passwordSubmitted)="confirmPassword($event, 'ChangePassword')"
+					[submitErrorMessage]="passwordConfirmError()"
+					(errorClosed)="resetPasswordConfirmError()"
+				></app-confirm-password>
+			} @else if (passwordConfirmed()) {
+				<p>Change your password</p>
+				<form
+					[formGroup]="changePasswordForm"
+					(ngSubmit)="submitChangePassword()"
+				>
+					<app-new-password-form-field
+						formControlName="password"
+						(isSubmitted)="submitChangePassword()"
+					></app-new-password-form-field>
+					<button
+						mat-flat-button
+						class="settings-menu__button"
+						color="primary"
+						type="submit"
+					>
+						Change password
+					</button>
+				</form>
+			}
 		</app-menu-dropdown>
 
 		<app-menu-dropdown
 			iconName="delete"
 			menuTitle="Remove account"
-			(menuOpened)="clearAllErrors()"
+			(menuOpened)="resetAll()"
 		>
 			@if (removeAccountError() !== AuthenticationMessages.None) {
 				<app-error-message
@@ -36,10 +74,10 @@
 				></app-error-message>
 			}
 
-			@if (!confirmedPassword()) {
+			@if (!passwordConfirmed()) {
 				<p>Confirm your password to continue</p>
 				<app-confirm-password
-					(passwordSubmitted)="confirmPassword($event)"
+					(passwordSubmitted)="confirmPassword($event, 'RemoveAccount')"
 					[submitErrorMessage]="passwordConfirmError()"
 					(errorClosed)="resetPasswordConfirmError()"
 				></app-confirm-password>

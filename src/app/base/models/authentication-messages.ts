@@ -17,6 +17,7 @@ export enum AuthenticationMessages {
 	WeakPassword = 'WEAK_PASSWORD',
 	FailedDeleteUser = 'FAILED_DELETE_USER',
 	Default = 'SOMETHING_WENT_WRONG',
+	'SuccessfulPasswordChange' = 'SUCCESSFUL_PASSWORD_CHANGE',
 }
 
 export const authenticationErrorMap: Map<string, AuthenticationMessages> =

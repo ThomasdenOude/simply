@@ -9,3 +9,9 @@
 		gap: layout.space('large');
 	}
 }
+
+.settings-menu {
+	&__button {
+		width: 100%;
+	}
+}

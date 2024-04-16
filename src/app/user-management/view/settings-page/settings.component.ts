@@ -8,6 +8,13 @@ import {
 } from '@angular/core';
 import { NgClass } from '@angular/common';
 import { Router } from '@angular/router';
+import {
+	FormControl,
+	FormGroup,
+	FormsModule,
+	ReactiveFormsModule,
+	Validators,
+} from '@angular/forms';
 
 import { Devices } from '../../../base/models/devices';
 import { MatIcon } from '@angular/material/icon';
@@ -23,7 +30,10 @@ import { RemoveAccountComponent } from '../../ui/remove-account-dialog/remove-ac
 import { ErrorMessageComponent } from '../../../base/ui/error-message/error-message.component';
 import { MenuDropdownComponent } from '../../../base/ui/menu-dropdown/menu-dropdown.component';
 import { ConfirmPasswordComponent } from '../../ui/confirm-password/confirm-password.component';
+import { NewPasswordFormFieldComponent } from '../../ui/new-password-form-field/new-password-form-field.component';
 import { AuthenticationMessages } from '../../../base/models/authentication-messages';
+import { SettingsAction } from '../../models/settings-actions.model';
+import { PasswordForm } from '../../models/credentials.model';
 
 @Component({
 	selector: 'app-settings-page',
@@ -36,6 +46,9 @@ import { AuthenticationMessages } from '../../../base/models/authentication-mess
 		ErrorMessageComponent,
 		MenuDropdownComponent,
 		ConfirmPasswordComponent,
+		ReactiveFormsModule,
+		FormsModule,
+		NewPasswordFormFieldComponent,
 	],
 	templateUrl: './settings.component.html',
 	styleUrl: './settings.component.scss',
@@ -50,7 +63,9 @@ export class SettingsComponent {
 		() => this.authService.user()?.email ?? ''
 	);
 	protected readonly AuthenticationMessages = AuthenticationMessages;
-	protected confirmedPassword: WritableSignal<boolean> = signal(false);
+	protected passwordConfirmed: WritableSignal<boolean> = signal(false);
+	protected changePasswordMessage: WritableSignal<AuthenticationMessages> =
+		signal(AuthenticationMessages.None);
 	protected removeAccountError: WritableSignal<AuthenticationMessages> = signal(
 		AuthenticationMessages.None
 	);
@@ -59,6 +74,11 @@ export class SettingsComponent {
 
 	protected device: Signal<Devices> = this.responsiveService.device;
 	protected readonly Devices = Devices;
+
+	protected changePasswordForm: FormGroup<PasswordForm> =
+		new FormGroup<PasswordForm>({
+			password: new FormControl('', Validators.required),
+		});
 
 	protected logout(): void {
 		this.authService
@@ -70,15 +90,17 @@ export class SettingsComponent {
 			.catch();
 	}
 
-	protected confirmPassword(password: string): void {
+	protected confirmPassword(password: string, action: SettingsAction): void {
 		const email = this.authService.user()?.email;
 		if (email) {
 			this.authService
 				.login(email, password)
 				.then(() => {
-					this.confirmedPassword.set(true);
+					this.passwordConfirmed.set(true);
 					this.passwordConfirmError.set(AuthenticationMessages.None);
-					this.openRemoveAccountDialog();
+					if (action === 'RemoveAccount') {
+						this.openRemoveAccountDialog();
+					}
 				})
 				.catch(error => {
 					this.passwordConfirmError.set(
@@ -96,10 +118,15 @@ export class SettingsComponent {
 		this.passwordConfirmError.set(AuthenticationMessages.None);
 	}
 
-	protected clearAllErrors(): void {
+	protected resetChangePasswordMessage(): void {
+		this.changePasswordMessage.set(AuthenticationMessages.None);
+	}
+
+	protected resetAll(): void {
 		this.resetPasswordConfirmError();
 		this.resetPasswordConfirmError();
-		this.confirmedPassword.set(false);
+		this.resetChangePasswordMessage();
+		this.passwordConfirmed.set(false);
 	}
 
 	protected openRemoveAccountDialog(): void {
@@ -124,11 +151,37 @@ export class SettingsComponent {
 								AuthenticationMessages.FailedDeleteUser
 							);
 						});
+				} else {
+					this.removeAccountError.set(AuthenticationMessages.FailedDeleteUser);
 				}
-				this.removeAccountError.set(AuthenticationMessages.FailedDeleteUser);
+			} else {
+				this.resetRemoveAccountError();
 			}
-			this.resetRemoveAccountError();
-			this.confirmedPassword.set(false);
 		});
+		this.passwordConfirmed.set(false);
+	}
+
+	protected submitChangePassword(): void {
+		if (this.changePasswordForm.valid) {
+			const user: User | null = this.authService.user();
+			const newPassword = this.changePasswordForm.value.password;
+			if (user && newPassword) {
+				this.authService
+					.changePassword(user, newPassword)
+					.then(() => {
+						this.changePasswordMessage.set(
+							AuthenticationMessages.SuccessfulPasswordChange
+						);
+					})
+					.catch(error => {
+						this.changePasswordMessage.set(
+							this.authService.getAuthenticationMessage(error)
+						);
+					});
+			} else {
+				this.changePasswordMessage.set(AuthenticationMessages.Default);
+			}
+			this.passwordConfirmed.set(false);
+		}
 	}
 }

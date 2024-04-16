@@ -7,11 +7,10 @@ import {
 	createUserWithEmailAndPassword,
 	deleteUser,
 	signInWithEmailAndPassword,
-	reauthenticateWithCredential,
+	updatePassword,
 	signOut,
 	User,
 	UserCredential,
-	AuthCredential,
 } from '@angular/fire/auth';
 import { FirebaseError } from '@firebase/util';
 
@@ -52,6 +51,10 @@ export class AuthenticationService {
 
 	public logout(): Promise<void> {
 		return signOut(this.auth);
+	}
+
+	public changePassword(user: User, newPassword: string): Promise<void> {
+		return updatePassword(user, newPassword);
 	}
 
 	public deleteUser(user: User): Promise<void> {
