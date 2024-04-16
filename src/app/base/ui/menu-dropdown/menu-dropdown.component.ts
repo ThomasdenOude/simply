@@ -36,8 +36,6 @@ export class MenuDropdownComponent {
 		this.menuOpened.emit(this.menuIsOpened());
 		if (!this.menuIsOpened() && this.confirmPassword) {
 			this.confirmPassword.reset();
-
-			console.log(this.confirmPassword.passwordForm);
 		}
 	}
 }
