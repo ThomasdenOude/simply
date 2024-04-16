@@ -35,13 +35,19 @@
 					(closed)="removeError()"
 				></app-error-message>
 			}
-			<button
-				mat-stroked-button
-				color="primary"
-				(click)="openRemoveAccountDialog()"
-			>
-				<mat-icon>delete</mat-icon> Remove account
-			</button>
+
+			@if (!passwordConfirmed()) {
+				<p>Confirm your password to continue</p>
+				<app-confirm-password></app-confirm-password>
+			} @else {
+				<button
+					mat-stroked-button
+					color="primary"
+					(click)="openRemoveAccountDialog()"
+				>
+					<mat-icon>delete</mat-icon> Remove account
+				</button>
+			}
 		</app-menu-dropdown>
 	</div>
 </div>

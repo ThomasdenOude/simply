@@ -23,6 +23,7 @@ import { RemoveAccountComponent } from '../../ui/remove-account-dialog/remove-ac
 import { ErrorMessageComponent } from '../../../base/ui/error-message/error-message.component';
 import { AuthenticationMessages } from '../../../base/models/authentication-messages';
 import { MenuDropdownComponent } from '../../../base/ui/menu-dropdown/menu-dropdown.component';
+import { ConfirmPasswordComponent } from '../../ui/confirm-password/confirm-password.component';
 
 @Component({
 	selector: 'app-settings-page',
@@ -34,6 +35,7 @@ import { MenuDropdownComponent } from '../../../base/ui/menu-dropdown/menu-dropd
 		MatButton,
 		ErrorMessageComponent,
 		MenuDropdownComponent,
+		ConfirmPasswordComponent,
 	],
 	templateUrl: './settings.component.html',
 	styleUrl: './settings.component.scss',
@@ -47,6 +49,7 @@ export class SettingsComponent {
 	protected userEmail: Signal<string> = computed(
 		() => this.authService.user()?.email ?? ''
 	);
+	protected passwordConfirmed: WritableSignal<boolean> = signal(false);
 	protected readonly AuthenticationMessages = AuthenticationMessages;
 	protected settingsChangeError: WritableSignal<AuthenticationMessages> =
 		signal(AuthenticationMessages.None);
