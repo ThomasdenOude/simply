@@ -13,9 +13,12 @@
 		"
 	>
 		@if (!isLoggedIn() || device() === Devices.WideScreen) {
-			<h1 class="header__logo primary-text">Simply</h1>
+			<h1 class="header__logo primary-text">
+				Simply <mat-icon class="header__icon" color="accent">task_alt</mat-icon>
+			</h1>
+		} @else {
+			<mat-icon class="header__icon" color="accent">task_alt</mat-icon>
 		}
-		<mat-icon class="header__icon" color="accent">task_alt</mat-icon>
 	</a>
 	<nav class="header__nav">
 		@if (isLoggedIn()) {
