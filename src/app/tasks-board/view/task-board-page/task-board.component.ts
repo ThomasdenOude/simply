@@ -21,15 +21,15 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatCardModule } from '@angular/material/card';
 import { MatTabChangeEvent, MatTabsModule } from '@angular/material/tabs';
 
-import { ResponsiveService } from '../../base/services/responsive.service';
-import { TaskService } from '../services/task.service';
-import { TaskDialogComponent } from '../components/task-dialog/task-dialog.component';
-import { TaskComponent } from '../components/task/task.component';
-import { Task, TaskDialogData, TaskStatus } from '../models/task.model';
-import { Devices } from '../../base/models/devices';
+import { ResponsiveService } from '../../../base/services/responsive.service';
+import { TaskService } from '../../services/task.service';
+import { TaskDialogComponent } from '../../ui/task-dialog/task-dialog.component';
+import { TaskComponent } from '../../ui/task/task.component';
+import { Task, TaskDialogData, TaskStatus } from '../../models/task.model';
+import { Devices } from '../../../base/models/devices';
 
 @Component({
-	selector: 'app-task-manager',
+	selector: 'app-task-board-page',
 	standalone: true,
 	imports: [
 		MatButtonModule,
@@ -41,10 +41,10 @@ import { Devices } from '../../base/models/devices';
 		TaskComponent,
 		NgClass,
 	],
-	templateUrl: './task-manager.component.html',
-	styleUrl: './task-manager.component.scss',
+	templateUrl: './task-board.component.html',
+	styleUrl: './task-board.component.scss',
 })
-export class TaskManagerComponent implements OnInit {
+export class TaskBoardComponent implements OnInit {
 	private taskService: TaskService = inject(TaskService);
 	private dialog: MatDialog = inject(MatDialog);
 	private responsiveService: ResponsiveService = inject(ResponsiveService);

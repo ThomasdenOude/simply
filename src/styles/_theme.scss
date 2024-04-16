@@ -1,9 +1,9 @@
 @use '@angular/material' as mat;
 @use 'sass:map';
 
-@use './base/colors';
-@use './base/typography';
-@use './base/theme-mixins';
+@use 'base/colors';
+@use 'base/typography';
+@use 'base/theme-mixins';
 
 @use 'components/scrollbar';
 @use 'components/error-message' as error;

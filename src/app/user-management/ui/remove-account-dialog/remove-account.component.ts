@@ -8,7 +8,7 @@ import {
 import { MatButton } from '@angular/material/button';
 
 @Component({
-	selector: 'app-remove-account',
+	selector: 'app-remove-account-dialog',
 	standalone: true,
 	imports: [MatDialogTitle, MatDialogContent, MatDialogActions, MatButton],
 	templateUrl: './remove-account.component.html',

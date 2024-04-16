@@ -1,5 +1,5 @@
 @use '@angular/material' as mat;
-@use '../base/colors';
+@use 'base/colors';
 
 @mixin simply-custom-color($theme) {
 	$type: mat.get-theme-type($theme);

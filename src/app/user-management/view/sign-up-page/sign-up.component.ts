@@ -28,14 +28,14 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { AuthenticationService } from '../../../base/services/authentication.service';
 import { ResponsiveService } from '../../../base/services/responsive.service';
-import { NewPasswordFormFieldComponent } from '../new-password-form-field/new-password-form-field.component';
-import { ErrorMessageComponent } from '../../../base/components/error-message/error-message.component';
+import { NewPasswordFormFieldComponent } from '../../ui/new-password-form-field/new-password-form-field.component';
+import { ErrorMessageComponent } from '../../../base/ui/error-message/error-message.component';
 import { Credentials, CredentialsForm } from '../../models/credentials.model';
 import { Devices } from '../../../base/models/devices';
 import { AuthenticationMessages } from '../../../base/models/authentication-messages';
 
 @Component({
-	selector: 'app-sign-up',
+	selector: 'app-sign-up-page',
 	standalone: true,
 	imports: [
 		FormsModule,

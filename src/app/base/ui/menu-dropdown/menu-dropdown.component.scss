@@ -1,6 +1,6 @@
 @use 'sass:map';
-@use '../../../../styles/base/layout';
-@use '../../../../styles/base/typography';
+@use 'base/layout';
+@use 'base/typography';
 
 :host {
 	display: block;

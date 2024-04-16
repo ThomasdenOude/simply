@@ -4,12 +4,12 @@ import { NgClass } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
-import { ResponsiveService } from '../../base/services/responsive.service';
-import { Devices } from '../../base/models/devices';
+import { ResponsiveService } from '../../../base/services/responsive.service';
+import { Devices } from '../../../base/models/devices';
 import { RouterLink } from '@angular/router';
 
 @Component({
-	selector: 'app-welcome',
+	selector: 'app-welcome-page',
 	standalone: true,
 	imports: [MatButtonModule, MatIconModule, NgClass, RouterLink],
 	templateUrl: './welcome.component.html',

@@ -19,13 +19,13 @@ import { User } from '@angular/fire/auth';
 
 import { AuthenticationService } from '../../../base/services/authentication.service';
 import { ResponsiveService } from '../../../base/services/responsive.service';
-import { RemoveAccountComponent } from '../remove-account/remove-account.component';
-import { ErrorMessageComponent } from '../../../base/components/error-message/error-message.component';
+import { RemoveAccountComponent } from '../../ui/remove-account-dialog/remove-account.component';
+import { ErrorMessageComponent } from '../../../base/ui/error-message/error-message.component';
 import { AuthenticationMessages } from '../../../base/models/authentication-messages';
-import { MenuDropdownComponent } from '../../../base/components/menu-dropdown/menu-dropdown.component';
+import { MenuDropdownComponent } from '../../../base/ui/menu-dropdown/menu-dropdown.component';
 
 @Component({
-	selector: 'app-settings',
+	selector: 'app-settings-page',
 	standalone: true,
 	imports: [
 		NgClass,
