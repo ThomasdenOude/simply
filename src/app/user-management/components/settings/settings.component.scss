@@ -4,15 +4,8 @@
 
 .page {
 	&__content {
-		button {
-			width: 100%;
-			margin-bottom: layout.space('large');
-		}
-		mat-divider {
-			margin-bottom: layout.space('large');
-		}
-	}
-	&__text {
-		text-align: center;
+		display: flex;
+		flex-direction: column;
+		gap: layout.space('large');
 	}
 }

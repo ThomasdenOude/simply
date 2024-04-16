@@ -34,19 +34,19 @@ $simply-line-height: (
 );
 
 @mixin text-margins {
-	h1 {
-		margin: 0;
-	}
-
-	h2,
-	.mat-headline-1 {
-		margin: 0 0 map.get($simply-font-size, 'large') 0;
-	}
-
-	p,
-	h3,
-	.mat-headline-2 {
-		margin: 0 0 map.get($simply-font-size, 'regular') 0;
+	.simply {
+		h1 {
+			margin: 0;
+		}
+		h2,
+		.mat-headline-1 {
+			margin: 0 0 map.get($simply-font-size, 'large') 0;
+		}
+		p,
+		h3,
+		.mat-headline-2 {
+			margin: 0 0 map.get($simply-font-size, 'regular') 0;
+		}
 	}
 }
 

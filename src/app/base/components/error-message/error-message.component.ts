@@ -27,18 +27,18 @@ export class ErrorMessageComponent implements AfterViewInit, OnDestroy {
 	public form = input<FormGroup>();
 
 	@Output()
-	public resetError: EventEmitter<void> = new EventEmitter<void>();
+	public closed: EventEmitter<void> = new EventEmitter<void>();
 
 	ngAfterViewInit() {
 		if (this.form()) {
 			this.form()
 				?.valueChanges.pipe(takeUntil(this.destroy))
-				.subscribe(() => this.removeMessage());
+				.subscribe(() => this.closeMessage());
 		}
 	}
 
-	protected removeMessage(): void {
-		this.resetError.emit();
+	protected closeMessage(): void {
+		this.closed.emit();
 	}
 
 	ngOnDestroy() {

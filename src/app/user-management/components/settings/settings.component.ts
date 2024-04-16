@@ -22,11 +22,19 @@ import { ResponsiveService } from '../../../base/services/responsive.service';
 import { RemoveAccountComponent } from '../remove-account/remove-account.component';
 import { ErrorMessageComponent } from '../../../base/components/error-message/error-message.component';
 import { AuthenticationMessages } from '../../../base/models/authentication-messages';
+import { MenuDropdownComponent } from '../../../base/components/menu-dropdown/menu-dropdown.component';
 
 @Component({
 	selector: 'app-settings',
 	standalone: true,
-	imports: [NgClass, MatIcon, MatDivider, MatButton, ErrorMessageComponent],
+	imports: [
+		NgClass,
+		MatIcon,
+		MatDivider,
+		MatButton,
+		ErrorMessageComponent,
+		MenuDropdownComponent,
+	],
 	templateUrl: './settings.component.html',
 	styleUrl: './settings.component.scss',
 })
@@ -40,9 +48,8 @@ export class SettingsComponent {
 		() => this.authService.user()?.email ?? ''
 	);
 	protected readonly AuthenticationMessages = AuthenticationMessages;
-	protected removeError: WritableSignal<AuthenticationMessages> = signal(
-		AuthenticationMessages.None
-	);
+	protected settingsChangeError: WritableSignal<AuthenticationMessages> =
+		signal(AuthenticationMessages.None);
 	protected device: Signal<Devices> = this.responsiveService.device;
 	protected readonly Devices = Devices;
 
@@ -54,6 +61,10 @@ export class SettingsComponent {
 				this.router.navigate(['/sign-in']);
 			})
 			.catch();
+	}
+
+	protected removeError(): void {
+		this.settingsChangeError.set(AuthenticationMessages.None);
 	}
 
 	protected openRemoveAccountDialog(): void {
@@ -70,13 +81,16 @@ export class SettingsComponent {
 					this.authService
 						.deleteUser(user)
 						.then(() => {
+							this.removeError();
 							this.logout();
 						})
 						.catch(error => {
-							this.removeError.set(AuthenticationMessages.FailedDeleteUser);
+							this.settingsChangeError.set(
+								AuthenticationMessages.FailedDeleteUser
+							);
 						});
 				}
-				this.removeError.set(AuthenticationMessages.FailedDeleteUser);
+				this.settingsChangeError.set(AuthenticationMessages.FailedDeleteUser);
 			}
 		});
 	}
