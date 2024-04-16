@@ -9,14 +9,14 @@
 			}
 			<p class="menu-dropdown__title">{{ menuTitle() }}</p>
 		</span>
-		@if (menuOpened()) {
+		@if (menuIsOpened()) {
 			<mat-icon>expand_more</mat-icon>
 		} @else {
 			<mat-icon>chevron_right</mat-icon>
 		}
 	</button>
 
-	@if (menuOpened()) {
+	@if (menuIsOpened()) {
 		<div class="menu-dropdown__content">
 			<ng-content></ng-content>
 		</div>

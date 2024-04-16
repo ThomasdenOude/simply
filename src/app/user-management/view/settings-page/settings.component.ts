@@ -21,9 +21,9 @@ import { AuthenticationService } from '../../../base/services/authentication.ser
 import { ResponsiveService } from '../../../base/services/responsive.service';
 import { RemoveAccountComponent } from '../../ui/remove-account-dialog/remove-account.component';
 import { ErrorMessageComponent } from '../../../base/ui/error-message/error-message.component';
-import { AuthenticationMessages } from '../../../base/models/authentication-messages';
 import { MenuDropdownComponent } from '../../../base/ui/menu-dropdown/menu-dropdown.component';
 import { ConfirmPasswordComponent } from '../../ui/confirm-password/confirm-password.component';
+import { AuthenticationMessages } from '../../../base/models/authentication-messages';
 
 @Component({
 	selector: 'app-settings-page',
@@ -49,10 +49,14 @@ export class SettingsComponent {
 	protected userEmail: Signal<string> = computed(
 		() => this.authService.user()?.email ?? ''
 	);
-	protected passwordConfirmed: WritableSignal<boolean> = signal(false);
 	protected readonly AuthenticationMessages = AuthenticationMessages;
-	protected settingsChangeError: WritableSignal<AuthenticationMessages> =
+	protected confirmedPassword: WritableSignal<boolean> = signal(false);
+	protected removeAccountError: WritableSignal<AuthenticationMessages> = signal(
+		AuthenticationMessages.None
+	);
+	protected passwordConfirmError: WritableSignal<AuthenticationMessages> =
 		signal(AuthenticationMessages.None);
+
 	protected device: Signal<Devices> = this.responsiveService.device;
 	protected readonly Devices = Devices;
 
@@ -66,8 +70,36 @@ export class SettingsComponent {
 			.catch();
 	}
 
-	protected removeError(): void {
-		this.settingsChangeError.set(AuthenticationMessages.None);
+	protected confirmPassword(password: string): void {
+		const email = this.authService.user()?.email;
+		if (email) {
+			this.authService
+				.login(email, password)
+				.then(() => {
+					this.confirmedPassword.set(true);
+					this.passwordConfirmError.set(AuthenticationMessages.None);
+					this.openRemoveAccountDialog();
+				})
+				.catch(error => {
+					this.passwordConfirmError.set(
+						this.authService.getAuthenticationMessage(error)
+					);
+				});
+		}
+	}
+
+	protected resetRemoveAccountError(): void {
+		this.removeAccountError.set(AuthenticationMessages.None);
+	}
+
+	protected resetPasswordConfirmError(): void {
+		this.passwordConfirmError.set(AuthenticationMessages.None);
+	}
+
+	protected clearAllErrors(): void {
+		this.resetPasswordConfirmError();
+		this.resetPasswordConfirmError();
+		this.confirmedPassword.set(false);
 	}
 
 	protected openRemoveAccountDialog(): void {
@@ -84,17 +116,19 @@ export class SettingsComponent {
 					this.authService
 						.deleteUser(user)
 						.then(() => {
-							this.removeError();
+							this.resetRemoveAccountError();
 							this.logout();
 						})
 						.catch(error => {
-							this.settingsChangeError.set(
+							this.removeAccountError.set(
 								AuthenticationMessages.FailedDeleteUser
 							);
 						});
 				}
-				this.settingsChangeError.set(AuthenticationMessages.FailedDeleteUser);
+				this.removeAccountError.set(AuthenticationMessages.FailedDeleteUser);
 			}
+			this.resetRemoveAccountError();
+			this.confirmedPassword.set(false);
 		});
 	}
 }

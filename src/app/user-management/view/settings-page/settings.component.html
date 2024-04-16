@@ -27,25 +27,29 @@
 		<app-menu-dropdown
 			iconName="delete"
 			menuTitle="Remove account"
-			(menuToggled)="removeError()"
+			(menuOpened)="clearAllErrors()"
 		>
-			@if (settingsChangeError() !== AuthenticationMessages.None) {
+			@if (removeAccountError() !== AuthenticationMessages.None) {
 				<app-error-message
-					[errorMessage]="settingsChangeError()"
-					(closed)="removeError()"
+					[errorMessage]="removeAccountError()"
+					(closed)="resetRemoveAccountError()"
 				></app-error-message>
 			}
 
-			@if (!passwordConfirmed()) {
+			@if (!confirmedPassword()) {
 				<p>Confirm your password to continue</p>
-				<app-confirm-password></app-confirm-password>
+				<app-confirm-password
+					(passwordSubmitted)="confirmPassword($event)"
+					[submitErrorMessage]="passwordConfirmError()"
+					(errorClosed)="resetPasswordConfirmError()"
+				></app-confirm-password>
 			} @else {
 				<button
-					mat-stroked-button
+					mat-flat-button
 					color="primary"
 					(click)="openRemoveAccountDialog()"
 				>
-					<mat-icon>delete</mat-icon> Remove account
+					Continue
 				</button>
 			}
 		</app-menu-dropdown>

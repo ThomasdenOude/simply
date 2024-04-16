@@ -7,9 +7,11 @@ import {
 	createUserWithEmailAndPassword,
 	deleteUser,
 	signInWithEmailAndPassword,
+	reauthenticateWithCredential,
 	signOut,
 	User,
 	UserCredential,
+	AuthCredential,
 } from '@angular/fire/auth';
 import { FirebaseError } from '@firebase/util';
 

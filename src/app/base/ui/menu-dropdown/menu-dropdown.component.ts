@@ -1,5 +1,6 @@
 import {
 	Component,
+	ContentChild,
 	EventEmitter,
 	input,
 	InputSignal,
@@ -9,6 +10,7 @@ import {
 } from '@angular/core';
 
 import { MatIcon } from '@angular/material/icon';
+import { ConfirmPasswordComponent } from '../../../user-management/ui/confirm-password/confirm-password.component';
 
 @Component({
 	selector: 'app-menu-dropdown',
@@ -18,16 +20,24 @@ import { MatIcon } from '@angular/material/icon';
 	styleUrl: './menu-dropdown.component.scss',
 })
 export class MenuDropdownComponent {
-	protected menuOpened: WritableSignal<boolean> = signal(false);
+	protected menuIsOpened: WritableSignal<boolean> = signal(false);
 
 	public iconName: InputSignal<string | undefined> = input<string>();
 	public menuTitle: InputSignal<string> = input.required<string>();
 
+	@ContentChild(ConfirmPasswordComponent)
+	private confirmPassword?: ConfirmPasswordComponent;
+
 	@Output()
-	public menuToggled: EventEmitter<void> = new EventEmitter<void>();
+	public menuOpened: EventEmitter<boolean> = new EventEmitter<boolean>();
 
 	protected toggleMenu(): void {
-		this.menuOpened.update(() => !this.menuOpened());
-		this.menuToggled.emit();
+		this.menuIsOpened.update(() => !this.menuIsOpened());
+		this.menuOpened.emit(this.menuIsOpened());
+		if (!this.menuIsOpened() && this.confirmPassword) {
+			this.confirmPassword.reset();
+
+			console.log(this.confirmPassword.passwordForm);
+		}
 	}
 }
