@@ -66,6 +66,8 @@ export class SettingsComponent {
 	protected passwordConfirmed: WritableSignal<boolean> = signal(false);
 	protected changePasswordMessage: WritableSignal<AuthenticationMessages> =
 		signal(AuthenticationMessages.None);
+	protected continuePasswordChange: WritableSignal<boolean> = signal(false);
+	protected invalidChangePassword: WritableSignal<boolean> = signal(false);
 	protected removeAccountError: WritableSignal<AuthenticationMessages> = signal(
 		AuthenticationMessages.None
 	);
@@ -101,6 +103,9 @@ export class SettingsComponent {
 					if (action === 'RemoveAccount') {
 						this.openRemoveAccountDialog();
 					}
+					if (action === 'ChangePassword') {
+						this.continuePasswordChange.set(true);
+					}
 				})
 				.catch(error => {
 					this.passwordConfirmError.set(
@@ -126,6 +131,7 @@ export class SettingsComponent {
 		this.resetPasswordConfirmError();
 		this.resetPasswordConfirmError();
 		this.resetChangePasswordMessage();
+		this.continuePasswordChange.set(false);
 		this.passwordConfirmed.set(false);
 	}
 
@@ -182,6 +188,8 @@ export class SettingsComponent {
 				this.changePasswordMessage.set(AuthenticationMessages.Default);
 			}
 			this.passwordConfirmed.set(false);
+		} else if (this.continuePasswordChange()) {
+			this.invalidChangePassword.set(true);
 		}
 	}
 }

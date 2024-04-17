@@ -107,7 +107,7 @@ export class SignUpComponent implements OnInit {
 			}
 		}
 		if (this.continue()) {
-			this.invalidSubmit.update(() => true);
+			this.invalidSubmit.set(true);
 		}
 		this.setContinue();
 	}

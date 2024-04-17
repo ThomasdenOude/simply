@@ -34,7 +34,7 @@
 				changePasswordMessage() !==
 					AuthenticationMessages.SuccessfulPasswordChange
 			) {
-				<p>Confirm your password to continue</p>
+				<p>Confirm your current password to continue</p>
 				<app-confirm-password
 					(passwordSubmitted)="confirmPassword($event, 'ChangePassword')"
 					[submitErrorMessage]="passwordConfirmError()"
@@ -49,6 +49,7 @@
 					<app-new-password-form-field
 						formControlName="password"
 						(isSubmitted)="submitChangePassword()"
+						[markAsTouched]="invalidChangePassword()"
 					></app-new-password-form-field>
 					<button
 						mat-flat-button
@@ -75,7 +76,7 @@
 			}
 
 			@if (!passwordConfirmed()) {
-				<p>Confirm your password to continue</p>
+				<p>Confirm your current password to continue</p>
 				<app-confirm-password
 					(passwordSubmitted)="confirmPassword($event, 'RemoveAccount')"
 					[submitErrorMessage]="passwordConfirmError()"
