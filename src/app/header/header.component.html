@@ -9,7 +9,7 @@
 		mat-button
 		[routerLink]="isLoggedIn() ? '/task-board' : '/'"
 		[attr.aria-label]="
-			isLoggedIn() ? 'Navigate to task board' : 'Navigate to home page'
+			isLoggedIn() ? 'Navigate to task-card board' : 'Navigate to home page'
 		"
 	>
 		@if (!isLoggedIn() || device() === Devices.WideScreen) {

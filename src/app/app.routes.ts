@@ -13,9 +13,10 @@ import { LoginComponent } from './user-management/view/login-page/login.componen
 const redirectUnauthorizedToSignUp = () => redirectUnauthorizedTo(['']);
 const redirectLoggedInToTaskBoard = () => redirectLoggedInTo(['task-board']);
 
-export const routes: Routes = [
+export const APP_ROUTES: Routes = [
 	{
 		path: '',
+		pathMatch: 'full',
 		component: WelcomeComponent,
 		canActivate: [AuthGuard],
 		data: { authGuardPipe: redirectLoggedInToTaskBoard },
@@ -34,9 +35,9 @@ export const routes: Routes = [
 	},
 	{
 		path: 'task-board',
-		loadComponent: () =>
-			import('./tasks-board/view/task-board-page/task-board.component').then(
-				mod => mod.TaskBoardComponent
+		loadChildren: () =>
+			import('./tasks-board/task-board.routes').then(
+				mod => mod.TASK_BOARD_ROUTES
 			),
 		canActivate: [AuthGuard],
 		data: { authGuardPipe: redirectUnauthorizedToSignUp },

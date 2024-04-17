@@ -1,5 +1,9 @@
 import { ApplicationConfig, importProvidersFrom } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import {
+	PreloadAllModules,
+	provideRouter,
+	withPreloading,
+} from '@angular/router';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
@@ -13,11 +17,11 @@ import { connectAuthEmulator, getAuth, provideAuth } from '@angular/fire/auth';
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { environment } from '../environments/environment';
-import { routes } from './app.routes';
+import { APP_ROUTES } from './app.routes';
 
 export const appConfig: ApplicationConfig = {
 	providers: [
-		provideRouter(routes),
+		provideRouter(APP_ROUTES, withPreloading(PreloadAllModules)),
 		provideAnimationsAsync(),
 		importProvidersFrom(
 			provideFirebaseApp(() => initializeApp(environment.firebaseConfig))

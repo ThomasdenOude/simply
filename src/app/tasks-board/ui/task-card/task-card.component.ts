@@ -23,13 +23,13 @@ import { MatCardModule } from '@angular/material/card';
 import { Task } from '../../models/task.model';
 
 @Component({
-	selector: 'app-task',
+	selector: 'app-task-card',
 	standalone: true,
 	imports: [MatCardModule],
-	templateUrl: './task.component.html',
-	styleUrl: './task.component.scss',
+	templateUrl: './task-card.component.html',
+	styleUrl: './task-card.component.scss',
 })
-export class TaskComponent implements AfterViewInit, OnDestroy {
+export class TaskCardComponent implements AfterViewInit, OnDestroy {
 	private destroy: Subject<void> = new Subject<void>();
 	public task: InputSignal<Task> = input.required<Task>();
 

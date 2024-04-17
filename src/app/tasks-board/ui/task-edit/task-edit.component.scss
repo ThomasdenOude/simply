@@ -1,0 +1,13 @@
+@use 'base/layout';
+
+@include layout.page-container;
+
+.edit-task {
+	&__action {
+		display: flex;
+		gap: layout.space('large');
+	}
+	&__button {
+		flex: 1 1 auto;
+	}
+}

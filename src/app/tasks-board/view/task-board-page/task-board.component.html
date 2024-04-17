@@ -41,12 +41,12 @@
 							(cdkDropListDropped)="updateTask($event)"
 						>
 							@for (task of taskListSignal(status)(); track task.id) {
-								<app-task
+								<app-task-card
 									class="task-board__task"
 									cdkDrag
 									(editTask)="addOrEditTask($event)"
 									[task]="task"
-								></app-task>
+								></app-task-card>
 							}
 						</div>
 					</mat-tab>
@@ -65,9 +65,7 @@
 		</button>
 	} @else {
 		<div class="task-board__action-menu">
-			<button mat-flat-button color="accent" (click)="addOrEditTask()">
-				Add task
-			</button>
+			<button mat-flat-button color="accent" routerLink="task">Add task</button>
 		</div>
 		<div class="task-board__three-column-container">
 			@for (status of taskStatuses; track status) {
@@ -82,12 +80,12 @@
 				>
 					<h3>{{ status }}</h3>
 					@for (task of taskListSignal(status)(); track task.id) {
-						<app-task
+						<app-task-card
 							class="task-board__task"
 							cdkDrag
 							(editTask)="addOrEditTask($event)"
 							[task]="task"
-						></app-task>
+						></app-task-card>
 					}
 				</mat-card>
 			}

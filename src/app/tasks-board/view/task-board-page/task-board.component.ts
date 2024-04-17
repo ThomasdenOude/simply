@@ -17,16 +17,16 @@ import {
 } from '@angular/cdk/drag-drop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatDialog } from '@angular/material/dialog';
 import { MatCardModule } from '@angular/material/card';
 import { MatTabChangeEvent, MatTabsModule } from '@angular/material/tabs';
 
 import { ResponsiveService } from '../../../base/services/responsive.service';
 import { TaskService } from '../../services/task.service';
-import { TaskDialogComponent } from '../../ui/task-dialog/task-dialog.component';
-import { TaskComponent } from '../../ui/task/task.component';
-import { Task, TaskDialogData, TaskStatus } from '../../models/task.model';
+import { TaskEditComponent } from '../../ui/task-edit/task-edit.component';
+import { TaskCardComponent } from '../../ui/task-card/task-card.component';
+import { Task, TaskStatus } from '../../models/task.model';
 import { Devices } from '../../../base/models/devices';
+import { RouterLink } from '@angular/router';
 
 @Component({
 	selector: 'app-task-board-page',
@@ -36,17 +36,17 @@ import { Devices } from '../../../base/models/devices';
 		MatTabsModule,
 		MatIconModule,
 		MatCardModule,
-		TaskDialogComponent,
+		TaskEditComponent,
 		DragDropModule,
-		TaskComponent,
+		TaskCardComponent,
 		NgClass,
+		RouterLink,
 	],
 	templateUrl: './task-board.component.html',
 	styleUrl: './task-board.component.scss',
 })
 export class TaskBoardComponent implements OnInit {
 	private taskService: TaskService = inject(TaskService);
-	private dialog: MatDialog = inject(MatDialog);
 	private responsiveService: ResponsiveService = inject(ResponsiveService);
 
 	protected readonly Devices = Devices;
@@ -89,14 +89,7 @@ export class TaskBoardComponent implements OnInit {
 		}
 	}
 
-	protected addOrEditTask(task?: Task) {
-		this.dialog.open<TaskDialogComponent, TaskDialogData, null>(
-			TaskDialogComponent,
-			{
-				data: task ?? null,
-			}
-		);
-	}
+	protected addOrEditTask(task?: Task) {}
 
 	protected switchTab(status: TaskStatus): void {
 		const newIndex = this.taskStatuses.indexOf(status);

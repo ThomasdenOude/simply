@@ -1,0 +1,60 @@
+<div
+	class="page__container"
+	[ngClass]="{ 'is-phone-landscape': device() === Devices.HandsetLandscape }"
+>
+	@if (taskForm) {
+		<form
+			[formGroup]="taskForm"
+			(ngSubmit)="submitTask()"
+			class="page__content"
+		>
+			<h3>
+				{{ task ? 'Edit task' : 'Create task' }}
+			</h3>
+
+			<mat-form-field appearance="outline">
+				<mat-label>Title</mat-label>
+				<input matInput formControlName="title" />
+			</mat-form-field>
+
+			<mat-form-field appearance="outline">
+				<mat-label>Description</mat-label>
+				<textarea matInput formControlName="description"></textarea>
+			</mat-form-field>
+
+			<div class="edit-task__action">
+				@if (task) {
+					<button
+						type="button"
+						mat-icon-button
+						class="edit-task__button"
+						matTooltip="Delete task"
+						aria-label="Delete task"
+						(click)="deleteTask()"
+					>
+						<mat-icon color="warn">delete</mat-icon>
+					</button>
+				}
+				@if (!task) {
+					<button
+						type="button"
+						mat-stroked-button
+						class="edit-task__button"
+						color="primary"
+						(click)="cancel()"
+					>
+						Cancel
+					</button>
+				}
+				<button
+					type="submit"
+					class="edit-task__button"
+					mat-flat-button
+					color="primary"
+				>
+					Save
+				</button>
+			</div>
+		</form>
+	}
+</div>

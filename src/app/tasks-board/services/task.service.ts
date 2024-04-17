@@ -29,12 +29,8 @@ export class TaskService {
 		this.initTasks();
 	}
 
-	private get user(): User | null {
-		return this.authService.user();
-	}
-
 	private get collectionName(): string | null {
-		const userUid: string | null = this.user?.uid ?? null;
+		const userUid: string | null = this.authService.user()?.uid ?? null;
 
 		return userUid ? `${userUid}` : null;
 	}
@@ -61,6 +57,10 @@ export class TaskService {
 			});
 			this.taskList.set(taskList);
 		}
+	}
+
+	public getTask(id: string): Task | undefined {
+		return this.taskList().find((task: Task) => task.id === id);
 	}
 
 	public async addTask(task: CreateTask) {
