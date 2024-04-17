@@ -44,7 +44,7 @@
 								<app-task-card
 									class="task-board__task"
 									cdkDrag
-									(editTask)="addOrEditTask($event)"
+									(editTask)="editTask($event)"
 									[task]="task"
 								></app-task-card>
 							}
@@ -59,7 +59,7 @@
 			color="accent"
 			class="task-board__add-button"
 			[ngClass]="{ 'large-screen': device() === Devices.Small }"
-			(click)="addOrEditTask()"
+			routerLink="task"
 		>
 			<mat-icon>add</mat-icon>
 		</button>
@@ -76,14 +76,14 @@
 					[cdkDropListData]="taskListSignal(status)()"
 					[cdkDropListConnectedTo]="connectedListSignal(status)()"
 					(cdkDropListDropped)="updateTask($event)"
-					(dblclick)="addOrEditTask()"
+					(dblclick)="newTask()"
 				>
 					<h3>{{ status }}</h3>
 					@for (task of taskListSignal(status)(); track task.id) {
 						<app-task-card
 							class="task-board__task"
 							cdkDrag
-							(editTask)="addOrEditTask($event)"
+							(editTask)="editTask($event)"
 							[task]="task"
 						></app-task-card>
 					}

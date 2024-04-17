@@ -2,6 +2,7 @@ import { ApplicationConfig, importProvidersFrom } from '@angular/core';
 import {
 	PreloadAllModules,
 	provideRouter,
+	withComponentInputBinding,
 	withPreloading,
 } from '@angular/router';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
@@ -21,7 +22,11 @@ import { APP_ROUTES } from './app.routes';
 
 export const appConfig: ApplicationConfig = {
 	providers: [
-		provideRouter(APP_ROUTES, withPreloading(PreloadAllModules)),
+		provideRouter(
+			APP_ROUTES,
+			withPreloading(PreloadAllModules),
+			withComponentInputBinding()
+		),
 		provideAnimationsAsync(),
 		importProvidersFrom(
 			provideFirebaseApp(() => initializeApp(environment.firebaseConfig))

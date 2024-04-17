@@ -5,7 +5,7 @@
 .edit-task {
 	&__action {
 		display: flex;
-		gap: layout.space('large');
+		gap: layout.space('regular');
 	}
 	&__button {
 		flex: 1 1 auto;

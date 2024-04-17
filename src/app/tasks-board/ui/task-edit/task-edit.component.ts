@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, Signal } from '@angular/core';
+import { Component, OnInit, inject, Signal, Input } from '@angular/core';
 import {
 	FormBuilder,
 	FormControl,
@@ -51,6 +51,11 @@ export class TaskEditComponent implements OnInit {
 	private formBuilder: FormBuilder = new FormBuilder();
 
 	protected taskForm!: CreateTaskFormGroup;
+
+	@Input()
+	private set id(taskId: string) {
+		this.task = this.taskService.getTask(taskId);
+	}
 
 	ngOnInit(): void {
 		this.taskForm = this.formBuilder.group({

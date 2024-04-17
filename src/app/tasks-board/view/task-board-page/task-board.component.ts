@@ -26,7 +26,7 @@ import { TaskEditComponent } from '../../ui/task-edit/task-edit.component';
 import { TaskCardComponent } from '../../ui/task-card/task-card.component';
 import { Task, TaskStatus } from '../../models/task.model';
 import { Devices } from '../../../base/models/devices';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
 @Component({
 	selector: 'app-task-board-page',
@@ -48,6 +48,8 @@ import { RouterLink } from '@angular/router';
 export class TaskBoardComponent implements OnInit {
 	private taskService: TaskService = inject(TaskService);
 	private responsiveService: ResponsiveService = inject(ResponsiveService);
+	private router: Router = inject(Router);
+	private route: ActivatedRoute = inject(ActivatedRoute);
 
 	protected readonly Devices = Devices;
 	protected readonly taskStatuses: TaskStatus[] = Object.values(TaskStatus);
@@ -89,7 +91,13 @@ export class TaskBoardComponent implements OnInit {
 		}
 	}
 
-	protected addOrEditTask(task?: Task) {}
+	protected editTask(task: Task) {
+		this.router.navigate(['task', task.id], { relativeTo: this.route });
+	}
+
+	protected newTask(): void {
+		this.router.navigate(['task'], { relativeTo: this.route });
+	}
 
 	protected switchTab(status: TaskStatus): void {
 		const newIndex = this.taskStatuses.indexOf(status);

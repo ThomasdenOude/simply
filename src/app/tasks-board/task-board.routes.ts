@@ -13,4 +13,8 @@ export const TASK_BOARD_ROUTES: Routes = [
 		path: 'task',
 		component: TaskEditComponent,
 	},
+	{
+		path: 'task/:id',
+		component: TaskEditComponent,
+	},
 ];
