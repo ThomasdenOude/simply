@@ -1,7 +1,4 @@
-<div
-	class="page__container"
-	[ngClass]="{ 'is-phone-landscape': device() === Devices.HandsetLandscape }"
->
+<app-center-page>
 	@if (taskForm) {
 		<form
 			[formGroup]="taskForm"
@@ -59,4 +56,4 @@
 			</div>
 		</form>
 	}
-</div>
+</app-center-page>

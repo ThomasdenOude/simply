@@ -1,6 +1,6 @@
 @use 'base/layout';
 
-@include layout.page-container;
+@include layout.flex-component;
 
 .sign-up {
 	&__button {

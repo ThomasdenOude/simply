@@ -1,8 +1,5 @@
-<div
-	class="page__container"
-	[ngClass]="{ 'is-phone-landscape': device() === Devices.HandsetLandscape }"
->
-	<div class="page__content">
+<app-center-page>
+	<div class="settings-menu__container">
 		<h3 class="settings-menu__text">
 			<mat-icon>settings</mat-icon> Your Simply account
 		</h3>
@@ -93,4 +90,4 @@
 			}
 		</app-menu-dropdown>
 	</div>
-</div>
+</app-center-page>

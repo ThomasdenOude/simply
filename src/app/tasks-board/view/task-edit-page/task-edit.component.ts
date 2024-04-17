@@ -23,9 +23,10 @@ import {
 	TaskStatus,
 } from '../../models/task.model';
 import { Devices } from '../../../base/models/devices';
+import { CenterPageComponent } from '../../../base/ui/center-page/center-page.component';
 
 @Component({
-	selector: 'app-task-edit',
+	selector: 'app-task-edit-page',
 	standalone: true,
 	imports: [
 		FormsModule,
@@ -36,6 +37,7 @@ import { Devices } from '../../../base/models/devices';
 		MatButtonModule,
 		MatTooltipModule,
 		NgClass,
+		CenterPageComponent,
 	],
 	templateUrl: './task-edit.component.html',
 	styleUrl: './task-edit.component.scss',

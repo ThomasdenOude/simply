@@ -1,6 +1,6 @@
-@use 'base/layout';
+@use '../../../../styles/base/layout';
 
-@include layout.page-container;
+@include layout.flex-component;
 
 .edit-task {
 	&__action {

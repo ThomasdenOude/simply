@@ -1,14 +1,3 @@
-@use 'base/layout' as l;
+@use 'base/layout';
 
-@include l.page-container;
-
-.page {
-	&__content {
-		max-width: 400px;
-	}
-	&__container.is-wide-screen {
-		.page__content {
-			max-width: 600px;
-		}
-	}
-}
+@include layout.flex-component;

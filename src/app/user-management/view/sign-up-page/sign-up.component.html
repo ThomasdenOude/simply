@@ -1,8 +1,5 @@
-<div
-	class="page__container"
-	[ngClass]="{ 'is-phone-landscape': device() === Devices.HandsetLandscape }"
->
-	<form class="page__content" [formGroup]="signUpForm" (ngSubmit)="signUp()">
+<app-center-page>
+	<form [formGroup]="signUpForm" (ngSubmit)="signUp()">
 		<h3 class="sign-up__text">
 			Sign up to Simply <mat-icon color="accent">task_alt</mat-icon>
 		</h3>
@@ -57,4 +54,4 @@
 			</button>
 		}
 	</form>
-</div>
+</app-center-page>

@@ -34,6 +34,7 @@ import { NewPasswordFormFieldComponent } from '../../ui/new-password-form-field/
 import { AuthenticationMessages } from '../../models/authentication-messages';
 import { SettingsAction } from '../../models/settings-actions.model';
 import { PasswordForm } from '../../models/credentials.model';
+import { CenterPageComponent } from '../../../base/ui/center-page/center-page.component';
 
 @Component({
 	selector: 'app-settings-page',
@@ -49,13 +50,13 @@ import { PasswordForm } from '../../models/credentials.model';
 		ReactiveFormsModule,
 		FormsModule,
 		NewPasswordFormFieldComponent,
+		CenterPageComponent,
 	],
 	templateUrl: './settings.component.html',
 	styleUrl: './settings.component.scss',
 })
 export class SettingsComponent {
 	private authService: AuthenticationService = inject(AuthenticationService);
-	private responsiveService: ResponsiveService = inject(ResponsiveService);
 	private router: Router = inject(Router);
 	private matDialog: MatDialog = inject(MatDialog);
 
@@ -73,9 +74,6 @@ export class SettingsComponent {
 	);
 	protected passwordConfirmError: WritableSignal<AuthenticationMessages> =
 		signal(AuthenticationMessages.None);
-
-	protected device: Signal<Devices> = this.responsiveService.device;
-	protected readonly Devices = Devices;
 
 	protected changePasswordForm: FormGroup<PasswordForm> =
 		new FormGroup<PasswordForm>({

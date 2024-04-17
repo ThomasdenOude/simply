@@ -31,6 +31,7 @@ import { ErrorMessageComponent } from '../../../base/ui/error-message/error-mess
 import { Credentials, CredentialsForm } from '../../models/credentials.model';
 import { Devices } from '../../../base/models/devices';
 import { AuthenticationMessages } from '../../models/authentication-messages';
+import { CenterPageComponent } from '../../../base/ui/center-page/center-page.component';
 
 @Component({
 	selector: 'app-login-page',
@@ -45,6 +46,7 @@ import { AuthenticationMessages } from '../../models/authentication-messages';
 		NgClass,
 		MatIcon,
 		ErrorMessageComponent,
+		CenterPageComponent,
 	],
 	templateUrl: './login.component.html',
 	styleUrl: './login.component.scss',

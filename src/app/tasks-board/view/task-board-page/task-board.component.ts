@@ -22,7 +22,7 @@ import { MatTabChangeEvent, MatTabsModule } from '@angular/material/tabs';
 
 import { ResponsiveService } from '../../../base/services/responsive.service';
 import { TaskService } from '../../services/task.service';
-import { TaskEditComponent } from '../../ui/task-edit/task-edit.component';
+import { TaskEditComponent } from '../task-edit-page/task-edit.component';
 import { TaskCardComponent } from '../../ui/task-card/task-card.component';
 import { Task, TaskStatus } from '../../models/task.model';
 import { Devices } from '../../../base/models/devices';

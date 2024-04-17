@@ -1,16 +1,13 @@
 @use 'base/layout';
 
-@include layout.page-container;
+@include layout.flex-component;
 
-.page {
-	&__content {
+.settings-menu {
+	&__container {
 		display: flex;
 		flex-direction: column;
 		gap: layout.space('large');
 	}
-}
-
-.settings-menu {
 	&__button {
 		width: 100%;
 	}
