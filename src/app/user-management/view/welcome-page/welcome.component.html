@@ -1,0 +1,19 @@
+<div
+	class="page__container"
+	[ngClass]="{
+		'is-phone-landscape': device() === Devices.HandsetLandscape,
+		'is-wide-screen': device() === Devices.WideScreen
+	}"
+>
+	<div class="page__content test">
+		<h2 class="mat-headline-1">Simply</h2>
+		<p class="mat-headline-2">
+			Get things done.<br />Focus on what matters most.<br />Clear your mind and
+			work on your goals
+		</p>
+		<button mat-flat-button color="accent" routerLink="/sign-up">
+			Sign up
+			<mat-icon iconPositionEnd>task_alt</mat-icon>
+		</button>
+	</div>
+</div>

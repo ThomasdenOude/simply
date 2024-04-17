@@ -1,0 +1,14 @@
+@use 'base/layout' as l;
+
+@include l.page-container;
+
+.page {
+	&__content {
+		max-width: 400px;
+	}
+	&__container.is-wide-screen {
+		.page__content {
+			max-width: 600px;
+		}
+	}
+}

@@ -1,16 +1,10 @@
-@use '../base/layout' as l;
+@use 'base/layout' as l;
 
 @mixin simply-dialog {
 	.simply-dialog {
-		.mat-mdc-dialog-content {
-			display: flex;
-			flex-direction: column;
-
-			.mat-mdc-form-field {
-				padding-top: l.space('small');
-			}
+		.mat-mdc-dialog-title {
+			margin-bottom: l.space('regular');
 		}
-
 		.mat-mdc-dialog-actions {
 			padding: 0 24px 24px;
 			gap: l.space('regular');

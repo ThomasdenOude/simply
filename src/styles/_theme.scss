@@ -1,9 +1,13 @@
 @use '@angular/material' as mat;
 @use 'sass:map';
-@use './base/colors';
-@use './base/typography';
-@use './base/theme-mixins';
+
+@use 'base/colors';
+@use 'base/typography';
+@use 'base/theme-mixins';
+
 @use 'components/scrollbar';
+@use 'components/error-message' as error;
+@use 'components/menu-dropdown' as menu;
 
 /*
  *  1 - Set default light theme and typography for mobile
@@ -16,7 +20,7 @@
 /*      1- Light theme with typography      */
 $simply-primary: mat.define-palette(colors.$dark-blue-palette, 800);
 $simply-accent: mat.define-palette(colors.$orange-palette, 500, 300, 600);
-$simply-warn: mat.define-palette(colors.$orange-palette, 900);
+$simply-warn: mat.define-palette(colors.$green-palette, 600);
 
 $simply-light-theme: mat.define-light-theme(
 	(
@@ -30,6 +34,7 @@ $simply-light-theme: mat.define-light-theme(
 	)
 );
 
+/*    Material styling    */
 @include mat.core-theme($simply-light-theme);
 @include mat.button-theme($simply-light-theme);
 @include mat.icon-button-theme($simply-light-theme);
@@ -43,14 +48,13 @@ $simply-light-theme: mat.define-light-theme(
 
 @include mat.typography-hierarchy(typography.$simply-typography-config);
 
-@include theme-mixins.simply-custom-color($simply-light-theme);
+/*    Custom styling    */
+@include typography.text-margins;
 
-body.mat-typography {
-	@include typography.text-margins;
-}
-body {
-	@include scrollbar.simply-scrollbar($simply-light-theme);
-}
+@include theme-mixins.simply-custom-color($simply-light-theme);
+@include scrollbar.simply-scrollbar($simply-light-theme);
+@include error.message-color($simply-light-theme);
+@include menu.menu-dropdown($simply-light-theme);
 
 /*      2 - Dark theme - only colors        */
 @media (prefers-color-scheme: dark) {
@@ -66,12 +70,13 @@ body {
 		300,
 		600
 	);
+	$simply-warn-light: mat.define-palette(colors.$green-palette, 300, 200, 700);
 	$simply-dark-theme: mat.define-dark-theme(
 		(
 			color: (
 				primary: $simply-primary-light,
 				accent: $simply-accent-light,
-				warn: $simply-warn,
+				warn: $simply-warn-light,
 			),
 		)
 	);
@@ -88,9 +93,9 @@ body {
 	@include mat.tooltip-color($simply-dark-theme);
 
 	@include theme-mixins.simply-custom-color($simply-dark-theme);
-	body {
-		@include scrollbar.simply-scrollbar($simply-dark-theme);
-	}
+	@include scrollbar.simply-scrollbar($simply-dark-theme);
+	@include error.message-color($simply-dark-theme);
+	@include menu.menu-dropdown($simply-dark-theme);
 }
 
 /*    3 - Set typography for medium to large screens    */

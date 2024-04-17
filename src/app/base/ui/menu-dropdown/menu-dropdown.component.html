@@ -1,0 +1,24 @@
+<div class="menu-dropdown__container">
+	<button
+		class="menu-dropdown__button simply-text-color"
+		(click)="toggleMenu()"
+	>
+		<span class="menu-dropdown__title-container">
+			@if (iconName()) {
+				<mat-icon class="menu-dropdown__icon">{{ iconName() }}</mat-icon>
+			}
+			<p class="menu-dropdown__title">{{ menuTitle() }}</p>
+		</span>
+		@if (menuIsOpened()) {
+			<mat-icon>expand_more</mat-icon>
+		} @else {
+			<mat-icon>chevron_right</mat-icon>
+		}
+	</button>
+
+	@if (menuIsOpened()) {
+		<div class="menu-dropdown__content">
+			<ng-content></ng-content>
+		</div>
+	}
+</div>

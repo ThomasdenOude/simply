@@ -4,17 +4,19 @@
 /*      Font variables      */
 $simply-fonts: (
 	'header': (
-		'Fira Sans',
+		'Nunito Sans',
 		sans-serif,
 	),
 	'main': (
-		Roboto,
+		Lato,
 		sans-serif,
 	),
 );
 $simply-font-weights: (
 	'regular': 400,
 	'medium': 500,
+	'bold': 700,
+	'extra-bold': 900,
 );
 $simply-font-size: (
 	'small': 0.9rem,
@@ -32,26 +34,26 @@ $simply-line-height: (
 );
 
 @mixin text-margins {
-	h1 {
-		margin: 0;
-	}
-
-	h2,
-	.mat-headline-1 {
-		margin: 0 0 map.get($simply-font-size, 'large');
-	}
-
-	p,
-	h3,
-	.mat-headline-2 {
-		margin: 0 0 map.get($simply-font-size, 'regular') 0;
+	.simply {
+		h1 {
+			margin: 0;
+		}
+		h2,
+		.mat-headline-1 {
+			margin: 0 0 map.get($simply-font-size, 'large') 0;
+		}
+		p,
+		h3,
+		.mat-headline-2 {
+			margin: 0 0 map.get($simply-font-size, 'regular') 0;
+		}
 	}
 }
 
 /*      Base typography          */
 $simply-hero-header: mat.define-typography-level(
 	$font-family: map.get($simply-fonts, 'header'),
-	$font-weight: map.get($simply-font-weights, 'medium'),
+	$font-weight: map.get($simply-font-weights, 'extra-bold'),
 	$font-size: map.get($simply-font-size, 'display-large'),
 	$line-height: map.get($simply-line-height, 'small'),
 	$letter-spacing: normal,
@@ -67,7 +69,7 @@ $simply-hero-sub-header: mat.define-typography-level(
 
 $simply-h1: mat.define-typography-level(
 	$font-family: map.get($simply-fonts, 'header'),
-	$font-weight: map.get($simply-font-weights, 'medium'),
+	$font-weight: map.get($simply-font-weights, 'bold'),
 	$font-size: map.get($simply-font-size, 'extra-large'),
 	$line-height: map.get($simply-line-height, 'small'),
 	$letter-spacing: normal,
@@ -75,7 +77,7 @@ $simply-h1: mat.define-typography-level(
 
 $simply-h2: mat.define-typography-level(
 	$font-family: map.get($simply-fonts, 'header'),
-	$font-weight: map.get($simply-font-weights, 'medium'),
+	$font-weight: map.get($simply-font-weights, 'extra-bold'),
 	$font-size: map.get($simply-font-size, 'large'),
 	$line-height: map.get($simply-line-height, 'small'),
 	$letter-spacing: normal,
@@ -92,7 +94,7 @@ $simply-h3: mat.define-typography-level(
 $simply-body: mat.define-typography-level(
 	$font-family: map.get($simply-fonts, 'main'),
 	$font-weight: map.get($simply-font-weights, 'regular'),
-	$font-size: map.get($simply-font-size, 'regular'),
+	$font-size: map.get($simply-font-size, 'small'),
 	$line-height: map.get($simply-line-height, 'large'),
 	$letter-spacing: normal,
 );
@@ -128,7 +130,7 @@ $simply-typography-config: mat.define-typography-config(
 /*      Medium to large screen typography          */
 $medium-hero-header: mat.define-typography-level(
 	$font-family: map.get($simply-fonts, 'header'),
-	$font-weight: map.get($simply-font-weights, 'medium'),
+	$font-weight: map.get($simply-font-weights, 'extra-bold'),
 	$font-size: map.get($simply-font-size, 'display-extra-large'),
 	$line-height: map.get($simply-line-height, 'small'),
 	$letter-spacing: normal,
@@ -144,7 +146,7 @@ $medium-hero-sub-header: mat.define-typography-level(
 
 $medium-h1: mat.define-typography-level(
 	$font-family: map.get($simply-fonts, 'header'),
-	$font-weight: map.get($simply-font-weights, 'medium'),
+	$font-weight: map.get($simply-font-weights, 'bold'),
 	$font-size: map.get($simply-font-size, 'display'),
 	$line-height: map.get($simply-line-height, 'small'),
 	$letter-spacing: normal,
@@ -152,7 +154,7 @@ $medium-h1: mat.define-typography-level(
 
 $medium-h2: mat.define-typography-level(
 	$font-family: map.get($simply-fonts, 'header'),
-	$font-weight: map.get($simply-font-weights, 'medium'),
+	$font-weight: map.get($simply-font-weights, 'extra-bold'),
 	$font-size: map.get($simply-font-size, 'extra-large'),
 	$line-height: map.get($simply-line-height, 'small'),
 	$letter-spacing: normal,

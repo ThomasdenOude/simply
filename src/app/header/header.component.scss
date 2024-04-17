@@ -1,10 +1,10 @@
-@use '../../styles/base/layout' as l;
+@use 'base/layout' as l;
 
 .header {
 	&__container {
 		padding: l.space('regular');
 		display: flex;
-		flex-direction: row;
+		justify-content: space-between;
 		align-items: center;
 		&.large-screen {
 			padding: l.space('large');
@@ -17,5 +17,18 @@
 
 	&__icon {
 		flex: auto;
+	}
+}
+
+.settings-menu {
+	&__container {
+		display: flex;
+		flex-direction: column;
+		min-width: 300px;
+		padding: l.space('regular');
+	}
+	&__settings-button,
+	&__divider {
+		margin-bottom: l.space('regular');
 	}
 }

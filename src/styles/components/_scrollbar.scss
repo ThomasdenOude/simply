@@ -1,18 +1,20 @@
 @use '@angular/material' as mat;
-@use '../base/layout' as l;
+@use 'base/layout' as l;
 
 @mixin simply-scrollbar($theme, $tone: 900) {
-	&::-webkit-scrollbar-track {
-		-webkit-box-shadow: none;
-		background-color: transparent;
-	}
-	&::-webkit-scrollbar {
-		width: l.space('small');
-		background-color: transparent;
-	}
-	&::-webkit-scrollbar-thumb {
-		border-radius: l.space('small');
-		-webkit-box-shadow: none;
-		background-color: mat.get-theme-color($theme, primary, $tone);
+	.simply {
+		::-webkit-scrollbar-track {
+			-webkit-box-shadow: none;
+			background-color: transparent;
+		}
+		::-webkit-scrollbar {
+			width: l.space('small');
+			background-color: transparent;
+		}
+		::-webkit-scrollbar-thumb {
+			border-radius: l.space('small');
+			-webkit-box-shadow: none;
+			background-color: mat.get-theme-color($theme, primary, $tone);
+		}
 	}
 }
