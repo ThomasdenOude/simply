@@ -13,7 +13,7 @@ import {
 } from '@angular/fire/firestore';
 import { User } from '@angular/fire/auth';
 
-import { AuthenticationService } from '../../base/services/authentication.service';
+import { AuthenticationService } from '../../user-management/services/authentication.service';
 import { CreateTask, Task, TaskDto, TaskStatus } from '../models/task.model';
 
 @Injectable({

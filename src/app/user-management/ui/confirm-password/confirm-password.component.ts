@@ -21,7 +21,7 @@ import { MatButton } from '@angular/material/button';
 import { ErrorMessageComponent } from '../../../base/ui/error-message/error-message.component';
 import { PasswordForm } from '../../models/credentials.model';
 import { MatInput } from '@angular/material/input';
-import { AuthenticationMessages } from '../../../base/models/authentication-messages';
+import { AuthenticationMessages } from '../../models/authentication-messages';
 
 @Component({
 	selector: 'app-confirm-password',

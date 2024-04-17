@@ -26,13 +26,13 @@ import { MatInput, MatInputModule } from '@angular/material/input';
 import { MatDivider } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 
-import { AuthenticationService } from '../../../base/services/authentication.service';
+import { AuthenticationService } from '../../services/authentication.service';
 import { ResponsiveService } from '../../../base/services/responsive.service';
 import { NewPasswordFormFieldComponent } from '../../ui/new-password-form-field/new-password-form-field.component';
 import { ErrorMessageComponent } from '../../../base/ui/error-message/error-message.component';
 import { Credentials, CredentialsForm } from '../../models/credentials.model';
 import { Devices } from '../../../base/models/devices';
-import { AuthenticationMessages } from '../../../base/models/authentication-messages';
+import { AuthenticationMessages } from '../../models/authentication-messages';
 
 @Component({
 	selector: 'app-sign-up-page',

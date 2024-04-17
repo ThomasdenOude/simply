@@ -12,7 +12,7 @@ import { MatCard } from '@angular/material/card';
 import { CdkMenu, CdkMenuItem, CdkMenuTrigger } from '@angular/cdk/menu';
 
 import { ResponsiveService } from '../base/services/responsive.service';
-import { AuthenticationService } from '../base/services/authentication.service';
+import { AuthenticationService } from '../user-management/services/authentication.service';
 import { Devices } from '../base/models/devices';
 
 @Component({
