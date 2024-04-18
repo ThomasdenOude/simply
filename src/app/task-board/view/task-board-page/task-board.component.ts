@@ -7,7 +7,8 @@ import {
 	Signal,
 	WritableSignal,
 } from '@angular/core';
-import { NgClass } from '@angular/common';
+import { NgClass, NgStyle } from '@angular/common';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
 import {
 	CdkDragDrop,
@@ -17,31 +18,33 @@ import {
 } from '@angular/cdk/drag-drop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatCardModule } from '@angular/material/card';
-import { MatTabChangeEvent, MatTabsModule } from '@angular/material/tabs';
 
 import { ResponsiveService } from '../../../base/services/responsive.service';
 import { TaskService } from '../../services/task.service';
+import { TaskBoardTabDirective } from '../../directives/task-board-tab.directive';
+import { TaskBoardGroupComponent } from '../../ui/task-board-group/task-board-group.component';
+import { TaskListComponent } from '../../ui/task-list/task-list.component';
 import { TaskEditComponent } from '../task-edit-page/task-edit.component';
 import { TaskCardComponent } from '../../ui/task-card/task-card.component';
 import { Task, TaskStatus } from '../../models/task.model';
-import { TASK_STATUS_LIST } from '../../data/task-status-list';
 import { Devices } from '../../../base/models/devices';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { TASK_STATUS_LIST } from '../../data/task-status-list';
 
 @Component({
 	selector: 'app-task-board-page',
 	standalone: true,
 	imports: [
-		MatButtonModule,
-		MatTabsModule,
-		MatIconModule,
-		MatCardModule,
-		TaskEditComponent,
-		DragDropModule,
 		TaskCardComponent,
 		NgClass,
+		NgStyle,
+		MatButtonModule,
+		MatIconModule,
+		DragDropModule,
 		RouterLink,
+		TaskEditComponent,
+		TaskBoardTabDirective,
+		TaskBoardGroupComponent,
+		TaskListComponent,
 	],
 	templateUrl: './task-board.component.html',
 	styleUrl: './task-board.component.scss',
@@ -54,9 +57,18 @@ export class TaskBoardComponent implements OnInit {
 
 	protected readonly Devices = Devices;
 	protected readonly taskStatuses: ReadonlyArray<TaskStatus> = TASK_STATUS_LIST;
+
 	protected device: Signal<Devices> = this.responsiveService.device;
 	private _taskList!: Signal<Task[]>;
-	protected currentTabIndex: WritableSignal<number> = signal(0);
+	protected taskStatusListItems: Signal<Task[]>[] = TASK_STATUS_LIST.map(
+		(status: TaskStatus) =>
+			computed(() =>
+				this._taskList()
+					.filter((task: Task) => task.status === status)
+					.sort((a: Task, b: Task) => a.index - b.index)
+			)
+	);
+	protected activeStatus: WritableSignal<TaskStatus> = signal(TaskStatus.Todo);
 
 	ngOnInit(): void {
 		this._taskList = this.taskService.taskList;
@@ -70,26 +82,12 @@ export class TaskBoardComponent implements OnInit {
 		);
 	}
 
-	protected connectedListSignal(status: TaskStatus): Signal<string[]> {
-		return computed(() => {
-			const connectedList: string[] = [];
-
-			this.taskStatuses
-				.filter(taskStatus => taskStatus !== status)
-				.forEach(taskStatus => {
-					connectedList.push(taskStatus);
-					if (this.device() !== Devices.WideScreen) {
-						connectedList.push('TAB_' + taskStatus);
-					}
-				});
-			return connectedList;
-		});
+	protected getStatusIconText(status: TaskStatus): string {
+		return this.taskService.getTaskStatusIcon(status);
 	}
 
-	protected selectedNewTab(currentTab: MatTabChangeEvent): void {
-		if (currentTab.index !== this.currentTabIndex()) {
-			this.currentTabIndex.set(currentTab.index);
-		}
+	protected selectStatus(status: TaskStatus) {
+		this.activeStatus.set(status);
 	}
 
 	protected editTask(task: Task) {
@@ -101,24 +99,30 @@ export class TaskBoardComponent implements OnInit {
 	}
 
 	protected switchTab(status: TaskStatus): void {
-		const newIndex = this.taskStatuses.indexOf(status);
-		this.currentTabIndex.set(newIndex);
+		this.activeStatus.set(status);
 	}
 
-	protected updateTask(event: CdkDragDrop<Task[]>, tabDrop = false): void {
+	protected updateTask(
+		event: CdkDragDrop<Task[]>,
+		targetStatus?: TaskStatus
+	): void {
 		const previousStatus: TaskStatus = event.previousContainer.id as TaskStatus;
 		const previousList: Task[] = event.previousContainer.data;
 		const previousIndex: number = event.previousIndex;
 
 		const currentStatus: TaskStatus = (
-			tabDrop ? event.container.id.slice(4) : event.container.id
+			targetStatus ? targetStatus : event.container.id
 		) as TaskStatus;
-		const currentList: Task[] = tabDrop
-			? this.taskListSignal(currentStatus)()
+		const currentIndex: number = targetStatus
+			? this.taskStatuses.indexOf(targetStatus)
+			: event.currentIndex;
+		const currentList: Task[] = targetStatus
+			? this.taskStatusListItems[currentIndex]()
 			: event.container.data;
-		const currentIndex: number = tabDrop ? 0 : event.currentIndex;
-
-		if (event.container === event.previousContainer) {
+		if (
+			event.container === event.previousContainer ||
+			previousStatus === currentStatus
+		) {
 			moveItemInArray(currentList, previousIndex, currentIndex);
 			this.taskService.updateIndex(currentStatus, currentList);
 		} else {
@@ -129,9 +133,6 @@ export class TaskBoardComponent implements OnInit {
 				currentStatus,
 				currentList
 			);
-		}
-		if (tabDrop) {
-			this.switchTab(currentStatus);
 		}
 	}
 }

@@ -1,0 +1,11 @@
+<div class="task-list__container">
+	<header class="task-list__header">
+		<mat-icon class="task-list__header-item">{{
+			taskStatusIcon.get(taskStatus())
+		}}</mat-icon>
+		<h3 class="task-list__header-item">{{ taskStatus() }}</h3>
+	</header>
+	<div class="task-list__content">
+		<ng-content></ng-content>
+	</div>
+</div>

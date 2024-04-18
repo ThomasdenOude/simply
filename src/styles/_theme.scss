@@ -8,6 +8,7 @@
 @use 'components/scrollbar';
 @use 'components/error-message' as error;
 @use 'components/menu-dropdown' as menu;
+@use 'components/task-board-tab' as tab;
 
 /*
  *  1 - Set default light theme and typography for mobile
@@ -56,6 +57,7 @@ $simply-light-theme: mat.define-light-theme(
 @include scrollbar.simply-scrollbar($simply-light-theme);
 @include error.message-color($simply-light-theme);
 @include menu.menu-dropdown($simply-light-theme);
+@include tab.task-board-theme($simply-light-theme);
 
 /*      2 - Dark theme - only colors        */
 @media (prefers-color-scheme: dark) {
@@ -98,6 +100,7 @@ $simply-light-theme: mat.define-light-theme(
 	@include scrollbar.simply-scrollbar($simply-dark-theme);
 	@include error.message-color($simply-dark-theme);
 	@include menu.menu-dropdown($simply-dark-theme);
+	@include tab.task-board-color($simply-dark-theme);
 }
 
 /*    3 - Set typography for medium to large screens    */

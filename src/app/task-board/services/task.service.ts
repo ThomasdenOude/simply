@@ -14,6 +14,7 @@ import {
 
 import { AuthenticationService } from '../../user-management/services/authentication.service';
 import { CreateTask, Task, TaskDto, TaskStatus } from '../models/task.model';
+import { taskStatusIcon, todoIconText } from '../data/task-status-icon.map';
 
 @Injectable({
 	providedIn: 'root',
@@ -60,6 +61,12 @@ export class TaskService {
 
 	public getTask(id: string): Task | undefined {
 		return this.taskList().find((task: Task) => task.id === id);
+	}
+
+	public getTaskStatusIcon(status: TaskStatus): string {
+		const iconText = taskStatusIcon.get(status);
+
+		return iconText ?? todoIconText;
 	}
 
 	public async addTask(task: CreateTask) {

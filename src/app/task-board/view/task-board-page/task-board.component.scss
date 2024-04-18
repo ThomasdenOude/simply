@@ -1,0 +1,58 @@
+@use 'base/layout' as l;
+
+:host {
+	flex: 1 1 auto;
+	display: flex;
+	flex-direction: column;
+}
+
+.task-board {
+	&__container {
+		flex: 1 1 auto;
+		padding: l.space('regular');
+	}
+}
+
+.task-board-group {
+	&__list {
+		height: 100%;
+		padding: l.space('regular');
+		display: flex;
+		flex-direction: column;
+		gap: l.space('regular');
+	}
+
+	&__add-button {
+		position: fixed;
+		bottom: l.space('large');
+		right: l.space('large');
+		z-index: 2;
+
+		&.large-screen {
+			bottom: l.space('extra-large');
+			right: l.space('extra-large');
+		}
+	}
+}
+
+.task-board-kanban {
+	&__container {
+		height: 100%;
+		width: 100%;
+		max-width: 1800px;
+		display: flex;
+		flex-direction: column;
+		gap: l.space('large');
+	}
+
+	&__action-menu {
+		display: flex;
+		justify-content: end;
+	}
+
+	&__list-container {
+		flex: 1 1 auto;
+		display: flex;
+		gap: l.space('large');
+	}
+}

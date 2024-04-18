@@ -18,8 +18,8 @@
 					>
 
 					@for (status of availableStatuses(); track status) {
-						<mat-option [value]="status"
-							><mat-icon>{{ taskStatusIcon.get(status) }}</mat-icon
+						<mat-option [value]="status">
+							<mat-icon>{{ taskStatusIcon.get(status) }}</mat-icon
 							>{{ status }}</mat-option
 						>
 					}

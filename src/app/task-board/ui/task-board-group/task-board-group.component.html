@@ -1,0 +1,14 @@
+<div class="task-board-group__container">
+	<header>
+		<nav class="task-board-group__nav">
+			<ng-content select="[appTaskBoardTab]"></ng-content>
+		</nav>
+	</header>
+
+	<div
+		class="task-board-group__content"
+		[ngClass]="{ 'large-screen': device() === Devices.Small }"
+	>
+		<ng-content></ng-content>
+	</div>
+</div>

@@ -1,0 +1,31 @@
+@use 'base/layout';
+
+:host {
+	width: 100%;
+}
+.task-list {
+	&__container {
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+		border-style: solid;
+		border-width: 1px;
+		border-radius: 8px;
+	}
+	&__header {
+		display: flex;
+		justify-content: center;
+		padding: layout.space('regular');
+		gap: layout.space('regular');
+	}
+	&__header-item {
+		margin: 0;
+	}
+	&__content {
+		display: flex;
+		flex: 1 1 auto;
+		flex-direction: column;
+		padding: 0 layout.space('regular') 0;
+		gap: layout.space('regular');
+	}
+}

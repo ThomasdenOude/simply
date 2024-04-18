@@ -30,11 +30,12 @@ import {
 	CreateTaskForm,
 	Task,
 	TaskStatus,
+	TaskStatusIcons,
 } from '../../models/task.model';
 import { Devices } from '../../../base/models/devices';
 import { CenterPageComponent } from '../../../base/ui/center-page/center-page.component';
-import { taskStatusIcon } from '../../data/task-status-icon.map';
 import { TASK_STATUS_LIST } from '../../data/task-status-list';
+import { taskStatusIcon } from '../../data/task-status-icon.map';
 
 @Component({
 	selector: 'app-task-edit-page',
@@ -66,6 +67,7 @@ export class TaskEditComponent implements OnInit {
 	);
 	protected task: Task | undefined;
 	protected taskForm!: FormGroup<CreateTaskForm>;
+	protected readonly taskStatusIcon: TaskStatusIcons = taskStatusIcon;
 
 	@Input()
 	private set id(taskId: string) {
@@ -140,8 +142,4 @@ export class TaskEditComponent implements OnInit {
 	protected cancel(): void {
 		this.navigateToTaskBoard();
 	}
-
-	protected readonly TASK_STATUS_LIST = TASK_STATUS_LIST;
-	protected readonly taskStatusIcon = taskStatusIcon;
-	protected readonly TaskStatus = TaskStatus;
 }

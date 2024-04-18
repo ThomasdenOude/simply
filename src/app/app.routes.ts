@@ -36,7 +36,7 @@ export const APP_ROUTES: Routes = [
 	{
 		path: 'task-board',
 		loadChildren: () =>
-			import('./tasks-board/task-board.routes').then(
+			import('./task-board/task-board.routes').then(
 				mod => mod.TASK_BOARD_ROUTES
 			),
 		canActivate: [AuthGuard],

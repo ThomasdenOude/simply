@@ -2,6 +2,7 @@
 
 .task {
 	&__card {
+		min-height: l.space('large');
 		padding: l.space('small');
 	}
 

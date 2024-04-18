@@ -1,0 +1,88 @@
+<div
+	class="task-board__container"
+	[ngClass]="{
+		'large-screen':
+			device() === Devices.Small || device() === Devices.WideScreen
+	}"
+>
+	@if (device() !== Devices.WideScreen) {
+		<app-task-board-group cdkDropListGroup>
+			@for (status of taskStatuses; track status) {
+				<button
+					appTaskBoardTab
+					cdkDropList
+					[active]="activeStatus() === status"
+					[taskStatus]="status"
+					(click)="selectStatus(status)"
+					[id]="'TAB_' + status"
+					(cdkDropListDropped)="updateTask($event, status)"
+					(cdkDropListEntered)="switchTab(status)"
+				>
+					<mat-icon class="tab-content" [attr.aria-label]="status">{{
+						getStatusIconText(status)
+					}}</mat-icon>
+					@if (device() !== Devices.HandsetPortrait) {
+						<h3 class="tab-content">{{ status }}</h3>
+					}
+				</button>
+			}
+			@for (status of taskStatuses; track status) {
+				<div
+					cdkDropList
+					class="task-board-group__list"
+					[ngStyle]="status === activeStatus() ? null : { display: 'none' }"
+					[ngClass]="{ 'large-screen': device() === Devices.Small }"
+					[id]="status"
+					[cdkDropListData]="taskStatusListItems[$index]()"
+					(cdkDropListDropped)="updateTask($event)"
+				>
+					@for (task of taskStatusListItems[$index](); track task.id) {
+						<app-task-card
+							cdkDrag
+							(editTask)="editTask($event)"
+							[task]="task"
+						></app-task-card>
+					}
+				</div>
+			}
+		</app-task-board-group>
+
+		<button
+			mat-mini-fab
+			color="accent"
+			class="task-board-group__add-button"
+			[ngClass]="{ 'large-screen': device() === Devices.Small }"
+			routerLink="task"
+		>
+			<mat-icon>add</mat-icon>
+		</button>
+	} @else {
+		<div class="task-board-kanban__container">
+			<div class="task-board-kanban__action-menu">
+				<button mat-flat-button color="accent" routerLink="task">
+					Add task
+				</button>
+			</div>
+			<div class="task-board-kanban__list-container" cdkDropListGroup>
+				@for (status of taskStatuses; track status) {
+					<app-task-list
+						cdkDropList
+						[id]="status"
+						[cdkDropListData]="taskListSignal(status)()"
+						(cdkDropListDropped)="updateTask($event)"
+						(dblclick)="newTask()"
+						[taskStatus]="status"
+					>
+						@for (task of taskListSignal(status)(); track task.id) {
+							<app-task-card
+								cdkDrag
+								(editTask)="editTask($event)"
+								[task]="task"
+							></app-task-card>
+						}
+					</app-task-list>
+				}
+			</div>
+		</div>
+	}
+</div>
