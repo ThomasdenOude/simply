@@ -1,17 +1,16 @@
-import { Injectable, WritableSignal, inject, signal } from '@angular/core';
+import { inject, Injectable, signal, WritableSignal } from '@angular/core';
 
 import {
-	Firestore,
-	collection,
 	addDoc,
-	getDocs,
+	collection,
 	CollectionReference,
-	DocumentReference,
 	deleteDoc,
 	doc,
+	DocumentReference,
+	Firestore,
+	getDocs,
 	updateDoc,
 } from '@angular/fire/firestore';
-import { User } from '@angular/fire/auth';
 
 import { AuthenticationService } from '../../user-management/services/authentication.service';
 import { CreateTask, Task, TaskDto, TaskStatus } from '../models/task.model';
@@ -71,8 +70,10 @@ export class TaskService {
 			).length;
 
 			const taskDto: TaskDto = {
-				...task,
 				index: totalTodos,
+				title: task.title ?? '',
+				description: task.description ?? '',
+				status: task.status ?? TaskStatus.Todo,
 			};
 			const docRef: DocumentReference = await addDoc(
 				collection,

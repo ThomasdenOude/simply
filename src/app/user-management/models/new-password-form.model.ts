@@ -1,10 +1,8 @@
-import { FormControl } from '@angular/forms';
+import { BaseForm } from '../../base/models/base-form-group.model';
 
 export type NewPassword = {
 	newPassword: string | null;
 	repeatPassword: string | null;
 };
 
-export type NewPasswordForm = {
-	[Property in keyof NewPassword]: FormControl<NewPassword[Property]>;
-};
+export type NewPasswordForm = BaseForm<NewPassword>;

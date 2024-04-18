@@ -1,24 +1,23 @@
-import { FormControl, FormGroup } from '@angular/forms';
+import { BaseForm } from '../../base/models/base-form-group.model';
 
 export type Task = TaskDto & {
 	id: string;
 };
 
-export type TaskDto = CreateTask & {
+export type TaskDto = {
 	index: number;
-};
-
-export type CreateTask = {
 	title: string;
 	description: string;
 	status: TaskStatus;
 };
 
-export type CreateTaskFormGroup = FormGroup<{
-	[Key in keyof CreateTask]: FormControl<CreateTask[Key] | null>;
-}>;
+export type CreateTask = {
+	title: string | null;
+	description: string | null;
+	status: TaskStatus | null;
+};
 
-export type TaskDialogData = Task | null;
+export type CreateTaskForm = BaseForm<CreateTask>;
 
 export enum TaskStatus {
 	Todo = 'TODO',
@@ -26,12 +25,4 @@ export enum TaskStatus {
 	Done = 'DONE',
 }
 
-export type UpdateTaskIndex = {
-	currentStatus: TaskStatus;
-	currentList: Task[];
-};
-
-export type UpdateTaskIndexAndStatus = UpdateTaskIndex & {
-	previousStatus: TaskStatus;
-	previousList: Task[];
-};
+export type TaskStatusIcons = Map<TaskStatus, string>;

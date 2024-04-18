@@ -3,6 +3,9 @@
 @include layout.flex-component;
 
 .edit-task {
+	&__current-status {
+		display: none;
+	}
 	&__action {
 		display: flex;
 		gap: layout.space('regular');

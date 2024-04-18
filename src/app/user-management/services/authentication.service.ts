@@ -14,10 +14,8 @@ import {
 } from '@angular/fire/auth';
 import { FirebaseError } from '@firebase/util';
 
-import {
-	authenticationErrorMap,
-	AuthenticationMessages,
-} from '../models/authentication-messages';
+import { AuthenticationMessages } from '../models/authentication-messages';
+import { authenticationErrorMap } from '../data/authentication-massages.map';
 
 @Injectable({
 	providedIn: 'root',

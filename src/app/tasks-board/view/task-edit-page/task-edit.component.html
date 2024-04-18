@@ -9,12 +9,30 @@
 				{{ task ? 'Edit task' : 'Create task' }}
 			</h3>
 
-			<mat-form-field appearance="outline">
+			<mat-form-field>
+				<mat-select formControlName="status">
+					<mat-option
+						class="edit-task__current-status"
+						[value]="currentStatus()"
+						>{{ currentStatus() }}</mat-option
+					>
+
+					@for (status of availableStatuses(); track status) {
+						<mat-option [value]="status"
+							><mat-icon>{{ taskStatusIcon.get(status) }}</mat-icon
+							>{{ status }}</mat-option
+						>
+					}
+				</mat-select>
+				<mat-icon matPrefix>{{ taskStatusIcon.get(currentStatus()) }}</mat-icon>
+			</mat-form-field>
+
+			<mat-form-field>
 				<mat-label>Title</mat-label>
 				<input matInput formControlName="title" />
 			</mat-form-field>
 
-			<mat-form-field appearance="outline">
+			<mat-form-field>
 				<mat-label>Description</mat-label>
 				<textarea matInput formControlName="description"></textarea>
 			</mat-form-field>
@@ -26,15 +44,13 @@
 						mat-stroked-button
 						class="edit-task__button"
 						color="primary"
-						matTooltip="Delete task"
 						aria-label="Delete task"
 						(click)="deleteTask()"
 					>
 						<mat-icon>delete</mat-icon>
 						Delete
 					</button>
-				}
-				@if (!task) {
+				} @else {
 					<button
 						type="button"
 						mat-stroked-button

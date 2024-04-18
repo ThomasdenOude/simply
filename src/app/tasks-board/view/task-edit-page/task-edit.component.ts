@@ -1,7 +1,16 @@
-import { Component, OnInit, inject, Signal, Input } from '@angular/core';
 import {
-	FormBuilder,
+	Component,
+	computed,
+	inject,
+	Input,
+	OnInit,
+	signal,
+	Signal,
+	WritableSignal,
+} from '@angular/core';
+import {
 	FormControl,
+	FormGroup,
 	FormsModule,
 	ReactiveFormsModule,
 } from '@angular/forms';
@@ -12,18 +21,20 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatOption, MatSelect } from '@angular/material/select';
 
 import { TaskService } from '../../services/task.service';
 import { ResponsiveService } from '../../../base/services/responsive.service';
-import { Task } from '../../models/task.model';
 import {
 	CreateTask,
-	CreateTaskFormGroup,
+	CreateTaskForm,
+	Task,
 	TaskStatus,
 } from '../../models/task.model';
 import { Devices } from '../../../base/models/devices';
 import { CenterPageComponent } from '../../../base/ui/center-page/center-page.component';
+import { taskStatusIcon } from '../../data/task-status-icon.map';
+import { TASK_STATUS_LIST } from '../../data/task-status-list';
 
 @Component({
 	selector: 'app-task-edit-page',
@@ -35,9 +46,10 @@ import { CenterPageComponent } from '../../../base/ui/center-page/center-page.co
 		MatIconModule,
 		MatFormFieldModule,
 		MatButtonModule,
-		MatTooltipModule,
 		NgClass,
 		CenterPageComponent,
+		MatSelect,
+		MatOption,
 	],
 	templateUrl: './task-edit.component.html',
 	styleUrl: './task-edit.component.scss',
@@ -48,33 +60,46 @@ export class TaskEditComponent implements OnInit {
 	private router: Router = inject(Router);
 
 	protected device: Signal<Devices> = this.responsiveService.device;
+	protected currentStatus: WritableSignal<TaskStatus> = signal(TaskStatus.Todo);
+	protected availableStatuses: Signal<TaskStatus[]> = computed(() =>
+		TASK_STATUS_LIST.filter(status => status !== this.currentStatus())
+	);
 	protected task: Task | undefined;
-
-	private formBuilder: FormBuilder = new FormBuilder();
-
-	protected taskForm!: CreateTaskFormGroup;
+	protected taskForm!: FormGroup<CreateTaskForm>;
 
 	@Input()
 	private set id(taskId: string) {
 		this.task = this.taskService.getTask(taskId);
 	}
 
-	ngOnInit(): void {
-		this.taskForm = this.formBuilder.group({
+	ngOnInit() {
+		const editStatus = this.task?.status;
+		if (editStatus) {
+			this.currentStatus.set(editStatus);
+		}
+		this.taskForm = new FormGroup<CreateTaskForm>({
 			title: new FormControl(this.task?.title ?? ''),
 			description: new FormControl(this.task?.description ?? ''),
-			status: new FormControl(this.task?.status ?? TaskStatus.Todo),
+			status: new FormControl(this.currentStatus()),
 		});
+		this.taskForm
+			.get('status')
+			?.valueChanges.subscribe((status: TaskStatus | null) => {
+				if (status) {
+					this.currentStatus.set(status);
+				}
+			});
 	}
+
 	protected submitTask(): void {
-		const result = this.taskForm.value;
+		const formValue = this.taskForm.value;
 
 		if (this.task) {
 			const editedTask: Task = {
 				...this.task,
-				title: result.title ?? this.task.title,
-				description: result.description ?? this.task.description,
-				status: result.status ?? this.task.status,
+				title: formValue.title ?? this.task.title,
+				description: formValue.description ?? this.task.description,
+				status: formValue.status ?? this.task.status,
 			};
 			this.taskService
 				.editTask(editedTask)
@@ -83,13 +108,13 @@ export class TaskEditComponent implements OnInit {
 				})
 				.catch();
 		} else {
-			const addTask: CreateTask = {
-				title: result.title ?? '',
-				description: result.description ?? '',
-				status: result.status ?? TaskStatus.Todo,
+			const addedTask: CreateTask = {
+				title: formValue.title ?? '',
+				description: formValue.description ?? '',
+				status: formValue.status ?? TaskStatus.Todo,
 			};
 			this.taskService
-				.addTask(addTask)
+				.addTask(addedTask)
 				.then(() => {
 					this.navigateToTaskBoard();
 				})
@@ -116,5 +141,7 @@ export class TaskEditComponent implements OnInit {
 		this.navigateToTaskBoard();
 	}
 
-	protected readonly Devices = Devices;
+	protected readonly TASK_STATUS_LIST = TASK_STATUS_LIST;
+	protected readonly taskStatusIcon = taskStatusIcon;
+	protected readonly TaskStatus = TaskStatus;
 }

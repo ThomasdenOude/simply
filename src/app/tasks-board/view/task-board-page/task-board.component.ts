@@ -25,6 +25,7 @@ import { TaskService } from '../../services/task.service';
 import { TaskEditComponent } from '../task-edit-page/task-edit.component';
 import { TaskCardComponent } from '../../ui/task-card/task-card.component';
 import { Task, TaskStatus } from '../../models/task.model';
+import { TASK_STATUS_LIST } from '../../data/task-status-list';
 import { Devices } from '../../../base/models/devices';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
@@ -52,7 +53,7 @@ export class TaskBoardComponent implements OnInit {
 	private route: ActivatedRoute = inject(ActivatedRoute);
 
 	protected readonly Devices = Devices;
-	protected readonly taskStatuses: TaskStatus[] = Object.values(TaskStatus);
+	protected readonly taskStatuses: ReadonlyArray<TaskStatus> = TASK_STATUS_LIST;
 	protected device: Signal<Devices> = this.responsiveService.device;
 	private _taskList!: Signal<Task[]>;
 	protected currentTabIndex: WritableSignal<number> = signal(0);
