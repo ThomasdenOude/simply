@@ -107,7 +107,7 @@ export class TaskEditComponent implements OnInit {
 			this.taskService
 				.editTask(editedTask)
 				.then(() => {
-					this.navigateToTaskBoard();
+					this.navigateToTaskBoard(editedTask.status);
 				})
 				.catch();
 		} else {
@@ -119,7 +119,7 @@ export class TaskEditComponent implements OnInit {
 			this.taskService
 				.addTask(addedTask)
 				.then(() => {
-					this.navigateToTaskBoard();
+					this.navigateToTaskBoard(addedTask.status ?? TaskStatus.Todo);
 				})
 				.catch();
 		}
@@ -136,8 +136,16 @@ export class TaskEditComponent implements OnInit {
 		}
 	}
 
-	private navigateToTaskBoard(): void {
-		this.router.navigate(['/task-board']);
+	private navigateToTaskBoard(status?: TaskStatus): void {
+		if (this.device() !== Devices.WideScreen && status) {
+			this.router.navigate(['/task-board'], {
+				queryParams: {
+					status: status.toLowerCase(),
+				},
+			});
+		} else {
+			this.router.navigate(['/task-board']);
+		}
 	}
 
 	protected cancel(): void {

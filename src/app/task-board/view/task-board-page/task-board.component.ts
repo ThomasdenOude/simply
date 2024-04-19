@@ -8,7 +8,7 @@ import {
 	WritableSignal,
 } from '@angular/core';
 import { NgClass, NgStyle } from '@angular/common';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Params, Router, RouterLink } from '@angular/router';
 
 import {
 	CdkDragDrop,
@@ -74,6 +74,18 @@ export class TaskBoardComponent implements OnInit {
 
 	ngOnInit(): void {
 		this._taskList = this.taskService.taskList;
+		this.setEditedStatus();
+	}
+
+	private setEditedStatus(): void {
+		if (this.device() !== Devices.WideScreen) {
+			const params: Params = this.route.snapshot.queryParams;
+			const status = params['status'];
+			if (status) {
+				const taskStatus = status.toUpperCase() as TaskStatus;
+				this.activeStatus.set(taskStatus);
+			}
+		}
 	}
 
 	protected taskListSignal(status: TaskStatus): Signal<Task[]> {
