@@ -19,7 +19,7 @@
 					(cdkDropListEntered)="switchTab(status)"
 				>
 					<mat-icon class="tab-content" [attr.aria-label]="status">{{
-						getStatusIconText(status)
+						taskStatusIcon.get(status)
 					}}</mat-icon>
 					@if (device() !== Devices.HandsetPortrait) {
 						<h3 class="tab-content">{{ status }}</h3>

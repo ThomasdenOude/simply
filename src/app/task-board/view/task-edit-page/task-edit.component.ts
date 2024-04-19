@@ -68,6 +68,7 @@ export class TaskEditComponent implements OnInit {
 	protected task: Task | undefined;
 	protected taskForm!: FormGroup<CreateTaskForm>;
 	protected readonly taskStatusIcon: TaskStatusIcons = taskStatusIcon;
+	protected readonly Devices = Devices;
 
 	@Input()
 	private set id(taskId: string) {

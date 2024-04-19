@@ -3,8 +3,23 @@
 @include layout.flex-component;
 
 .edit-task {
+	&__header {
+		display: flex;
+		flex-direction: column;
+
+		&.wide-header {
+			flex-direction: row;
+			gap: layout.space('regular');
+		}
+	}
+	&__status {
+		width: initial;
+	}
 	&__current-status {
 		display: none;
+	}
+	&__textarea {
+		min-height: 150px;
 	}
 	&__action {
 		display: flex;

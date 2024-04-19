@@ -5,36 +5,45 @@
 			(ngSubmit)="submitTask()"
 			class="page__content"
 		>
-			<h3>
-				{{ task ? 'Edit task' : 'Create task' }}
-			</h3>
+			<div
+				class="edit-task__header"
+				[ngClass]="{ 'wide-header': device() !== Devices.HandsetPortrait }"
+			>
+				<mat-form-field>
+					<mat-label>Task title</mat-label>
+					<input matInput formControlName="title" />
+				</mat-form-field>
 
-			<mat-form-field>
-				<mat-select formControlName="status">
-					<mat-option
-						class="edit-task__current-status"
-						[value]="currentStatus()"
-						>{{ currentStatus() }}</mat-option
-					>
-
-					@for (status of availableStatuses(); track status) {
-						<mat-option [value]="status">
-							<mat-icon>{{ taskStatusIcon.get(status) }}</mat-icon
-							>{{ status }}</mat-option
+				<mat-form-field class="edit-task__status">
+					<mat-select formControlName="status">
+						<mat-option
+							class="edit-task__current-status"
+							[value]="currentStatus()"
+							>{{ currentStatus() }}</mat-option
 						>
-					}
-				</mat-select>
-				<mat-icon matPrefix>{{ taskStatusIcon.get(currentStatus()) }}</mat-icon>
-			</mat-form-field>
+
+						@for (status of availableStatuses(); track status) {
+							<mat-option [value]="status">
+								<mat-icon>{{ taskStatusIcon.get(status) }}</mat-icon
+								>{{ status }}</mat-option
+							>
+						}
+					</mat-select>
+					<mat-icon matPrefix>{{
+						taskStatusIcon.get(currentStatus())
+					}}</mat-icon>
+				</mat-form-field>
+			</div>
 
 			<mat-form-field>
-				<mat-label>Title</mat-label>
-				<input matInput formControlName="title" />
-			</mat-form-field>
-
-			<mat-form-field>
-				<mat-label>Description</mat-label>
-				<textarea matInput formControlName="description"></textarea>
+				<mat-label>Task description</mat-label>
+				<textarea
+					[ngClass]="{
+						'edit-task__textarea': device() !== Devices.HandsetLandscape
+					}"
+					matInput
+					formControlName="description"
+				></textarea>
 			</mat-form-field>
 
 			<div class="edit-task__action">

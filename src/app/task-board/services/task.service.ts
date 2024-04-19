@@ -63,12 +63,6 @@ export class TaskService {
 		return this.taskList().find((task: Task) => task.id === id);
 	}
 
-	public getTaskStatusIcon(status: TaskStatus): string {
-		const iconText = taskStatusIcon.get(status);
-
-		return iconText ?? todoIconText;
-	}
-
 	public async addTask(task: CreateTask) {
 		const collection: CollectionReference | null = this.getCollection();
 		if (collection) {

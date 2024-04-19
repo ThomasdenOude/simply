@@ -26,9 +26,10 @@ import { TaskBoardGroupComponent } from '../../ui/task-board-group/task-board-gr
 import { TaskListComponent } from '../../ui/task-list/task-list.component';
 import { TaskEditComponent } from '../task-edit-page/task-edit.component';
 import { TaskCardComponent } from '../../ui/task-card/task-card.component';
-import { Task, TaskStatus } from '../../models/task.model';
+import { Task, TaskStatus, TaskStatusIcons } from '../../models/task.model';
 import { Devices } from '../../../base/models/devices';
 import { TASK_STATUS_LIST } from '../../data/task-status-list';
+import { taskStatusIcon } from '../../data/task-status-icon.map';
 
 @Component({
 	selector: 'app-task-board-page',
@@ -57,6 +58,7 @@ export class TaskBoardComponent implements OnInit {
 
 	protected readonly Devices = Devices;
 	protected readonly taskStatuses: ReadonlyArray<TaskStatus> = TASK_STATUS_LIST;
+	protected readonly taskStatusIcon: TaskStatusIcons = taskStatusIcon;
 
 	protected device: Signal<Devices> = this.responsiveService.device;
 	private _taskList!: Signal<Task[]>;
@@ -80,10 +82,6 @@ export class TaskBoardComponent implements OnInit {
 				.filter((task: Task) => task.status === status)
 				.sort((a: Task, b: Task) => a.index - b.index)
 		);
-	}
-
-	protected getStatusIconText(status: TaskStatus): string {
-		return this.taskService.getTaskStatusIcon(status);
 	}
 
 	protected selectStatus(status: TaskStatus) {
