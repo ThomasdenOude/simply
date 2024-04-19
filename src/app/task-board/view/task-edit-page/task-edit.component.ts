@@ -25,6 +25,8 @@ import { MatOption, MatSelect } from '@angular/material/select';
 
 import { TaskService } from '../../services/task.service';
 import { ResponsiveService } from '../../../base/services/responsive.service';
+import { CenterPageComponent } from '../../../base/ui/center-page/center-page.component';
+import { FocusInputDirective } from '../../../base/directives/focus-input.directive';
 import {
 	CreateTask,
 	CreateTaskForm,
@@ -33,7 +35,6 @@ import {
 	TaskStatusIcons,
 } from '../../models/task.model';
 import { Devices } from '../../../base/models/devices';
-import { CenterPageComponent } from '../../../base/ui/center-page/center-page.component';
 import { TASK_STATUS_LIST } from '../../data/task-status-list';
 import { taskStatusIcon } from '../../data/task-status-icon.map';
 
@@ -51,6 +52,7 @@ import { taskStatusIcon } from '../../data/task-status-icon.map';
 		CenterPageComponent,
 		MatSelect,
 		MatOption,
+		FocusInputDirective,
 	],
 	templateUrl: './task-edit.component.html',
 	styleUrl: './task-edit.component.scss',

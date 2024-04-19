@@ -1,10 +1,8 @@
 import {
 	Component,
 	inject,
-	OnInit,
 	signal,
 	Signal,
-	ViewChild,
 	WritableSignal,
 } from '@angular/core';
 import {
@@ -22,12 +20,13 @@ import { FirebaseError } from '@firebase/util';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInput, MatInputModule } from '@angular/material/input';
+import { MatInputModule } from '@angular/material/input';
 import { MatIcon } from '@angular/material/icon';
 
 import { AuthenticationService } from '../../services/authentication.service';
 import { ResponsiveService } from '../../../base/services/responsive.service';
 import { ErrorMessageComponent } from '../../../base/ui/error-message/error-message.component';
+import { FocusInputDirective } from '../../../base/directives/focus-input.directive';
 import { Credentials, CredentialsForm } from '../../models/credentials.model';
 import { Devices } from '../../../base/models/devices';
 import { AuthenticationMessages } from '../../models/authentication-messages';
@@ -47,11 +46,12 @@ import { CenterPageComponent } from '../../../base/ui/center-page/center-page.co
 		MatIcon,
 		ErrorMessageComponent,
 		CenterPageComponent,
+		FocusInputDirective,
 	],
 	templateUrl: './login.component.html',
 	styleUrl: './login.component.scss',
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
 	private authService: AuthenticationService = inject(AuthenticationService);
 	private responsiveService: ResponsiveService = inject(ResponsiveService);
 	private router: Router = inject(Router);
@@ -69,13 +69,6 @@ export class LoginComponent implements OnInit {
 			email: new FormControl('', [Validators.required, Validators.email]),
 			password: new FormControl('', [Validators.required]),
 		});
-
-	@ViewChild('emailInput', { read: MatInput, static: true })
-	private emailInput?: MatInput;
-
-	ngOnInit() {
-		this.emailInput?.focus();
-	}
 
 	protected login(): void {
 		if (this.loginForm.valid) {

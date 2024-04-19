@@ -11,7 +11,7 @@
 		}
 		<mat-form-field appearance="outline">
 			<mat-label>Email</mat-label>
-			<input type="text" matInput formControlName="email" #emailInput />
+			<input type="text" matInput formControlName="email" appFocusInput />
 			@if (loginForm.get('email')?.hasError('required')) {
 				<mat-error>Fill in your email</mat-error>
 			}
