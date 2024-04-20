@@ -33,23 +33,6 @@ $simply-line-height: (
 	'large': 1.5,
 );
 
-@mixin text-margins {
-	.simply {
-		h1 {
-			margin: 0;
-		}
-		h2,
-		.mat-headline-1 {
-			margin: 0 0 map.get($simply-font-size, 'large') 0;
-		}
-		p,
-		h3,
-		.mat-headline-2 {
-			margin: 0 0 map.get($simply-font-size, 'regular') 0;
-		}
-	}
-}
-
 /*      Base typography          */
 $simply-hero-header: mat.define-typography-level(
 	$font-family: map.get($simply-fonts, 'header'),

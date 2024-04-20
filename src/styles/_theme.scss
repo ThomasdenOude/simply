@@ -3,8 +3,8 @@
 
 @use 'base/colors';
 @use 'base/typography';
-@use 'base/theme-mixins';
 
+@use 'simply-theme' as simply;
 @use 'components/scrollbar';
 @use 'components/error-message' as error;
 @use 'components/menu-dropdown' as menu;
@@ -50,10 +50,8 @@ $simply-light-theme: mat.define-light-theme(
 
 @include mat.typography-hierarchy(typography.$simply-typography-config);
 
-/*    Custom styling    */
-@include typography.text-margins;
-
-@include theme-mixins.simply-custom-color($simply-light-theme);
+/*    Custom theming - light theme   */
+@include simply.simply-text-theme($simply-light-theme);
 @include scrollbar.simply-scrollbar($simply-light-theme);
 @include error.message-color($simply-light-theme);
 @include menu.menu-dropdown($simply-light-theme);
@@ -96,7 +94,8 @@ $simply-light-theme: mat.define-light-theme(
 	@include mat.tooltip-color($simply-dark-theme);
 	@include mat.select-color($simply-dark-theme);
 
-	@include theme-mixins.simply-custom-color($simply-dark-theme);
+	/*    Custom theming - dark theme  */
+	@include simply.simply-text-theme($simply-dark-theme);
 	@include scrollbar.simply-scrollbar($simply-dark-theme);
 	@include error.message-color($simply-dark-theme);
 	@include menu.menu-dropdown($simply-dark-theme);
