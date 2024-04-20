@@ -1,4 +1,4 @@
-@use 'base/layout';
+@use 'global';
 
 :host {
 	display: block;
@@ -11,8 +11,8 @@
 		align-items: center;
 		border-left-width: 4px;
 		border-left-style: solid;
-		border-radius: 4px;
-		padding-left: layout.space('regular');
+		border-radius: global.radius('small');
+		padding-left: global.space('regular');
 	}
 	&__text {
 		margin: 0;

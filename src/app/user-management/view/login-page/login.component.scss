@@ -1,11 +1,11 @@
-@use 'base/layout';
+@use 'global';
 
-@include layout.flex-component;
+@include global.flex-component;
 
 .login__button {
 	width: 100%;
 }
 
 app-error-message {
-	margin-bottom: layout.space('regular');
+	margin-bottom: global.space('regular');
 }

@@ -1,4 +1,4 @@
-@use 'base/layout' as l;
+@use 'global';
 
 :host {
 	flex: 1 1 auto;
@@ -9,28 +9,28 @@
 .task-board {
 	&__container {
 		flex: 1 1 auto;
-		padding: l.space('regular');
+		padding: global.space('regular');
 	}
 }
 
 .task-board-group {
 	&__list {
 		height: 100%;
-		padding: l.space('regular');
+		padding: global.space('regular');
 		display: flex;
 		flex-direction: column;
-		gap: l.space('regular');
+		gap: global.space('regular');
 	}
 
 	&__add-button {
 		position: fixed;
-		bottom: l.space('large');
-		right: l.space('large');
+		bottom: global.space('large');
+		right: global.space('large');
 		z-index: 2;
 
 		&.large-screen {
-			bottom: l.space('extra-large');
-			right: l.space('extra-large');
+			bottom: global.space('extra-large');
+			right: global.space('extra-large');
 		}
 	}
 }
@@ -42,7 +42,7 @@
 		max-width: 1800px;
 		display: flex;
 		flex-direction: column;
-		gap: l.space('large');
+		gap: global.space('large');
 	}
 
 	&__action-menu {
@@ -53,6 +53,6 @@
 	&__list-container {
 		flex: 1 1 auto;
 		display: flex;
-		gap: l.space('large');
+		gap: global.space('large');
 	}
 }

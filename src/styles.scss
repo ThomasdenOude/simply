@@ -1,8 +1,7 @@
-@use 'base/reset';
-@use 'base/layout';
 @use 'theme';
-@use 'components/dialog';
-@use 'components/form-field';
+
+@use 'styles/material/dialog';
+@use 'styles/material/form-field';
 
 @include dialog.simply-dialog;
 @include form-field.simply-form-field;

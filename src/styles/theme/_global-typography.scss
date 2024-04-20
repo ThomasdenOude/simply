@@ -1,0 +1,29 @@
+@use '../../../node_modules/@angular/material/index' as mat;
+
+@use '../base/colors';
+
+@mixin global-text-theme($theme) {
+	@include global-text-color($theme);
+
+	.mat-typography {
+		// Reset margins for:
+		h1,
+		h2,
+		h3,
+		h4,
+		p {
+			margin: 0;
+		}
+	}
+}
+
+@mixin global-text-color($theme) {
+	$type: mat.get-theme-type($theme);
+
+	$primary-default: mat.get-theme-color($theme, primary, default);
+	$text-default: if($type == dark, colors.$simply-off-white, $primary-default);
+
+	.mat-typography {
+		color: $text-default;
+	}
+}

@@ -1,4 +1,4 @@
-@use 'base/layout';
+@use 'global';
 
 :host {
 	flex: 1 1 auto;
@@ -11,7 +11,7 @@
 		top: 20%;
 		display: flex;
 		justify-content: center;
-		padding: 0 layout.space('regular');
+		padding: 0 global.space('regular');
 	}
 	&__content {
 		width: 100%;

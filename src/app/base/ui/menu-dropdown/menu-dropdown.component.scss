@@ -1,5 +1,5 @@
 @use 'sass:map';
-@use 'base/layout';
+@use 'global';
 @use 'base/typography';
 
 :host {
@@ -8,7 +8,7 @@
 
 .menu-dropdown {
 	&__container {
-		border-radius: 8px;
+		border-radius: global.radius('regular');
 	}
 	&__button {
 		display: flex;
@@ -17,7 +17,7 @@
 		width: 100%;
 		line-height: 1;
 		border: none;
-		padding: layout.space('regular');
+		padding: global.space('regular');
 		background-color: transparent;
 		font-family: inherit;
 		font-size: map.get(typography.$simply-font-size, 'large');
@@ -30,15 +30,15 @@
 		align-items: center;
 	}
 	&__icon {
-		margin-right: layout.space('regular');
+		margin-right: global.space('regular');
 	}
 	&__title {
 		margin: 0;
 	}
 	&__content {
-		padding: layout.space('regular');
+		padding: global.space('regular');
 		display: flex;
 		flex-direction: column;
-		gap: layout.space('regular');
+		gap: global.space('regular');
 	}
 }

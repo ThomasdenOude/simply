@@ -1,4 +1,4 @@
-@use 'base/layout';
+@use 'global';
 
 :host {
 	width: 100%;
@@ -10,13 +10,13 @@
 		flex-direction: column;
 		border-style: solid;
 		border-width: 1px;
-		border-radius: 8px;
+		border-radius: global.radius('regular');
 	}
 	&__header {
 		display: flex;
 		justify-content: center;
-		padding: layout.space('regular');
-		gap: layout.space('regular');
+		padding: global.space('regular');
+		gap: global.space('regular');
 	}
 	&__header-item {
 		margin: 0;
@@ -25,7 +25,7 @@
 		display: flex;
 		flex: 1 1 auto;
 		flex-direction: column;
-		padding: 0 layout.space('regular') 0;
-		gap: layout.space('regular');
+		padding: 0 global.space('regular') 0;
+		gap: global.space('regular');
 	}
 }

@@ -1,0 +1,61 @@
+@use '@angular/material' as mat;
+
+@use 'base/colors';
+@use 'base/typography';
+@use 'global-typography';
+@use 'components';
+
+/*
+ *    1 - Set colors for dark theme
+ *    2 - Include colors for material components
+ *    3 - Include colors for custom components
+ *    4 - Include simply global text color
+ */
+
+/*      1 - Set colors for dark theme       */
+@media (prefers-color-scheme: dark) {
+	$simply-primary-light: mat.define-palette(
+		mat.$light-blue-palette,
+		300,
+		200,
+		600
+	);
+	$simply-accent-light: mat.define-palette(
+		colors.$orange-palette,
+		400,
+		300,
+		600
+	);
+	$simply-warn-light: mat.define-palette(colors.$green-palette, 300, 200, 700);
+	$simply-dark-theme: mat.define-dark-theme(
+		(
+			color: (
+				primary: $simply-primary-light,
+				accent: $simply-accent-light,
+				warn: $simply-warn-light,
+			),
+		)
+	);
+
+	/*      2 - Include colors for material components       */
+	@include mat.core-color($simply-dark-theme);
+	@include mat.button-color($simply-dark-theme);
+	@include mat.icon-button-color($simply-dark-theme);
+	@include mat.fab-color($simply-dark-theme);
+	@include mat.tabs-color($simply-dark-theme);
+	@include mat.icon-color($simply-dark-theme);
+	@include mat.card-color($simply-dark-theme);
+	@include mat.dialog-color($simply-dark-theme);
+	@include mat.form-field-color($simply-dark-theme);
+	@include mat.tooltip-color($simply-dark-theme);
+	@include mat.select-color($simply-dark-theme);
+
+	/*      3 - Include colors for custom components       */
+	@include components.simply-scrollbar($simply-dark-theme);
+	@include components.message-color($simply-dark-theme);
+	@include components.menu-dropdown($simply-dark-theme);
+	@include components.task-board-color($simply-dark-theme);
+
+	/*      4 - Include simply global text color       */
+	@include global-typography.global-text-color($simply-dark-theme);
+}

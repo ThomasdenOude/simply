@@ -33,7 +33,7 @@ $simply-line-height: (
 	'large': 1.5,
 );
 
-/*      Base typography          */
+/*      Small typography - for mobile          */
 $simply-hero-header: mat.define-typography-level(
 	$font-family: map.get($simply-fonts, 'header'),
 	$font-weight: map.get($simply-font-weights, 'extra-bold'),
@@ -175,7 +175,7 @@ $medium-button: mat.define-typography-level(
 	$letter-spacing: normal,
 );
 
-$medium-typography-config: mat.define-typography-config(
+$simply-medium-typography-config: mat.define-typography-config(
 	$headline-1: $medium-hero-header,
 	$headline-2: $medium-hero-sub-header,
 	$headline-5: $medium-h1,

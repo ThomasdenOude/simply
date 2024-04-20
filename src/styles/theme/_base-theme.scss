@@ -1,0 +1,58 @@
+@use '@angular/material' as mat;
+
+@use 'base/colors';
+@use 'base/typography';
+@use 'global-typography';
+@use 'components';
+
+/*
+ *    1 - Set material core
+ *    2 - Set default theme: light theme
+ *    2 - Set default typography for mobile: small
+ *    3 - Include theme for material components
+ *    4 - Include theme for custom components
+ *    5 - Include simply global text theme
+ */
+
+/*      1 - Set material core     */
+@include mat.core();
+
+/*      2 - Set default light theme theme with mobile typography      */
+$simply-primary: mat.define-palette(colors.$dark-blue-palette, 800);
+$simply-accent: mat.define-palette(colors.$orange-palette, 500, 300, 600);
+$simply-warn: mat.define-palette(colors.$green-palette, 600);
+
+$simply-light-theme: mat.define-light-theme(
+	(
+		color: (
+			primary: $simply-primary,
+			accent: $simply-accent,
+			warn: $simply-warn,
+		),
+		typography: typography.$simply-typography-config,
+		density: 0,
+	)
+);
+
+/*    3 - Include theme for material components    */
+@include mat.core-theme($simply-light-theme);
+@include mat.button-theme($simply-light-theme);
+@include mat.icon-button-theme($simply-light-theme);
+@include mat.fab-theme($simply-light-theme);
+@include mat.tabs-theme($simply-light-theme);
+@include mat.icon-theme($simply-light-theme);
+@include mat.card-theme($simply-light-theme);
+@include mat.dialog-theme($simply-light-theme);
+@include mat.form-field-theme($simply-light-theme);
+@include mat.tooltip-theme($simply-light-theme);
+@include mat.select-theme($simply-light-theme);
+
+/*    4 - Include theme for custom components    */
+@include components.simply-scrollbar($simply-light-theme);
+@include components.message-color($simply-light-theme);
+@include components.menu-dropdown($simply-light-theme);
+@include components.task-board-theme($simply-light-theme);
+
+/*    5 - Include global typography             */
+@include mat.typography-hierarchy(typography.$simply-typography-config);
+@include global-typography.global-text-theme($simply-light-theme);

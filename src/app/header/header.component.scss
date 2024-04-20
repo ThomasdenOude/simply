@@ -1,18 +1,18 @@
-@use 'base/layout' as l;
+@use 'global';
 
 .header {
 	&__container {
-		padding: l.space('regular');
+		padding: global.space('regular');
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
 		&.large-screen {
-			padding: l.space('large');
+			padding: global.space('large');
 		}
 	}
 
 	&__logo {
-		margin-right: l.space('extra-small');
+		margin-right: global.space('extra-small');
 	}
 
 	&__icon {
@@ -25,10 +25,10 @@
 		display: flex;
 		flex-direction: column;
 		min-width: 300px;
-		padding: l.space('regular');
+		padding: global.space('regular');
 	}
 	&__settings-button,
 	&__divider {
-		margin-bottom: l.space('regular');
+		margin-bottom: global.space('regular');
 	}
 }

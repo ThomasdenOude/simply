@@ -1,6 +1,6 @@
-@use 'sass:map';
 @use '@angular/material' as mat;
-@use 'base/layout';
+
+@use 'global';
 
 @mixin task-board-theme($theme) {
 	@include task-board-group-base;
@@ -13,12 +13,12 @@
 			display: flex;
 			justify-content: center;
 			align-items: center;
-			gap: layout.space('regular');
+			gap: global.space('regular');
 			width: 100%;
-			min-height: layout.space('extra-large');
+			min-height: global.space('extra-large');
 			border: none;
 			background-color: transparent;
-			padding: layout.space('regular');
+			padding: global.space('regular');
 			transition:
 				color 300ms,
 				border-bottom-width 400ms 100ms;

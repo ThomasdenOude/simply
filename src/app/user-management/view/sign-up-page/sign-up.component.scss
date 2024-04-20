@@ -1,6 +1,6 @@
-@use 'base/layout';
+@use 'global';
 
-@include layout.flex-component;
+@include global.flex-component;
 
 .sign-up {
 	&__button {
@@ -13,5 +13,5 @@
 }
 
 app-error-message {
-	margin-bottom: layout.space('regular');
+	margin-bottom: global.space('regular');
 }

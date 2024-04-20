@@ -1,0 +1,27 @@
+@use '@angular/material' as mat;
+
+@use 'base/typography';
+
+/*    1 - Set typography for medium to large screens    */
+@media (min-width: 960px) {
+	$simply-medium-theme: mat.define-light-theme(
+		(
+			typography: typography.$simply-medium-typography-config,
+		)
+	);
+
+	@include mat.core-typography($simply-medium-theme);
+	@include mat.button-typography($simply-medium-theme);
+	@include mat.icon-button-typography($simply-medium-theme);
+	@include mat.fab-typography($simply-medium-theme);
+	@include mat.tabs-typography($simply-medium-theme);
+	@include mat.icon-typography($simply-medium-theme);
+	@include mat.card-typography($simply-medium-theme);
+	@include mat.dialog-typography($simply-medium-theme);
+	@include mat.form-field-typography($simply-medium-theme);
+	@include mat.tooltip-typography($simply-medium-theme);
+
+	@include mat.typography-hierarchy(
+		typography.$simply-medium-typography-config
+	);
+}

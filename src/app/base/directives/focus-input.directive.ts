@@ -9,7 +9,6 @@ export class FocusInputDirective implements AfterContentInit {
 	private matInput: MatInput = inject(MatInput);
 
 	ngAfterContentInit() {
-		console.log(this.matInput);
 		this.matInput?.focus();
 	}
 }

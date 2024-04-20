@@ -1,12 +1,12 @@
-@use 'base/layout';
+@use 'global';
 
-@include layout.flex-component;
+@include global.flex-component;
 
 .settings-menu {
 	&__container {
 		display: flex;
 		flex-direction: column;
-		gap: layout.space('large');
+		gap: global.space('large');
 	}
 	&__button {
 		width: 100%;

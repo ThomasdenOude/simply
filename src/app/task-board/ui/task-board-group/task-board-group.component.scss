@@ -1,11 +1,11 @@
-@use 'base/layout';
+@use 'global';
 
 .task-board-group {
 	&__container {
 		height: 100%;
 		border-style: solid;
 		border-width: 1px;
-		border-radius: 8px;
+		border-radius: global.radius('regular');
 		display: flex;
 		flex-direction: column;
 	}

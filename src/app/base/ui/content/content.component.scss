@@ -1,0 +1,23 @@
+@use 'sass:map';
+@use 'base/typography';
+
+:host {
+	width: 100%;
+	margin-bottom: map.get(typography.$simply-font-size, 'large');
+}
+
+.simply-content {
+	&__text {
+		h1,
+		h2 {
+			margin-bottom: map.get(typography.$simply-font-size, 'large');
+		}
+		h3,
+		p {
+			margin-bottom: map.get(typography.$simply-font-size, 'regular');
+		}
+		&:last-child {
+			margin-bottom: 0;
+		}
+	}
+}

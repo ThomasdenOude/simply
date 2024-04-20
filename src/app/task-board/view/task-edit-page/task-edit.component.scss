@@ -1,6 +1,6 @@
-@use '../../../../styles/base/layout';
+@use 'global';
 
-@include layout.flex-component;
+@include global.flex-component;
 
 .edit-task {
 	&__header {
@@ -9,7 +9,7 @@
 
 		&.wide-header {
 			flex-direction: row;
-			gap: layout.space('regular');
+			gap: global.space('regular');
 		}
 	}
 	&__status {
@@ -23,7 +23,7 @@
 	}
 	&__action {
 		display: flex;
-		gap: layout.space('regular');
+		gap: global.space('regular');
 	}
 	&__button {
 		flex: 1 1 auto;

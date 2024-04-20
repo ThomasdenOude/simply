@@ -1,5 +1,3 @@
-@use 'sass:map';
-
 $simply-margins: (
 	'extra-small': 4px,
 	'small': 8px,
@@ -8,20 +6,7 @@ $simply-margins: (
 	'extra-large': 64px,
 );
 
-@function space($margin: 'regular') {
-	$temp: map.get($simply-margins, $margin);
-
-	@if $temp {
-		@return $temp;
-	} @else {
-		@return map.get($simply-margins, 'regular');
-	}
-}
-
-@mixin flex-component {
-	:host {
-		display: flex;
-		flex-direction: column;
-		flex: 1 1 auto;
-	}
-}
+$simply-radius: (
+	'small': 4px,
+	'regular': 8px,
+);
