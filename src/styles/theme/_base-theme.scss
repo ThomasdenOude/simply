@@ -30,7 +30,7 @@ $simply-light-theme: mat.define-light-theme(
 			warn: $simply-warn,
 		),
 		typography: typography.$simply-typography-config,
-		density: 0,
+		density: -1,
 	)
 );
 

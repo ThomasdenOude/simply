@@ -2,11 +2,12 @@
 
 @use 'base/typography';
 
-/*    1 - Set typography for medium to large screens    */
 @media (min-width: 960px) {
+	/*    1 - Set typography for medium to large screens    */
 	$simply-medium-theme: mat.define-light-theme(
 		(
 			typography: typography.$simply-medium-typography-config,
+			density: 1,
 		)
 	);
 
@@ -20,6 +21,17 @@
 	@include mat.dialog-typography($simply-medium-theme);
 	@include mat.form-field-typography($simply-medium-theme);
 	@include mat.tooltip-typography($simply-medium-theme);
+
+	@include mat.core-density($simply-medium-theme);
+	@include mat.button-density($simply-medium-theme);
+	@include mat.icon-button-density($simply-medium-theme);
+	@include mat.fab-density($simply-medium-theme);
+	@include mat.tabs-density($simply-medium-theme);
+	@include mat.icon-density($simply-medium-theme);
+	@include mat.card-density($simply-medium-theme);
+	@include mat.dialog-density($simply-medium-theme);
+	@include mat.form-field-density($simply-medium-theme);
+	@include mat.tooltip-density($simply-medium-theme);
 
 	@include mat.typography-hierarchy(
 		typography.$simply-medium-typography-config
