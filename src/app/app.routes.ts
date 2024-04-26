@@ -6,9 +6,9 @@ import {
 	redirectLoggedInTo,
 } from '@angular/fire/auth-guard';
 
-import { WelcomeComponent } from './user-management/view/welcome-page/welcome.component';
-import { SignUpComponent } from './user-management/view/sign-up-page/sign-up.component';
-import { LoginComponent } from './user-management/view/login-page/login.component';
+import { WelcomeComponent } from './user-management/pages/welcome/welcome.component';
+import { SignUpComponent } from './user-management/pages/sign-up-page/sign-up.component';
+import { LoginComponent } from './user-management/pages/login-page/login.component';
 
 const redirectUnauthorizedToSignUp = () => redirectUnauthorizedTo(['']);
 const redirectLoggedInToTaskBoard = () => redirectLoggedInTo(['task-board']);
@@ -45,7 +45,7 @@ export const APP_ROUTES: Routes = [
 	{
 		path: 'settings',
 		loadComponent: () =>
-			import('./user-management/view/settings-page/settings.component').then(
+			import('./user-management/pages/settings-page/settings.component').then(
 				mod => mod.SettingsComponent
 			),
 		canActivate: [AuthGuard],

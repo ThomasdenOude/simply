@@ -8,9 +8,10 @@ import { ResponsiveService } from '../../../base/services/responsive.service';
 import { Devices } from '../../../base/models/devices';
 import { RouterLink } from '@angular/router';
 import { CenterPageComponent } from '../../../base/ui/center-page/center-page.component';
+import { BaseSizes } from '../../../base/models/style-sizes';
 
 @Component({
-	selector: 'app-welcome-page',
+	selector: 'simply-welcome',
 	standalone: true,
 	imports: [
 		MatButtonModule,
@@ -27,7 +28,7 @@ export class WelcomeComponent {
 	protected device: Signal<Devices> = this.responsiveService.device;
 	protected readonly Devices = Devices;
 
-	protected maxWidth: Signal<number> = computed(() =>
-		this.device() === Devices.WideScreen ? 600 : 400
+	protected maxWidth: Signal<BaseSizes> = computed(() =>
+		this.device() === Devices.WideScreen ? 'regular' : 'small'
 	);
 }

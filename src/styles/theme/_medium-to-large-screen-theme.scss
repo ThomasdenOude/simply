@@ -1,6 +1,7 @@
 @use '@angular/material' as mat;
 
 @use 'base/typography';
+@use 'global-typography';
 @use 'components';
 
 /*
@@ -53,4 +54,5 @@
 	@include mat.typography-hierarchy(
 		typography.$simply-medium-typography-config
 	);
+	@include global-typography.global-text-density($simply-medium-theme);
 }

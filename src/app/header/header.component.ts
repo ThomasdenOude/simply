@@ -14,6 +14,7 @@ import { CdkMenu, CdkMenuItem, CdkMenuTrigger } from '@angular/cdk/menu';
 import { ResponsiveService } from '../base/services/responsive.service';
 import { AuthenticationService } from '../user-management/services/authentication.service';
 import { Devices } from '../base/models/devices';
+import { NoSpaceDirective } from '../base/directives/no-space.directive';
 
 @Component({
 	selector: 'simply-header',
@@ -28,6 +29,7 @@ import { Devices } from '../base/models/devices';
 		CdkMenu,
 		MatCard,
 		NgClass,
+		NoSpaceDirective,
 	],
 	templateUrl: './header.component.html',
 	styleUrl: './header.component.scss',

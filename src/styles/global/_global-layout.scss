@@ -31,7 +31,6 @@
 	}
 }
 
-// TODO move to directive
 @mixin flex-component {
 	:host {
 		display: flex;

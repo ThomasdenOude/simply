@@ -1,4 +1,4 @@
-<app-center-page>
+<simply-center-page>
 	<form [formGroup]="loginForm" (ngSubmit)="login()">
 		<h3>Log in to Simply <mat-icon color="accent">task_alt</mat-icon></h3>
 
@@ -11,7 +11,7 @@
 		}
 		<mat-form-field appearance="outline">
 			<mat-label>Email</mat-label>
-			<input type="text" matInput formControlName="email" appFocusInput />
+			<input type="text" matInput formControlName="email" simplyFocusInput />
 			@if (loginForm.get('email')?.hasError('required')) {
 				<mat-error>Fill in your email</mat-error>
 			}
@@ -32,4 +32,4 @@
 			Log in
 		</button>
 	</form>
-</app-center-page>
+</simply-center-page>

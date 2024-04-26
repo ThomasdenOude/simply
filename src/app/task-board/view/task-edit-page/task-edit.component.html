@@ -1,4 +1,4 @@
-<app-center-page>
+<simply-center-page>
 	@if (taskForm) {
 		<form
 			[formGroup]="taskForm"
@@ -11,7 +11,7 @@
 			>
 				<mat-form-field>
 					<mat-label>Task title</mat-label>
-					<input matInput formControlName="title" appFocusInput />
+					<input matInput formControlName="title" simplyFocusInput />
 				</mat-form-field>
 
 				<mat-form-field class="edit-task__status">
@@ -81,4 +81,4 @@
 			</div>
 		</form>
 	}
-</app-center-page>
+</simply-center-page>

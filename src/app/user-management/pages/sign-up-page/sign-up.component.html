@@ -1,4 +1,4 @@
-<app-center-page>
+<simply-center-page>
 	<form [formGroup]="signUpForm" (ngSubmit)="signUp()">
 		<h3 class="sign-up__text">
 			Sign up to Simply <mat-icon color="accent">task_alt</mat-icon>
@@ -14,7 +14,7 @@
 
 		<mat-form-field>
 			<mat-label>Email</mat-label>
-			<input type="text" matInput formControlName="email" appFocusInput />
+			<input type="text" matInput formControlName="email" simplyFocusInput />
 			@if (signUpForm.get('email')?.hasError('required')) {
 				<mat-error>Fill in your email</mat-error>
 			}
@@ -54,4 +54,4 @@
 			</button>
 		}
 	</form>
-</app-center-page>
+</simply-center-page>

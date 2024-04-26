@@ -3,9 +3,10 @@ import { NgClass, NgStyle } from '@angular/common';
 
 import { ResponsiveService } from '../../services/responsive.service';
 import { Devices } from '../../models/devices';
+import { BaseSizes } from '../../models/style-sizes';
 
 @Component({
-	selector: 'app-center-page',
+	selector: 'simply-center-page',
 	standalone: true,
 	imports: [NgClass, NgStyle],
 	templateUrl: './center-page.component.html',
@@ -17,5 +18,5 @@ export class CenterPageComponent {
 	protected readonly Devices = Devices;
 	protected device: Signal<Devices> = this.responsiveService.device;
 
-	public maxContentWidth: InputSignal<number> = input<number>(600);
+	public maxContentWidth: InputSignal<BaseSizes> = input<BaseSizes>('regular');
 }
