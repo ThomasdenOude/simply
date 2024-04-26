@@ -31,9 +31,10 @@ import { Credentials, CredentialsForm } from '../../models/credentials.model';
 import { Devices } from '../../../base/models/devices';
 import { AuthenticationMessages } from '../../models/authentication-messages';
 import { CenterPageComponent } from '../../../base/ui/center-page/center-page.component';
+import { SpaceContentDirective } from '../../../base/directives/space-content.directive';
 
 @Component({
-	selector: 'app-login-page',
+	selector: 'simply-login',
 	standalone: true,
 	imports: [
 		MatDialogModule,
@@ -47,6 +48,7 @@ import { CenterPageComponent } from '../../../base/ui/center-page/center-page.co
 		ErrorMessageComponent,
 		CenterPageComponent,
 		FocusInputDirective,
+		SpaceContentDirective,
 	],
 	templateUrl: './login.component.html',
 	styleUrl: './login.component.scss',

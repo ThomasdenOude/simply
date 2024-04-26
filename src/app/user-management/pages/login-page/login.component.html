@@ -1,15 +1,16 @@
 <simply-center-page>
 	<form [formGroup]="loginForm" (ngSubmit)="login()">
-		<h3>Log in to Simply <mat-icon color="accent">task_alt</mat-icon></h3>
+		<h2>Log in to Simply <mat-icon color="accent">task_alt</mat-icon></h2>
 
 		@if (loginError() !== AuthenticationErrors.None) {
 			<app-error-message
+				simplySpaceContent="large"
 				[errorMessage]="loginError()"
 				[form]="loginForm"
 				(closed)="resetError()"
 			></app-error-message>
 		}
-		<mat-form-field appearance="outline">
+		<mat-form-field appearance="outline" simplySpaceContent="regular">
 			<mat-label>Email</mat-label>
 			<input type="text" matInput formControlName="email" simplyFocusInput />
 			@if (loginForm.get('email')?.hasError('required')) {
@@ -20,7 +21,7 @@
 			}
 		</mat-form-field>
 
-		<mat-form-field appearance="outline">
+		<mat-form-field appearance="outline" simplySpaceContent="regular">
 			<mat-label>Password</mat-label>
 			<input type="password" matInput formControlName="password" />
 			@if (loginForm.get('password')?.hasError('required')) {
@@ -28,7 +29,13 @@
 			}
 		</mat-form-field>
 
-		<button class="login__button" type="submit" mat-flat-button color="primary">
+		<button
+			class="login__button"
+			type="submit"
+			mat-flat-button
+			color="primary"
+			simplySpaceContent="regular"
+		>
 			Log in
 		</button>
 	</form>
