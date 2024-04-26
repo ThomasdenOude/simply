@@ -1,5 +1,5 @@
 import { Component, Signal, inject, computed } from '@angular/core';
-import { AsyncPipe, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { NavigationEnd, Router, RouterLink } from '@angular/router';
 
 import { filter, map, Observable } from 'rxjs';
@@ -16,19 +16,18 @@ import { AuthenticationService } from '../user-management/services/authenticatio
 import { Devices } from '../base/models/devices';
 
 @Component({
-	selector: 'app-header',
+	selector: 'simply-header',
 	standalone: true,
 	imports: [
-		NgClass,
 		MatButtonModule,
 		MatIconModule,
-		AsyncPipe,
 		RouterLink,
 		CdkMenuTrigger,
 		MatDivider,
 		CdkMenuItem,
 		CdkMenu,
 		MatCard,
+		NgClass,
 	],
 	templateUrl: './header.component.html',
 	styleUrl: './header.component.scss',

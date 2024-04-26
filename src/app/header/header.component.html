@@ -1,45 +1,55 @@
-<header
-	class="header__container"
-	[ngClass]="{
-		'large-screen':
-			device() === Devices.Small || device() === Devices.WideScreen
-	}"
->
-	<a
-		mat-button
-		[routerLink]="isLoggedIn() ? '/task-board' : '/'"
-		[attr.aria-label]="
-			isLoggedIn() ? 'Navigate to task-card board' : 'Navigate to home page'
-		"
-	>
-		@if (!isLoggedIn() || device() === Devices.WideScreen) {
-			<h1 class="header__logo primary-text">
+<header class="simply-header__container">
+	@if (device() === Devices.WideScreen) {
+		<a
+			mat-button
+			[routerLink]="isLoggedIn() ? '/task-board' : '/'"
+			[attr.aria-label]="
+				isLoggedIn() ? 'Navigate to task-card board' : 'Navigate to home page'
+			"
+		>
+			<h1 class="simply-header__logo">
 				Simply <mat-icon class="header__icon" color="accent">task_alt</mat-icon>
 			</h1>
-		} @else {
-			<mat-icon class="header__icon" color="accent">task_alt</mat-icon>
-		}
-	</a>
-	<nav class="header__nav">
+		</a>
+	} @else {
+		<a
+			mat-icon-button
+			color="accent"
+			[routerLink]="isLoggedIn() ? '/task-board' : '/'"
+			[attr.aria-label]="
+				isLoggedIn() ? 'Navigate to task-card board' : 'Navigate to home page'
+			"
+		>
+			<mat-icon class="header__icon">task_alt</mat-icon>
+		</a>
+	}
+	<nav>
 		@if (isLoggedIn()) {
 			@if (!isOnSettingsPage()) {
 				<button
 					mat-icon-button
 					color="primary"
-					class="header__nav-button"
 					[cdkMenuTriggerFor]="settingsMenu"
 				>
 					<mat-icon>menu</mat-icon>
 				</button>
 				<ng-template #settingsMenu>
-					<mat-card class="settings-menu__container" cdkMenu>
-						<h3>Your Simply account:</h3>
-						<p>{{ userEmail() }}</p>
-						<mat-divider class="settings-menu__divider"></mat-divider>
+					<mat-card
+						cdkMenu
+						class="simply-header__settings-menu"
+						[ngClass]="{
+							'simply-header__wide-screen': device() === Devices.WideScreen
+						}"
+					>
+						<div>
+							<h3>Your Simply account:</h3>
+							<p>{{ userEmail() }}</p>
+						</div>
+						<mat-divider class="simply-header__settings-divider"></mat-divider>
 						<button
 							mat-stroked-button
 							color="primary"
-							class="settings-menu__settings-button"
+							class="simply-header__settings-button"
 							routerLink="/settings"
 						>
 							<mat-icon>settings</mat-icon>

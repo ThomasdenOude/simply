@@ -1,14 +1,10 @@
 @use 'global';
 
-.header {
+.simply-header {
 	&__container {
-		padding: global.space('regular');
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		&.large-screen {
-			padding: global.space('large');
-		}
 	}
 
 	&__logo {
@@ -18,17 +14,13 @@
 	&__icon {
 		flex: auto;
 	}
-}
 
-.settings-menu {
-	&__container {
+	&__settings-menu {
 		display: flex;
 		flex-direction: column;
-		min-width: 300px;
-		padding: global.space('regular');
-	}
-	&__settings-button,
-	&__divider {
-		margin-bottom: global.space('regular');
+		min-width: global.width('extra-small');
+		&.simply-header__wide-screen {
+			min-width: global.width('small');
+		}
 	}
 }

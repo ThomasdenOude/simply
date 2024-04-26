@@ -6,6 +6,8 @@
 @use 'components';
 
 /*
+ *    Change colors for dark mode
+ *
  *    1 - Set colors for dark theme
  *    2 - Include colors for material components
  *    3 - Include colors for custom components
@@ -51,6 +53,7 @@
 	@include mat.select-color($simply-dark-theme);
 
 	/*      3 - Include colors for custom components       */
+	// TODO Refactor
 	@include components.simply-scrollbar($simply-dark-theme);
 	@include components.message-color($simply-dark-theme);
 	@include components.menu-dropdown($simply-dark-theme);

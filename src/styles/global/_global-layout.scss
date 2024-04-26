@@ -21,6 +21,16 @@
 	}
 }
 
+@function width($width: 'regular') {
+	$temp: map.get(layout.$simply-width, $width);
+
+	@if $temp {
+		@return $temp;
+	} @else {
+		@return map.get(layout.$simply-width, 'regular');
+	}
+}
+
 // TODO move to directive
 @mixin flex-component {
 	:host {

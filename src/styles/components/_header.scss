@@ -1,0 +1,25 @@
+@use '@angular/material' as mat;
+
+@use 'global';
+
+@mixin header-density($theme) {
+	$density: mat.get-theme-density($theme);
+
+	@if $density < 0 {
+		@include header-margins-and-paddings(global.space('regular'));
+	} @else {
+		@include header-margins-and-paddings(global.space('large'));
+	}
+}
+
+@mixin header-margins-and-paddings($space) {
+	.simply-header {
+		&__container {
+			padding: $space;
+		}
+		&__settings-menu {
+			padding: $space;
+			gap: $space;
+		}
+	}
+}

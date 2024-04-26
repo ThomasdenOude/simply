@@ -1,6 +1,17 @@
 @use '@angular/material' as mat;
 
 @use 'base/typography';
+@use 'components';
+
+/*
+ *    Change density and typography size
+ *
+ *    1 - Set typography for medium to large screens and density
+ *    2 - Include typography for material components
+ *    3 - Include density for material components
+ *    4 - Include density for custom components
+ *    5 - Include global typography
+ */
 
 @media (min-width: 960px) {
 	/*    1 - Set typography for medium to large screens    */
@@ -11,6 +22,7 @@
 		)
 	);
 
+	/*      2 - Include typography for material components    */
 	@include mat.core-typography($simply-medium-theme);
 	@include mat.button-typography($simply-medium-theme);
 	@include mat.icon-button-typography($simply-medium-theme);
@@ -22,6 +34,7 @@
 	@include mat.form-field-typography($simply-medium-theme);
 	@include mat.tooltip-typography($simply-medium-theme);
 
+	/*      3 - Include density for material components     */
 	@include mat.core-density($simply-medium-theme);
 	@include mat.button-density($simply-medium-theme);
 	@include mat.icon-button-density($simply-medium-theme);
@@ -33,6 +46,10 @@
 	@include mat.form-field-density($simply-medium-theme);
 	@include mat.tooltip-density($simply-medium-theme);
 
+	/*      4 - Include density for custom components     */
+	@include components.header-density($simply-medium-theme);
+
+	/*      5 - Include global typography     */
 	@include mat.typography-hierarchy(
 		typography.$simply-medium-typography-config
 	);

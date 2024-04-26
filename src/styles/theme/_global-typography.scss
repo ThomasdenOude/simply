@@ -5,7 +5,7 @@
 @mixin global-text-theme($theme) {
 	@include global-text-color($theme);
 
-	.mat-typography {
+	body.mat-typography {
 		// Reset margins for:
 		h1,
 		h2,
@@ -23,7 +23,7 @@
 	$primary-default: mat.get-theme-color($theme, primary, default);
 	$text-default: if($type == dark, colors.$simply-off-white, $primary-default);
 
-	.mat-typography {
+	body.mat-typography {
 		color: $text-default;
 	}
 }
