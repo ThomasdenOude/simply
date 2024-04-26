@@ -1,18 +1,19 @@
 <simply-center-page>
 	<form [formGroup]="signUpForm" (ngSubmit)="signUp()">
-		<h3 class="sign-up__text">
+		<h2 class="sign-up__text">
 			Sign up to Simply <mat-icon color="accent">task_alt</mat-icon>
-		</h3>
+		</h2>
 
 		@if (signupError() !== AuthenticationMessages.None) {
 			<app-error-message
+				simplySpaceContent="large"
 				[errorMessage]="signupError()"
 				[form]="signUpForm"
 				(closed)="resetError()"
 			></app-error-message>
 		}
 
-		<mat-form-field>
+		<mat-form-field simplySpaceContent="regular">
 			<mat-label>Email</mat-label>
 			<input type="text" matInput formControlName="email" simplyFocusInput />
 			@if (signUpForm.get('email')?.hasError('required')) {
@@ -29,6 +30,7 @@
 				class="sign-up__button"
 				mat-flat-button
 				color="primary"
+				simplySpaceContent="regular"
 				(click)="setContinue()"
 			>
 				Continue
@@ -36,13 +38,13 @@
 		}
 
 		@if (continue()) {
-			<mat-divider></mat-divider>
-			<p class="sign-up__text">Make a new password</p>
-			<app-new-password-form-field
+			<mat-divider simplySpaceContent="regular"></mat-divider>
+			<h3 class="sign-up__text">Make a new password</h3>
+			<simply-new-password
 				formControlName="password"
 				[markAsTouched]="invalidSubmit()"
 				(isSubmitted)="signUp()"
-			></app-new-password-form-field>
+			></simply-new-password>
 
 			<button
 				type="submit"

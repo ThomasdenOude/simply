@@ -30,7 +30,7 @@ import { RemoveAccountComponent } from '../../ui/remove-account-dialog/remove-ac
 import { ErrorMessageComponent } from '../../../base/ui/error-message/error-message.component';
 import { MenuDropdownComponent } from '../../../base/ui/menu-dropdown/menu-dropdown.component';
 import { ConfirmPasswordComponent } from '../../ui/confirm-password/confirm-password.component';
-import { NewPasswordFormFieldComponent } from '../../ui/new-password-form-field/new-password-form-field.component';
+import { NewPasswordComponent } from '../../ui/new-password-form-field/new-password.component';
 import { AuthenticationMessages } from '../../models/authentication-messages';
 import { SettingsAction } from '../../models/settings-actions.model';
 import { PasswordForm } from '../../models/credentials.model';
@@ -49,7 +49,7 @@ import { CenterPageComponent } from '../../../base/ui/center-page/center-page.co
 		ConfirmPasswordComponent,
 		ReactiveFormsModule,
 		FormsModule,
-		NewPasswordFormFieldComponent,
+		NewPasswordComponent,
 		CenterPageComponent,
 	],
 	templateUrl: './settings.component.html',

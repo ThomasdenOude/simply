@@ -7,7 +7,7 @@ import {
 } from '@angular/fire/auth-guard';
 
 import { WelcomeComponent } from './user-management/pages/welcome/welcome.component';
-import { SignUpComponent } from './user-management/pages/sign-up-page/sign-up.component';
+import { SignUpComponent } from './user-management/pages/sign-up/sign-up.component';
 import { LoginComponent } from './user-management/pages/login-page/login.component';
 
 const redirectUnauthorizedToSignUp = () => redirectUnauthorizedTo(['']);

@@ -1,0 +1,39 @@
+@use '@angular/material' as mat;
+
+@use 'global';
+
+@mixin space-content-density($theme) {
+	$density: mat.get-theme-density($theme);
+
+	@if $density < 0 {
+		body .simply-space-content {
+			&__width {
+				width: 100%;
+			}
+			&__small {
+				margin-bottom: global.space('extra-small');
+			}
+			&__regular {
+				margin-bottom: global.space('small');
+			}
+			&__large {
+				margin-bottom: global.space('regular');
+			}
+		}
+	} @else {
+		body .simply-space-content {
+			&__width {
+				width: 100%;
+			}
+			&__small {
+				margin-bottom: global.space('small');
+			}
+			&__regular {
+				margin-bottom: global.space('regular');
+			}
+			&__large {
+				margin-bottom: global.space('large');
+			}
+		}
+	}
+}

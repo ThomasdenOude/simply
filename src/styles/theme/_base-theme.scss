@@ -51,6 +51,7 @@ $simply-light-theme: mat.define-light-theme(
 
 /*    4 - Include theme for custom components    */
 @include components.header-density($simply-light-theme);
+@include components.space-content-density($simply-light-theme);
 // TODO Refactor:
 @include components.simply-scrollbar($simply-light-theme);
 @include components.message-color($simply-light-theme);

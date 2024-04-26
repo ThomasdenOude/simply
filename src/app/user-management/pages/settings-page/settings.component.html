@@ -43,11 +43,11 @@
 					[formGroup]="changePasswordForm"
 					(ngSubmit)="submitChangePassword()"
 				>
-					<app-new-password-form-field
+					<simply-new-password
 						formControlName="password"
 						(isSubmitted)="submitChangePassword()"
 						[markAsTouched]="invalidChangePassword()"
-					></app-new-password-form-field>
+					></simply-new-password>
 					<button
 						mat-flat-button
 						class="settings-menu__button"

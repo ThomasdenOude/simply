@@ -32,9 +32,10 @@ import {
 	NewPassword,
 	NewPasswordForm,
 } from '../../models/new-password-form.model';
+import { SpaceContentDirective } from '../../../base/directives/space-content.directive';
 
 @Component({
-	selector: 'app-new-password-form-field',
+	selector: 'simply-new-password',
 	standalone: true,
 	imports: [
 		MatFormFieldModule,
@@ -42,23 +43,24 @@ import {
 		ReactiveFormsModule,
 		FormsModule,
 		FocusInputDirective,
+		SpaceContentDirective,
 	],
-	templateUrl: './new-password-form-field.component.html',
-	styleUrl: './new-password-form-field.component.scss',
+	templateUrl: './new-password.component.html',
+	styleUrl: './new-password.component.scss',
 	providers: [
 		{
 			provide: NG_VALUE_ACCESSOR,
-			useExisting: forwardRef(() => NewPasswordFormFieldComponent),
+			useExisting: forwardRef(() => NewPasswordComponent),
 			multi: true,
 		},
 		{
 			provide: NG_VALIDATORS,
-			useExisting: forwardRef(() => NewPasswordFormFieldComponent),
+			useExisting: forwardRef(() => NewPasswordComponent),
 			multi: true,
 		},
 	],
 })
-export class NewPasswordFormFieldComponent
+export class NewPasswordComponent
 	implements AfterViewInit, OnDestroy, ControlValueAccessor
 {
 	private destroy: Subject<void> = new Subject<void>();

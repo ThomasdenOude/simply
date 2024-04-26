@@ -26,16 +26,17 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { AuthenticationService } from '../../services/authentication.service';
 import { ResponsiveService } from '../../../base/services/responsive.service';
-import { NewPasswordFormFieldComponent } from '../../ui/new-password-form-field/new-password-form-field.component';
+import { CenterPageComponent } from '../../../base/ui/center-page/center-page.component';
+import { SpaceContentDirective } from '../../../base/directives/space-content.directive';
+import { NewPasswordComponent } from '../../ui/new-password-form-field/new-password.component';
 import { ErrorMessageComponent } from '../../../base/ui/error-message/error-message.component';
 import { FocusInputDirective } from '../../../base/directives/focus-input.directive';
 import { Credentials, CredentialsForm } from '../../models/credentials.model';
 import { Devices } from '../../../base/models/devices';
 import { AuthenticationMessages } from '../../models/authentication-messages';
-import { CenterPageComponent } from '../../../base/ui/center-page/center-page.component';
 
 @Component({
-	selector: 'app-sign-up-page',
+	selector: 'simply-sign-up',
 	standalone: true,
 	imports: [
 		FormsModule,
@@ -45,12 +46,13 @@ import { CenterPageComponent } from '../../../base/ui/center-page/center-page.co
 		MatButtonModule,
 		MatInputModule,
 		MatIconModule,
-		NewPasswordFormFieldComponent,
+		NewPasswordComponent,
 		NgClass,
 		MatDivider,
 		ErrorMessageComponent,
 		CenterPageComponent,
 		FocusInputDirective,
+		SpaceContentDirective,
 	],
 	templateUrl: './sign-up.component.html',
 	styleUrl: './sign-up.component.scss',

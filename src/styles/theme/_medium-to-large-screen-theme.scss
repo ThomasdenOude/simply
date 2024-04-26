@@ -49,6 +49,7 @@
 
 	/*      4 - Include density for custom components     */
 	@include components.header-density($simply-medium-theme);
+	@include components.space-content-density($simply-medium-theme);
 
 	/*      5 - Include global typography     */
 	@include mat.typography-hierarchy(
