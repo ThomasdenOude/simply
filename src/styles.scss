@@ -1,7 +1,4 @@
 @use 'theme';
 @use 'global';
-@use 'styles/material/dialog';
 
 @include global.no-space;
-
-@include dialog.simply-dialog;

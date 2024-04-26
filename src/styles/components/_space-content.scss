@@ -2,6 +2,10 @@
 
 @use 'global';
 
+@mixin space-content-theme($theme) {
+	@include space-content-density($theme);
+}
+
 @mixin space-content-density($theme) {
 	$density: mat.get-theme-density($theme);
 

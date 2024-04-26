@@ -2,6 +2,10 @@
 
 @use 'global';
 
+@mixin header-theme($theme) {
+	@include header-density($theme);
+}
+
 @mixin header-density($theme) {
 	$density: mat.get-theme-density($theme);
 

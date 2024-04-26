@@ -28,7 +28,7 @@ import { AuthenticationService } from '../../services/authentication.service';
 import { ResponsiveService } from '../../../base/services/responsive.service';
 import { CenterPageComponent } from '../../../base/ui/center-page/center-page.component';
 import { SpaceContentDirective } from '../../../base/directives/space-content.directive';
-import { NewPasswordComponent } from '../../ui/new-password-form-field/new-password.component';
+import { NewPasswordComponent } from '../../ui/new-password/new-password.component';
 import { ErrorMessageComponent } from '../../../base/ui/error-message/error-message.component';
 import { FocusInputDirective } from '../../../base/directives/focus-input.directive';
 import { Credentials, CredentialsForm } from '../../models/credentials.model';

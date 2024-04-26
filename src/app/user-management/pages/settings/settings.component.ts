@@ -28,7 +28,7 @@ import { RemoveAccountComponent } from '../../ui/remove-account-dialog/remove-ac
 import { ErrorMessageComponent } from '../../../base/ui/error-message/error-message.component';
 import { MenuDropdownComponent } from '../../../base/ui/menu-dropdown/menu-dropdown.component';
 import { ConfirmPasswordComponent } from '../../ui/confirm-password/confirm-password.component';
-import { NewPasswordComponent } from '../../ui/new-password-form-field/new-password.component';
+import { NewPasswordComponent } from '../../ui/new-password/new-password.component';
 import { CenterPageComponent } from '../../../base/ui/center-page/center-page.component';
 import { SpaceContentDirective } from '../../../base/directives/space-content.directive';
 import { AuthenticationMessages } from '../../models/authentication-messages';
