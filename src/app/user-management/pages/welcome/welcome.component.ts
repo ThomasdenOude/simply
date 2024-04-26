@@ -5,9 +5,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
 import { ResponsiveService } from '../../../base/services/responsive.service';
+import { CenterPageComponent } from '../../../base/ui/center-page/center-page.component';
 import { Devices } from '../../../base/models/devices';
 import { RouterLink } from '@angular/router';
-import { CenterPageComponent } from '../../../base/ui/center-page/center-page.component';
 import { BaseSizes } from '../../../base/models/style-sizes';
 
 @Component({

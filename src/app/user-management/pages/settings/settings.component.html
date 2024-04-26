@@ -1,0 +1,97 @@
+<simply-center-page>
+	<h2>
+		<mat-icon class="settings__header-icon">settings</mat-icon> Your Simply
+		account
+	</h2>
+	<p class="settings-menu__text">Email: {{ userEmail() }}</p>
+	<button
+		mat-stroked-button
+		color="primary"
+		simplySpaceContent="large"
+		(click)="logout()"
+	>
+		<span>Log out</span>
+		<mat-icon>logout</mat-icon>
+	</button>
+	<mat-divider simplySpaceContent="large"></mat-divider>
+
+	<app-menu-dropdown
+		iconName="password"
+		menuTitle="Change password"
+		simplySpaceContent="large"
+		(menuOpened)="resetAll()"
+	>
+		@if (changePasswordMessage() !== AuthenticationMessages.None) {
+			<app-error-message
+				[errorMessage]="changePasswordMessage()"
+				(closed)="resetChangePasswordMessage()"
+				simplySpaceContent="large"
+			></app-error-message>
+		}
+		@if (
+			!passwordConfirmed() &&
+			changePasswordMessage() !==
+				AuthenticationMessages.SuccessfulPasswordChange
+		) {
+			<p>Confirm your current password to continue</p>
+			<simply-confirm-password
+				(passwordSubmitted)="confirmPassword($event, 'ChangePassword')"
+				[submitErrorMessage]="passwordConfirmError()"
+				(errorClosed)="resetPasswordConfirmError()"
+			></simply-confirm-password>
+		} @else if (passwordConfirmed()) {
+			<p>Change your password</p>
+			<form
+				[formGroup]="changePasswordForm"
+				(ngSubmit)="submitChangePassword()"
+			>
+				<simply-new-password
+					formControlName="password"
+					(isSubmitted)="submitChangePassword()"
+					[markAsTouched]="invalidChangePassword()"
+				></simply-new-password>
+				<button
+					mat-flat-button
+					class="settings-menu__button"
+					color="primary"
+					type="submit"
+					simplySpaceContent="regular"
+				>
+					Change password
+				</button>
+			</form>
+		}
+	</app-menu-dropdown>
+
+	<app-menu-dropdown
+		iconName="delete"
+		menuTitle="Remove account"
+		(menuOpened)="resetAll()"
+	>
+		@if (removeAccountError() !== AuthenticationMessages.None) {
+			<app-error-message
+				[errorMessage]="removeAccountError()"
+				(closed)="resetRemoveAccountError()"
+				simplySpaceContent="large"
+			></app-error-message>
+		}
+
+		@if (!passwordConfirmed()) {
+			<p>Confirm your current password to continue</p>
+			<simply-confirm-password
+				(passwordSubmitted)="confirmPassword($event, 'RemoveAccount')"
+				[submitErrorMessage]="passwordConfirmError()"
+				(errorClosed)="resetPasswordConfirmError()"
+			></simply-confirm-password>
+		} @else {
+			<button
+				mat-flat-button
+				color="primary"
+				simplySpaceContent="regular"
+				(click)="openRemoveAccountDialog()"
+			>
+				Continue
+			</button>
+		}
+	</app-menu-dropdown>
+</simply-center-page>

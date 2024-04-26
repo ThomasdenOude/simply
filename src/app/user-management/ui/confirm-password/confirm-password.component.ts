@@ -22,9 +22,10 @@ import { ErrorMessageComponent } from '../../../base/ui/error-message/error-mess
 import { PasswordForm } from '../../models/credentials.model';
 import { MatInput } from '@angular/material/input';
 import { AuthenticationMessages } from '../../models/authentication-messages';
+import { SpaceContentDirective } from '../../../base/directives/space-content.directive';
 
 @Component({
-	selector: 'app-confirm-password',
+	selector: 'simply-confirm-password',
 	standalone: true,
 	imports: [
 		MatFormField,
@@ -34,6 +35,7 @@ import { AuthenticationMessages } from '../../models/authentication-messages';
 		MatInput,
 		MatError,
 		ErrorMessageComponent,
+		SpaceContentDirective,
 	],
 	templateUrl: './confirm-password.component.html',
 	styleUrl: './confirm-password.component.scss',

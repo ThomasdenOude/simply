@@ -8,7 +8,7 @@ import {
 
 import { WelcomeComponent } from './user-management/pages/welcome/welcome.component';
 import { SignUpComponent } from './user-management/pages/sign-up/sign-up.component';
-import { LoginComponent } from './user-management/pages/login-page/login.component';
+import { LoginComponent } from './user-management/pages/login/login.component';
 
 const redirectUnauthorizedToSignUp = () => redirectUnauthorizedTo(['']);
 const redirectLoggedInToTaskBoard = () => redirectLoggedInTo(['task-board']);
@@ -45,7 +45,7 @@ export const APP_ROUTES: Routes = [
 	{
 		path: 'settings',
 		loadComponent: () =>
-			import('./user-management/pages/settings-page/settings.component').then(
+			import('./user-management/pages/settings/settings.component').then(
 				mod => mod.SettingsComponent
 			),
 		canActivate: [AuthGuard],

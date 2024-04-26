@@ -16,7 +16,6 @@ import {
 	Validators,
 } from '@angular/forms';
 
-import { Devices } from '../../../base/models/devices';
 import { MatIcon } from '@angular/material/icon';
 import { MatDivider } from '@angular/material/divider';
 import { MatButton } from '@angular/material/button';
@@ -25,19 +24,19 @@ import { MatDialog } from '@angular/material/dialog';
 import { User } from '@angular/fire/auth';
 
 import { AuthenticationService } from '../../services/authentication.service';
-import { ResponsiveService } from '../../../base/services/responsive.service';
 import { RemoveAccountComponent } from '../../ui/remove-account-dialog/remove-account.component';
 import { ErrorMessageComponent } from '../../../base/ui/error-message/error-message.component';
 import { MenuDropdownComponent } from '../../../base/ui/menu-dropdown/menu-dropdown.component';
 import { ConfirmPasswordComponent } from '../../ui/confirm-password/confirm-password.component';
 import { NewPasswordComponent } from '../../ui/new-password-form-field/new-password.component';
+import { CenterPageComponent } from '../../../base/ui/center-page/center-page.component';
+import { SpaceContentDirective } from '../../../base/directives/space-content.directive';
 import { AuthenticationMessages } from '../../models/authentication-messages';
 import { SettingsAction } from '../../models/settings-actions.model';
 import { PasswordForm } from '../../models/credentials.model';
-import { CenterPageComponent } from '../../../base/ui/center-page/center-page.component';
 
 @Component({
-	selector: 'app-settings-page',
+	selector: 'simply-settings',
 	standalone: true,
 	imports: [
 		NgClass,
@@ -51,6 +50,7 @@ import { CenterPageComponent } from '../../../base/ui/center-page/center-page.co
 		FormsModule,
 		NewPasswordComponent,
 		CenterPageComponent,
+		SpaceContentDirective,
 	],
 	templateUrl: './settings.component.html',
 	styleUrl: './settings.component.scss',

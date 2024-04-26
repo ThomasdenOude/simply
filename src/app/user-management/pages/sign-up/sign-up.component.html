@@ -1,8 +1,6 @@
 <simply-center-page>
 	<form [formGroup]="signUpForm" (ngSubmit)="signUp()">
-		<h2 class="sign-up__text">
-			Sign up to Simply <mat-icon color="accent">task_alt</mat-icon>
-		</h2>
+		<h2>Sign up to Simply <mat-icon color="accent">task_alt</mat-icon></h2>
 
 		@if (signupError() !== AuthenticationMessages.None) {
 			<app-error-message
@@ -27,7 +25,6 @@
 		@if (!continue()) {
 			<button
 				type="button"
-				class="sign-up__button"
 				mat-flat-button
 				color="primary"
 				simplySpaceContent="regular"
@@ -39,21 +36,14 @@
 
 		@if (continue()) {
 			<mat-divider simplySpaceContent="regular"></mat-divider>
-			<h3 class="sign-up__text">Make a new password</h3>
+			<h3>Make a new password</h3>
 			<simply-new-password
 				formControlName="password"
 				[markAsTouched]="invalidSubmit()"
 				(isSubmitted)="signUp()"
 			></simply-new-password>
 
-			<button
-				type="submit"
-				class="sign-up__button"
-				mat-flat-button
-				color="primary"
-			>
-				Sign up
-			</button>
+			<button type="submit" mat-flat-button color="primary">Sign up</button>
 		}
 	</form>
 </simply-center-page>

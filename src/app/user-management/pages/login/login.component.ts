@@ -26,12 +26,12 @@ import { MatIcon } from '@angular/material/icon';
 import { AuthenticationService } from '../../services/authentication.service';
 import { ResponsiveService } from '../../../base/services/responsive.service';
 import { ErrorMessageComponent } from '../../../base/ui/error-message/error-message.component';
+import { CenterPageComponent } from '../../../base/ui/center-page/center-page.component';
+import { SpaceContentDirective } from '../../../base/directives/space-content.directive';
 import { FocusInputDirective } from '../../../base/directives/focus-input.directive';
 import { Credentials, CredentialsForm } from '../../models/credentials.model';
 import { Devices } from '../../../base/models/devices';
 import { AuthenticationMessages } from '../../models/authentication-messages';
-import { CenterPageComponent } from '../../../base/ui/center-page/center-page.component';
-import { SpaceContentDirective } from '../../../base/directives/space-content.directive';
 
 @Component({
 	selector: 'simply-login',
