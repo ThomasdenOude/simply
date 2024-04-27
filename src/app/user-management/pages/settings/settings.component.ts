@@ -26,7 +26,7 @@ import { User } from '@angular/fire/auth';
 import { AuthenticationService } from '../../services/authentication.service';
 import { RemoveAccountComponent } from '../../ui/remove-account-dialog/remove-account.component';
 import { MessageComponent } from '../../../base/ui/message/message.component';
-import { MenuDropdownComponent } from '../../../base/ui/menu-dropdown/menu-dropdown.component';
+import { PanelComponent } from '../../../base/ui/panel/panel.component';
 import { ConfirmPasswordComponent } from '../../ui/confirm-password/confirm-password.component';
 import { NewPasswordComponent } from '../../ui/new-password/new-password.component';
 import { CenterPageComponent } from '../../../base/ui/center-page/center-page.component';
@@ -44,7 +44,7 @@ import { PasswordForm } from '../../models/credentials.model';
 		MatDivider,
 		MatButton,
 		MessageComponent,
-		MenuDropdownComponent,
+		PanelComponent,
 		ConfirmPasswordComponent,
 		ReactiveFormsModule,
 		FormsModule,

@@ -53,10 +53,10 @@ $simply-light-theme: mat.define-light-theme(
 @include components.header-theme($simply-light-theme);
 @include components.space-content-theme($simply-light-theme);
 @include components.message-theme($simply-light-theme);
+@include components.panel-theme($simply-light-theme);
 
 // TODO Refactor:
 @include components.simply-scrollbar($simply-light-theme);
-@include components.menu-dropdown($simply-light-theme);
 @include components.task-board-theme($simply-light-theme);
 
 /*    5 - Include global typography             */

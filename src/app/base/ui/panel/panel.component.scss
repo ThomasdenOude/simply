@@ -6,7 +6,7 @@
 	display: block;
 }
 
-.menu-dropdown {
+.panel {
 	&__container {
 		border-radius: global.radius('regular');
 	}
@@ -17,10 +17,6 @@
 		width: 100%;
 		line-height: 1;
 		border: none;
-		padding: global.space('regular');
-		background-color: transparent;
-		font-family: inherit;
-		font-size: map.get(typography.$simply-font-size, 'large');
 		&:hover {
 			cursor: pointer;
 		}
@@ -34,11 +30,5 @@
 	}
 	&__title {
 		margin: 0;
-	}
-	&__content {
-		padding: global.space('regular');
-		display: flex;
-		flex-direction: column;
-		gap: global.space('regular');
 	}
 }

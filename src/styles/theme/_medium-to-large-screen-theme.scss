@@ -10,11 +10,13 @@
  *    1 - Set typography for medium to large screens and density
  *    2 - Include typography for material components
  *    3 - Include density for material components
- *    4 - Include density for custom components
- *    5 - Include global typography
+ *    4 - Include typography for custom components
+ *    5 - Include density for custom components
+ *    6 - Include global typography
  */
 
-@media (min-width: 960px) {
+@media (min-width: 700px) and (orientation: portrait),
+	(min-width: 959.98px) and (orientation: landscape) {
 	/*    1 - Set typography for medium to large screens    */
 	$simply-medium-theme: mat.define-light-theme(
 		(
@@ -47,9 +49,13 @@
 	@include mat.form-field-density($simply-medium-theme);
 	@include mat.tooltip-density($simply-medium-theme);
 
-	/*      4 - Include density for custom components     */
+	/*      4 - Include typography for custom components     */
+	@include components.panel-typography($simply-medium-theme);
+
+	/*      5 - Include density for custom components     */
 	@include components.header-density($simply-medium-theme);
 	@include components.space-content-density($simply-medium-theme);
+	@include components.panel-density($simply-medium-theme);
 
 	/*      5 - Include global typography     */
 	@include mat.typography-hierarchy(

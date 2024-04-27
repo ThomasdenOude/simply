@@ -1,0 +1,55 @@
+@use '@angular/material' as mat;
+
+@use 'global';
+
+@mixin panel-theme($theme) {
+	@include panel-color($theme);
+	@include panel-typography($theme);
+	@include panel-density($theme);
+}
+
+@mixin panel-color($theme) {
+	$background: mat.get-theme-color($theme, background, dialog);
+	$text: mat.get-theme-color($theme, foreground, text);
+	.panel {
+		&__container {
+			background-color: $background;
+		}
+		&__button {
+			background-color: transparent;
+		}
+	}
+}
+
+@mixin panel-typography($theme) {
+	$font: mat.get-theme-typography($theme, subtitle-1);
+	.panel {
+		&__button {
+			font: $font;
+		}
+	}
+}
+
+@mixin panel-density($theme) {
+	$density: mat.get-theme-density($theme);
+
+	@if $density < 0 {
+		.panel {
+			&__button {
+				padding: global.space('small');
+			}
+			&__content {
+				padding: global.space('small');
+			}
+		}
+	} @else {
+		.panel {
+			&__button {
+				padding: global.space('regular');
+			}
+			&__content {
+				padding: global.space('regular');
+			}
+		}
+	}
+}

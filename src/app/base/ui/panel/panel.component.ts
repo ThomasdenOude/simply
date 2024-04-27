@@ -13,28 +13,28 @@ import { MatIcon } from '@angular/material/icon';
 import { ConfirmPasswordComponent } from '../../../user-management/ui/confirm-password/confirm-password.component';
 
 @Component({
-	selector: 'app-menu-dropdown',
+	selector: 'simply-panel',
 	standalone: true,
 	imports: [MatIcon],
-	templateUrl: './menu-dropdown.component.html',
-	styleUrl: './menu-dropdown.component.scss',
+	templateUrl: './panel.component.html',
+	styleUrl: './panel.component.scss',
 })
-export class MenuDropdownComponent {
-	protected menuIsOpened: WritableSignal<boolean> = signal(false);
+export class PanelComponent {
+	protected panelIsOpened: WritableSignal<boolean> = signal(false);
 
 	public iconName: InputSignal<string | undefined> = input<string>();
-	public menuTitle: InputSignal<string> = input.required<string>();
+	public panelTitle: InputSignal<string> = input.required<string>();
 
 	@ContentChild(ConfirmPasswordComponent)
 	private confirmPassword?: ConfirmPasswordComponent;
 
 	@Output()
-	public menuOpened: EventEmitter<boolean> = new EventEmitter<boolean>();
+	public panelOpened: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-	protected toggleMenu(): void {
-		this.menuIsOpened.update(() => !this.menuIsOpened());
-		this.menuOpened.emit(this.menuIsOpened());
-		if (!this.menuIsOpened() && this.confirmPassword) {
+	protected togglePanel(): void {
+		this.panelIsOpened.update(() => !this.panelIsOpened());
+		this.panelOpened.emit(this.panelIsOpened());
+		if (!this.panelIsOpened() && this.confirmPassword) {
 			this.confirmPassword.reset();
 		}
 	}

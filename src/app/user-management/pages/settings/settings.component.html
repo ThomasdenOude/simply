@@ -15,11 +15,11 @@
 	</button>
 	<mat-divider simplySpaceContent="large"></mat-divider>
 
-	<app-menu-dropdown
+	<simply-panel
 		iconName="password"
-		menuTitle="Change password"
+		panelTitle="Change password"
 		simplySpaceContent="large"
-		(menuOpened)="resetAll()"
+		(panelOpened)="resetAll()"
 	>
 		@if (changePasswordMessage() !== AuthenticationMessages.None) {
 			<simply-message
@@ -61,12 +61,12 @@
 				</button>
 			</form>
 		}
-	</app-menu-dropdown>
+	</simply-panel>
 
-	<app-menu-dropdown
+	<simply-panel
 		iconName="delete"
-		menuTitle="Remove account"
-		(menuOpened)="resetAll()"
+		panelTitle="Remove account"
+		(panelOpened)="resetAll()"
 	>
 		@if (removeAccountError() !== AuthenticationMessages.None) {
 			<simply-message
@@ -93,5 +93,5 @@
 				Continue
 			</button>
 		}
-	</app-menu-dropdown>
+	</simply-panel>
 </simply-center-page>
