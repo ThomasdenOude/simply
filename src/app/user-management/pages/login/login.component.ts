@@ -25,7 +25,7 @@ import { MatIcon } from '@angular/material/icon';
 
 import { AuthenticationService } from '../../services/authentication.service';
 import { ResponsiveService } from '../../../base/services/responsive.service';
-import { ErrorMessageComponent } from '../../../base/ui/error-message/error-message.component';
+import { MessageComponent } from '../../../base/ui/message/message.component';
 import { CenterPageComponent } from '../../../base/ui/center-page/center-page.component';
 import { SpaceContentDirective } from '../../../base/directives/space-content.directive';
 import { FocusInputDirective } from '../../../base/directives/focus-input.directive';
@@ -45,7 +45,7 @@ import { AuthenticationMessages } from '../../models/authentication-messages';
 		ReactiveFormsModule,
 		NgClass,
 		MatIcon,
-		ErrorMessageComponent,
+		MessageComponent,
 		CenterPageComponent,
 		FocusInputDirective,
 		SpaceContentDirective,

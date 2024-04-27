@@ -3,12 +3,12 @@
 		<h2>Log in to Simply <mat-icon color="accent">task_alt</mat-icon></h2>
 
 		@if (loginError() !== AuthenticationErrors.None) {
-			<app-error-message
+			<simply-message
 				simplySpaceContent="large"
 				[errorMessage]="loginError()"
 				[form]="loginForm"
 				(closed)="resetError()"
-			></app-error-message>
+			></simply-message>
 		}
 		<mat-form-field appearance="outline" simplySpaceContent="regular">
 			<mat-label>Email</mat-label>

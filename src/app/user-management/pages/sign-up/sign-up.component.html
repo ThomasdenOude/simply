@@ -3,12 +3,12 @@
 		<h2>Sign up to Simply <mat-icon color="accent">task_alt</mat-icon></h2>
 
 		@if (signupError() !== AuthenticationMessages.None) {
-			<app-error-message
+			<simply-message
 				simplySpaceContent="large"
 				[errorMessage]="signupError()"
 				[form]="signUpForm"
 				(closed)="resetError()"
-			></app-error-message>
+			></simply-message>
 		}
 
 		<mat-form-field simplySpaceContent="regular">

@@ -29,7 +29,7 @@ import { ResponsiveService } from '../../../base/services/responsive.service';
 import { CenterPageComponent } from '../../../base/ui/center-page/center-page.component';
 import { SpaceContentDirective } from '../../../base/directives/space-content.directive';
 import { NewPasswordComponent } from '../../ui/new-password/new-password.component';
-import { ErrorMessageComponent } from '../../../base/ui/error-message/error-message.component';
+import { MessageComponent } from '../../../base/ui/message/message.component';
 import { FocusInputDirective } from '../../../base/directives/focus-input.directive';
 import { Credentials, CredentialsForm } from '../../models/credentials.model';
 import { Devices } from '../../../base/models/devices';
@@ -49,7 +49,7 @@ import { AuthenticationMessages } from '../../models/authentication-messages';
 		NewPasswordComponent,
 		NgClass,
 		MatDivider,
-		ErrorMessageComponent,
+		MessageComponent,
 		CenterPageComponent,
 		FocusInputDirective,
 		SpaceContentDirective,

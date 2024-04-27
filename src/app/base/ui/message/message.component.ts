@@ -13,13 +13,13 @@ import { MatIcon } from '@angular/material/icon';
 import { Subject, takeUntil } from 'rxjs';
 
 @Component({
-	selector: 'app-error-message',
+	selector: 'simply-message',
 	standalone: true,
 	imports: [MatIconButton, MatIcon],
-	templateUrl: './error-message.component.html',
-	styleUrl: './error-message.component.scss',
+	templateUrl: './message.component.html',
+	styleUrl: './message.component.scss',
 })
-export class ErrorMessageComponent implements AfterViewInit, OnDestroy {
+export class MessageComponent implements AfterViewInit, OnDestroy {
 	private destroy: Subject<void> = new Subject<void>();
 	protected message = '';
 

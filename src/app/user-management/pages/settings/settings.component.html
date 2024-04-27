@@ -22,11 +22,11 @@
 		(menuOpened)="resetAll()"
 	>
 		@if (changePasswordMessage() !== AuthenticationMessages.None) {
-			<app-error-message
+			<simply-message
 				[errorMessage]="changePasswordMessage()"
 				(closed)="resetChangePasswordMessage()"
 				simplySpaceContent="large"
-			></app-error-message>
+			></simply-message>
 		}
 		@if (
 			!passwordConfirmed() &&
@@ -69,11 +69,11 @@
 		(menuOpened)="resetAll()"
 	>
 		@if (removeAccountError() !== AuthenticationMessages.None) {
-			<app-error-message
+			<simply-message
 				[errorMessage]="removeAccountError()"
 				(closed)="resetRemoveAccountError()"
 				simplySpaceContent="large"
-			></app-error-message>
+			></simply-message>
 		}
 
 		@if (!passwordConfirmed()) {

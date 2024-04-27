@@ -53,9 +53,9 @@
 	@include mat.select-color($simply-dark-theme);
 
 	/*      3 - Include colors for custom components       */
+	@include components.message-color($simply-dark-theme);
 	// TODO Refactor
 	@include components.simply-scrollbar($simply-dark-theme);
-	@include components.message-color($simply-dark-theme);
 	@include components.menu-dropdown($simply-dark-theme);
 	@include components.task-board-color($simply-dark-theme);
 

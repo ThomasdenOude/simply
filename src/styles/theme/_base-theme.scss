@@ -52,9 +52,10 @@ $simply-light-theme: mat.define-light-theme(
 /*    4 - Include theme for custom components    */
 @include components.header-theme($simply-light-theme);
 @include components.space-content-theme($simply-light-theme);
+@include components.message-theme($simply-light-theme);
+
 // TODO Refactor:
 @include components.simply-scrollbar($simply-light-theme);
-@include components.message-color($simply-light-theme);
 @include components.menu-dropdown($simply-light-theme);
 @include components.task-board-theme($simply-light-theme);
 

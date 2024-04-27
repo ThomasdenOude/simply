@@ -18,7 +18,7 @@ import {
 import { MatError, MatFormField } from '@angular/material/form-field';
 import { MatButton } from '@angular/material/button';
 
-import { ErrorMessageComponent } from '../../../base/ui/error-message/error-message.component';
+import { MessageComponent } from '../../../base/ui/message/message.component';
 import { PasswordForm } from '../../models/credentials.model';
 import { MatInput } from '@angular/material/input';
 import { AuthenticationMessages } from '../../models/authentication-messages';
@@ -34,7 +34,7 @@ import { SpaceContentDirective } from '../../../base/directives/space-content.di
 		ReactiveFormsModule,
 		MatInput,
 		MatError,
-		ErrorMessageComponent,
+		MessageComponent,
 		SpaceContentDirective,
 	],
 	templateUrl: './confirm-password.component.html',
