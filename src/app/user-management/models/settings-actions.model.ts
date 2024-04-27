@@ -1,1 +1,1 @@
-export type SettingsAction = 'RemoveAccount' | 'ChangePassword';
+export type SettingsActions = 'RemoveAccount' | 'ChangePassword';

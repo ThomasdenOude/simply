@@ -24,7 +24,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { User } from '@angular/fire/auth';
 
 import { AuthenticationService } from '../../services/authentication.service';
-import { RemoveAccountComponent } from '../../ui/remove-account-dialog/remove-account.component';
+import { RemoveAccountComponent } from '../../ui/remove-account/remove-account.component';
 import { MessageComponent } from '../../../base/ui/message/message.component';
 import { PanelComponent } from '../../../base/ui/panel/panel.component';
 import { ConfirmPasswordComponent } from '../../ui/confirm-password/confirm-password.component';
@@ -32,7 +32,7 @@ import { NewPasswordComponent } from '../../ui/new-password/new-password.compone
 import { CenterPageComponent } from '../../../base/ui/center-page/center-page.component';
 import { SpaceContentDirective } from '../../../base/directives/space-content.directive';
 import { AuthenticationMessages } from '../../models/authentication-messages';
-import { SettingsAction } from '../../models/settings-actions.model';
+import { SettingsActions } from '../../models/settings-actions.model';
 import { PasswordForm } from '../../models/credentials.model';
 
 @Component({
@@ -90,7 +90,7 @@ export class SettingsComponent {
 			.catch();
 	}
 
-	protected confirmPassword(password: string, action: SettingsAction): void {
+	protected confirmPassword(password: string, action: SettingsActions): void {
 		const email = this.authService.user()?.email;
 		if (email) {
 			this.authService

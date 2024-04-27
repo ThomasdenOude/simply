@@ -1,4 +1,4 @@
-import { BaseForm } from '../../base/models/base-form-group.model';
+import { BaseForm } from '../../base/models/base-form.model';
 
 export type Credentials = Password & {
 	email: string | null;

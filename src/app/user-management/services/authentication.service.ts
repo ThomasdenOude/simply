@@ -15,7 +15,7 @@ import {
 import { FirebaseError } from '@firebase/util';
 
 import { AuthenticationMessages } from '../models/authentication-messages';
-import { authenticationErrorMap } from '../data/authentication-massages.map';
+import { authenticationErrorMap } from '../data/authentication-messages.map';
 
 @Injectable({
 	providedIn: 'root',

@@ -28,10 +28,7 @@ import { filter, fromEvent, Subject, takeUntil } from 'rxjs';
 
 import { FocusInputDirective } from '../../../base/directives/focus-input.directive';
 import { matchingPasswordsValidator } from './new-password-validator/matching-passwords-validator';
-import {
-	NewPassword,
-	NewPasswordForm,
-} from '../../models/new-password-form.model';
+import { NewPassword, NewPasswordForm } from '../../models/new-password.model';
 import { SpaceContentDirective } from '../../../base/directives/space-content.directive';
 
 @Component({
