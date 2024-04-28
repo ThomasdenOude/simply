@@ -37,9 +37,10 @@ import {
 import { Devices } from '../../../base/models/devices';
 import { TASK_STATUS_LIST } from '../../data/task-status-list';
 import { taskStatusIcon } from '../../data/task-status-icon.map';
+import { SpaceContentDirective } from '../../../base/directives/space-content.directive';
 
 @Component({
-	selector: 'app-task-edit-page',
+	selector: 'simply-edit-task',
 	standalone: true,
 	imports: [
 		FormsModule,
@@ -53,11 +54,12 @@ import { taskStatusIcon } from '../../data/task-status-icon.map';
 		MatSelect,
 		MatOption,
 		FocusInputDirective,
+		SpaceContentDirective,
 	],
-	templateUrl: './task-edit.component.html',
-	styleUrl: './task-edit.component.scss',
+	templateUrl: './edit-task.component.html',
+	styleUrl: './edit-task.component.scss',
 })
-export class TaskEditComponent implements OnInit {
+export class EditTaskComponent implements OnInit {
 	private taskService: TaskService = inject(TaskService);
 	private responsiveService: ResponsiveService = inject(ResponsiveService);
 	private router: Router = inject(Router);

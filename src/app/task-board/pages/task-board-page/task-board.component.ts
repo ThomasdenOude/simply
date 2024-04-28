@@ -24,7 +24,7 @@ import { TaskService } from '../../services/task.service';
 import { TaskBoardTabDirective } from '../../directives/task-board-tab.directive';
 import { TaskBoardGroupComponent } from '../../ui/task-board-group/task-board-group.component';
 import { TaskListComponent } from '../../ui/task-list/task-list.component';
-import { TaskEditComponent } from '../task-edit-page/task-edit.component';
+import { EditTaskComponent } from '../edit-task/edit-task.component';
 import { TaskCardComponent } from '../../ui/task-card/task-card.component';
 import { Task, TaskStatus, TaskStatusIcons } from '../../models/task.model';
 import { Devices } from '../../../base/models/devices';
@@ -42,7 +42,7 @@ import { taskStatusIcon } from '../../data/task-status-icon.map';
 		MatIconModule,
 		DragDropModule,
 		RouterLink,
-		TaskEditComponent,
+		EditTaskComponent,
 		TaskBoardTabDirective,
 		TaskBoardGroupComponent,
 		TaskListComponent,

@@ -2,14 +2,13 @@
 
 @include global.flex-component;
 
-.edit-task {
+.simply-edit-task {
 	&__header {
 		display: flex;
 		flex-direction: column;
 
-		&.wide-header {
+		&.simply-edit-task__wide-header {
 			flex-direction: row;
-			gap: global.space('regular');
 		}
 	}
 	&__status {
@@ -23,7 +22,6 @@
 	}
 	&__action {
 		display: flex;
-		gap: global.space('regular');
 	}
 	&__button {
 		flex: 1 1 auto;

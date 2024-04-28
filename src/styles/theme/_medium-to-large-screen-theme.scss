@@ -15,7 +15,7 @@
  *    6 - Include global typography
  */
 
-@media (min-width: 700px) and (orientation: portrait),
+@media (min-width: 599.98px) and (orientation: portrait),
 	(min-width: 959.98px) and (orientation: landscape) {
 	/*    1 - Set typography for medium to large screens    */
 	$simply-medium-theme: mat.define-light-theme(
@@ -56,6 +56,7 @@
 	@include components.header-density($simply-medium-theme);
 	@include components.space-content-density($simply-medium-theme);
 	@include components.panel-density($simply-medium-theme);
+	@include components.edit-task-density($simply-medium-theme);
 
 	/*      5 - Include global typography     */
 	@include mat.typography-hierarchy(
