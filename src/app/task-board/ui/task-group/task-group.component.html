@@ -1,0 +1,14 @@
+<div class="simply-task-group__container">
+	<header>
+		<nav class="simply-task-group__nav">
+			<ng-content select="[simplyTaskGroupTab]"></ng-content>
+		</nav>
+	</header>
+
+	<div
+		class="simply-task-group__content"
+		[ngClass]="{ 'large-screen': device() === Devices.Small }"
+	>
+		<ng-content></ng-content>
+	</div>
+</div>

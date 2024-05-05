@@ -57,6 +57,8 @@
 	@include components.space-content-density($simply-medium-theme);
 	@include components.panel-density($simply-medium-theme);
 	@include components.edit-task-density($simply-medium-theme);
+	@include components.task-board-density($simply-medium-theme);
+	@include components.task-group-density($simply-medium-theme);
 
 	/*      5 - Include global typography     */
 	@include mat.typography-hierarchy(

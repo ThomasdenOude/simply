@@ -1,37 +1,10 @@
 @use 'global';
 
-:host {
-	flex: 1 1 auto;
-	display: flex;
-	flex-direction: column;
-}
+@include global.flex-component;
 
-.task-board {
+.simply-task-board {
 	&__container {
 		flex: 1 1 auto;
-		padding: global.space('regular');
-	}
-}
-
-.task-board-group {
-	&__list {
-		height: 100%;
-		padding: global.space('regular');
-		display: flex;
-		flex-direction: column;
-		gap: global.space('regular');
-	}
-
-	&__add-button {
-		position: fixed;
-		bottom: global.space('large');
-		right: global.space('large');
-		z-index: 2;
-
-		&.large-screen {
-			bottom: global.space('extra-large');
-			right: global.space('extra-large');
-		}
 	}
 }
 

@@ -1,6 +1,4 @@
 import {
-	AfterContentChecked,
-	AfterContentInit,
 	Directive,
 	effect,
 	ElementRef,
@@ -9,22 +7,20 @@ import {
 	input,
 	InputSignal,
 	Renderer2,
-	signal,
-	WritableSignal,
 } from '@angular/core';
-import { TaskStatus } from '../models/task.model';
+import { TaskStatus } from '../../../models/task.model';
 import { MatIconModule } from '@angular/material/icon';
 import { Element } from '@angular/compiler';
 
 @Directive({
-	selector: 'button[appTaskBoardTab]',
+	selector: 'button[simplyTaskGroupTab]',
 	standalone: true,
 	providers: [MatIconModule],
 })
-export class TaskBoardTabDirective {
+export class TaskGroupTabDirective {
 	private elementRef: ElementRef = inject(ElementRef);
-	private readonly host: Element;
 	private renderer: Renderer2 = inject(Renderer2);
+	private readonly host: Element;
 
 	public active: InputSignal<boolean> = input.required<boolean>();
 	public taskStatus: InputSignal<TaskStatus> = input.required<TaskStatus>();
@@ -40,7 +36,7 @@ export class TaskBoardTabDirective {
 
 	constructor() {
 		this.host = this.elementRef.nativeElement;
-		this.renderer.addClass(this.host, 'task-board-group__tab');
+		this.renderer.addClass(this.host, 'simply-task-group__tab');
 
 		effect(() => {
 			if (this.active()) {
@@ -62,12 +58,12 @@ export class TaskBoardTabDirective {
 	}
 
 	private addActive(): void {
-		this.renderer.addClass(this.host, 'active-tab');
+		this.renderer.addClass(this.host, 'simply-task-group__active-tab');
 	}
 
 	private removeActive(): void {
 		if (!this.active()) {
-			this.renderer.removeClass(this.host, 'active-tab');
+			this.renderer.removeClass(this.host, 'simply-task-group__active-tab');
 		}
 	}
 }

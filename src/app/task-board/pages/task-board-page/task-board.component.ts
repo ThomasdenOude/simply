@@ -21,8 +21,8 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { ResponsiveService } from '../../../base/services/responsive.service';
 import { TaskService } from '../../services/task.service';
-import { TaskBoardTabDirective } from '../../directives/task-board-tab.directive';
-import { TaskBoardGroupComponent } from '../../ui/task-board-group/task-board-group.component';
+import { TaskGroupTabDirective } from '../../ui/task-group/directives/task-group-tab.directive';
+import { TaskGroupComponent } from '../../ui/task-group/task-group.component';
 import { TaskListComponent } from '../../ui/task-list/task-list.component';
 import { EditTaskComponent } from '../edit-task/edit-task.component';
 import { TaskCardComponent } from '../../ui/task-card/task-card.component';
@@ -30,9 +30,12 @@ import { Task, TaskStatus, TaskStatusIcons } from '../../models/task.model';
 import { Devices } from '../../../base/models/devices';
 import { TASK_STATUS_LIST } from '../../data/task-status-list';
 import { taskStatusIcon } from '../../data/task-status-icon.map';
+import { NoSpaceDirective } from '../../../base/directives/no-space.directive';
+import { TaskGroupListDirective } from '../../ui/task-group/directives/task-group-list.directive';
+import { TaskGroupAddButtonDirective } from '../../ui/task-group/directives/task-group-add-button.directive';
 
 @Component({
-	selector: 'app-task-board-page',
+	selector: 'simply-task-board',
 	standalone: true,
 	imports: [
 		TaskCardComponent,
@@ -43,9 +46,12 @@ import { taskStatusIcon } from '../../data/task-status-icon.map';
 		DragDropModule,
 		RouterLink,
 		EditTaskComponent,
-		TaskBoardTabDirective,
-		TaskBoardGroupComponent,
+		TaskGroupTabDirective,
+		TaskGroupComponent,
 		TaskListComponent,
+		NoSpaceDirective,
+		TaskGroupListDirective,
+		TaskGroupAddButtonDirective,
 	],
 	templateUrl: './task-board.component.html',
 	styleUrl: './task-board.component.scss',

@@ -1,16 +1,10 @@
-<div
-	class="task-board__container"
-	[ngClass]="{
-		'large-screen':
-			device() === Devices.Small || device() === Devices.WideScreen
-	}"
->
+<div class="simply-task-board__container">
 	@if (device() !== Devices.WideScreen) {
-		<app-task-board-group cdkDropListGroup>
+		<simply-task-group cdkDropListGroup>
 			@for (status of taskStatuses; track status) {
 				<button
-					appTaskBoardTab
 					cdkDropList
+					simplyTaskGroupTab
 					[active]="activeStatus() === status"
 					[taskStatus]="status"
 					(click)="selectStatus(status)"
@@ -18,20 +12,20 @@
 					(cdkDropListDropped)="updateTask($event, status)"
 					(cdkDropListEntered)="switchTab(status)"
 				>
-					<mat-icon class="tab-content" [attr.aria-label]="status">{{
+					<mat-icon [attr.aria-label]="status">{{
 						taskStatusIcon.get(status)
 					}}</mat-icon>
 					@if (device() !== Devices.HandsetPortrait) {
-						<h3 class="tab-content">{{ status }}</h3>
+						<h3 simplyNoSpace>{{ status }}</h3>
 					}
 				</button>
 			}
 			@for (status of taskStatuses; track status) {
 				<div
 					cdkDropList
-					class="task-board-group__list"
-					[ngStyle]="status === activeStatus() ? null : { display: 'none' }"
-					[ngClass]="{ 'large-screen': device() === Devices.Small }"
+					simplyTaskGroupList
+					[active]="status === activeStatus()"
+					[taskStatus]="status"
 					[id]="status"
 					[cdkDropListData]="taskStatusListItems[$index]()"
 					(cdkDropListDropped)="updateTask($event)"
@@ -45,17 +39,16 @@
 					}
 				</div>
 			}
-		</app-task-board-group>
 
-		<button
-			mat-mini-fab
-			color="accent"
-			class="task-board-group__add-button"
-			[ngClass]="{ 'large-screen': device() === Devices.Small }"
-			routerLink="task"
-		>
-			<mat-icon>add</mat-icon>
-		</button>
+			<button
+				mat-mini-fab
+				color="accent"
+				routerLink="task"
+				simplyTaskGroupAddButton
+			>
+				<mat-icon>add</mat-icon>
+			</button>
+		</simply-task-group>
 	} @else {
 		<div class="task-board-kanban__container">
 			<div class="task-board-kanban__action-menu">

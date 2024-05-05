@@ -5,13 +5,13 @@ import { ResponsiveService } from '../../../base/services/responsive.service';
 import { Devices } from '../../../base/models/devices';
 
 @Component({
-	selector: 'app-task-board-group',
+	selector: 'simply-task-group',
 	standalone: true,
 	imports: [NgClass],
-	templateUrl: './task-board-group.component.html',
-	styleUrl: './task-board-group.component.scss',
+	templateUrl: './task-group.component.html',
+	styleUrl: './task-group.component.scss',
 })
-export class TaskBoardGroupComponent {
+export class TaskGroupComponent {
 	private responsiveService: ResponsiveService = inject(ResponsiveService);
 	protected device: Signal<Devices> = this.responsiveService.device;
 
