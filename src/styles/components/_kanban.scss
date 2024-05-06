@@ -1,0 +1,56 @@
+@use '@angular/material' as mat;
+
+@use 'global';
+
+@mixin kanban-theme($theme) {
+	@include kanban-density($theme);
+	@include kanban-color($theme);
+}
+
+@mixin kanban-density($theme) {
+	$density: mat.get-theme-density($theme);
+
+	@if $density < 0 {
+		.simply-kanban {
+			&__host,
+			&__container {
+				gap: global.space('regular');
+			}
+			&__header {
+				padding: global.space('small');
+				gap: global.space('small');
+			}
+
+			&__content {
+				padding: 0 global.space('small') 0;
+				gap: global.space('small');
+			}
+		}
+	} @else {
+		.simply-kanban {
+			&__host,
+			&__container {
+				gap: global.space('large');
+			}
+			&__header {
+				padding: global.space('regular');
+				gap: global.space('regular');
+			}
+
+			&__content {
+				padding: 0 global.space('regular') 0;
+				gap: global.space('regular');
+			}
+		}
+	}
+}
+
+@mixin kanban-color($theme) {
+	$text: mat.get-theme-color($theme, foreground, text);
+
+	.simply-kanban {
+		&__list {
+			border-color: $text;
+		}
+	}
+}

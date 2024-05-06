@@ -23,7 +23,7 @@ import { MatCardModule } from '@angular/material/card';
 import { Task } from '../../models/task.model';
 
 @Component({
-	selector: 'app-task-card',
+	selector: 'simply-task-card',
 	standalone: true,
 	imports: [MatCardModule],
 	templateUrl: './task-card.component.html',

@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 
-import { TaskBoardComponent } from './pages/task-board-page/task-board.component';
+import { TaskBoardComponent } from './pages/task-board/task-board.component';
 import { EditTaskComponent } from './pages/edit-task/edit-task.component';
 
 export const TASK_BOARD_ROUTES: Routes = [

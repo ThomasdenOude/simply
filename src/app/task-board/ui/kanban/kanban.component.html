@@ -1,0 +1,29 @@
+<div class="simply-kanban__action-menu">
+	<button mat-flat-button color="accent" routerLink="task">Add task</button>
+</div>
+<div class="simply-kanban__container" cdkDropListGroup>
+	@for (status of taskStatuses; track status) {
+		<div class="simply-kanban__list">
+			<header class="simply-kanban__header">
+				<mat-icon simplyNoSpace>{{ taskStatusIcon.get(status) }}</mat-icon>
+				<h3 simplyNoSpace>{{ status }}</h3>
+			</header>
+			<div
+				class="simply-kanban__content"
+				cdkDropList
+				[id]="status"
+				[cdkDropListData]="taskListSignal(status)()"
+				(cdkDropListDropped)="updateTask($event)"
+				(dblclick)="newTask()"
+			>
+				@for (task of taskListSignal(status)(); track task.id) {
+					<simply-task-card
+						cdkDrag
+						(editTask)="editTask($event)"
+						[task]="task"
+					></simply-task-card>
+				}
+			</div>
+		</div>
+	}
+</div>

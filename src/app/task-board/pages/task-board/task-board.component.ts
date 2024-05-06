@@ -23,16 +23,16 @@ import { ResponsiveService } from '../../../base/services/responsive.service';
 import { TaskService } from '../../services/task.service';
 import { TaskGroupTabDirective } from '../../ui/task-group/directives/task-group-tab.directive';
 import { TaskGroupComponent } from '../../ui/task-group/task-group.component';
-import { TaskListComponent } from '../../ui/task-list/task-list.component';
 import { EditTaskComponent } from '../edit-task/edit-task.component';
 import { TaskCardComponent } from '../../ui/task-card/task-card.component';
+import { NoSpaceDirective } from '../../../base/directives/no-space.directive';
+import { TaskGroupListDirective } from '../../ui/task-group/directives/task-group-list.directive';
+import { TaskGroupAddButtonDirective } from '../../ui/task-group/directives/task-group-add-button.directive';
+import { KanbanComponent } from '../../ui/kanban/kanban.component';
 import { Task, TaskStatus, TaskStatusIcons } from '../../models/task.model';
 import { Devices } from '../../../base/models/devices';
 import { TASK_STATUS_LIST } from '../../data/task-status-list';
 import { taskStatusIcon } from '../../data/task-status-icon.map';
-import { NoSpaceDirective } from '../../../base/directives/no-space.directive';
-import { TaskGroupListDirective } from '../../ui/task-group/directives/task-group-list.directive';
-import { TaskGroupAddButtonDirective } from '../../ui/task-group/directives/task-group-add-button.directive';
 
 @Component({
 	selector: 'simply-task-board',
@@ -48,10 +48,10 @@ import { TaskGroupAddButtonDirective } from '../../ui/task-group/directives/task
 		EditTaskComponent,
 		TaskGroupTabDirective,
 		TaskGroupComponent,
-		TaskListComponent,
 		NoSpaceDirective,
 		TaskGroupListDirective,
 		TaskGroupAddButtonDirective,
+		KanbanComponent,
 	],
 	templateUrl: './task-board.component.html',
 	styleUrl: './task-board.component.scss',
@@ -67,11 +67,11 @@ export class TaskBoardComponent implements OnInit {
 	protected readonly taskStatusIcon: TaskStatusIcons = taskStatusIcon;
 
 	protected device: Signal<Devices> = this.responsiveService.device;
-	private _taskList!: Signal<Task[]>;
+	protected taskList!: Signal<Task[]>;
 	protected taskStatusListItems: Signal<Task[]>[] = TASK_STATUS_LIST.map(
 		(status: TaskStatus) =>
 			computed(() =>
-				this._taskList()
+				this.taskList()
 					.filter((task: Task) => task.status === status)
 					.sort((a: Task, b: Task) => a.index - b.index)
 			)
@@ -79,7 +79,7 @@ export class TaskBoardComponent implements OnInit {
 	protected activeStatus: WritableSignal<TaskStatus> = signal(TaskStatus.Todo);
 
 	ngOnInit(): void {
-		this._taskList = this.taskService.taskList;
+		this.taskList = this.taskService.taskList;
 		this.setEditedStatus();
 	}
 
@@ -96,7 +96,7 @@ export class TaskBoardComponent implements OnInit {
 
 	protected taskListSignal(status: TaskStatus): Signal<Task[]> {
 		return computed(() =>
-			this._taskList()
+			this.taskList()
 				.filter((task: Task) => task.status === status)
 				.sort((a: Task, b: Task) => a.index - b.index)
 		);

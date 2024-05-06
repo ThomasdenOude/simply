@@ -3,22 +3,7 @@
 @use 'global';
 
 @mixin task-board-theme($theme) {
-	@include task-board-color($theme);
 	@include task-board-density($theme);
-}
-
-@mixin task-board-color($theme) {
-	@include task-board-list-color($theme);
-}
-
-@mixin task-board-list-color($theme) {
-	$text: mat.get-theme-color($theme, foreground, text);
-
-	.task_list {
-		__container {
-			color: $text;
-		}
-	}
 }
 
 @mixin task-board-density($theme) {
