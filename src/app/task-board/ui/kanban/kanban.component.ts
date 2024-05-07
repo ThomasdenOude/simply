@@ -27,6 +27,7 @@ import { TASK_STATUS_LIST } from '../../data/task-status-list';
 import { taskStatusIcon } from '../../data/task-status-icon.map';
 import { MatIcon } from '@angular/material/icon';
 import { NoSpaceDirective } from '../../../base/directives/no-space.directive';
+import { UpdateTaskAndStatus } from '../../models/update-task-and-status';
 
 @Component({
 	selector: 'simply-kanban',
@@ -55,9 +56,8 @@ export class KanbanComponent {
 	public taskList: InputSignal<Task[]> = input.required<Task[]>();
 
 	@Output()
-	public onUpdateTask: EventEmitter<CdkDragDrop<Task[]>> = new EventEmitter<
-		CdkDragDrop<Task[]>
-	>();
+	public onUpdateTask: EventEmitter<UpdateTaskAndStatus> =
+		new EventEmitter<UpdateTaskAndStatus>();
 
 	@Output()
 	public onNewTask: EventEmitter<void> = new EventEmitter<void>();
@@ -80,7 +80,7 @@ export class KanbanComponent {
 	}
 
 	protected updateTask(event: CdkDragDrop<Task[]>): void {
-		this.onUpdateTask.emit(event);
+		this.onUpdateTask.emit({ taskDropped: event });
 	}
 
 	protected newTask(): void {

@@ -11,7 +11,6 @@ import { NgClass, NgStyle } from '@angular/common';
 import { ActivatedRoute, Params, Router, RouterLink } from '@angular/router';
 
 import {
-	CdkDragDrop,
 	DragDropModule,
 	moveItemInArray,
 	transferArrayItem,
@@ -21,18 +20,15 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { ResponsiveService } from '../../../base/services/responsive.service';
 import { TaskService } from '../../services/task.service';
-import { TaskGroupTabDirective } from '../../ui/task-group/directives/task-group-tab.directive';
 import { TaskGroupComponent } from '../../ui/task-group/task-group.component';
 import { EditTaskComponent } from '../edit-task/edit-task.component';
+import { KanbanComponent } from '../../ui/kanban/kanban.component';
 import { TaskCardComponent } from '../../ui/task-card/task-card.component';
 import { NoSpaceDirective } from '../../../base/directives/no-space.directive';
-import { TaskGroupListDirective } from '../../ui/task-group/directives/task-group-list.directive';
-import { TaskGroupAddButtonDirective } from '../../ui/task-group/directives/task-group-add-button.directive';
-import { KanbanComponent } from '../../ui/kanban/kanban.component';
-import { Task, TaskStatus, TaskStatusIcons } from '../../models/task.model';
+import { Task, TaskStatus } from '../../models/task.model';
+import { UpdateTaskAndStatus } from '../../models/update-task-and-status';
 import { Devices } from '../../../base/models/devices';
 import { TASK_STATUS_LIST } from '../../data/task-status-list';
-import { taskStatusIcon } from '../../data/task-status-icon.map';
 
 @Component({
 	selector: 'simply-task-board',
@@ -46,11 +42,8 @@ import { taskStatusIcon } from '../../data/task-status-icon.map';
 		DragDropModule,
 		RouterLink,
 		EditTaskComponent,
-		TaskGroupTabDirective,
 		TaskGroupComponent,
 		NoSpaceDirective,
-		TaskGroupListDirective,
-		TaskGroupAddButtonDirective,
 		KanbanComponent,
 	],
 	templateUrl: './task-board.component.html',
@@ -64,7 +57,6 @@ export class TaskBoardComponent implements OnInit {
 
 	protected readonly Devices = Devices;
 	protected readonly taskStatuses: ReadonlyArray<TaskStatus> = TASK_STATUS_LIST;
-	protected readonly taskStatusIcon: TaskStatusIcons = taskStatusIcon;
 
 	protected device: Signal<Devices> = this.responsiveService.device;
 	protected taskList!: Signal<Task[]>;
@@ -94,18 +86,6 @@ export class TaskBoardComponent implements OnInit {
 		}
 	}
 
-	protected taskListSignal(status: TaskStatus): Signal<Task[]> {
-		return computed(() =>
-			this.taskList()
-				.filter((task: Task) => task.status === status)
-				.sort((a: Task, b: Task) => a.index - b.index)
-		);
-	}
-
-	protected selectStatus(status: TaskStatus) {
-		this.activeStatus.set(status);
-	}
-
 	protected editTask(task: Task) {
 		this.router.navigate(['task', task.id], { relativeTo: this.route });
 	}
@@ -114,29 +94,25 @@ export class TaskBoardComponent implements OnInit {
 		this.router.navigate(['task'], { relativeTo: this.route });
 	}
 
-	protected switchTab(status: TaskStatus): void {
-		this.activeStatus.set(status);
-	}
-
-	protected updateTask(
-		event: CdkDragDrop<Task[]>,
-		targetStatus?: TaskStatus
-	): void {
-		const previousStatus: TaskStatus = event.previousContainer.id as TaskStatus;
-		const previousList: Task[] = event.previousContainer.data;
-		const previousIndex: number = event.previousIndex;
+	protected updateTask(update: UpdateTaskAndStatus): void {
+		const previousStatus: TaskStatus = update.taskDropped.previousContainer
+			.id as TaskStatus;
+		const previousList: Task[] = update.taskDropped.previousContainer.data;
+		const previousIndex: number = update.taskDropped.previousIndex;
 
 		const currentStatus: TaskStatus = (
-			targetStatus ? targetStatus : event.container.id
+			update.targetStatus
+				? update.targetStatus
+				: update.taskDropped.container.id
 		) as TaskStatus;
-		const currentIndex: number = targetStatus
-			? this.taskStatuses.indexOf(targetStatus)
-			: event.currentIndex;
-		const currentList: Task[] = targetStatus
+		const currentIndex: number = update.targetStatus
+			? this.taskStatuses.indexOf(update.targetStatus)
+			: update.taskDropped.currentIndex;
+		const currentList: Task[] = update.targetStatus
 			? this.taskStatusListItems[currentIndex]()
-			: event.container.data;
+			: update.taskDropped.container.data;
 		if (
-			event.container === event.previousContainer ||
+			update.taskDropped.container === update.taskDropped.previousContainer ||
 			previousStatus === currentStatus
 		) {
 			moveItemInArray(currentList, previousIndex, currentIndex);

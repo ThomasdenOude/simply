@@ -3,47 +3,8 @@
 @use 'global';
 
 @mixin task-group-theme($theme) {
-	@include task-group-base;
 	@include task-group-color($theme);
 	@include task-group-density($theme);
-}
-
-@mixin task-group-base {
-	button.simply-task-group {
-		&__tab {
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			gap: global.space('regular');
-			width: 100%;
-			min-height: global.space('extra-large');
-			border: none;
-			background-color: transparent;
-			padding: global.space('regular');
-			transition:
-				color 300ms,
-				border-bottom-width 400ms 100ms;
-
-			&__active-tab {
-				border-bottom-width: 2px;
-				border-bottom-style: solid;
-			}
-		}
-	}
-	.simply-task-group {
-		&__list {
-			height: 100%;
-			display: flex;
-			flex-direction: column;
-		}
-		&__list-hidden {
-			display: none;
-		}
-		&__add-button {
-			position: fixed;
-			z-index: 2;
-		}
-	}
 }
 
 @mixin task-group-color($theme) {
@@ -74,8 +35,13 @@
 
 	@if $density < 0 {
 		.simply-task-group {
-			&__list {
+			&__tab {
+				gap: global.space('small');
+				min-height: global.space('large');
 				padding: global.space('small');
+			}
+			&__list {
+				padding: global.space('regular') global.space('small');
 				gap: global.space('regular');
 			}
 			&__add-button {
@@ -85,6 +51,11 @@
 		}
 	} @else {
 		.simply-task-group {
+			&__tab {
+				gap: global.space('regular');
+				min-height: global.space('extra-large');
+				padding: global.space('regular');
+			}
 			&__list {
 				padding: global.space('regular');
 				gap: global.space('regular');

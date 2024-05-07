@@ -1,14 +1,58 @@
-<div class="simply-task-group__container">
+<div class="simply-task-group__container" cdkDropListGroup>
 	<header>
 		<nav class="simply-task-group__nav">
-			<ng-content select="[simplyTaskGroupTab]"></ng-content>
+			@for (status of taskStatuses; track status) {
+				<button
+					cdkDropList
+					class="simply-task-group__tab"
+					[ngClass]="{
+						'simply-task-group__active-tab': activeStatus() === status
+					}"
+					[attr.aria-current]="activeStatus() === status ? status : null"
+					[id]="'TAB_' + status"
+					(click)="selectStatus(status)"
+					(cdkDropListEntered)="switchTab(status)"
+					(cdkDropListDropped)="updateTaskAndStatus($event, status)"
+				>
+					<mat-icon [attr.aria-label]="status">{{
+						taskStatusIcon.get(status)
+					}}</mat-icon>
+					@if (device() !== Devices.HandsetPortrait) {
+						<h3 simplyNoSpace>{{ status }}</h3>
+					}
+				</button>
+			}
 		</nav>
 	</header>
 
-	<div
-		class="simply-task-group__content"
-		[ngClass]="{ 'large-screen': device() === Devices.Small }"
-	>
-		<ng-content></ng-content>
+	<div class="simply-task-group__content">
+		@for (status of taskStatuses; track status) {
+			<div
+				cdkDropList
+				class="simply-task-group__list"
+				[ngClass]="{
+					'simply-task-group__list-hidden': activeStatus() !== status
+				}"
+				[id]="status"
+				[cdkDropListData]="taskListSignal(status)()"
+				(cdkDropListDropped)="updateTaskAndStatus($event)"
+			>
+				@for (task of taskListSignal(status)(); track task.id) {
+					<simply-task-card
+						cdkDrag
+						(editTask)="editTask($event)"
+						[task]="task"
+					></simply-task-card>
+				}
+			</div>
+		}
 	</div>
 </div>
+<button
+	mat-mini-fab
+	color="accent"
+	class="simply-task-group__add-button"
+	(click)="newTask()"
+>
+	<mat-icon>add</mat-icon>
+</button>
