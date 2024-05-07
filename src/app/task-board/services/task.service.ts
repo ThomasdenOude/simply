@@ -14,7 +14,6 @@ import {
 
 import { AuthenticationService } from '../../user-management/services/authentication.service';
 import { CreateTask, Task, TaskDto, TaskStatus } from '../models/task.model';
-import { taskStatusIcon, todoIconText } from '../data/task-status-icon.map';
 
 @Injectable({
 	providedIn: 'root',
@@ -129,11 +128,11 @@ export class TaskService {
 				task.index = index;
 			});
 			this.taskList.update(list => {
-				const otherStatusses: Task[] = list.filter(
+				const otherStatuses: Task[] = list.filter(
 					task => task.status !== status
 				);
 
-				return [...otherStatusses, ...newList];
+				return [...otherStatuses, ...newList];
 			});
 		}
 	}
@@ -148,7 +147,8 @@ export class TaskService {
 		if (collectionName) {
 			currentList.forEach((task: Task, index: number) => {
 				this.postIndexAndStatus(task.id, index, currentStatus, collectionName);
-				(task.status = currentStatus), (task.index = index);
+				task.status = currentStatus;
+				task.index = index;
 			});
 			previousList.forEach((task: Task, index: number) => {
 				this.postIndex(task.id, index, collectionName);

@@ -1,4 +1,4 @@
 @use 'theme';
-@use 'global';
+@use 'components';
 
-@include global.no-space;
+@include components.no-space;

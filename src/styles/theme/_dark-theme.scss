@@ -57,8 +57,7 @@
 	@include components.panel-color($simply-dark-theme);
 	@include components.task-group-color($simply-dark-theme);
 	@include components.kanban-color($simply-dark-theme);
-	// TODO Refactor
-	@include components.simply-scrollbar($simply-dark-theme);
+	@include components.simply-scrollbar-color($simply-dark-theme);
 
 	/*      4 - Include simply global text color       */
 	@include global-typography.global-text-color($simply-dark-theme);
