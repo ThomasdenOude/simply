@@ -1,7 +1,4 @@
-@use './styles/base/reset';
-@use './styles/theme';
-@use './styles/components/dialog';
-@use './styles/components/form-field';
+@use 'theme';
+@use 'components';
 
-@include dialog.simply-dialog;
-@include form-field.simply-form-field;
+@include components.no-space;

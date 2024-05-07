@@ -33,24 +33,7 @@ $simply-line-height: (
 	'large': 1.5,
 );
 
-@mixin text-margins {
-	.simply {
-		h1 {
-			margin: 0;
-		}
-		h2,
-		.mat-headline-1 {
-			margin: 0 0 map.get($simply-font-size, 'large') 0;
-		}
-		p,
-		h3,
-		.mat-headline-2 {
-			margin: 0 0 map.get($simply-font-size, 'regular') 0;
-		}
-	}
-}
-
-/*      Base typography          */
+/*      Small typography - for mobile          */
 $simply-hero-header: mat.define-typography-level(
 	$font-family: map.get($simply-fonts, 'header'),
 	$font-weight: map.get($simply-font-weights, 'extra-bold'),
@@ -192,7 +175,7 @@ $medium-button: mat.define-typography-level(
 	$letter-spacing: normal,
 );
 
-$medium-typography-config: mat.define-typography-config(
+$simply-medium-typography-config: mat.define-typography-config(
 	$headline-1: $medium-hero-header,
 	$headline-2: $medium-hero-sub-header,
 	$headline-5: $medium-h1,

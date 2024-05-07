@@ -1,0 +1,41 @@
+<simply-center-page>
+	<form [formGroup]="loginForm" (ngSubmit)="login()">
+		<h2>Log in to Simply <mat-icon color="accent">task_alt</mat-icon></h2>
+
+		@if (loginError() !== AuthenticationErrors.None) {
+			<simply-message
+				simplySpaceContent="large"
+				[errorMessage]="loginError()"
+				[form]="loginForm"
+				(closed)="resetError()"
+			></simply-message>
+		}
+		<mat-form-field appearance="outline" simplySpaceContent="regular">
+			<mat-label>Email</mat-label>
+			<input type="text" matInput formControlName="email" simplyFocusInput />
+			@if (loginForm.get('email')?.hasError('required')) {
+				<mat-error>Fill in your email</mat-error>
+			}
+			@if (loginForm.get('email')?.hasError('email')) {
+				<mat-error>Fill in a valid email</mat-error>
+			}
+		</mat-form-field>
+
+		<mat-form-field appearance="outline" simplySpaceContent="regular">
+			<mat-label>Password</mat-label>
+			<input type="password" matInput formControlName="password" />
+			@if (loginForm.get('password')?.hasError('required')) {
+				<mat-error>Fill in your password</mat-error>
+			}
+		</mat-form-field>
+
+		<button
+			type="submit"
+			mat-flat-button
+			color="primary"
+			simplySpaceContent="regular"
+		>
+			Log in
+		</button>
+	</form>
+</simply-center-page>

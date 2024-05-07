@@ -1,0 +1,12 @@
+@use 'global';
+
+.task {
+	&__card {
+		min-height: global.space('large');
+		padding: global.space('small');
+	}
+
+	&__title {
+		margin: 0;
+	}
+}

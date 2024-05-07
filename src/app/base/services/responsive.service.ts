@@ -18,6 +18,7 @@ export class ResponsiveService {
 	private breakpointObserver: BreakpointObserver = inject(BreakpointObserver);
 	private breakpointState$: Observable<BreakpointState> =
 		this.breakpointObserver.observe([
+			Breakpoints.HandsetPortrait,
 			Breakpoints.HandsetLandscape,
 			Breakpoints.Small,
 			Breakpoints.Medium,
@@ -31,6 +32,9 @@ export class ResponsiveService {
 	public device: Signal<Devices> = computed(() => {
 		const breakpoints: { [key: string]: boolean } =
 			this.breakpointState()?.breakpoints ?? {};
+		if (breakpoints[Breakpoints.HandsetPortrait]) {
+			return Devices.HandsetPortrait;
+		}
 		if (breakpoints[Breakpoints.HandsetLandscape]) {
 			return Devices.HandsetLandscape;
 		}

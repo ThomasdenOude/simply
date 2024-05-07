@@ -1,0 +1,32 @@
+@use 'sass:map';
+@use '../base/layout';
+
+@function space($margin: 'regular') {
+	$temp: map.get(layout.$simply-margins, $margin);
+
+	@if $temp {
+		@return $temp;
+	} @else {
+		@return map.get(layout.$simply-margins, 'regular');
+	}
+}
+
+@function radius($radius: 'regular') {
+	$temp: map.get(layout.$simply-radius, $radius);
+
+	@if $temp {
+		@return $temp;
+	} @else {
+		@return map.get(layout.$simply-radius, 'regular');
+	}
+}
+
+@function width($width: 'regular') {
+	$temp: map.get(layout.$simply-width, $width);
+
+	@if $temp {
+		@return $temp;
+	} @else {
+		@return map.get(layout.$simply-width, 'regular');
+	}
+}

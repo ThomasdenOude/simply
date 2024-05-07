@@ -1,0 +1,25 @@
+@use '@angular/material' as mat;
+
+@use 'global';
+
+@mixin task-board-theme($theme) {
+	@include task-board-density($theme);
+}
+
+@mixin task-board-density($theme) {
+	$density: mat.get-theme-density($theme);
+
+	@if $density < 0 {
+		.simply-task-board {
+			&__container {
+				padding: global.space('regular');
+			}
+		}
+	} @else {
+		.simply-task-board {
+			&__container {
+				padding: global.space('large');
+			}
+		}
+	}
+}

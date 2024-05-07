@@ -1,0 +1,9 @@
+@use 'global';
+
+@include global.flex-component;
+
+.settings {
+	&__header-icon {
+		margin-right: global.space('regular');
+	}
+}

@@ -1,0 +1,9 @@
+@use 'global';
+
+mat-dialog-actions {
+	.remove-account {
+		&__confirm {
+			margin-left: global.space('regular');
+		}
+	}
+}

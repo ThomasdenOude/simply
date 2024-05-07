@@ -1,5 +1,5 @@
 import { Component, Signal, inject, computed } from '@angular/core';
-import { AsyncPipe, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { NavigationEnd, Router, RouterLink } from '@angular/router';
 
 import { filter, map, Observable } from 'rxjs';
@@ -12,23 +12,24 @@ import { MatCard } from '@angular/material/card';
 import { CdkMenu, CdkMenuItem, CdkMenuTrigger } from '@angular/cdk/menu';
 
 import { ResponsiveService } from '../base/services/responsive.service';
-import { AuthenticationService } from '../base/services/authentication.service';
+import { AuthenticationService } from '../user-management/services/authentication.service';
 import { Devices } from '../base/models/devices';
+import { NoSpaceDirective } from '../base/directives/no-space.directive';
 
 @Component({
-	selector: 'app-header',
+	selector: 'simply-header',
 	standalone: true,
 	imports: [
-		NgClass,
 		MatButtonModule,
 		MatIconModule,
-		AsyncPipe,
 		RouterLink,
 		CdkMenuTrigger,
 		MatDivider,
 		CdkMenuItem,
 		CdkMenu,
 		MatCard,
+		NgClass,
+		NoSpaceDirective,
 	],
 	templateUrl: './header.component.html',
 	styleUrl: './header.component.scss',

@@ -1,0 +1,21 @@
+<div class="panel__container">
+	<button class="panel__button simply-text-color" (click)="togglePanel()">
+		<span class="panel__title-container">
+			@if (iconName()) {
+				<mat-icon class="panel__icon">{{ iconName() }}</mat-icon>
+			}
+			<p class="panel__title">{{ panelTitle() }}</p>
+		</span>
+		@if (panelIsOpened()) {
+			<mat-icon>expand_more</mat-icon>
+		} @else {
+			<mat-icon>chevron_right</mat-icon>
+		}
+	</button>
+
+	@if (panelIsOpened()) {
+		<div class="panel__content">
+			<ng-content></ng-content>
+		</div>
+	}
+</div>

@@ -1,0 +1,10 @@
+<div
+	class="center-page__container"
+	[ngClass]="{
+		'center-page__phone-landscape': device() === Devices.HandsetLandscape
+	}"
+>
+	<div class="center-page__content" [ngClass]="maxContentWidth()">
+		<ng-content></ng-content>
+	</div>
+</div>

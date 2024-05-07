@@ -1,0 +1,69 @@
+@use '@angular/material' as mat;
+
+@use 'global';
+
+@mixin task-group-theme($theme) {
+	@include task-group-color($theme);
+	@include task-group-density($theme);
+}
+
+@mixin task-group-color($theme) {
+	$text: mat.get-theme-color($theme, foreground, text);
+	$primary: mat.get-theme-color($theme, primary);
+
+	.simply-task-group {
+		&__container {
+			border-color: $text;
+		}
+	}
+
+	button.simply-task-group {
+		&__tab {
+			color: $text;
+			&:hover {
+				color: $primary;
+			}
+		}
+		&__active-tab {
+			color: $primary;
+		}
+	}
+}
+
+@mixin task-group-density($theme) {
+	$density: mat.get-theme-density($theme);
+
+	@if $density < 0 {
+		.simply-task-group {
+			&__tab {
+				gap: global.space('small');
+				min-height: global.space('large');
+				padding: global.space('small');
+			}
+			&__list {
+				padding: global.space('regular') global.space('small');
+				gap: global.space('regular');
+			}
+			&__add-button {
+				bottom: global.space('large');
+				right: global.space('large');
+			}
+		}
+	} @else {
+		.simply-task-group {
+			&__tab {
+				gap: global.space('regular');
+				min-height: global.space('extra-large');
+				padding: global.space('regular');
+			}
+			&__list {
+				padding: global.space('regular');
+				gap: global.space('regular');
+			}
+			&__add-button {
+				bottom: global.space('extra-large');
+				right: global.space('extra-large');
+			}
+		}
+	}
+}

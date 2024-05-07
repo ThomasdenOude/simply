@@ -1,0 +1,34 @@
+@use 'sass:map';
+@use 'global';
+@use 'base/typography';
+
+:host {
+	display: block;
+}
+
+.panel {
+	&__container {
+		border-radius: global.radius('regular');
+	}
+	&__button {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		width: 100%;
+		line-height: 1;
+		border: none;
+		&:hover {
+			cursor: pointer;
+		}
+	}
+	&__title-container {
+		display: flex;
+		align-items: center;
+	}
+	&__icon {
+		margin-right: global.space('regular');
+	}
+	&__title {
+		margin: 0;
+	}
+}

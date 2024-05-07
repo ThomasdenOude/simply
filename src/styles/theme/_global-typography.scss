@@ -1,0 +1,59 @@
+@use '@angular/material' as mat;
+@use 'sass:map';
+
+@use 'base/colors';
+@use 'base/typography';
+
+@mixin global-text-theme($theme) {
+	@include global-text-color($theme);
+	@include global-text-density($theme);
+}
+
+@mixin global-text-color($theme) {
+	$type: mat.get-theme-type($theme);
+
+	$primary-default: mat.get-theme-color($theme, primary, default);
+	$text-default: if($type == dark, colors.$simply-off-white, $primary-default);
+
+	body.mat-typography {
+		color: $text-default;
+	}
+}
+
+@mixin global-text-density($theme) {
+	$density: mat.get-theme-density($theme);
+
+	@if $density < 0 {
+		body.mat-typography {
+			h1,
+			h2,
+			.mat-headline-1 {
+				margin: 0 0 map.get(typography.$simply-font-size, 'large') 0;
+			}
+			h3,
+			h4,
+			.mat-headline-2 {
+				margin: 0 0 map.get(typography.$simply-font-size, 'regular') 0;
+			}
+			p {
+				margin: 0 0 map.get(typography.$simply-font-size, 'small') 0;
+			}
+		}
+	} @else {
+		body.mat-typography {
+			h1,
+			h2,
+			.mat-headline-1 {
+				margin: 0 0 map.get(typography.$simply-font-size, 'extra-large') 0;
+			}
+			h3,
+			h4,
+			.mat-headline-2 {
+				margin: 0 0 map.get(typography.$simply-font-size, 'large') 0;
+			}
+			p {
+				margin: 0 0 map.get(typography.$simply-font-size, 'regular') 0;
+			}
+		}
+	}
+}

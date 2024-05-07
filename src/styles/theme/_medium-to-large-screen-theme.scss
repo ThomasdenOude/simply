@@ -1,0 +1,69 @@
+@use '@angular/material' as mat;
+
+@use 'base/typography';
+@use 'global-typography';
+@use 'components';
+
+/*
+ *    Change density and typography size
+ *
+ *    1 - Set typography for medium to large screens and density
+ *    2 - Include typography for material components
+ *    3 - Include density for material components
+ *    4 - Include typography for custom components
+ *    5 - Include density for custom components
+ *    6 - Include global typography
+ */
+
+@media (min-width: 599.98px) and (orientation: portrait),
+	(min-width: 959.98px) and (orientation: landscape) {
+	/*    1 - Set typography for medium to large screens    */
+	$simply-medium-theme: mat.define-light-theme(
+		(
+			typography: typography.$simply-medium-typography-config,
+			density: 1,
+		)
+	);
+
+	/*      2 - Include typography for material components    */
+	@include mat.core-typography($simply-medium-theme);
+	@include mat.button-typography($simply-medium-theme);
+	@include mat.icon-button-typography($simply-medium-theme);
+	@include mat.fab-typography($simply-medium-theme);
+	@include mat.tabs-typography($simply-medium-theme);
+	@include mat.icon-typography($simply-medium-theme);
+	@include mat.card-typography($simply-medium-theme);
+	@include mat.dialog-typography($simply-medium-theme);
+	@include mat.form-field-typography($simply-medium-theme);
+	@include mat.tooltip-typography($simply-medium-theme);
+
+	/*      3 - Include density for material components     */
+	@include mat.core-density($simply-medium-theme);
+	@include mat.button-density($simply-medium-theme);
+	@include mat.icon-button-density($simply-medium-theme);
+	@include mat.fab-density($simply-medium-theme);
+	@include mat.tabs-density($simply-medium-theme);
+	@include mat.icon-density($simply-medium-theme);
+	@include mat.card-density($simply-medium-theme);
+	@include mat.dialog-density($simply-medium-theme);
+	@include mat.form-field-density($simply-medium-theme);
+	@include mat.tooltip-density($simply-medium-theme);
+
+	/*      4 - Include typography for custom components     */
+	@include components.panel-typography($simply-medium-theme);
+
+	/*      5 - Include density for custom components     */
+	@include components.header-density($simply-medium-theme);
+	@include components.space-content-density($simply-medium-theme);
+	@include components.panel-density($simply-medium-theme);
+	@include components.edit-task-density($simply-medium-theme);
+	@include components.task-board-density($simply-medium-theme);
+	@include components.task-group-density($simply-medium-theme);
+	@include components.kanban-density($simply-medium-theme);
+
+	/*      5 - Include global typography     */
+	@include mat.typography-hierarchy(
+		typography.$simply-medium-typography-config
+	);
+	@include global-typography.global-text-density($simply-medium-theme);
+}

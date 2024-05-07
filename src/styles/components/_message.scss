@@ -1,0 +1,17 @@
+@use '@angular/material/index' as mat;
+
+@mixin message-theme($theme) {
+	@include message-color($theme);
+}
+
+@mixin message-color($theme) {
+	$color: mat.get-theme-color($theme, warn);
+	.message {
+		&__container {
+			border-color: $color;
+		}
+		&__text {
+			color: $color;
+		}
+	}
+}

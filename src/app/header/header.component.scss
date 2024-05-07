@@ -1,34 +1,26 @@
-@use 'base/layout' as l;
+@use 'global';
 
-.header {
+.simply-header {
 	&__container {
-		padding: l.space('regular');
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		&.large-screen {
-			padding: l.space('large');
-		}
 	}
 
 	&__logo {
-		margin-right: l.space('extra-small');
+		margin-right: global.space('extra-small');
 	}
 
 	&__icon {
 		flex: auto;
 	}
-}
 
-.settings-menu {
-	&__container {
+	&__settings-menu {
 		display: flex;
 		flex-direction: column;
-		min-width: 300px;
-		padding: l.space('regular');
-	}
-	&__settings-button,
-	&__divider {
-		margin-bottom: l.space('regular');
+		min-width: global.width('extra-small');
+		&.simply-header__wide-screen {
+			min-width: global.width('small');
+		}
 	}
 }

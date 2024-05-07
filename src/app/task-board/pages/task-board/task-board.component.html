@@ -1,0 +1,17 @@
+<div class="simply-task-board__container">
+	@if (device() !== Devices.WideScreen) {
+		<simply-task-group
+			[taskList]="taskList()"
+			(onNewTask)="newTask()"
+			(onEditTask)="editTask($event)"
+			(onUpdateTaskAndStatus)="updateTask($event)"
+		></simply-task-group>
+	} @else {
+		<simply-kanban
+			[taskList]="taskList()"
+			(onNewTask)="newTask()"
+			(onEditTask)="editTask($event)"
+			(onUpdateTask)="updateTask($event)"
+		></simply-kanban>
+	}
+</div>

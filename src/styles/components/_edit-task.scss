@@ -1,0 +1,27 @@
+@use '@angular/material' as mat;
+
+@use 'global';
+
+@mixin edit-task-theme($theme) {
+	@include edit-task-density($theme);
+}
+
+@mixin edit-task-density($theme) {
+	$density: mat.get-theme-density($theme);
+
+	@if $density < 0 {
+		.simply-edit-task {
+			&__wide-header,
+			&__action {
+				gap: global.space('regular');
+			}
+		}
+	} @else {
+		.simply-edit-task {
+			&__wide-header,
+			&__action {
+				gap: global.space('large');
+			}
+		}
+	}
+}
