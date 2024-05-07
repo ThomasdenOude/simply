@@ -11,12 +11,15 @@ import {
 } from '@angular/core';
 
 import {
+	filter,
 	fromEvent,
+	map,
 	Observable,
 	Subject,
 	switchMap,
 	takeUntil,
 	timer,
+	withLatestFrom,
 } from 'rxjs';
 import { MatCardModule } from '@angular/material/card';
 
@@ -47,7 +50,14 @@ export class TaskCardComponent implements AfterViewInit, OnDestroy {
 		fromEvent(card, 'touchstart')
 			.pipe(
 				takeUntil(this.destroy),
-				switchMap(() => touchEnd$)
+				withLatestFrom(touchEnd$),
+				map(([start, end]) => {
+					const startY = (start as TouchEvent).changedTouches[0].clientY;
+					const endY = (end as TouchEvent).changedTouches[0].clientY;
+
+					return Math.abs(startY - endY);
+				}),
+				filter(distance => distance < 30)
 			)
 			.subscribe(() => this.emitEditTask());
 

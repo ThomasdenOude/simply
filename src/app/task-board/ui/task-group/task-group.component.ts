@@ -1,6 +1,8 @@
 import {
+	AfterViewInit,
 	Component,
 	computed,
+	ElementRef,
 	EventEmitter,
 	inject,
 	input,
@@ -8,9 +10,19 @@ import {
 	Output,
 	signal,
 	Signal,
+	ViewChild,
 	WritableSignal,
 } from '@angular/core';
 import { NgClass } from '@angular/common';
+
+import {
+	fromEvent,
+	Observable,
+	Subject,
+	switchMap,
+	takeUntil,
+	timer,
+} from 'rxjs';
 
 import {
 	CdkDrag,
@@ -46,7 +58,8 @@ import { taskStatusIcon } from '../../data/task-status-icon.map';
 	templateUrl: './task-group.component.html',
 	styleUrl: './task-group.component.scss',
 })
-export class TaskGroupComponent {
+export class TaskGroupComponent implements AfterViewInit {
+	private destroy: Subject<void> = new Subject<void>();
 	private responsiveService: ResponsiveService = inject(ResponsiveService);
 	protected device: Signal<Devices> = this.responsiveService.device;
 	protected activeStatus: WritableSignal<TaskStatus> = signal(TaskStatus.Todo);
@@ -57,6 +70,9 @@ export class TaskGroupComponent {
 
 	public taskList: InputSignal<Task[]> = input.required<Task[]>();
 
+	@ViewChild('content', { read: ElementRef })
+	private content!: ElementRef;
+
 	@Output()
 	public onUpdateTaskAndStatus: EventEmitter<UpdateTaskAndStatus> =
 		new EventEmitter<UpdateTaskAndStatus>();
@@ -66,6 +82,19 @@ export class TaskGroupComponent {
 
 	@Output()
 	public onEditTask: EventEmitter<Task> = new EventEmitter<Task>();
+
+	ngAfterViewInit() {
+		const touchEnd$: Observable<unknown> = fromEvent(
+			this.content.nativeElement,
+			'touchend'
+		).pipe(takeUntil(timer(300)));
+		fromEvent(this.content.nativeElement, 'touchstart')
+			.pipe(
+				takeUntil(this.destroy),
+				switchMap(() => touchEnd$)
+			)
+			.subscribe(() => this.newTask());
+	}
 
 	protected selectStatus(status: TaskStatus) {
 		this.activeStatus.set(status);
