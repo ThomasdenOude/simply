@@ -2,7 +2,7 @@
 	<form [formGroup]="taskForm" (ngSubmit)="submitTask()">
 		<mat-form-field simplySpaceContent="regular">
 			<mat-label>Task title</mat-label>
-			<input matInput formControlName="title" />
+			<input matInput formControlName="title" simplyFocusInput />
 		</mat-form-field>
 
 		<mat-form-field
