@@ -1,0 +1,49 @@
+@use '@angular/material' as mat;
+
+@use 'global';
+
+@mixin task-card-theme($theme) {
+	.task-card {
+		&__host {
+			@include mat.elevation(1);
+		}
+	}
+	@include task-card-color($theme);
+	@include task-card-density($theme);
+	@include task-card-typography($theme);
+}
+
+@mixin task-card-color($theme) {
+	$background: mat.get-theme-color($theme, background, card);
+	$primary: mat.get-theme-color($theme, primary);
+
+	.task-card {
+		&__host {
+			background-color: $background;
+		}
+		&__active {
+			border: 1px solid $primary;
+			@include mat.elevation(4);
+		}
+	}
+}
+
+@mixin task-card-density($theme) {
+	.task-card {
+		&__host {
+			min-height: global.space('large');
+			padding: global.space('small');
+			border-radius: global.radius('small');
+		}
+	}
+}
+
+@mixin task-card-typography($theme) {
+	$font-size: mat.get-theme-typography($theme, caption, font-size);
+
+	.task-card {
+		&__title {
+			font-size: $font-size;
+		}
+	}
+}

@@ -59,6 +59,7 @@ $simply-light-theme: mat.define-light-theme(
 @include components.task-group-theme($simply-light-theme);
 @include components.kanban-theme($simply-light-theme);
 @include components.simply-scrollbar-theme($simply-light-theme);
+@include components.task-card-theme($simply-light-theme);
 
 /*    5 - Include global typography             */
 @include mat.typography-hierarchy(typography.$simply-typography-config);

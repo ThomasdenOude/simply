@@ -51,6 +51,7 @@
 
 	/*      4 - Include typography for custom components     */
 	@include components.panel-typography($simply-medium-theme);
+	@include components.task-card-typography($simply-medium-theme);
 
 	/*      5 - Include density for custom components     */
 	@include components.header-density($simply-medium-theme);

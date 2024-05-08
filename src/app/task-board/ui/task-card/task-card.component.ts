@@ -4,10 +4,11 @@ import {
 	InputSignal,
 	Output,
 	input,
-	ViewChild,
 	ElementRef,
 	AfterViewInit,
 	OnDestroy,
+	inject,
+	Renderer2,
 } from '@angular/core';
 
 import {
@@ -24,30 +25,34 @@ import {
 import { MatCardModule } from '@angular/material/card';
 
 import { Task } from '../../models/task.model';
+import { NoSpaceDirective } from '../../../base/directives/no-space.directive';
 
 @Component({
 	selector: 'simply-task-card',
 	standalone: true,
-	imports: [MatCardModule],
+	imports: [MatCardModule, NoSpaceDirective],
 	templateUrl: './task-card.component.html',
 	styleUrl: './task-card.component.scss',
 })
 export class TaskCardComponent implements AfterViewInit, OnDestroy {
-	private destroy: Subject<void> = new Subject<void>();
-	public task: InputSignal<Task> = input.required<Task>();
+	private elementRef: ElementRef = inject(ElementRef);
+	private renderer: Renderer2 = inject(Renderer2);
 
-	@ViewChild('taskCard', { read: ElementRef })
-	private taskCard!: ElementRef;
+	private destroy: Subject<void> = new Subject<void>();
+
+	public task: InputSignal<Task> = input.required<Task>();
 
 	@Output()
 	public editTask: EventEmitter<Task> = new EventEmitter<Task>();
 
 	ngAfterViewInit() {
-		const card = this.taskCard.nativeElement;
-		const touchEnd$: Observable<unknown> = fromEvent(card, 'touchend').pipe(
+		const taskCard = this.elementRef.nativeElement;
+		this.renderer.addClass(taskCard, 'task-card__element');
+		this.renderer.addClass(taskCard, 'task-card__host');
+		const touchEnd$: Observable<unknown> = fromEvent(taskCard, 'touchend').pipe(
 			takeUntil(timer(300))
 		);
-		fromEvent(card, 'touchstart')
+		fromEvent(taskCard, 'touchstart')
 			.pipe(
 				takeUntil(this.destroy),
 				withLatestFrom(touchEnd$),
@@ -61,10 +66,10 @@ export class TaskCardComponent implements AfterViewInit, OnDestroy {
 			)
 			.subscribe(() => this.emitEditTask());
 
-		const mouseDown$: Observable<unknown> = fromEvent(card, 'mouseup').pipe(
+		const mouseDown$: Observable<unknown> = fromEvent(taskCard, 'mouseup').pipe(
 			takeUntil(timer(300))
 		);
-		fromEvent(card, 'mousedown')
+		fromEvent(taskCard, 'mousedown')
 			.pipe(
 				takeUntil(this.destroy),
 				switchMap(() => mouseDown$)

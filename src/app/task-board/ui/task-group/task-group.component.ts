@@ -104,7 +104,7 @@ export class TaskGroupComponent implements AfterViewInit {
 				map(touch => {
 					const target = touch.target as HTMLElement;
 
-					return target.matches('.task__element');
+					return target.matches('.task-card__element');
 				})
 			)
 			.subscribe((onTaskCard: boolean) => {
