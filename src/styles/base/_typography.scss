@@ -77,7 +77,7 @@ $simply-h3: mat.define-typography-level(
 $simply-body: mat.define-typography-level(
 	$font-family: map.get($simply-fonts, 'main'),
 	$font-weight: map.get($simply-font-weights, 'regular'),
-	$font-size: map.get($simply-font-size, 'small'),
+	$font-size: map.get($simply-font-size, 'regular'),
 	$line-height: map.get($simply-line-height, 'large'),
 	$letter-spacing: normal,
 );
@@ -93,7 +93,7 @@ $simply-caption: mat.define-typography-level(
 $simply-button: mat.define-typography-level(
 	$font-family: map.get($simply-fonts, 'main'),
 	$font-weight: map.get($simply-font-weights, 'medium'),
-	$font-size: map.get($simply-font-size, 'small'),
+	$font-size: map.get($simply-font-size, 'regular'),
 	$line-height: map.get($simply-line-height, 'small'),
 	$letter-spacing: normal,
 );
