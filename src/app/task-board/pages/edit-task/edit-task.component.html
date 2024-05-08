@@ -5,40 +5,31 @@
 			(ngSubmit)="submitTask()"
 			class="page__content"
 		>
-			<div
-				class="simply-edit-task__header"
-				[ngClass]="{
-					'simply-edit-task__wide-header': device() !== Devices.HandsetPortrait
-				}"
+			<mat-form-field simplySpaceContent="regular">
+				<mat-label>Task title</mat-label>
+				<input matInput formControlName="title" simplyFocusInput />
+			</mat-form-field>
+
+			<mat-form-field
+				class="simply-edit-task__status"
+				simplySpaceContent="regular"
 			>
-				<mat-form-field simplySpaceContent="regular">
-					<mat-label>Task title</mat-label>
-					<input matInput formControlName="title" simplyFocusInput />
-				</mat-form-field>
+				<mat-select formControlName="status">
+					<mat-option
+						class="simply-edit-task__current-status"
+						[value]="currentStatus()"
+						>{{ currentStatus() }}</mat-option
+					>
 
-				<mat-form-field
-					class="simply-edit-task__status"
-					simplySpaceContent="regular"
-				>
-					<mat-select formControlName="status">
-						<mat-option
-							class="simply-edit-task__current-status"
-							[value]="currentStatus()"
-							>{{ currentStatus() }}</mat-option
+					@for (status of availableStatuses(); track status) {
+						<mat-option [value]="status">
+							<mat-icon>{{ taskStatusIcon.get(status) }}</mat-icon
+							>{{ status }}</mat-option
 						>
-
-						@for (status of availableStatuses(); track status) {
-							<mat-option [value]="status">
-								<mat-icon>{{ taskStatusIcon.get(status) }}</mat-icon
-								>{{ status }}</mat-option
-							>
-						}
-					</mat-select>
-					<mat-icon matPrefix>{{
-						taskStatusIcon.get(currentStatus())
-					}}</mat-icon>
-				</mat-form-field>
-			</div>
+					}
+				</mat-select>
+				<mat-icon matPrefix>{{ taskStatusIcon.get(currentStatus()) }}</mat-icon>
+			</mat-form-field>
 
 			<mat-form-field simplySpaceContent="regular">
 				<mat-label>Task description</mat-label>
