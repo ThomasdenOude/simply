@@ -20,7 +20,7 @@ $simply-font-weights: (
 );
 $simply-font-size: (
 	'small': 0.9rem,
-	'regular': 1rem,
+	'regular': max(1rem, 16px),
 	'large': 1.25rem,
 	'extra-large': 1.5rem,
 	'display': 1.8rem,

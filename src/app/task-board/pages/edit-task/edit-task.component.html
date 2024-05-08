@@ -43,9 +43,9 @@
 			<mat-form-field simplySpaceContent="regular">
 				<mat-label>Task description</mat-label>
 				<textarea
-					[ngClass]="{
-						'simply-edit-task__textarea': device() !== Devices.HandsetLandscape
-					}"
+					cdkTextareaAutosize
+					[cdkAutosizeMinRows]="textAreaMinRows()"
+					[cdkAutosizeMaxRows]="textAreaMaxRows()"
 					matInput
 					formControlName="description"
 				></textarea>

@@ -65,9 +65,13 @@ export class EditTaskComponent implements OnInit {
 	private router: Router = inject(Router);
 
 	protected device: Signal<Devices> = this.responsiveService.device;
-	protected currentStatus: WritableSignal<TaskStatus> = signal(TaskStatus.Todo);
-	protected availableStatuses: Signal<TaskStatus[]> = computed(() =>
-		TASK_STATUS_LIST.filter(status => status !== this.currentStatus())
+	protected textAreaMinRows: Signal<number>;
+	protected textAreaMaxRows: Signal<number>;
+	protected currentStatus: WritableSignal<TaskStatus> = signal<TaskStatus>(
+		TaskStatus.Todo
+	);
+	protected availableStatuses: Signal<TaskStatus[]> = computed<TaskStatus[]>(
+		() => TASK_STATUS_LIST.filter(status => status !== this.currentStatus())
 	);
 	protected task: Task | undefined;
 	protected taskForm!: FormGroup<CreateTaskForm>;
@@ -77,6 +81,18 @@ export class EditTaskComponent implements OnInit {
 	@Input()
 	private set id(taskId: string) {
 		this.task = this.taskService.getTask(taskId);
+	}
+
+	constructor() {
+		this.textAreaMinRows = computed(() => {
+			if (this.device() === Devices.HandsetLandscape) {
+				return 4;
+			} else if (this.device() === Devices.HandsetPortrait) {
+				return 6;
+			}
+			return 12;
+		});
+		this.textAreaMaxRows = computed(() => this.textAreaMinRows() * 2);
 	}
 
 	ngOnInit() {
