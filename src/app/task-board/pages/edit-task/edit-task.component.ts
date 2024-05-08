@@ -74,9 +74,15 @@ export class EditTaskComponent implements OnInit {
 		() => TASK_STATUS_LIST.filter(status => status !== this.currentStatus())
 	);
 	protected task: Task | undefined;
-	protected taskForm!: FormGroup<CreateTaskForm>;
 	protected readonly taskStatusIcon: TaskStatusIcons = taskStatusIcon;
 	protected readonly Devices = Devices;
+	protected taskForm: FormGroup<CreateTaskForm> = new FormGroup<CreateTaskForm>(
+		{
+			title: new FormControl(''),
+			description: new FormControl(''),
+			status: new FormControl(TaskStatus.Todo),
+		}
+	);
 
 	@Input()
 	private set id(taskId: string) {
@@ -100,11 +106,15 @@ export class EditTaskComponent implements OnInit {
 		if (editStatus) {
 			this.currentStatus.set(editStatus);
 		}
-		this.taskForm = new FormGroup<CreateTaskForm>({
-			title: new FormControl(this.task?.title ?? ''),
-			description: new FormControl(this.task?.description ?? ''),
-			status: new FormControl(this.currentStatus()),
-		});
+		if (this.task) {
+			this.taskForm.patchValue({
+				title: this.task.title,
+				description: this.task.description,
+				status: this.task.status,
+			});
+			this.currentStatus.set(this.task.status);
+		}
+
 		this.taskForm
 			.get('status')
 			?.valueChanges.subscribe((status: TaskStatus | null) => {
