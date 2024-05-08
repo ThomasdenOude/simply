@@ -1,89 +1,81 @@
 <simply-center-page>
-	@if (taskForm) {
-		<form
-			[formGroup]="taskForm"
-			(ngSubmit)="submitTask()"
-			class="page__content"
+	<form [formGroup]="taskForm" (ngSubmit)="submitTask()">
+		<div
+			class="simply-edit-task__header"
+			[ngClass]="{
+				'simply-edit-task__wide-header': device() !== Devices.HandsetPortrait
+			}"
 		>
-			<div
-				class="simply-edit-task__header"
-				[ngClass]="{
-					'simply-edit-task__wide-header': device() !== Devices.HandsetPortrait
-				}"
-			>
-				<mat-form-field simplySpaceContent="regular">
-					<mat-label>Task title</mat-label>
-					<input matInput formControlName="title" simplyFocusInput />
-				</mat-form-field>
-
-				<mat-form-field
-					class="simply-edit-task__status"
-					simplySpaceContent="regular"
-				>
-					<mat-select formControlName="status">
-						<mat-option
-							class="simply-edit-task__current-status"
-							[value]="currentStatus()"
-							>{{ currentStatus() }}</mat-option
-						>
-
-						@for (status of availableStatuses(); track status) {
-							<mat-option [value]="status">
-								<mat-icon>{{ taskStatusIcon.get(status) }}</mat-icon
-								>{{ status }}</mat-option
-							>
-						}
-					</mat-select>
-					<mat-icon matPrefix>{{
-						taskStatusIcon.get(currentStatus())
-					}}</mat-icon>
-				</mat-form-field>
-			</div>
-
 			<mat-form-field simplySpaceContent="regular">
-				<mat-label>Task description</mat-label>
-				<textarea
-					cdkTextareaAutosize
-					[cdkAutosizeMinRows]="textAreaMinRows()"
-					[cdkAutosizeMaxRows]="textAreaMaxRows()"
-					matInput
-					formControlName="description"
-				></textarea>
+				<mat-label>Task title</mat-label>
+				<input matInput formControlName="title" />
 			</mat-form-field>
 
-			<div class="simply-edit-task__action">
-				@if (task) {
-					<button
-						type="button"
-						mat-stroked-button
-						class="simply-edit-task__button"
-						color="primary"
-						aria-label="Delete task"
-						(click)="deleteTask()"
+			<mat-form-field
+				class="simply-edit-task__status"
+				simplySpaceContent="regular"
+			>
+				<mat-select formControlName="status">
+					<mat-option
+						class="simply-edit-task__current-status"
+						[value]="currentStatus()"
+						>{{ currentStatus() }}</mat-option
 					>
-						<mat-icon>delete</mat-icon>
-						Delete
-					</button>
-				} @else {
-					<button
-						type="button"
-						mat-stroked-button
-						class="simply-edit-task__button"
-						color="primary"
-						(click)="cancel()"
-					>
-						Cancel
-					</button>
-				}
+
+					@for (status of availableStatuses(); track status) {
+						<mat-option [value]="status">
+							<mat-icon>{{ taskStatusIcon.get(status) }}</mat-icon
+							>{{ status }}</mat-option
+						>
+					}
+				</mat-select>
+				<mat-icon matPrefix>{{ taskStatusIcon.get(currentStatus()) }}</mat-icon>
+			</mat-form-field>
+		</div>
+
+		<mat-form-field simplySpaceContent="regular">
+			<mat-label>Task description</mat-label>
+			<textarea
+				cdkTextareaAutosize
+				[cdkAutosizeMinRows]="textAreaMinRows()"
+				[cdkAutosizeMaxRows]="textAreaMaxRows()"
+				matInput
+				formControlName="description"
+			></textarea>
+		</mat-form-field>
+
+		<div class="simply-edit-task__action">
+			@if (task) {
 				<button
-					type="submit"
+					type="button"
+					mat-stroked-button
 					class="simply-edit-task__button"
-					mat-flat-button
 					color="primary"
+					aria-label="Delete task"
+					(click)="deleteTask()"
 				>
-					Save
+					<mat-icon>delete</mat-icon>
+					Delete
 				</button>
-			</div>
-		</form>
-	}
+			} @else {
+				<button
+					type="button"
+					mat-stroked-button
+					class="simply-edit-task__button"
+					color="primary"
+					(click)="cancel()"
+				>
+					Cancel
+				</button>
+			}
+			<button
+				type="submit"
+				class="simply-edit-task__button"
+				mat-flat-button
+				color="primary"
+			>
+				Save
+			</button>
+		</div>
+	</form>
 </simply-center-page>
