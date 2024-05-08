@@ -3,6 +3,17 @@
 @include global.flex-component;
 
 .simply-edit-task {
+	&__header {
+		display: flex;
+		flex-direction: column;
+
+		&.simply-edit-task__wide-header {
+			flex-direction: row;
+		}
+	}
+	&__status {
+		width: initial;
+	}
 	&__current-status {
 		display: none;
 	}

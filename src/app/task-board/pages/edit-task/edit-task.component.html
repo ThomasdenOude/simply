@@ -1,30 +1,37 @@
 <simply-center-page>
 	<form [formGroup]="taskForm" (ngSubmit)="submitTask()">
-		<mat-form-field simplySpaceContent="regular">
-			<mat-label>Task title</mat-label>
-			<input matInput formControlName="title" simplyFocusInput />
-		</mat-form-field>
-
-		<mat-form-field
-			class="simply-edit-task__status"
-			simplySpaceContent="regular"
+		<div
+			class="simply-edit-task__header"
+			[ngClass]="{
+				'simply-edit-task__wide-header': device() !== Devices.HandsetPortrait
+			}"
 		>
-			<mat-select formControlName="status">
-				<mat-option
-					class="simply-edit-task__current-status"
-					[value]="currentStatus()"
-					>{{ currentStatus() }}</mat-option
-				>
+			<mat-form-field simplySpaceContent="regular">
+				<mat-label>Task title</mat-label>
+				<input matInput formControlName="title" />
+			</mat-form-field>
 
-				@for (status of availableStatuses(); track status) {
-					<mat-option [value]="status">
-						<mat-icon>{{ taskStatusIcon.get(status) }}</mat-icon
-						>{{ status }}</mat-option
+			<mat-form-field
+				class="simply-edit-task__status"
+				simplySpaceContent="regular"
+			>
+				<mat-select formControlName="status">
+					<mat-option
+						class="simply-edit-task__current-status"
+						[value]="currentStatus()"
+						>{{ currentStatus() }}</mat-option
 					>
-				}
-			</mat-select>
-			<mat-icon matPrefix>{{ taskStatusIcon.get(currentStatus()) }}</mat-icon>
-		</mat-form-field>
+
+					@for (status of availableStatuses(); track status) {
+						<mat-option [value]="status">
+							<mat-icon>{{ taskStatusIcon.get(status) }}</mat-icon
+							>{{ status }}</mat-option
+						>
+					}
+				</mat-select>
+				<mat-icon matPrefix>{{ taskStatusIcon.get(currentStatus()) }}</mat-icon>
+			</mat-form-field>
+		</div>
 
 		<mat-form-field simplySpaceContent="regular">
 			<mat-label>Task description</mat-label>
@@ -37,36 +44,38 @@
 			></textarea>
 		</mat-form-field>
 
-		@if (task) {
+		<div class="simply-edit-task__action">
+			@if (task) {
+				<button
+					type="button"
+					mat-stroked-button
+					class="simply-edit-task__button"
+					color="primary"
+					aria-label="Delete task"
+					(click)="deleteTask()"
+				>
+					<mat-icon>delete</mat-icon>
+					Delete
+				</button>
+			} @else {
+				<button
+					type="button"
+					mat-stroked-button
+					class="simply-edit-task__button"
+					color="primary"
+					(click)="cancel()"
+				>
+					Cancel
+				</button>
+			}
 			<button
-				type="button"
-				mat-stroked-button
+				type="submit"
 				class="simply-edit-task__button"
+				mat-flat-button
 				color="primary"
-				aria-label="Delete task"
-				(click)="deleteTask()"
 			>
-				<mat-icon>delete</mat-icon>
-				Delete
+				Save
 			</button>
-		} @else {
-			<button
-				type="button"
-				mat-stroked-button
-				class="simply-edit-task__button"
-				color="primary"
-				(click)="cancel()"
-			>
-				Cancel
-			</button>
-		}
-		<button
-			type="submit"
-			class="simply-edit-task__button"
-			mat-flat-button
-			color="primary"
-		>
-			Save
-		</button>
+		</div>
 	</form>
 </simply-center-page>
