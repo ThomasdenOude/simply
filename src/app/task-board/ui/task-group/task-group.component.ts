@@ -17,10 +17,12 @@ import { NgClass } from '@angular/common';
 
 import {
 	fromEvent,
+	map,
 	Observable,
 	Subject,
 	switchMap,
 	takeUntil,
+	tap,
 	timer,
 } from 'rxjs';
 
@@ -84,16 +86,32 @@ export class TaskGroupComponent implements AfterViewInit {
 	public onEditTask: EventEmitter<Task> = new EventEmitter<Task>();
 
 	ngAfterViewInit() {
-		const touchEnd$: Observable<unknown> = fromEvent(
+		const touchEnd$: Observable<TouchEvent> = fromEvent(
 			this.content.nativeElement,
 			'touchend'
-		).pipe(takeUntil(timer(300)));
-		fromEvent(this.content.nativeElement, 'touchstart')
+		);
+		const touchEndTimed$: Observable<TouchEvent> = touchEnd$.pipe(
+			takeUntil(timer(300))
+		);
+		const touchStart$: Observable<TouchEvent> = fromEvent(
+			this.content.nativeElement,
+			'touchstart'
+		);
+		touchStart$
 			.pipe(
 				takeUntil(this.destroy),
-				switchMap(() => touchEnd$)
+				switchMap(() => touchEndTimed$),
+				map(touch => {
+					const target = touch.target as HTMLElement;
+
+					return target.matches('.task__element');
+				})
 			)
-			.subscribe(() => this.newTask());
+			.subscribe((onTaskCard: boolean) => {
+				if (!onTaskCard) {
+					this.newTask();
+				}
+			});
 	}
 
 	protected selectStatus(status: TaskStatus) {
