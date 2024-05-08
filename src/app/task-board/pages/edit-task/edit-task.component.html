@@ -1,13 +1,9 @@
 <simply-center-page>
 	@if (taskForm) {
-		<form
-			[formGroup]="taskForm"
-			(ngSubmit)="submitTask()"
-			class="page__content"
-		>
+		<form [formGroup]="taskForm" (ngSubmit)="submitTask()">
 			<mat-form-field simplySpaceContent="regular">
 				<mat-label>Task title</mat-label>
-				<input matInput formControlName="title" simplyFocusInput />
+				<input matInput formControlName="title" />
 			</mat-form-field>
 
 			<mat-form-field simplySpaceContent="regular">
