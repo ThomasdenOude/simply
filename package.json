@@ -1,6 +1,6 @@
 {
   "name": "practice-kanban",
-  "version": "2.2.6",
+  "version": "2.2.7",
   "scripts": {
     "start": "firebase emulators:start",
     "watch": "ng build --watch --configuration development",
