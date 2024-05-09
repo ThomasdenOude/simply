@@ -3,6 +3,11 @@
 @use 'global';
 
 @mixin task-group-theme($theme) {
+	.simply-task-group {
+		&__content {
+			@include global.prevent-select;
+		}
+	}
 	@include task-group-color($theme);
 	@include task-group-density($theme);
 }
