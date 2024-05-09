@@ -22,7 +22,6 @@ import {
 	Subject,
 	switchMap,
 	takeUntil,
-	tap,
 	timer,
 } from 'rxjs';
 
@@ -43,6 +42,7 @@ import { Task, TaskStatus } from '../../models/task.model';
 import { UpdateTaskAndStatus } from '../../models/update-task-and-status';
 import { TASK_STATUS_LIST } from '../../data/task-status-list';
 import { taskStatusIcon } from '../../data/task-status-icon.map';
+import { TaskService } from '../../services/task.service';
 
 @Component({
 	selector: 'simply-task-group',
@@ -61,10 +61,13 @@ import { taskStatusIcon } from '../../data/task-status-icon.map';
 	styleUrl: './task-group.component.scss',
 })
 export class TaskGroupComponent implements AfterViewInit {
-	private destroy: Subject<void> = new Subject<void>();
-	private responsiveService: ResponsiveService = inject(ResponsiveService);
-	protected device: Signal<Devices> = this.responsiveService.device;
-	protected activeStatus: WritableSignal<TaskStatus> = signal(TaskStatus.Todo);
+	private _destroy: Subject<void> = new Subject<void>();
+	private _responsiveService: ResponsiveService = inject(ResponsiveService);
+	private _taskService: TaskService = inject(TaskService);
+
+	protected device: Signal<Devices> = this._responsiveService.device;
+	protected activeStatus: Signal<TaskStatus> =
+		this._taskService.activeTaskStatus;
 
 	protected readonly Devices = Devices;
 	protected readonly taskStatuses: ReadonlyArray<TaskStatus> = TASK_STATUS_LIST;
@@ -99,7 +102,7 @@ export class TaskGroupComponent implements AfterViewInit {
 		);
 		touchStart$
 			.pipe(
-				takeUntil(this.destroy),
+				takeUntil(this._destroy),
 				switchMap(() => touchEndTimed$),
 				map(touch => {
 					const target = touch.target as HTMLElement;
@@ -115,11 +118,11 @@ export class TaskGroupComponent implements AfterViewInit {
 	}
 
 	protected selectStatus(status: TaskStatus) {
-		this.activeStatus.set(status);
+		this._taskService.setActiveTaskStatus(status);
 	}
 
 	protected switchTab(status: TaskStatus): void {
-		this.activeStatus.set(status);
+		this._taskService.setActiveTaskStatus(status);
 	}
 
 	protected taskListSignal(status: TaskStatus): Signal<Task[]> {

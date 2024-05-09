@@ -18,8 +18,8 @@
 				<mat-select formControlName="status">
 					<mat-option
 						class="simply-edit-task__current-status"
-						[value]="currentStatus()"
-						>{{ currentStatus() }}</mat-option
+						[value]="activeTaskStatus()"
+						>{{ activeTaskStatus() }}</mat-option
 					>
 
 					@for (status of availableStatuses(); track status) {
@@ -29,7 +29,9 @@
 						>
 					}
 				</mat-select>
-				<mat-icon matPrefix>{{ taskStatusIcon.get(currentStatus()) }}</mat-icon>
+				<mat-icon matPrefix>{{
+					taskStatusIcon.get(activeTaskStatus())
+				}}</mat-icon>
 			</mat-form-field>
 		</div>
 

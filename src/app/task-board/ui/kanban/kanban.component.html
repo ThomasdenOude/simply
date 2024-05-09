@@ -14,7 +14,7 @@
 				[id]="status"
 				[cdkDropListData]="taskListSignal(status)()"
 				(cdkDropListDropped)="updateTask($event)"
-				(dblclick)="newTask()"
+				(click)="newTask(status)"
 			>
 				@for (task of taskListSignal(status)(); track task.id) {
 					<simply-task-card

@@ -1,4 +1,11 @@
-import { inject, Injectable, signal, WritableSignal } from '@angular/core';
+import {
+	computed,
+	inject,
+	Injectable,
+	Signal,
+	signal,
+	WritableSignal,
+} from '@angular/core';
 
 import {
 	addDoc,
@@ -19,8 +26,11 @@ import { CreateTask, Task, TaskDto, TaskStatus } from '../models/task.model';
 	providedIn: 'root',
 })
 export class TaskService {
-	private firestore: Firestore = inject(Firestore);
-	private authService: AuthenticationService = inject(AuthenticationService);
+	private _firestore: Firestore = inject(Firestore);
+	private _authService: AuthenticationService = inject(AuthenticationService);
+	private _activeTaskStatus: WritableSignal<TaskStatus> = signal(
+		TaskStatus.Todo
+	);
 
 	public taskList: WritableSignal<Task[]> = signal([]);
 
@@ -28,8 +38,16 @@ export class TaskService {
 		this.initTasks();
 	}
 
+	public activeTaskStatus: Signal<TaskStatus> = computed(() =>
+		this._activeTaskStatus()
+	);
+
+	public setActiveTaskStatus(status: TaskStatus): void {
+		this._activeTaskStatus.set(status);
+	}
+
 	private get collectionName(): string | null {
-		const userUid: string | null = this.authService.user()?.uid ?? null;
+		const userUid: string | null = this._authService.user()?.uid ?? null;
 
 		return userUid ? `${userUid}` : null;
 	}
@@ -37,7 +55,7 @@ export class TaskService {
 	private getCollection(): CollectionReference | null {
 		const collectionName: string | null = this.collectionName;
 
-		return collectionName ? collection(this.firestore, collectionName) : null;
+		return collectionName ? collection(this._firestore, collectionName) : null;
 	}
 
 	private async initTasks() {
@@ -101,7 +119,7 @@ export class TaskService {
 				}
 				return [...taskList];
 			});
-			await updateDoc(doc(this.firestore, collectionName, editTask.id), {
+			await updateDoc(doc(this._firestore, collectionName, editTask.id), {
 				title: editTask.title,
 				description: editTask.description,
 				status: editTask.status,
@@ -116,7 +134,7 @@ export class TaskService {
 				taskList.filter((task: Task) => task.id !== deleteTask.id)
 			);
 
-			await deleteDoc(doc(this.firestore, collectionName, deleteTask.id));
+			await deleteDoc(doc(this._firestore, collectionName, deleteTask.id));
 		}
 	}
 
@@ -170,7 +188,7 @@ export class TaskService {
 		newIndex: number,
 		collectionName: string
 	) {
-		await updateDoc(doc(this.firestore, collectionName, taskId), {
+		await updateDoc(doc(this._firestore, collectionName, taskId), {
 			index: newIndex,
 		});
 	}
@@ -181,7 +199,7 @@ export class TaskService {
 		newStatus: TaskStatus,
 		collectionName: string
 	) {
-		await updateDoc(doc(this.firestore, collectionName, taskId), {
+		await updateDoc(doc(this._firestore, collectionName, taskId), {
 			index: newIndex,
 			status: newStatus,
 		});

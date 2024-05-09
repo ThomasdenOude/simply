@@ -50,15 +50,15 @@ import { TASK_STATUS_LIST } from '../../data/task-status-list';
 	styleUrl: './task-board.component.scss',
 })
 export class TaskBoardComponent implements OnInit {
-	private taskService: TaskService = inject(TaskService);
-	private responsiveService: ResponsiveService = inject(ResponsiveService);
-	private router: Router = inject(Router);
-	private route: ActivatedRoute = inject(ActivatedRoute);
+	private _taskService: TaskService = inject(TaskService);
+	private _responsiveService: ResponsiveService = inject(ResponsiveService);
+	private _router: Router = inject(Router);
+	private _route: ActivatedRoute = inject(ActivatedRoute);
 
 	protected readonly Devices = Devices;
 	protected readonly taskStatuses: ReadonlyArray<TaskStatus> = TASK_STATUS_LIST;
 
-	protected device: Signal<Devices> = this.responsiveService.device;
+	protected device: Signal<Devices> = this._responsiveService.device;
 	protected taskList!: Signal<Task[]>;
 	protected taskStatusListItems: Signal<Task[]>[] = TASK_STATUS_LIST.map(
 		(status: TaskStatus) =>
@@ -68,30 +68,19 @@ export class TaskBoardComponent implements OnInit {
 					.sort((a: Task, b: Task) => a.index - b.index)
 			)
 	);
-	protected activeStatus: WritableSignal<TaskStatus> = signal(TaskStatus.Todo);
+	protected activeStatus: Signal<TaskStatus> =
+		this._taskService.activeTaskStatus;
 
 	ngOnInit(): void {
-		this.taskList = this.taskService.taskList;
-		this.setEditedStatus();
-	}
-
-	private setEditedStatus(): void {
-		if (this.device() !== Devices.WideScreen) {
-			const params: Params = this.route.snapshot.queryParams;
-			const status = params['status'];
-			if (status) {
-				const taskStatus = status.toUpperCase() as TaskStatus;
-				this.activeStatus.set(taskStatus);
-			}
-		}
+		this.taskList = this._taskService.taskList;
 	}
 
 	protected editTask(task: Task) {
-		this.router.navigate(['task', task.id], { relativeTo: this.route });
+		this._router.navigate(['task', task.id], { relativeTo: this._route });
 	}
 
 	protected newTask(): void {
-		this.router.navigate(['task'], { relativeTo: this.route });
+		this._router.navigate(['task'], { relativeTo: this._route });
 	}
 
 	protected updateTask(update: UpdateTaskAndStatus): void {
@@ -116,10 +105,10 @@ export class TaskBoardComponent implements OnInit {
 			previousStatus === currentStatus
 		) {
 			moveItemInArray(currentList, previousIndex, currentIndex);
-			this.taskService.updateIndex(currentStatus, currentList);
+			this._taskService.updateIndex(currentStatus, currentList);
 		} else {
 			transferArrayItem(previousList, currentList, previousIndex, currentIndex);
-			this.taskService.updateIndexAndStatus(
+			this._taskService.updateIndexAndStatus(
 				previousStatus,
 				previousList,
 				currentStatus,

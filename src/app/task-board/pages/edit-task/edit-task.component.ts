@@ -3,10 +3,9 @@ import {
 	computed,
 	inject,
 	Input,
+	OnDestroy,
 	OnInit,
-	signal,
 	Signal,
-	WritableSignal,
 } from '@angular/core';
 import {
 	FormControl,
@@ -38,6 +37,7 @@ import { Devices } from '../../../base/models/devices';
 import { TASK_STATUS_LIST } from '../../data/task-status-list';
 import { taskStatusIcon } from '../../data/task-status-icon.map';
 import { SpaceContentDirective } from '../../../base/directives/space-content.directive';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
 	selector: 'simply-edit-task',
@@ -59,20 +59,21 @@ import { SpaceContentDirective } from '../../../base/directives/space-content.di
 	templateUrl: './edit-task.component.html',
 	styleUrl: './edit-task.component.scss',
 })
-export class EditTaskComponent implements OnInit {
-	private taskService: TaskService = inject(TaskService);
-	private responsiveService: ResponsiveService = inject(ResponsiveService);
-	private router: Router = inject(Router);
+export class EditTaskComponent implements OnInit, OnDestroy {
+	private _destroy: Subject<void> = new Subject<void>();
+	private _taskService: TaskService = inject(TaskService);
+	private _responsiveService: ResponsiveService = inject(ResponsiveService);
+	private _router: Router = inject(Router);
 
-	protected device: Signal<Devices> = this.responsiveService.device;
+	protected device: Signal<Devices> = this._responsiveService.device;
 	protected textAreaMinRows: Signal<number>;
 	protected textAreaMaxRows: Signal<number>;
-	protected currentStatus: WritableSignal<TaskStatus> = signal<TaskStatus>(
-		TaskStatus.Todo
-	);
+	protected activeTaskStatus: Signal<TaskStatus> =
+		this._taskService.activeTaskStatus;
 	protected availableStatuses: Signal<TaskStatus[]> = computed<TaskStatus[]>(
-		() => TASK_STATUS_LIST.filter(status => status !== this.currentStatus())
+		() => TASK_STATUS_LIST.filter(status => status !== this.activeTaskStatus())
 	);
+
 	protected task: Task | undefined;
 	protected readonly taskStatusIcon: TaskStatusIcons = taskStatusIcon;
 	protected readonly Devices = Devices;
@@ -80,13 +81,13 @@ export class EditTaskComponent implements OnInit {
 		{
 			title: new FormControl(''),
 			description: new FormControl(''),
-			status: new FormControl(TaskStatus.Todo),
+			status: new FormControl(this.activeTaskStatus()),
 		}
 	);
 
 	@Input()
 	private set id(taskId: string) {
-		this.task = this.taskService.getTask(taskId);
+		this.task = this._taskService.getTask(taskId);
 	}
 
 	constructor() {
@@ -102,54 +103,46 @@ export class EditTaskComponent implements OnInit {
 	}
 
 	ngOnInit() {
-		const editStatus = this.task?.status;
-		if (editStatus) {
-			this.currentStatus.set(editStatus);
-		}
 		if (this.task) {
 			this.taskForm.patchValue({
 				title: this.task.title,
 				description: this.task.description,
 				status: this.task.status,
 			});
-			this.currentStatus.set(this.task.status);
+			this._taskService.setActiveTaskStatus(this.task.status);
 		}
-
-		this.taskForm
-			.get('status')
-			?.valueChanges.subscribe((status: TaskStatus | null) => {
-				if (status) {
-					this.currentStatus.set(status);
-				}
-			});
 	}
 
 	protected submitTask(): void {
 		const formValue = this.taskForm.value;
 
 		if (this.task) {
+			const status: TaskStatus = formValue.status ?? this.task.status;
 			const editedTask: Task = {
 				...this.task,
 				title: formValue.title ?? this.task.title,
 				description: formValue.description ?? this.task.description,
-				status: formValue.status ?? this.task.status,
+				status: status,
 			};
-			this.taskService
+			this._taskService
 				.editTask(editedTask)
 				.then(() => {
-					this.navigateToTaskBoard(editedTask.status);
+					this._taskService.setActiveTaskStatus(status);
+					this.navigateToTaskBoard();
 				})
 				.catch();
 		} else {
+			const status: TaskStatus = formValue.status ?? TaskStatus.Todo;
 			const addedTask: CreateTask = {
 				title: formValue.title ?? '',
 				description: formValue.description ?? '',
-				status: formValue.status ?? TaskStatus.Todo,
+				status: status,
 			};
-			this.taskService
+			this._taskService
 				.addTask(addedTask)
 				.then(() => {
-					this.navigateToTaskBoard(addedTask.status ?? TaskStatus.Todo);
+					this._taskService.setActiveTaskStatus(status);
+					this.navigateToTaskBoard();
 				})
 				.catch();
 		}
@@ -157,7 +150,7 @@ export class EditTaskComponent implements OnInit {
 
 	protected deleteTask(): void {
 		if (this.task) {
-			this.taskService
+			this._taskService
 				.deleteTask(this.task)
 				.then(() => {
 					this.navigateToTaskBoard();
@@ -166,19 +159,16 @@ export class EditTaskComponent implements OnInit {
 		}
 	}
 
-	private navigateToTaskBoard(status?: TaskStatus): void {
-		if (this.device() !== Devices.WideScreen && status) {
-			this.router.navigate(['/task-board'], {
-				queryParams: {
-					status: status.toLowerCase(),
-				},
-			});
-		} else {
-			this.router.navigate(['/task-board']);
-		}
+	private navigateToTaskBoard(): void {
+		this._router.navigate(['/task-board']);
 	}
 
 	protected cancel(): void {
 		this.navigateToTaskBoard();
+	}
+
+	ngOnDestroy() {
+		this._destroy.next();
+		this._destroy.complete();
 	}
 }

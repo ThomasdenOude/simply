@@ -28,6 +28,7 @@ import { taskStatusIcon } from '../../data/task-status-icon.map';
 import { MatIcon } from '@angular/material/icon';
 import { NoSpaceDirective } from '../../../base/directives/no-space.directive';
 import { UpdateTaskAndStatus } from '../../models/update-task-and-status';
+import { TaskService } from '../../services/task.service';
 
 @Component({
 	selector: 'simply-kanban',
@@ -47,8 +48,9 @@ import { UpdateTaskAndStatus } from '../../models/update-task-and-status';
 	styleUrl: './kanban.component.scss',
 })
 export class KanbanComponent {
-	private elementRef: ElementRef = inject(ElementRef);
-	private renderer: Renderer2 = inject(Renderer2);
+	private _elementRef: ElementRef = inject(ElementRef);
+	private _renderer: Renderer2 = inject(Renderer2);
+	private _taskService: TaskService = inject(TaskService);
 
 	protected readonly taskStatuses: ReadonlyArray<TaskStatus> = TASK_STATUS_LIST;
 	protected readonly taskStatusIcon = taskStatusIcon;
@@ -66,8 +68,8 @@ export class KanbanComponent {
 	public onEditTask: EventEmitter<Task> = new EventEmitter<Task>();
 
 	constructor() {
-		this.renderer.addClass(
-			this.elementRef.nativeElement,
+		this._renderer.addClass(
+			this._elementRef.nativeElement,
 			'simply-kanban__host'
 		);
 	}
@@ -83,7 +85,8 @@ export class KanbanComponent {
 		this.onUpdateTask.emit({ taskDropped: event });
 	}
 
-	protected newTask(): void {
+	protected newTask(status: TaskStatus): void {
+		this._taskService.setActiveTaskStatus(status);
 		this.onNewTask.emit();
 	}
 
