@@ -1,30 +1,14 @@
 import {
-	AfterViewInit,
 	Component,
 	computed,
-	ElementRef,
 	EventEmitter,
 	inject,
 	input,
 	InputSignal,
 	Output,
-	signal,
 	Signal,
-	ViewChild,
-	WritableSignal,
 } from '@angular/core';
 import { NgClass } from '@angular/common';
-
-import {
-	merge,
-	fromEvent,
-	map,
-	Observable,
-	Subject,
-	switchMap,
-	takeUntil,
-	timer,
-} from 'rxjs';
 
 import {
 	CdkDrag,
@@ -36,6 +20,7 @@ import { MatIcon } from '@angular/material/icon';
 import { MatMiniFabButton } from '@angular/material/button';
 
 import { ResponsiveService } from '../../../base/services/responsive.service';
+import { TaskService } from '../../services/task.service';
 import { TaskCardComponent } from '../task-card/task-card.component';
 import { NoSpaceDirective } from '../../../base/directives/no-space.directive';
 import { Devices } from '../../../base/models/devices';
@@ -43,7 +28,6 @@ import { Task, TaskStatus } from '../../models/task.model';
 import { UpdateTaskAndStatus } from '../../models/update-task-and-status';
 import { TASK_STATUS_LIST } from '../../data/task-status-list';
 import { taskStatusIcon } from '../../data/task-status-icon.map';
-import { TaskService } from '../../services/task.service';
 import { EventResponse } from '../../models/event-response';
 
 @Component({

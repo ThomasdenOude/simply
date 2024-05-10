@@ -9,14 +9,12 @@ import {
 	OnDestroy,
 	inject,
 	Renderer2,
-	ViewChild,
 } from '@angular/core';
 
 import {
 	combineLatestWith,
 	delay,
 	distinctUntilChanged,
-	exhaustMap,
 	filter,
 	fromEvent,
 	map,
@@ -29,12 +27,13 @@ import {
 	timer,
 	withLatestFrom,
 } from 'rxjs';
-import { MatCardModule } from '@angular/material/card';
 
-import { Task } from '../../models/task.model';
+import { MatCardModule } from '@angular/material/card';
+import { CdkDrag } from '@angular/cdk/drag-drop';
+
 import { NoSpaceDirective } from '../../../base/directives/no-space.directive';
 import { EventResponse } from '../../models/event-response';
-import { CdkDrag } from '@angular/cdk/drag-drop';
+import { Task } from '../../models/task.model';
 
 @Component({
 	selector: 'simply-task-card',
@@ -101,7 +100,7 @@ export class TaskCardComponent implements AfterViewInit, OnDestroy {
 				const x = event.touches[0].clientX;
 				const element = document.elementFromPoint(x, y);
 
-				return !element?.classList.contains('task-card__element') ?? true;
+				return !element?.classList.contains('task-card__element');
 			}),
 			distinctUntilChanged(),
 			filter(event => event)
@@ -109,7 +108,7 @@ export class TaskCardComponent implements AfterViewInit, OnDestroy {
 
 		// Start of long hold
 		const start$: Observable<number> = merge(touchStart$, mouseDown$).pipe(
-			map(event => Date.now()),
+			map(() => Date.now()),
 			delay(EventResponse.Long)
 		);
 
@@ -119,7 +118,7 @@ export class TaskCardComponent implements AfterViewInit, OnDestroy {
 			mouseLeave$,
 			touchEnd$,
 			touchMoveLeave$,
-			this.ckgDrag.released
+			cdkDrag.released
 		).pipe(
 			map(() => Date.now()),
 			startWith(Date.now())

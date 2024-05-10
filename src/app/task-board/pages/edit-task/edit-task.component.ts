@@ -16,6 +16,8 @@ import {
 import { Router } from '@angular/router';
 import { NgClass } from '@angular/common';
 
+import { Subject } from 'rxjs';
+
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -26,6 +28,7 @@ import { TaskService } from '../../services/task.service';
 import { ResponsiveService } from '../../../base/services/responsive.service';
 import { CenterPageComponent } from '../../../base/ui/center-page/center-page.component';
 import { FocusInputDirective } from '../../../base/directives/focus-input.directive';
+import { SpaceContentDirective } from '../../../base/directives/space-content.directive';
 import {
 	CreateTask,
 	CreateTaskForm,
@@ -36,8 +39,6 @@ import {
 import { Devices } from '../../../base/models/devices';
 import { TASK_STATUS_LIST } from '../../data/task-status-list';
 import { taskStatusIcon } from '../../data/task-status-icon.map';
-import { SpaceContentDirective } from '../../../base/directives/space-content.directive';
-import { Subject, takeUntil } from 'rxjs';
 
 @Component({
 	selector: 'simply-edit-task',
@@ -81,7 +82,7 @@ export class EditTaskComponent implements OnInit, OnDestroy {
 		{
 			title: new FormControl(''),
 			description: new FormControl(''),
-			status: new FormControl(this.activeTaskStatus()),
+			status: new FormControl(TaskStatus.Todo),
 		}
 	);
 
@@ -110,6 +111,8 @@ export class EditTaskComponent implements OnInit, OnDestroy {
 				status: this.task.status,
 			});
 			this._taskService.setActiveTaskStatus(this.task.status);
+		} else {
+			this._taskService.setActiveTaskStatus(TaskStatus.Todo);
 		}
 	}
 
