@@ -25,7 +25,7 @@
 		</nav>
 	</header>
 
-	<div class="simply-task-group__content" #content>
+	<div class="simply-task-group__content">
 		@for (status of taskStatuses; track status) {
 			<div
 				cdkDropList
@@ -36,12 +36,11 @@
 				[id]="status"
 				[cdkDropListData]="taskListSignal(status)()"
 				(cdkDropListDropped)="updateTaskAndStatus($event)"
-				(click)="newTask()"
 			>
 				@for (task of taskListSignal(status)(); track task.id) {
 					<simply-task-card
 						cdkDrag
-						[cdkDragStartDelay]="400"
+						[cdkDragStartDelay]="EventResponse.Long"
 						(editTask)="editTask($event)"
 						[task]="task"
 					></simply-task-card>

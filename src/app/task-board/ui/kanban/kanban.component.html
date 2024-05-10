@@ -14,11 +14,11 @@
 				[id]="status"
 				[cdkDropListData]="taskListSignal(status)()"
 				(cdkDropListDropped)="updateTask($event)"
-				(click)="newTask(status)"
 			>
 				@for (task of taskListSignal(status)(); track task.id) {
 					<simply-task-card
 						cdkDrag
+						[cdkDragStartDelay]="EventResponse.Long"
 						(editTask)="editTask($event)"
 						[task]="task"
 					></simply-task-card>

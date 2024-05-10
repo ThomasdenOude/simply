@@ -1,4 +1,5 @@
 import {
+	AfterViewInit,
 	Component,
 	computed,
 	ElementRef,
@@ -6,9 +7,11 @@ import {
 	inject,
 	input,
 	InputSignal,
+	OnDestroy,
 	Output,
 	Renderer2,
 	Signal,
+	ViewChild,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
@@ -29,6 +32,17 @@ import { MatIcon } from '@angular/material/icon';
 import { NoSpaceDirective } from '../../../base/directives/no-space.directive';
 import { UpdateTaskAndStatus } from '../../models/update-task-and-status';
 import { TaskService } from '../../services/task.service';
+import { EventResponse } from '../../models/event-response';
+import {
+	fromEvent,
+	map,
+	merge,
+	Observable,
+	Subject,
+	switchMap,
+	takeUntil,
+	timer,
+} from 'rxjs';
 
 @Component({
 	selector: 'simply-kanban',
@@ -47,13 +61,15 @@ import { TaskService } from '../../services/task.service';
 	templateUrl: './kanban.component.html',
 	styleUrl: './kanban.component.scss',
 })
-export class KanbanComponent {
+export class KanbanComponent implements AfterViewInit, OnDestroy {
+	private _destroy: Subject<void> = new Subject<void>();
 	private _elementRef: ElementRef = inject(ElementRef);
 	private _renderer: Renderer2 = inject(Renderer2);
 	private _taskService: TaskService = inject(TaskService);
 
 	protected readonly taskStatuses: ReadonlyArray<TaskStatus> = TASK_STATUS_LIST;
 	protected readonly taskStatusIcon = taskStatusIcon;
+	protected readonly EventResponse = EventResponse;
 
 	public taskList: InputSignal<Task[]> = input.required<Task[]>();
 
@@ -67,12 +83,13 @@ export class KanbanComponent {
 	@Output()
 	public onEditTask: EventEmitter<Task> = new EventEmitter<Task>();
 
-	constructor() {
+	ngAfterViewInit() {
 		this._renderer.addClass(
 			this._elementRef.nativeElement,
 			'simply-kanban__host'
 		);
 	}
+
 	protected taskListSignal(status: TaskStatus): Signal<Task[]> {
 		return computed(() =>
 			this.taskList()
@@ -85,12 +102,19 @@ export class KanbanComponent {
 		this.onUpdateTask.emit({ taskDropped: event });
 	}
 
-	protected newTask(status: TaskStatus): void {
-		this._taskService.setActiveTaskStatus(status);
+	protected newTask(status?: TaskStatus): void {
+		if (status) {
+			this._taskService.setActiveTaskStatus(status);
+		}
 		this.onNewTask.emit();
 	}
 
 	protected editTask(task: Task): void {
 		this.onEditTask.emit(task);
+	}
+
+	ngOnDestroy() {
+		this._destroy.next();
+		this._destroy.complete();
 	}
 }

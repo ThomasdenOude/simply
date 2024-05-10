@@ -16,6 +16,7 @@ import {
 import { NgClass } from '@angular/common';
 
 import {
+	merge,
 	fromEvent,
 	map,
 	Observable,
@@ -43,6 +44,7 @@ import { UpdateTaskAndStatus } from '../../models/update-task-and-status';
 import { TASK_STATUS_LIST } from '../../data/task-status-list';
 import { taskStatusIcon } from '../../data/task-status-icon.map';
 import { TaskService } from '../../services/task.service';
+import { EventResponse } from '../../models/event-response';
 
 @Component({
 	selector: 'simply-task-group',
@@ -60,8 +62,7 @@ import { TaskService } from '../../services/task.service';
 	templateUrl: './task-group.component.html',
 	styleUrl: './task-group.component.scss',
 })
-export class TaskGroupComponent implements AfterViewInit {
-	private _destroy: Subject<void> = new Subject<void>();
+export class TaskGroupComponent {
 	private _responsiveService: ResponsiveService = inject(ResponsiveService);
 	private _taskService: TaskService = inject(TaskService);
 
@@ -72,11 +73,9 @@ export class TaskGroupComponent implements AfterViewInit {
 	protected readonly Devices = Devices;
 	protected readonly taskStatuses: ReadonlyArray<TaskStatus> = TASK_STATUS_LIST;
 	protected readonly taskStatusIcon = taskStatusIcon;
+	protected readonly EventResponse = EventResponse;
 
 	public taskList: InputSignal<Task[]> = input.required<Task[]>();
-
-	@ViewChild('content', { read: ElementRef })
-	private content!: ElementRef;
 
 	@Output()
 	public onUpdateTaskAndStatus: EventEmitter<UpdateTaskAndStatus> =
@@ -87,35 +86,6 @@ export class TaskGroupComponent implements AfterViewInit {
 
 	@Output()
 	public onEditTask: EventEmitter<Task> = new EventEmitter<Task>();
-
-	ngAfterViewInit() {
-		const touchEnd$: Observable<TouchEvent> = fromEvent(
-			this.content.nativeElement,
-			'touchend'
-		);
-		const touchEndTimed$: Observable<TouchEvent> = touchEnd$.pipe(
-			takeUntil(timer(300))
-		);
-		const touchStart$: Observable<TouchEvent> = fromEvent(
-			this.content.nativeElement,
-			'touchstart'
-		);
-		touchStart$
-			.pipe(
-				takeUntil(this._destroy),
-				switchMap(() => touchEndTimed$),
-				map(touch => {
-					const target = touch.target as HTMLElement;
-
-					return target.matches('.task-card__element');
-				})
-			)
-			.subscribe((onTaskCard: boolean) => {
-				if (!onTaskCard) {
-					this.newTask();
-				}
-			});
-	}
 
 	protected selectStatus(status: TaskStatus) {
 		this._taskService.setActiveTaskStatus(status);
