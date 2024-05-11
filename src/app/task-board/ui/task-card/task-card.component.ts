@@ -14,7 +14,6 @@ import {
 import {
 	combineLatestWith,
 	delay,
-	distinctUntilChanged,
 	filter,
 	fromEvent,
 	map,
@@ -24,6 +23,7 @@ import {
 	Subject,
 	switchMap,
 	takeUntil,
+	tap,
 	timer,
 	withLatestFrom,
 } from 'rxjs';
@@ -59,17 +59,23 @@ export class TaskCardComponent implements AfterViewInit, OnDestroy {
 		this.renderer.addClass(taskCard, 'task-card__element');
 		this.renderer.addClass(taskCard, 'task-card__host');
 
-		const { longHold$, shortPress$ } = this.initEvents(taskCard, this.ckgDrag);
+		const { longHold$, released$, shortPress$ } = this.initEvents(
+			taskCard,
+			this.ckgDrag
+		);
 
-		longHold$.subscribe(isLongPress => {
-			if (isLongPress) {
-				this.renderer.addClass(taskCard, 'task-card__active');
-			} else {
-				this.renderer.removeClass(taskCard, 'task-card__active');
-			}
-		});
+		longHold$
+			.pipe(
+				takeUntil(this.destroy),
+				tap(() => this.renderer.addClass(taskCard, 'task-card__active')),
+				switchMap(() => released$),
+				tap(() => this.renderer.removeClass(taskCard, 'task-card__active'))
+			)
+			.subscribe();
 
-		shortPress$.subscribe(() => this.emitEditTask());
+		shortPress$
+			.pipe(takeUntil(this.destroy))
+			.subscribe(() => this.emitEditTask());
 	}
 
 	protected emitEditTask(): void {
@@ -80,6 +86,7 @@ export class TaskCardComponent implements AfterViewInit, OnDestroy {
 		// Mouse events
 		const mouseDown$: Observable<MouseEvent> = fromEvent(taskCard, 'mousedown');
 		const mouseUp$: Observable<MouseEvent> = fromEvent(taskCard, 'mouseup');
+		const mouseMove$: Observable<MouseEvent> = fromEvent(taskCard, 'mousemove');
 		const mouseLeave$: Observable<MouseEvent> = fromEvent(
 			taskCard,
 			'mouseleave'
@@ -93,43 +100,37 @@ export class TaskCardComponent implements AfterViewInit, OnDestroy {
 		const touchEnd$: Observable<TouchEvent> = fromEvent(taskCard, 'touchend');
 		const touchMove$: Observable<TouchEvent> = fromEvent(taskCard, 'touchmove');
 
-		// Touch move leave for long hold
-		const touchMoveLeave$: Observable<boolean> = touchMove$.pipe(
-			map((event: TouchEvent): boolean => {
-				const y = event.touches[0].clientY;
-				const x = event.touches[0].clientX;
-				const element = document.elementFromPoint(x, y);
-
-				return !element?.classList.contains('task-card__element');
-			}),
-			distinctUntilChanged(),
-			filter(event => event)
-		);
-
 		// Start of long hold
 		const start$: Observable<number> = merge(touchStart$, mouseDown$).pipe(
-			map(() => Date.now()),
+			map(event => event.timeStamp),
 			delay(EventResponse.Long)
 		);
 
 		// End of long hold
 		const end$: Observable<number> = merge(
 			mouseUp$,
+			mouseMove$,
 			mouseLeave$,
 			touchEnd$,
-			touchMoveLeave$,
-			cdkDrag.released
+			touchMove$
 		).pipe(
-			map(() => Date.now()),
-			startWith(Date.now())
+			map(event => event.timeStamp),
+			startWith(0)
 		);
 
 		// Long hold
 		const longHold$ = start$.pipe(
-			takeUntil(this.destroy),
 			combineLatestWith(end$),
-			map(([start, end]) => start > end)
+			map(([start, end]) => start > end),
+			filter(isLongHold => isLongHold),
+			map(() => null)
 		);
+
+		const released$: Observable<null> = merge(
+			mouseUp$,
+			touchEnd$,
+			cdkDrag.released
+		).pipe(map(() => null));
 
 		// Short touch
 		const touchEndTimed$: Observable<TouchEvent> = touchEnd$.pipe(
@@ -153,12 +154,11 @@ export class TaskCardComponent implements AfterViewInit, OnDestroy {
 		const shortClick$ = mouseDown$.pipe(switchMap(() => mouseUpTimed$));
 
 		// Short press
-		const shortPress$ = merge(shortClick$, shortTouch$).pipe(
-			takeUntil(this.destroy),
+		const shortPress$: Observable<null> = merge(shortClick$, shortTouch$).pipe(
 			map(() => null)
 		);
 
-		return { longHold$, shortPress$ };
+		return { longHold$, released$, shortPress$ };
 	}
 
 	ngOnDestroy() {
