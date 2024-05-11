@@ -19,13 +19,14 @@ import {
 	map,
 	merge,
 	Observable,
+	of,
 	startWith,
 	Subject,
 	switchMap,
 	takeUntil,
 	tap,
 	timer,
-	withLatestFrom,
+	zip,
 } from 'rxjs';
 
 import { MatCardModule } from '@angular/material/card';
@@ -137,7 +138,7 @@ export class TaskCardComponent implements AfterViewInit, OnDestroy {
 			takeUntil(timer(EventResponse.Short))
 		);
 		const shortTouch$ = touchStart$.pipe(
-			withLatestFrom(touchEndTimed$),
+			switchMap(start => zip(of(start), touchEndTimed$)),
 			map(([start, end]) => {
 				const startY = (start as TouchEvent).changedTouches[0].clientY;
 				const endY = (end as TouchEvent).changedTouches[0].clientY;
