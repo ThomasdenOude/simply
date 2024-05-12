@@ -19,6 +19,7 @@
 					<simply-task-card
 						cdkDrag
 						[cdkDragStartDelay]="EventResponse.Middle"
+						cdkDragPreviewClass="task-card__active"
 						(editTask)="editTask($event)"
 						[task]="task"
 					></simply-task-card>
