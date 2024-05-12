@@ -1,4 +1,5 @@
 export enum EventResponse {
-	Short = 300,
-	Long = 600,
+	Short = 400,
+	Middle = 500,
+	Long = 1000,
 }

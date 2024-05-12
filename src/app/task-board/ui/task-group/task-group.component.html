@@ -40,7 +40,7 @@
 				@for (task of taskListSignal(status)(); track task.id) {
 					<simply-task-card
 						cdkDrag
-						[cdkDragStartDelay]="EventResponse.Long"
+						[cdkDragStartDelay]="EventResponse.Middle"
 						(editTask)="editTask($event)"
 						[task]="task"
 					></simply-task-card>
