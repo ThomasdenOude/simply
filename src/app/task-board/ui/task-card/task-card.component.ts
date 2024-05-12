@@ -26,6 +26,7 @@ import {
 	takeUntil,
 	tap,
 	timer,
+	withLatestFrom,
 	zip,
 } from 'rxjs';
 
@@ -180,14 +181,13 @@ export class TaskCardComponent implements AfterViewInit, OnDestroy {
 
 		const shortClickNoTouchend$ = mouseDown$.pipe(
 			map(mouseDown => mouseDown.timeStamp),
-			combineLatestWith(touchendTimestamp$),
+			withLatestFrom(touchendTimestamp$),
 			map(([mouseDown, touchEnd]) => {
 				const touchendBeforeSeconds = mouseDown - touchEnd;
 
 				return (
-					touchEnd === 0 ||
-					(touchendBeforeSeconds > 0 &&
-						touchendBeforeSeconds < EventResponse.Long)
+					touchendBeforeSeconds > 0 &&
+					touchendBeforeSeconds < EventResponse.Long
 				);
 			}),
 			filter(noTouchEndBefore => noTouchEndBefore),
