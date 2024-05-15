@@ -186,8 +186,9 @@ export class TaskCardComponent implements AfterViewInit, OnDestroy {
 				const touchendBeforeSeconds = mouseDown - touchEnd;
 
 				return (
-					touchendBeforeSeconds < 0 &&
-					touchendBeforeSeconds > EventResponse.Long
+					touchEnd === 0 ||
+					(touchendBeforeSeconds < 0 &&
+						touchendBeforeSeconds > EventResponse.Long)
 				);
 			}),
 			filter(noTouchEndBefore => noTouchEndBefore),
