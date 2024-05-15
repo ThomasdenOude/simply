@@ -69,9 +69,9 @@ export class TaskCardComponent implements AfterViewInit, OnDestroy {
 		longHold$
 			.pipe(
 				takeUntil(this.destroy),
-				tap(() => this.renderer.addClass(taskCard, 'task-card__active')),
+				tap(() => this.renderer.addClass(taskCard, 'task-card__drag')),
 				switchMap(() => released$),
-				tap(() => this.renderer.removeClass(taskCard, 'task-card__active'))
+				tap(() => this.renderer.removeClass(taskCard, 'task-card__drag'))
 			)
 			.subscribe();
 

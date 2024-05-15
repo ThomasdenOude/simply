@@ -2,16 +2,20 @@
 	@if (device() !== Devices.WideScreen) {
 		<simply-task-group
 			[taskList]="taskList()"
+			[activeList]="activeList()"
+			[device]="device()"
+			(onStatusChange)="setActiveList($event)"
 			(onNewTask)="newTask()"
 			(onEditTask)="editTask($event)"
-			(onUpdateTaskAndStatus)="updateTask($event)"
+			(onUpdateTaskList)="updateTaskList($event)"
 		></simply-task-group>
 	} @else {
 		<simply-kanban
+			class="simply-kanban__host"
 			[taskList]="taskList()"
 			(onNewTask)="newTask()"
 			(onEditTask)="editTask($event)"
-			(onUpdateTask)="updateTask($event)"
+			(onUpdateTaskList)="updateTaskList($event)"
 		></simply-kanban>
 	}
 </div>

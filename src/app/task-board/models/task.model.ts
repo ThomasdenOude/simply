@@ -1,4 +1,5 @@
 import { BaseForm } from '../../base/models/base-form.model';
+import { Signal } from '@angular/core';
 
 export type Task = TaskDto & {
 	id: string;
@@ -24,5 +25,9 @@ export enum TaskStatus {
 	Doing = 'DOING',
 	Done = 'DONE',
 }
+
+export type TaskStatusList = {
+	[key in TaskStatus]: Signal<Task[]>;
+};
 
 export type TaskStatusIcons = Map<TaskStatus, string>;

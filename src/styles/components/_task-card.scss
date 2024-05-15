@@ -21,7 +21,7 @@
 		&__host {
 			background-color: $background;
 		}
-		&__active {
+		&__drag {
 			border: 1px solid $primary;
 			@include mat.elevation(4);
 		}
@@ -31,7 +31,7 @@
 @mixin task-card-density($theme) {
 	.task-card {
 		&__host {
-			min-height: global.space('large');
+			min-height: 40px;
 			padding: global.space('small');
 			border-radius: global.radius('small');
 		}

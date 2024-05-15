@@ -1,16 +1,10 @@
 import {
-	AfterViewInit,
 	Component,
-	computed,
-	ElementRef,
 	EventEmitter,
-	inject,
 	input,
 	InputSignal,
 	OnDestroy,
 	Output,
-	Renderer2,
-	Signal,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
@@ -28,11 +22,17 @@ import {
 
 import { NoSpaceDirective } from '../../../base/directives/no-space.directive';
 import { TaskCardComponent } from '../task-card/task-card.component';
-import { Task, TaskStatus } from '../../models/task.model';
-import { UpdateTaskAndStatus } from '../../models/update-task-and-status';
+import {
+	Task,
+	TaskStatus,
+	TaskStatusIcons,
+	TaskStatusList,
+} from '../../models/task.model';
+import { UpdateTaskListAndStatus } from '../../models/update-task-list-and-status';
 import { EventResponse } from '../../models/event-response';
 import { TASK_STATUS_LIST } from '../../data/task-status-list';
 import { taskStatusIcon } from '../../data/task-status-icon.map';
+import { setTaskStatusList } from '../../helpers/set-task-list';
 
 @Component({
 	selector: 'simply-kanban',
@@ -51,20 +51,19 @@ import { taskStatusIcon } from '../../data/task-status-icon.map';
 	templateUrl: './kanban.component.html',
 	styleUrl: './kanban.component.scss',
 })
-export class KanbanComponent implements AfterViewInit, OnDestroy {
+export class KanbanComponent implements OnDestroy {
 	private _destroy: Subject<void> = new Subject<void>();
-	private _elementRef: ElementRef = inject(ElementRef);
-	private _renderer: Renderer2 = inject(Renderer2);
 
 	protected readonly taskStatuses: ReadonlyArray<TaskStatus> = TASK_STATUS_LIST;
-	protected readonly taskStatusIcon = taskStatusIcon;
+	protected readonly taskStatusIcon: TaskStatusIcons = taskStatusIcon;
 	protected readonly EventResponse = EventResponse;
 
 	public taskList: InputSignal<Task[]> = input.required<Task[]>();
+	protected readonly taskStatusList: TaskStatusList;
 
 	@Output()
-	public onUpdateTask: EventEmitter<UpdateTaskAndStatus> =
-		new EventEmitter<UpdateTaskAndStatus>();
+	public onUpdateTaskList: EventEmitter<UpdateTaskListAndStatus> =
+		new EventEmitter<UpdateTaskListAndStatus>();
 
 	@Output()
 	public onNewTask: EventEmitter<void> = new EventEmitter<void>();
@@ -72,23 +71,12 @@ export class KanbanComponent implements AfterViewInit, OnDestroy {
 	@Output()
 	public onEditTask: EventEmitter<Task> = new EventEmitter<Task>();
 
-	ngAfterViewInit() {
-		this._renderer.addClass(
-			this._elementRef.nativeElement,
-			'simply-kanban__host'
-		);
+	constructor() {
+		this.taskStatusList = setTaskStatusList(this.taskList);
 	}
 
-	protected taskListSignal(status: TaskStatus): Signal<Task[]> {
-		return computed(() =>
-			this.taskList()
-				.filter((task: Task) => task.status === status)
-				.sort((a: Task, b: Task) => a.index - b.index)
-		);
-	}
-
-	protected updateTask(event: CdkDragDrop<Task[]>): void {
-		this.onUpdateTask.emit({ taskDropped: event });
+	protected updateTaskList(event: CdkDragDrop<Task[]>): void {
+		this.onUpdateTaskList.emit({ taskDropped: event });
 	}
 
 	protected editTask(task: Task): void {

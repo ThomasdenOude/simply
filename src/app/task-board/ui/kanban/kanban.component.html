@@ -12,10 +12,10 @@
 				class="simply-kanban__content"
 				cdkDropList
 				[id]="status"
-				[cdkDropListData]="taskListSignal(status)()"
-				(cdkDropListDropped)="updateTask($event)"
+				[cdkDropListData]="taskStatusList[status]()"
+				(cdkDropListDropped)="updateTaskList($event)"
 			>
-				@for (task of taskListSignal(status)(); track task.id) {
+				@for (task of taskStatusList[status](); track task.id) {
 					<simply-task-card
 						cdkDrag
 						[cdkDragStartDelay]="EventResponse.Middle"

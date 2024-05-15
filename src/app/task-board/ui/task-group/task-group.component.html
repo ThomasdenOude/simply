@@ -6,13 +6,13 @@
 					cdkDropList
 					class="simply-task-group__tab"
 					[ngClass]="{
-						'simply-task-group__active-tab': activeStatus() === status
+						'simply-task-group__active-tab': activeList() === status
 					}"
-					[attr.aria-current]="activeStatus() === status ? status : null"
+					[attr.aria-current]="activeList() === status ? status : null"
 					[id]="'TAB_' + status"
 					(click)="selectStatus(status)"
 					(cdkDropListEntered)="switchTab(status)"
-					(cdkDropListDropped)="updateTaskAndStatus($event, status)"
+					(cdkDropListDropped)="updateTaskList($event, status)"
 				>
 					<mat-icon [attr.aria-label]="status">{{
 						taskStatusIcon.get(status)
@@ -31,13 +31,13 @@
 				cdkDropList
 				class="simply-task-group__list"
 				[ngClass]="{
-					'simply-task-group__list-hidden': activeStatus() !== status
+					'simply-task-group__list-hidden': activeList() !== status
 				}"
 				[id]="status"
-				[cdkDropListData]="taskListSignal(status)()"
-				(cdkDropListDropped)="updateTaskAndStatus($event)"
+				[cdkDropListData]="taskStatusList[status]()"
+				(cdkDropListDropped)="updateTaskList($event)"
 			>
-				@for (task of taskListSignal(status)(); track task.id) {
+				@for (task of taskStatusList[status](); track task.id) {
 					<simply-task-card
 						cdkDrag
 						[cdkDragStartDelay]="EventResponse.Middle"

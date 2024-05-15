@@ -28,22 +28,22 @@ import { CreateTask, Task, TaskDto, TaskStatus } from '../models/task.model';
 export class TaskService {
 	private _firestore: Firestore = inject(Firestore);
 	private _authService: AuthenticationService = inject(AuthenticationService);
-	private _activeTaskStatus: WritableSignal<TaskStatus> = signal(
-		TaskStatus.Todo
-	);
+	private _taskList: WritableSignal<Task[]> = signal([]);
 
-	public taskList: WritableSignal<Task[]> = signal([]);
+	private _activeList: WritableSignal<TaskStatus> = signal(TaskStatus.Todo);
 
 	constructor() {
 		this.initTasks();
 	}
 
-	public activeTaskStatus: Signal<TaskStatus> = computed(() =>
-		this._activeTaskStatus()
+	public readonly taskList: Signal<Task[]> = computed(() => this._taskList());
+
+	public readonly activeList: Signal<TaskStatus> = computed(() =>
+		this._activeList()
 	);
 
-	public setActiveTaskStatus(status: TaskStatus): void {
-		this._activeTaskStatus.set(status);
+	public setActiveList(status: TaskStatus): void {
+		this._activeList.set(status);
 	}
 
 	private get collectionName(): string | null {
@@ -72,18 +72,18 @@ export class TaskService {
 				};
 				taskList.push(task);
 			});
-			this.taskList.set(taskList);
+			this._taskList.set(taskList);
 		}
 	}
 
 	public getTask(id: string): Task | undefined {
-		return this.taskList().find((task: Task) => task.id === id);
+		return this._taskList().find((task: Task) => task.id === id);
 	}
 
 	public async addTask(task: CreateTask) {
 		const collection: CollectionReference | null = this.getCollection();
 		if (collection) {
-			const totalTodos: number = this.taskList().filter(
+			const totalTodos: number = this._taskList().filter(
 				task => task.status === TaskStatus.Todo
 			).length;
 
@@ -103,14 +103,14 @@ export class TaskService {
 				id: docRef.id,
 			};
 
-			this.taskList.update(taskList => [...taskList, addTask]);
+			this._taskList.update(taskList => [...taskList, addTask]);
 		}
 	}
 
 	public async editTask(editTask: Task) {
 		const collectionName: string | null = this.collectionName;
 		if (collectionName) {
-			this.taskList.update(taskList => {
+			this._taskList.update(taskList => {
 				const index = taskList.findIndex(
 					(task: Task) => task.id === editTask.id
 				);
@@ -130,7 +130,7 @@ export class TaskService {
 	public async deleteTask(deleteTask: Task) {
 		const collectionName: string | null = this.collectionName;
 		if (collectionName) {
-			this.taskList.update(taskList =>
+			this._taskList.update(taskList =>
 				taskList.filter((task: Task) => task.id !== deleteTask.id)
 			);
 
@@ -145,7 +145,7 @@ export class TaskService {
 				this.postIndex(task.id, index, collectionName);
 				task.index = index;
 			});
-			this.taskList.update(list => {
+			this._taskList.update(list => {
 				const otherStatuses: Task[] = list.filter(
 					task => task.status !== status
 				);
@@ -172,7 +172,7 @@ export class TaskService {
 				this.postIndex(task.id, index, collectionName);
 				task.index = index;
 			});
-			this.taskList.update(list => {
+			this._taskList.update(list => {
 				const otherStatus = list.filter(
 					task =>
 						task.status !== previousStatus && task.status !== currentStatus

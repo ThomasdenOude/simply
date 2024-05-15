@@ -69,8 +69,7 @@ export class EditTaskComponent implements OnInit, OnDestroy {
 	protected device: Signal<Devices> = this._responsiveService.device;
 	protected textAreaMinRows: Signal<number>;
 	protected textAreaMaxRows: Signal<number>;
-	protected activeTaskStatus: Signal<TaskStatus> =
-		this._taskService.activeTaskStatus;
+	protected activeTaskStatus: Signal<TaskStatus> = this._taskService.activeList;
 	protected availableStatuses: Signal<TaskStatus[]> = computed<TaskStatus[]>(
 		() => TASK_STATUS_LIST.filter(status => status !== this.activeTaskStatus())
 	);
@@ -110,9 +109,9 @@ export class EditTaskComponent implements OnInit, OnDestroy {
 				description: this.task.description,
 				status: this.task.status,
 			});
-			this._taskService.setActiveTaskStatus(this.task.status);
+			this._taskService.setActiveList(this.task.status);
 		} else {
-			this._taskService.setActiveTaskStatus(TaskStatus.Todo);
+			this._taskService.setActiveList(TaskStatus.Todo);
 		}
 	}
 
@@ -130,7 +129,7 @@ export class EditTaskComponent implements OnInit, OnDestroy {
 			this._taskService
 				.editTask(editedTask)
 				.then(() => {
-					this._taskService.setActiveTaskStatus(status);
+					this._taskService.setActiveList(status);
 					this.navigateToTaskBoard();
 				})
 				.catch();
@@ -144,7 +143,7 @@ export class EditTaskComponent implements OnInit, OnDestroy {
 			this._taskService
 				.addTask(addedTask)
 				.then(() => {
-					this._taskService.setActiveTaskStatus(status);
+					this._taskService.setActiveList(status);
 					this.navigateToTaskBoard();
 				})
 				.catch();
