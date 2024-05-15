@@ -60,6 +60,7 @@ export class TaskGroupComponent {
 	public activeList: InputSignal<TaskStatus> = input.required<TaskStatus>();
 	public device: InputSignal<Devices> = input.required<Devices>();
 	protected dragEnabledId: WritableSignal<string | null> = signal(null);
+	protected editedId: WritableSignal<string | null> = signal(null);
 
 	@Output()
 	public onUpdateTaskList: EventEmitter<UpdateTaskListAndStatus> =
@@ -113,5 +114,9 @@ export class TaskGroupComponent {
 		} else {
 			this.dragEnabledId.set(null);
 		}
+	}
+
+	protected setEditState(task: Task): void {
+		this.editedId.set(task.id);
 	}
 }

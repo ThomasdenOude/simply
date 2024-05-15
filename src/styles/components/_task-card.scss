@@ -16,14 +16,24 @@
 @mixin task-card-color($theme) {
 	$background: mat.get-theme-color($theme, background, card);
 	$primary: mat.get-theme-color($theme, primary);
+	$border: 1px solid $primary;
 
 	.task-card {
 		&__host {
 			background-color: $background;
 		}
 		&__drag {
-			border: 1px solid $primary;
+			border: $border;
 			@include mat.elevation(4);
+		}
+		&__edited {
+			animation: 2s cubic-bezier(0.97, 0, 1, 0.62) highlight;
+		}
+	}
+
+	@keyframes highlight {
+		0% {
+			border: $border;
 		}
 	}
 }
