@@ -56,6 +56,9 @@ export class TaskCardComponent implements AfterViewInit, OnDestroy {
 	@Output()
 	public editTask: EventEmitter<Task> = new EventEmitter<Task>();
 
+	@Output()
+	public dragEnabled: EventEmitter<boolean> = new EventEmitter<boolean>();
+
 	ngAfterViewInit() {
 		const taskCard = this.elementRef.nativeElement;
 		this.renderer.addClass(taskCard, 'task-card__element');
@@ -69,9 +72,9 @@ export class TaskCardComponent implements AfterViewInit, OnDestroy {
 		longHold$
 			.pipe(
 				takeUntil(this.destroy),
-				tap(() => this.renderer.addClass(taskCard, 'task-card__drag')),
+				tap(() => this.dragEnabled.emit(true)),
 				switchMap(() => released$),
-				tap(() => this.renderer.removeClass(taskCard, 'task-card__drag'))
+				tap(() => this.dragEnabled.emit(false))
 			)
 			.subscribe();
 

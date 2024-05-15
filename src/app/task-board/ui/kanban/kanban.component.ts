@@ -5,6 +5,8 @@ import {
 	InputSignal,
 	OnDestroy,
 	Output,
+	signal,
+	WritableSignal,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
@@ -33,6 +35,7 @@ import { EventResponse } from '../../models/event-response';
 import { TASK_STATUS_LIST } from '../../data/task-status-list';
 import { taskStatusIcon } from '../../data/task-status-icon.map';
 import { setTaskStatusList } from '../../helpers/set-task-list';
+import { NgClass } from '@angular/common';
 
 @Component({
 	selector: 'simply-kanban',
@@ -47,6 +50,7 @@ import { setTaskStatusList } from '../../helpers/set-task-list';
 		TaskCardComponent,
 		MatIcon,
 		NoSpaceDirective,
+		NgClass,
 	],
 	templateUrl: './kanban.component.html',
 	styleUrl: './kanban.component.scss',
@@ -57,9 +61,10 @@ export class KanbanComponent implements OnDestroy {
 	protected readonly taskStatuses: ReadonlyArray<TaskStatus> = TASK_STATUS_LIST;
 	protected readonly taskStatusIcon: TaskStatusIcons = taskStatusIcon;
 	protected readonly EventResponse = EventResponse;
+	protected readonly taskStatusList: TaskStatusList;
 
 	public taskList: InputSignal<Task[]> = input.required<Task[]>();
-	protected readonly taskStatusList: TaskStatusList;
+	protected dragEnabledId: WritableSignal<string | null> = signal(null);
 
 	@Output()
 	public onUpdateTaskList: EventEmitter<UpdateTaskListAndStatus> =
@@ -81,6 +86,14 @@ export class KanbanComponent implements OnDestroy {
 
 	protected editTask(task: Task): void {
 		this.onEditTask.emit(task);
+	}
+
+	protected setDragState(dragEnabled: boolean, task: Task): void {
+		if (dragEnabled) {
+			this.dragEnabledId.set(task.id);
+		} else {
+			this.dragEnabledId.set(null);
+		}
 	}
 
 	ngOnDestroy() {

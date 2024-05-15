@@ -4,6 +4,8 @@ import {
 	input,
 	InputSignal,
 	Output,
+	signal,
+	WritableSignal,
 } from '@angular/core';
 import { NgClass } from '@angular/common';
 
@@ -57,6 +59,7 @@ export class TaskGroupComponent {
 	public taskList: InputSignal<Task[]> = input.required<Task[]>();
 	public activeList: InputSignal<TaskStatus> = input.required<TaskStatus>();
 	public device: InputSignal<Devices> = input.required<Devices>();
+	protected dragEnabledId: WritableSignal<string | null> = signal(null);
 
 	@Output()
 	public onUpdateTaskList: EventEmitter<UpdateTaskListAndStatus> =
@@ -102,5 +105,13 @@ export class TaskGroupComponent {
 			updateTaskAndStatus.targetStatus = targetStatus;
 		}
 		this.onUpdateTaskList.emit(updateTaskAndStatus);
+	}
+
+	protected setDragState(dragEnabled: boolean, task: Task): void {
+		if (dragEnabled) {
+			this.dragEnabledId.set(task.id);
+		} else {
+			this.dragEnabledId.set(null);
+		}
 	}
 }

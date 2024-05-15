@@ -40,10 +40,12 @@
 				@for (task of taskStatusList[status](); track task.id) {
 					<simply-task-card
 						cdkDrag
-						[cdkDragStartDelay]="EventResponse.Middle"
-						cdkDragPreviewClass="task-card__active"
-						(editTask)="editTask($event)"
+						cdkDragPreviewClass="task-card__drag"
+						[ngClass]="{ 'task-card__drag': task.id === dragEnabledId() }"
 						[task]="task"
+						[cdkDragStartDelay]="EventResponse.Middle"
+						(dragEnabled)="setDragState($event, task)"
+						(editTask)="editTask($event)"
 					></simply-task-card>
 				}
 			</div>
