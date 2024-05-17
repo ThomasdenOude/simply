@@ -27,7 +27,7 @@
 			}
 
 			&__content {
-				padding: 0 global.space('small') 0;
+				padding: 0 global.space('small') global.space('small');
 				gap: global.space('small');
 			}
 		}
@@ -43,7 +43,7 @@
 			}
 
 			&__content {
-				padding: 0 global.space('regular') 0;
+				padding: 0 global.space('regular') global.space('regular');
 				gap: global.space('regular');
 			}
 		}
