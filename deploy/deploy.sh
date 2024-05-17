@@ -44,7 +44,7 @@ new_version=$(head -1 buffer)
 rm buffer
 git add .
 git commit -m "Upgraded to new version: ${new_version}"
-git tag -a "deploy=${new_version}"
+git tag "deploy=${new_version}"
 
 # Deploy app to firebase
 ng deploy
