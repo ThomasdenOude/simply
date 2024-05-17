@@ -90,12 +90,8 @@ export class TaskService {
 	public async addTask(task: CreateTask) {
 		const collection: CollectionReference | null = this.getCollection();
 		if (collection) {
-			const totalTodos: number = this._taskList().filter(
-				task => task.status === TaskStatus.Todo
-			).length;
-
 			const taskDto: TaskDto = {
-				index: totalTodos,
+				index: 0,
 				title: task.title ?? '',
 				description: task.description ?? '',
 				status: task.status ?? TaskStatus.Todo,
@@ -109,29 +105,41 @@ export class TaskService {
 				...taskDto,
 				id: docRef.id,
 			};
-			this.setEditTaskDone(addTask);
+			const collectionName: string | null = this.collectionName;
+			if (collectionName) {
+				await updateDoc(doc(this._firestore, collectionName, addTask.id), {
+					id: addTask.id,
+				});
+			}
+			this.toTopOfList(addTask, [...this.taskList(), addTask]);
 
-			this._taskList.update(taskList => [...taskList, addTask]);
+			this.setEditTaskDone(addTask);
 		}
 	}
 
 	public async editTask(editTask: Task) {
 		const collectionName: string | null = this.collectionName;
 		if (collectionName) {
-			this._taskList.update(taskList => {
-				const index = taskList.findIndex(
-					(task: Task) => task.id === editTask.id
-				);
-				if (index > -1) {
-					taskList[index] = { ...editTask };
-				}
-				return [...taskList];
-			});
 			await updateDoc(doc(this._firestore, collectionName, editTask.id), {
 				title: editTask.title,
 				description: editTask.description,
 				status: editTask.status,
 			});
+
+			const taskList: Task[] = this.taskList();
+			const index: number = taskList.findIndex(
+				(task: Task) => task.id === editTask.id
+			);
+			if (index > -1) {
+				const statusChange: boolean =
+					taskList[index].status !== editTask.status;
+				taskList[index] = { ...editTask };
+				if (statusChange) {
+					this.toTopOfList(editTask, taskList);
+				} else {
+					this._taskList.set([...taskList]);
+				}
+			}
 
 			this.setEditTaskDone(editTask);
 		}
@@ -148,20 +156,44 @@ export class TaskService {
 		}
 	}
 
-	public updateIndex(status: TaskStatus, newList: Task[]) {
+	private toTopOfList(editedTask: Task, taskList: Task[]): void {
+		const updatedStatusList: Task[] = taskList
+			.filter(task => task.status === editedTask.status)
+			.map(task => {
+				if (task.id === editedTask.id) {
+					task.index = 0;
+				} else {
+					task.index++;
+				}
+				return task;
+			});
 		const collectionName: string | null = this.collectionName;
 		if (collectionName) {
-			newList.forEach((task: Task, index: number) => {
+			updatedStatusList.forEach(task => {
+				this.postIndex(task.id, task.index, collectionName);
+			});
+		}
+		this.partialTaskListUpdate(editedTask.status, updatedStatusList);
+	}
+
+	private partialTaskListUpdate(status: TaskStatus, taskStatusList: Task[]) {
+		this._taskList.update(list => {
+			const otherStatusList: Task[] = list.filter(
+				task => task.status !== status
+			);
+
+			return [...otherStatusList, ...taskStatusList];
+		});
+	}
+
+	public updateIndex(status: TaskStatus, taskStatusList: Task[]) {
+		const collectionName: string | null = this.collectionName;
+		if (collectionName) {
+			taskStatusList.forEach((task: Task, index: number) => {
 				this.postIndex(task.id, index, collectionName);
 				task.index = index;
 			});
-			this._taskList.update(list => {
-				const otherStatuses: Task[] = list.filter(
-					task => task.status !== status
-				);
-
-				return [...otherStatuses, ...newList];
-			});
+			this.partialTaskListUpdate(status, taskStatusList);
 		}
 	}
 
@@ -183,12 +215,12 @@ export class TaskService {
 				task.index = index;
 			});
 			this._taskList.update(list => {
-				const otherStatus = list.filter(
+				const otherStatusList = list.filter(
 					task =>
 						task.status !== previousStatus && task.status !== currentStatus
 				);
 
-				return [...otherStatus, ...previousList, ...currentList];
+				return [...otherStatusList, ...previousList, ...currentList];
 			});
 		}
 	}

@@ -88,10 +88,6 @@ export class TaskGroupComponent {
 		this.onStatusChange.emit(status);
 	}
 
-	protected switchTab(status: TaskStatus): void {
-		this.onStatusChange.emit(status);
-	}
-
 	protected newTask(): void {
 		this.onNewTask.emit();
 	}
@@ -111,7 +107,6 @@ export class TaskGroupComponent {
 			this.dragEnabledId.set(null);
 		}
 	}
-
 	public updateTaskList(
 		event: CdkDragDrop<Task[]>,
 		targetStatus?: TaskStatus
