@@ -11,7 +11,7 @@
 					[attr.aria-current]="activeList() === status ? status : null"
 					[id]="'TAB_' + status"
 					(click)="selectStatus(status)"
-					(cdkDropListEntered)="switchTab(status)"
+					(mouseover)="selectStatus(status)"
 					(cdkDropListDropped)="updateTaskList($event, status)"
 				>
 					<mat-icon [attr.aria-label]="status">{{
