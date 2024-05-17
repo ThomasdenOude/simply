@@ -1,0 +1,13 @@
+@use 'sass:map';
+
+@use '../base/event-response';
+
+@function response-time($time) {
+	$temp: map.get(event-response.$simply-event-response, $time);
+
+	@if $temp {
+		@return $temp;
+	} @else {
+		@return map.get(event-response.$simply-event-response, 'middle');
+	}
+}

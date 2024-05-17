@@ -1,14 +1,6 @@
-import {
-	Component,
-	computed,
-	inject,
-	OnInit,
-	signal,
-	Signal,
-	WritableSignal,
-} from '@angular/core';
+import { Component, inject, Signal } from '@angular/core';
 import { NgClass, NgStyle } from '@angular/common';
-import { ActivatedRoute, Params, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
 import {
 	DragDropModule,
@@ -25,10 +17,11 @@ import { EditTaskComponent } from '../edit-task/edit-task.component';
 import { KanbanComponent } from '../../ui/kanban/kanban.component';
 import { TaskCardComponent } from '../../ui/task-card/task-card.component';
 import { NoSpaceDirective } from '../../../base/directives/no-space.directive';
-import { Task, TaskStatus } from '../../models/task.model';
-import { UpdateTaskAndStatus } from '../../models/update-task-and-status';
+import { Task, TaskStatusList, TaskStatus } from '../../models/task.model';
+import { UpdateTaskListAndStatus } from '../../models/update-task-list-and-status';
 import { Devices } from '../../../base/models/devices';
 import { TASK_STATUS_LIST } from '../../data/task-status-list';
+import { setTaskStatusList } from '../../helpers/set-task-list';
 
 @Component({
 	selector: 'simply-task-board',
@@ -49,7 +42,7 @@ import { TASK_STATUS_LIST } from '../../data/task-status-list';
 	templateUrl: './task-board.component.html',
 	styleUrl: './task-board.component.scss',
 })
-export class TaskBoardComponent implements OnInit {
+export class TaskBoardComponent {
 	private _taskService: TaskService = inject(TaskService);
 	private _responsiveService: ResponsiveService = inject(ResponsiveService);
 	private _router: Router = inject(Router);
@@ -57,33 +50,38 @@ export class TaskBoardComponent implements OnInit {
 
 	protected readonly Devices = Devices;
 	protected readonly taskStatuses: ReadonlyArray<TaskStatus> = TASK_STATUS_LIST;
+	protected readonly taskStatusList!: TaskStatusList;
 
-	protected device: Signal<Devices> = this._responsiveService.device;
-	protected taskList!: Signal<Task[]>;
-	protected taskStatusListItems: Signal<Task[]>[] = TASK_STATUS_LIST.map(
-		(status: TaskStatus) =>
-			computed(() =>
-				this.taskList()
-					.filter((task: Task) => task.status === status)
-					.sort((a: Task, b: Task) => a.index - b.index)
-			)
-	);
-	protected activeStatus: Signal<TaskStatus> =
-		this._taskService.activeTaskStatus;
+	protected readonly taskList: Signal<Task[]>;
+	protected readonly activeList: Signal<TaskStatus>;
+	protected readonly editDoneId: Signal<string | null>;
+	protected readonly device: Signal<Devices>;
 
-	ngOnInit(): void {
+	constructor() {
 		this.taskList = this._taskService.taskList;
-	}
-
-	protected editTask(task: Task) {
-		this._router.navigate(['task', task.id], { relativeTo: this._route });
+		this.activeList = this._taskService.activeList;
+		this.editDoneId = this._taskService.editDoneId;
+		this.taskStatusList = setTaskStatusList(this.taskList);
+		this.device = this._responsiveService.device;
 	}
 
 	protected newTask(): void {
 		this._router.navigate(['task'], { relativeTo: this._route });
 	}
 
-	protected updateTask(update: UpdateTaskAndStatus): void {
+	protected editTask(task: Task) {
+		this._router.navigate(['task', task.id], { relativeTo: this._route });
+	}
+
+	protected editTaskDone(task: Task): void {
+		this._taskService.setEditTaskDone(task);
+	}
+
+	protected setActiveList(status: TaskStatus): void {
+		this._taskService.setActiveList(status);
+	}
+
+	protected updateTaskList(update: UpdateTaskListAndStatus): void {
 		const previousStatus: TaskStatus = update.taskDropped.previousContainer
 			.id as TaskStatus;
 		const previousList: Task[] = update.taskDropped.previousContainer.data;
@@ -98,7 +96,7 @@ export class TaskBoardComponent implements OnInit {
 			? this.taskStatuses.indexOf(update.targetStatus)
 			: update.taskDropped.currentIndex;
 		const currentList: Task[] = update.targetStatus
-			? this.taskStatusListItems[currentIndex]()
+			? this.taskStatusList[currentStatus]()
 			: update.taskDropped.container.data;
 		if (
 			update.taskDropped.container === update.taskDropped.previousContainer ||

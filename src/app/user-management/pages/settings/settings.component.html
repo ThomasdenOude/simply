@@ -24,7 +24,7 @@
 		@if (changePasswordMessage() !== AuthenticationMessages.None) {
 			<simply-message
 				[errorMessage]="changePasswordMessage()"
-				(closed)="resetChangePasswordMessage()"
+				(onClose)="resetChangePasswordMessage()"
 				simplySpaceContent="large"
 			></simply-message>
 		}
@@ -35,9 +35,9 @@
 		) {
 			<p>Confirm your current password to continue</p>
 			<simply-confirm-password
-				(passwordSubmitted)="confirmPassword($event, 'ChangePassword')"
+				(onPasswordSubmit)="confirmPassword($event, 'ChangePassword')"
 				[submitErrorMessage]="passwordConfirmError()"
-				(errorClosed)="resetPasswordConfirmError()"
+				(onErrorClose)="resetPasswordConfirmError()"
 			></simply-confirm-password>
 		} @else if (passwordConfirmed()) {
 			<p>Change your password</p>
@@ -71,7 +71,7 @@
 		@if (removeAccountError() !== AuthenticationMessages.None) {
 			<simply-message
 				[errorMessage]="removeAccountError()"
-				(closed)="resetRemoveAccountError()"
+				(onClose)="resetRemoveAccountError()"
 				simplySpaceContent="large"
 			></simply-message>
 		}
@@ -79,9 +79,9 @@
 		@if (!passwordConfirmed()) {
 			<p>Confirm your current password to continue</p>
 			<simply-confirm-password
-				(passwordSubmitted)="confirmPassword($event, 'RemoveAccount')"
+				(onPasswordSubmit)="confirmPassword($event, 'RemoveAccount')"
 				[submitErrorMessage]="passwordConfirmError()"
-				(errorClosed)="resetPasswordConfirmError()"
+				(onErrorClose)="resetPasswordConfirmError()"
 			></simply-confirm-password>
 		} @else {
 			<button
