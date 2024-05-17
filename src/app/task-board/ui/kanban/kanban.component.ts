@@ -64,8 +64,8 @@ export class KanbanComponent implements OnDestroy {
 	protected readonly taskStatusList: TaskStatusList;
 
 	public taskList: InputSignal<Task[]> = input.required<Task[]>();
+	public editDoneId: InputSignal<string | null> = input.required();
 	protected dragEnabledId: WritableSignal<string | null> = signal(null);
-	protected editedId: WritableSignal<string | null> = signal(null);
 
 	@Output()
 	public onUpdateTaskList: EventEmitter<UpdateTaskListAndStatus> =
@@ -76,6 +76,9 @@ export class KanbanComponent implements OnDestroy {
 
 	@Output()
 	public onEditTask: EventEmitter<Task> = new EventEmitter<Task>();
+
+	@Output()
+	public onEditTaskDone: EventEmitter<Task> = new EventEmitter<Task>();
 
 	constructor() {
 		this.taskStatusList = setTaskStatusList(this.taskList);
@@ -97,8 +100,8 @@ export class KanbanComponent implements OnDestroy {
 		}
 	}
 
-	protected setEditState(task: Task): void {
-		this.editedId.set(task.id);
+	protected editTaskDone(task: Task): void {
+		this.onEditTaskDone.emit(task);
 	}
 
 	ngOnDestroy() {

@@ -27,7 +27,7 @@ export class MessageComponent implements AfterViewInit, OnDestroy {
 	public form = input<FormGroup>();
 
 	@Output()
-	public closed: EventEmitter<void> = new EventEmitter<void>();
+	public onClose: EventEmitter<void> = new EventEmitter<void>();
 
 	ngAfterViewInit() {
 		if (this.form()) {
@@ -38,7 +38,7 @@ export class MessageComponent implements AfterViewInit, OnDestroy {
 	}
 
 	protected closeMessage(): void {
-		this.closed.emit();
+		this.onClose.emit();
 	}
 
 	ngOnDestroy() {

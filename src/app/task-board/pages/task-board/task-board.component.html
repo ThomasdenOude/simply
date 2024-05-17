@@ -3,18 +3,22 @@
 		<simply-task-group
 			[taskList]="taskList()"
 			[activeList]="activeList()"
+			[editDoneId]="editDoneId()"
 			[device]="device()"
 			(onStatusChange)="setActiveList($event)"
 			(onNewTask)="newTask()"
 			(onEditTask)="editTask($event)"
+			(onEditTaskDone)="editTaskDone($event)"
 			(onUpdateTaskList)="updateTaskList($event)"
 		></simply-task-group>
 	} @else {
 		<simply-kanban
 			class="simply-kanban__host"
 			[taskList]="taskList()"
+			[editDoneId]="editDoneId()"
 			(onNewTask)="newTask()"
 			(onEditTask)="editTask($event)"
+			(onEditTaskDone)="editTaskDone($event)"
 			(onUpdateTaskList)="updateTaskList($event)"
 		></simply-kanban>
 	}

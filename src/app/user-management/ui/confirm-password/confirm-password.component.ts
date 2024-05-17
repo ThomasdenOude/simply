@@ -52,21 +52,21 @@ export class ConfirmPasswordComponent {
 		() => this.submitErrorMessage() ?? AuthenticationMessages.None
 	);
 	@Output()
-	public passwordSubmitted: EventEmitter<string> = new EventEmitter<string>();
+	public onPasswordSubmit: EventEmitter<string> = new EventEmitter<string>();
 	@Output()
-	public errorClosed: EventEmitter<void> = new EventEmitter<void>();
+	public onErrorClose: EventEmitter<void> = new EventEmitter<void>();
 
 	protected submit(): void {
 		if (this.passwordForm.valid) {
 			const password = this.passwordForm.value.password;
 			if (password) {
-				this.passwordSubmitted.emit(password);
+				this.onPasswordSubmit.emit(password);
 			}
 		}
 	}
 
 	protected closeError(): void {
-		this.errorClosed.emit();
+		this.onErrorClose.emit();
 	}
 
 	public reset(): void {

@@ -28,22 +28,29 @@ import { CreateTask, Task, TaskDto, TaskStatus } from '../models/task.model';
 export class TaskService {
 	private _firestore: Firestore = inject(Firestore);
 	private _authService: AuthenticationService = inject(AuthenticationService);
-	private _taskList: WritableSignal<Task[]> = signal([]);
 
+	private _taskList: WritableSignal<Task[]> = signal([]);
 	private _activeList: WritableSignal<TaskStatus> = signal(TaskStatus.Todo);
+	private _editDoneId: WritableSignal<string | null> = signal(null);
+
+	public readonly taskList: Signal<Task[]> = computed(() => this._taskList());
+	public readonly activeList: Signal<TaskStatus> = computed(() =>
+		this._activeList()
+	);
+	public readonly editDoneId: Signal<string | null> = computed(() => {
+		return this._editDoneId();
+	});
 
 	constructor() {
 		this.initTasks();
 	}
 
-	public readonly taskList: Signal<Task[]> = computed(() => this._taskList());
-
-	public readonly activeList: Signal<TaskStatus> = computed(() =>
-		this._activeList()
-	);
-
 	public setActiveList(status: TaskStatus): void {
 		this._activeList.set(status);
+	}
+
+	public setEditTaskDone(task: Task): void {
+		this._editDoneId.set(task.id);
 	}
 
 	private get collectionName(): string | null {
@@ -102,6 +109,7 @@ export class TaskService {
 				...taskDto,
 				id: docRef.id,
 			};
+			this.setEditTaskDone(addTask);
 
 			this._taskList.update(taskList => [...taskList, addTask]);
 		}
@@ -124,6 +132,8 @@ export class TaskService {
 				description: editTask.description,
 				status: editTask.status,
 			});
+
+			this.setEditTaskDone(editTask);
 		}
 	}
 

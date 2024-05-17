@@ -59,8 +59,10 @@ export class TaskGroupComponent {
 	public taskList: InputSignal<Task[]> = input.required<Task[]>();
 	public activeList: InputSignal<TaskStatus> = input.required<TaskStatus>();
 	public device: InputSignal<Devices> = input.required<Devices>();
-	protected dragEnabledId: WritableSignal<string | null> = signal(null);
-	protected editedId: WritableSignal<string | null> = signal(null);
+	public editDoneId: InputSignal<string | null> = input.required();
+
+	protected readonly dragEnabledId: WritableSignal<string | null> =
+		signal(null);
 
 	@Output()
 	public onUpdateTaskList: EventEmitter<UpdateTaskListAndStatus> =
@@ -71,6 +73,9 @@ export class TaskGroupComponent {
 
 	@Output()
 	public onEditTask: EventEmitter<Task> = new EventEmitter<Task>();
+
+	@Output()
+	public onEditTaskDone: EventEmitter<Task> = new EventEmitter<Task>();
 
 	@Output()
 	public onStatusChange: EventEmitter<TaskStatus> =
@@ -95,6 +100,18 @@ export class TaskGroupComponent {
 		this.onEditTask.emit(task);
 	}
 
+	protected editTaskDone(task: Task): void {
+		this.onEditTaskDone.emit(task);
+	}
+
+	protected dragEnabled(dragEnabled: boolean, task: Task): void {
+		if (dragEnabled) {
+			this.dragEnabledId.set(task.id);
+		} else {
+			this.dragEnabledId.set(null);
+		}
+	}
+
 	public updateTaskList(
 		event: CdkDragDrop<Task[]>,
 		targetStatus?: TaskStatus
@@ -106,17 +123,5 @@ export class TaskGroupComponent {
 			updateTaskAndStatus.targetStatus = targetStatus;
 		}
 		this.onUpdateTaskList.emit(updateTaskAndStatus);
-	}
-
-	protected setDragState(dragEnabled: boolean, task: Task): void {
-		if (dragEnabled) {
-			this.dragEnabledId.set(task.id);
-		} else {
-			this.dragEnabledId.set(null);
-		}
-	}
-
-	protected setEditState(task: Task): void {
-		this.editedId.set(task.id);
 	}
 }

@@ -21,13 +21,13 @@
 						cdkDragPreviewClass="task-card__drag"
 						[ngClass]="{
 							'task-card__drag': task.id === dragEnabledId(),
-							'task-card__edited': task.id === editedId()
+							'task-card__edited': task.id === editDoneId()
 						}"
 						[cdkDragStartDelay]="EventResponse.Middle"
 						[task]="task"
-						(editTask)="editTask($event)"
-						(dragEnabled)="setDragState($event, task)"
-						(cdkDragDropped)="setEditState(task)"
+						(onEditTask)="editTask($event)"
+						(onDragEnabled)="setDragState($event, task)"
+						(cdkDragDropped)="editTaskDone(task)"
 					></simply-task-card>
 				}
 			</div>

@@ -128,7 +128,7 @@ export class EditTaskComponent implements OnInit, OnDestroy {
 			};
 			this._taskService
 				.editTask(editedTask)
-				.then(() => {
+				.then(result => {
 					this._taskService.setActiveList(status);
 					this.navigateToTaskBoard();
 				})
@@ -142,7 +142,7 @@ export class EditTaskComponent implements OnInit, OnDestroy {
 			};
 			this._taskService
 				.addTask(addedTask)
-				.then(() => {
+				.then(result => {
 					this._taskService.setActiveList(status);
 					this.navigateToTaskBoard();
 				})

@@ -52,22 +52,29 @@ export class TaskBoardComponent {
 	protected readonly taskStatuses: ReadonlyArray<TaskStatus> = TASK_STATUS_LIST;
 	protected readonly taskStatusList!: TaskStatusList;
 
-	protected readonly taskList!: Signal<Task[]>;
+	protected readonly taskList: Signal<Task[]>;
 	protected readonly activeList: Signal<TaskStatus>;
-	protected device: Signal<Devices> = this._responsiveService.device;
+	protected readonly editDoneId: Signal<string | null>;
+	protected readonly device: Signal<Devices>;
 
 	constructor() {
 		this.taskList = this._taskService.taskList;
 		this.activeList = this._taskService.activeList;
+		this.editDoneId = this._taskService.editDoneId;
 		this.taskStatusList = setTaskStatusList(this.taskList);
+		this.device = this._responsiveService.device;
+	}
+
+	protected newTask(): void {
+		this._router.navigate(['task'], { relativeTo: this._route });
 	}
 
 	protected editTask(task: Task) {
 		this._router.navigate(['task', task.id], { relativeTo: this._route });
 	}
 
-	protected newTask(): void {
-		this._router.navigate(['task'], { relativeTo: this._route });
+	protected editTaskDone(task: Task): void {
+		this._taskService.setEditTaskDone(task);
 	}
 
 	protected setActiveList(status: TaskStatus): void {

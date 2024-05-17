@@ -1,5 +1,5 @@
 @use '@angular/material' as mat;
-@use '../global/global-layout' as l;
+@use '../global/get-layout' as l;
 
 @mixin simply-scrollbar-theme($theme) {
 	.simply-scrollbar {
