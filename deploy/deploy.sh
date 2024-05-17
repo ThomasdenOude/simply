@@ -25,7 +25,7 @@ elif [ "$version" = "minor" ]; then
     upgrade="minor"
 elif [ "$version" = major ]; then
     upgrade="major"
-else 
+else
     echo
     echo "You must provide how to upgrade the version. Options are:"
     echo "  major"
@@ -36,16 +36,15 @@ else
 fi
 
 # Add new version to package.json
-mktemp ./deploy/buffer
+buffer=$(mktemp)
 echo "Upgrading to $upgrade in package.json"
 node ./deploy/version-upgrade.js "$upgrade" > buffer
-
 # Make commit with the new version, annotate commit with deploy tag
 new_version=$(head -1 buffer)
 rm buffer
 git add .
 git commit -m "Upgraded to new version: ${new_version}"
-git tag -a "deploy=${new_version}" -m "Deploy new version ${new-version}"
+git tag -a "deploy=${new_version}"
 
 # Deploy app to firebase
 ng deploy
