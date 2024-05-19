@@ -35,7 +35,7 @@ import { CdkDrag } from '@angular/cdk/drag-drop';
 
 import { NoSpaceDirective } from '../../../base/directives/no-space.directive';
 import { EventResponse } from '../../models/event-response';
-import { Task } from '../../models/task.model';
+import { Task } from '../../models/task';
 
 @Component({
 	selector: 'simply-task-card',

@@ -24,18 +24,18 @@ import {
 
 import { NoSpaceDirective } from '../../../base/directives/no-space.directive';
 import { TaskCardComponent } from '../task-card/task-card.component';
-import {
-	Task,
-	TaskStatus,
-	TaskStatusIcons,
-	TaskStatusList,
-} from '../../models/task.model';
+import { Task } from '../../models/task';
 import { UpdateTaskListAndStatus } from '../../models/update-task-list-and-status';
 import { EventResponse } from '../../models/event-response';
 import { TASK_STATUS_LIST } from '../../data/task-status-list';
 import { taskStatusIcon } from '../../data/task-status-icon.map';
 import { setTaskStatusList } from '../../helpers/set-task-list';
 import { NgClass } from '@angular/common';
+import {
+	TaskStatus,
+	TaskStatusIcons,
+	TaskStatusList,
+} from '../../models/task-status';
 
 @Component({
 	selector: 'simply-kanban',

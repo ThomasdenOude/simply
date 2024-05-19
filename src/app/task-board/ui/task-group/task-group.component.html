@@ -9,9 +9,9 @@
 						'simply-task-group__active-tab': activeList() === status
 					}"
 					[attr.aria-current]="activeList() === status ? status : null"
-					[id]="'TAB_' + status"
+					[id]="toTabStatus(status)"
 					(click)="selectStatus(status)"
-					(mouseover)="selectStatus(status)"
+					(cdkDropListEntered)="selectStatus(status)"
 					(cdkDropListDropped)="updateTaskList($event, status)"
 				>
 					<mat-icon [attr.aria-label]="status">{{

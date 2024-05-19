@@ -1,5 +1,7 @@
-import { Task, TaskStatusList, TaskStatus } from '../models/task.model';
 import { computed, Signal } from '@angular/core';
+
+import { Task } from '../models/task';
+import { TaskStatus, TaskStatusList } from '../models/task-status';
 
 export const setTaskStatusList = (taskList: Signal<Task[]>): TaskStatusList => {
 	return {

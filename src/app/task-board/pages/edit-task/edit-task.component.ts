@@ -29,16 +29,11 @@ import { ResponsiveService } from '../../../base/services/responsive.service';
 import { CenterPageComponent } from '../../../base/ui/center-page/center-page.component';
 import { FocusInputDirective } from '../../../base/directives/focus-input.directive';
 import { SpaceContentDirective } from '../../../base/directives/space-content.directive';
-import {
-	CreateTask,
-	CreateTaskForm,
-	Task,
-	TaskStatus,
-	TaskStatusIcons,
-} from '../../models/task.model';
+import { CreateTask, CreateTaskForm, Task } from '../../models/task';
 import { Devices } from '../../../base/models/devices';
 import { TASK_STATUS_LIST } from '../../data/task-status-list';
 import { taskStatusIcon } from '../../data/task-status-icon.map';
+import { TaskStatus, TaskStatusIcons } from '../../models/task-status';
 
 @Component({
 	selector: 'simply-edit-task',

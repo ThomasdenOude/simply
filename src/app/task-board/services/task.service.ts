@@ -20,7 +20,8 @@ import {
 } from '@angular/fire/firestore';
 
 import { AuthenticationService } from '../../user-management/services/authentication.service';
-import { CreateTask, Task, TaskDto, TaskStatus } from '../models/task.model';
+import { CreateTask, Task, TaskDto } from '../models/task';
+import { TaskStatus } from '../models/task-status';
 
 @Injectable({
 	providedIn: 'root',

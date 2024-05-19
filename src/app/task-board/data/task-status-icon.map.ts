@@ -1,4 +1,4 @@
-import { TaskStatus, TaskStatusIcons } from '../models/task.model';
+import { TaskStatus, TaskStatusIcons } from '../models/task-status';
 
 export const todoIconText = 'radio_button_unchecked';
 export const taskStatusIcon: TaskStatusIcons = new Map<TaskStatus, string>();

@@ -21,17 +21,18 @@ import { MatMiniFabButton } from '@angular/material/button';
 import { TaskCardComponent } from '../task-card/task-card.component';
 import { NoSpaceDirective } from '../../../base/directives/no-space.directive';
 import { Devices } from '../../../base/models/devices';
-import {
-	Task,
-	TaskStatusList,
-	TaskStatus,
-	TaskStatusIcons,
-} from '../../models/task.model';
+import { Task } from '../../models/task';
 import { UpdateTaskListAndStatus } from '../../models/update-task-list-and-status';
 import { EventResponse } from '../../models/event-response';
 import { TASK_STATUS_LIST } from '../../data/task-status-list';
 import { taskStatusIcon } from '../../data/task-status-icon.map';
 import { setTaskStatusList } from '../../helpers/set-task-list';
+import {
+	TaskStatus,
+	TaskStatusIcons,
+	TaskStatusList,
+} from '../../models/task-status';
+import { toTabStatus } from '../../helpers/to-tab-status';
 
 @Component({
 	selector: 'simply-task-group',
@@ -55,6 +56,7 @@ export class TaskGroupComponent {
 	protected readonly taskStatuses: ReadonlyArray<TaskStatus> = TASK_STATUS_LIST;
 	protected readonly taskStatusIcon: TaskStatusIcons = taskStatusIcon;
 	protected readonly taskStatusList: TaskStatusList;
+	protected readonly toTabStatus = toTabStatus;
 
 	public taskList: InputSignal<Task[]> = input.required<Task[]>();
 	public activeList: InputSignal<TaskStatus> = input.required<TaskStatus>();
