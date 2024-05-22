@@ -1,5 +1,6 @@
 @use '@angular/material' as mat;
 
+@use 'base/colors';
 @use 'global';
 
 @mixin task-group-theme($theme) {
@@ -13,24 +14,27 @@
 }
 
 @mixin task-group-color($theme) {
-	$text: mat.get-theme-color($theme, foreground, text);
-	$primary: mat.get-theme-color($theme, primary);
+	$type: mat.get-theme-type($theme);
+
+	$simply-primary: mat.get-theme-color($theme, primary, default);
+	$simply-text: if($type == dark, colors.$simply-off-white, $simply-primary);
+	$simply-hover: mat.get-theme-color($theme, background, hover);
 
 	.simply-task-group {
 		&__container {
-			border-color: $text;
+			border-color: $simply-text;
 		}
 	}
 
 	button.simply-task-group {
 		&__tab {
-			color: $text;
+			color: $simply-text;
 			&:hover {
-				color: $primary;
+				background-color: $simply-hover;
 			}
 		}
 		&__active-tab {
-			color: $primary;
+			color: $simply-primary;
 		}
 	}
 }

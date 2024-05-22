@@ -1,5 +1,6 @@
 @use '@angular/material' as mat;
 
+@use 'base/colors';
 @use 'global';
 
 @mixin panel-theme($theme) {
@@ -10,13 +11,22 @@
 
 @mixin panel-color($theme) {
 	$background: mat.get-theme-color($theme, background, dialog);
-	$text: mat.get-theme-color($theme, foreground, text);
+	$type: mat.get-theme-type($theme);
+
+	$simply-primary: mat.get-theme-color($theme, primary, default);
+	$simply-text: if($type == dark, colors.$simply-off-white, $simply-primary);
+
+	$simply-hover: mat.get-theme-color($theme, background, hover);
 	.panel {
 		&__container {
 			background-color: $background;
 		}
 		&__button {
 			background-color: transparent;
+			color: $simply-text;
+		}
+		&__button:hover {
+			background-color: $simply-hover;
 		}
 	}
 }
@@ -32,6 +42,16 @@
 
 @mixin panel-density($theme) {
 	$density: mat.get-theme-density($theme);
+
+	.panel {
+		&__container,
+		&__button {
+			border-radius: global.radius('regular');
+		}
+		&__icon {
+			margin-right: global.space('regular');
+		}
+	}
 
 	@if $density < 0 {
 		.panel {

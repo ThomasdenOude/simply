@@ -1,28 +1,60 @@
 @use '@angular/material' as mat;
-@use '../global/get-layout' as l;
+
+@use 'base/colors';
+@use 'global';
 
 @mixin simply-scrollbar-theme($theme) {
-	.simply-scrollbar {
-		::-webkit-scrollbar-track {
-			-webkit-box-shadow: none;
-			background-color: transparent;
-		}
-		::-webkit-scrollbar {
-			width: l.space('small');
-			background-color: transparent;
-		}
-		::-webkit-scrollbar-thumb {
-			border-radius: l.space('small');
-			-webkit-box-shadow: none;
+	$width: global.space('small');
+
+	@supports (scrollbar-width: auto) {
+		html {
+			scrollbar-width: thin;
 		}
 	}
+
+	@supports selector(::-webkit-scrollbar) {
+		html {
+			&::-webkit-scrollbar-track {
+				-webkit-box-shadow: none;
+			}
+			&::-webkit-scrollbar {
+				width: $width;
+			}
+			&::-webkit-scrollbar-thumb {
+				border-radius: 50%;
+				-webkit-box-shadow: none;
+			}
+		}
+	}
+
 	@include simply-scrollbar-color($theme);
 }
 
 @mixin simply-scrollbar-color($theme) {
-	.simply-scrollbar {
-		::-webkit-scrollbar-thumb {
-			background-color: mat.get-theme-color($theme, primary, 900);
+	$type: mat.get-theme-type($theme);
+
+	$simply-primary: mat.get-theme-color($theme, primary, default);
+	$simply-text: if($type == dark, colors.$simply-off-white, $simply-primary);
+
+	@supports (scrollbar-width: auto) {
+		html {
+			scrollbar-color: $simply-text transparent;
+		}
+	}
+
+	@supports selector(::-webkit-scrollbar) {
+		html {
+			&::-webkit-scrollbar-track {
+				background: transparent;
+			}
+
+			&::-webkit-scrollbar {
+				background: transparent;
+			}
+
+			&::-webkit-scrollbar-thumb {
+				background-color: $simply-text;
+			}
 		}
 	}
 }

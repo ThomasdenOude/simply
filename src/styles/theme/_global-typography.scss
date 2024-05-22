@@ -3,6 +3,7 @@
 
 @use 'base/colors';
 @use 'base/typography';
+@use 'global';
 
 @mixin global-text-theme($theme) {
 	@include global-text-color($theme);
@@ -12,11 +13,11 @@
 @mixin global-text-color($theme) {
 	$type: mat.get-theme-type($theme);
 
-	$primary-default: mat.get-theme-color($theme, primary, default);
-	$text-default: if($type == dark, colors.$simply-off-white, $primary-default);
+	$simply-primary: mat.get-theme-color($theme, primary, default);
+	$simply-text: if($type == dark, colors.$simply-off-white, $simply-primary);
 
 	body.mat-typography {
-		color: $text-default;
+		color: $simply-text;
 	}
 }
 
