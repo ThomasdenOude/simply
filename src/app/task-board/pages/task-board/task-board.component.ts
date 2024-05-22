@@ -17,11 +17,11 @@ import { EditTaskComponent } from '../edit-task/edit-task.component';
 import { KanbanComponent } from '../../ui/kanban/kanban.component';
 import { TaskCardComponent } from '../../ui/task-card/task-card.component';
 import { NoSpaceDirective } from '../../../base/directives/no-space.directive';
-import { Task, TaskStatusList, TaskStatus } from '../../models/task.model';
+import { Task } from '../../models/task';
 import { UpdateTaskListAndStatus } from '../../models/update-task-list-and-status';
 import { Devices } from '../../../base/models/devices';
-import { TASK_STATUS_LIST } from '../../data/task-status-list';
 import { setTaskStatusList } from '../../helpers/set-task-list';
+import { TaskStatus, TaskStatusList } from '../../models/task-status';
 
 @Component({
 	selector: 'simply-task-board',
@@ -49,7 +49,6 @@ export class TaskBoardComponent {
 	private _route: ActivatedRoute = inject(ActivatedRoute);
 
 	protected readonly Devices = Devices;
-	protected readonly taskStatuses: ReadonlyArray<TaskStatus> = TASK_STATUS_LIST;
 	protected readonly taskStatusList!: TaskStatusList;
 
 	protected readonly taskList: Signal<Task[]>;
@@ -93,7 +92,7 @@ export class TaskBoardComponent {
 				: update.taskDropped.container.id
 		) as TaskStatus;
 		const currentIndex: number = update.targetStatus
-			? this.taskStatuses.indexOf(update.targetStatus)
+			? 0
 			: update.taskDropped.currentIndex;
 		const currentList: Task[] = update.targetStatus
 			? this.taskStatusList[currentStatus]()

@@ -19,15 +19,11 @@ import {
 	map,
 	merge,
 	Observable,
-	of,
-	startWith,
 	Subject,
 	switchMap,
 	takeUntil,
 	tap,
 	timer,
-	withLatestFrom,
-	zip,
 } from 'rxjs';
 
 import { MatCardModule } from '@angular/material/card';
@@ -35,7 +31,7 @@ import { CdkDrag } from '@angular/cdk/drag-drop';
 
 import { NoSpaceDirective } from '../../../base/directives/no-space.directive';
 import { EventResponse } from '../../models/event-response';
-import { Task } from '../../models/task.model';
+import { Task } from '../../models/task';
 
 @Component({
 	selector: 'simply-task-card',
@@ -87,50 +83,38 @@ export class TaskCardComponent implements AfterViewInit, OnDestroy {
 	}
 
 	private initEvents(taskCard: any, cdkDrag: CdkDrag) {
-		// Mouse events
-		const mouseDown$: Observable<MouseEvent> = fromEvent(taskCard, 'mousedown');
-		const mouseUp$: Observable<MouseEvent> = fromEvent(taskCard, 'mouseup');
-		const mouseMove$: Observable<MouseEvent> = fromEvent(taskCard, 'mousemove');
-		const mouseLeave$: Observable<MouseEvent> = fromEvent(
+		// Pointer events
+		const pointerDown$: Observable<PointerEvent> = fromEvent(
 			taskCard,
-			'mouseleave'
+			'pointerdown'
+		);
+		const pointerMove$: Observable<PointerEvent> = fromEvent(
+			taskCard,
+			'pointermove'
 		);
 
-		// Touch events
-		const touchStart$: Observable<TouchEvent> = fromEvent(
+		const pointerUp$: Observable<PointerEvent> = fromEvent(
 			taskCard,
-			'touchstart'
+			'pointerup'
 		);
-		const touchEnd$: Observable<TouchEvent> = fromEvent(taskCard, 'touchend');
-		const touchMove$: Observable<TouchEvent> = fromEvent(taskCard, 'touchmove');
 
 		/*
 		 *   Long hold
 		 *
-		 *     - Start hold with delay, cancel on end hold
+		 *     - Start hold with delayed pointer down, end hold  on end hold on pointer up or pointer move
 		 */
-		const startHoldDelayed$: Observable<number> = merge(
-			touchStart$,
-			mouseDown$
-		).pipe(
+		const startPointerDelayed$: Observable<number> = pointerDown$.pipe(
 			map(event => event.timeStamp),
 			delay(EventResponse.Middle)
 		);
 
-		const endHold$: Observable<number> = merge(
-			mouseUp$,
-			mouseMove$,
-			mouseLeave$,
-			touchEnd$,
-			touchMove$
-		).pipe(
-			map(event => event.timeStamp),
-			startWith(0)
-		);
+		const endPointer$: Observable<number> = merge(
+			pointerUp$,
+			pointerMove$
+		).pipe(map(event => event.timeStamp));
 
-		// Long hold
-		const longHold$ = startHoldDelayed$.pipe(
-			combineLatestWith(endHold$),
+		const longHold$ = startPointerDelayed$.pipe(
+			combineLatestWith(endPointer$),
 			map(([start, end]) => start > end),
 			filter(isLongHold => isLongHold),
 			map(() => null)
@@ -139,69 +123,26 @@ export class TaskCardComponent implements AfterViewInit, OnDestroy {
 		/*
 		 *   Released
 		 *
-		 *     - Released after drag or touchend / mouseup
+		 *     - Released after pointer up or CdkDragRelease event
 		 */
 		const released$: Observable<null> = merge(
-			mouseUp$,
-			touchEnd$,
+			pointerUp$,
 			cdkDrag.released
 		).pipe(map(() => null));
 
 		/*
 		 *   Short press
 		 *
-		 *     - Short touch on card ( don't fire if scrolled over card )
-		 *     - Short mouse click, but cancel if touchend happened shortly before
-		 *
+		 *   Pointer up shortly after pointer down event
 		 */
-
-		// Short touch on card
-		const touchEndTimed$: Observable<TouchEvent> = touchEnd$.pipe(
+		const pointerEndTimed$: Observable<PointerEvent> = pointerUp$.pipe(
 			takeUntil(timer(EventResponse.Short))
 		);
 
-		const shortTouchOnCard$ = touchStart$.pipe(
-			switchMap(start => zip(of(start), touchEndTimed$)),
-			map(([start, end]) => {
-				const startY = (start as TouchEvent).changedTouches[0].clientY;
-				const endY = (end as TouchEvent).changedTouches[0].clientY;
-
-				return Math.abs(startY - endY);
-			}),
-			filter(distance => distance < 30)
+		const shortPress$: Observable<null> = pointerDown$.pipe(
+			switchMap(() => pointerEndTimed$),
+			map(() => null)
 		);
-
-		// Short mouse click, no touch end
-		const mouseUpTimed$: Observable<MouseEvent> = mouseUp$.pipe(
-			takeUntil(timer(EventResponse.Short))
-		);
-
-		const touchendTimestamp$: Observable<number> = touchEnd$.pipe(
-			map(touchEnd => touchEnd.timeStamp),
-			startWith(0)
-		);
-
-		const shortClickNoTouchend$ = mouseDown$.pipe(
-			map(mouseDown => mouseDown.timeStamp),
-			withLatestFrom(touchendTimestamp$),
-			map(([mouseDown, touchEnd]) => {
-				const touchendBeforeSeconds = mouseDown - touchEnd;
-
-				return (
-					touchEnd === 0 ||
-					(touchendBeforeSeconds < 0 &&
-						touchendBeforeSeconds > EventResponse.Long)
-				);
-			}),
-			filter(noTouchEndBefore => noTouchEndBefore),
-			switchMap(() => mouseUpTimed$)
-		);
-
-		// Short press
-		const shortPress$: Observable<null> = merge(
-			shortClickNoTouchend$,
-			shortTouchOnCard$
-		).pipe(map(() => null));
 
 		return { longHold$, released$, shortPress$ };
 	}
