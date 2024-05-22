@@ -43,9 +43,7 @@ node ./deploy/version-upgrade.js "$upgrade" > buffer
 new_version=$(head -1 buffer)
 rm buffer
 git add .
-git commit -m "Upgraded to new version: ${new_version}"
-git tag -a "upgrade=${new_version}" -m "Upgraded to new version ${new_version}"
+git commit -m "Upgraded to new version: ${new_version}" && git tag -a "upgrade=${new_version}" -m "Upgraded to new version ${new_version}"
 
 # Deploy app to firebase
-ng deploy
-git tag -a "deploy=${new_version}" -m "Deployed new version ${new_version}"
+ng deploy && git tag -a "deploy=${new_version}" -m "Deployed new version ${new_version}"
