@@ -24,36 +24,97 @@
 @mixin global-text-density($theme) {
 	$density: mat.get-theme-density($theme);
 
+	// Reset of margins and paddings
+	body.mat-typography {
+		h1,
+		h2,
+		h3,
+		h4,
+		p {
+			margin: 0;
+			padding: 0;
+		}
+	}
+
+	$extra-large: map.get(typography.$simply-font-size, 'extra-large');
+	$large: map.get(typography.$simply-font-size, 'large');
+	$regular: map.get(typography.$simply-font-size, 'regular');
+	$small: map.get(typography.$simply-font-size, 'small');
+
 	@if $density < 0 {
 		body.mat-typography {
+			form,
+			.simply-text-content {
+				h1,
+				h2,
+				.mat-headline-1 {
+					margin-bottom: $large;
+				}
+				h3,
+				h4,
+				.mat-headline-2 {
+					margin-bottom: $regular;
+				}
+				p {
+					margin-bottom: $small;
+				}
+			}
 			h1,
 			h2,
 			.mat-headline-1 {
-				margin: 0 0 map.get(typography.$simply-font-size, 'large') 0;
+				&.simply-text-headline {
+					margin-bottom: $large;
+				}
 			}
 			h3,
 			h4,
 			.mat-headline-2 {
-				margin: 0 0 map.get(typography.$simply-font-size, 'regular') 0;
+				&.simply-text-sub-headline {
+					margin-bottom: $regular;
+				}
 			}
 			p {
-				margin: 0 0 map.get(typography.$simply-font-size, 'small') 0;
+				&.simply-text-body {
+					margin-bottom: $small;
+				}
 			}
 		}
 	} @else {
 		body.mat-typography {
+			form,
+			.simply-text-content {
+				h1,
+				h2,
+				.mat-headline-1 {
+					margin-bottom: $extra-large;
+				}
+				h3,
+				h4,
+				.mat-headline-2 {
+					margin-bottom: $large;
+				}
+				p {
+					margin-bottom: $regular;
+				}
+			}
 			h1,
 			h2,
 			.mat-headline-1 {
-				margin: 0 0 map.get(typography.$simply-font-size, 'extra-large') 0;
+				&.simply-text-headline {
+					margin-bottom: $extra-large;
+				}
 			}
 			h3,
 			h4,
 			.mat-headline-2 {
-				margin: 0 0 map.get(typography.$simply-font-size, 'large') 0;
+				&.simply-text-sub-headline {
+					margin-bottom: $large;
+				}
 			}
 			p {
-				margin: 0 0 map.get(typography.$simply-font-size, 'regular') 0;
+				&.simply-text-body {
+					margin-bottom: $regular;
+				}
 			}
 		}
 	}

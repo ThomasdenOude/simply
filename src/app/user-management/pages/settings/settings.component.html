@@ -1,9 +1,5 @@
 <simply-center-page>
-	<h2>
-		<mat-icon class="settings__header-icon">settings</mat-icon> Your Simply
-		account
-	</h2>
-	<p class="settings-menu__text">Email: {{ userEmail() }}</p>
+	<h2 simplyTextContent>Your <simply-logo /> account</h2>
 	<button
 		mat-stroked-button
 		color="primary"
@@ -33,18 +29,18 @@
 			changePasswordMessage() !==
 				AuthenticationMessages.SuccessfulPasswordChange
 		) {
-			<p>Confirm your current password to continue</p>
+			<p simplyTextContent>Confirm your current password to continue</p>
 			<simply-confirm-password
 				(onPasswordSubmit)="confirmPassword($event, 'ChangePassword')"
 				[submitErrorMessage]="passwordConfirmError()"
 				(onErrorClose)="resetPasswordConfirmError()"
 			></simply-confirm-password>
 		} @else if (passwordConfirmed()) {
-			<p>Change your password</p>
 			<form
 				[formGroup]="changePasswordForm"
 				(ngSubmit)="submitChangePassword()"
 			>
+				<p>Change your password</p>
 				<simply-new-password
 					formControlName="password"
 					(isSubmitted)="submitChangePassword()"
@@ -77,7 +73,7 @@
 		}
 
 		@if (!passwordConfirmed()) {
-			<p>Confirm your current password to continue</p>
+			<p simplyTextContent>Confirm your current password to continue</p>
 			<simply-confirm-password
 				(onPasswordSubmit)="confirmPassword($event, 'RemoveAccount')"
 				[submitErrorMessage]="passwordConfirmError()"

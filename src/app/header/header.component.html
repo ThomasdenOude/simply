@@ -1,5 +1,5 @@
 <header class="simply-header__container">
-	@if (device() === Devices.WideScreen) {
+	@if (device() !== Devices.HandsetPortrait) {
 		<a
 			mat-button
 			[routerLink]="isLoggedIn() ? '/task-board' : '/'"
@@ -7,8 +7,8 @@
 				isLoggedIn() ? 'Navigate to task-card board' : 'Navigate to home page'
 			"
 		>
-			<h1 class="simply-header__logo" simplyNoSpace>
-				Simply <mat-icon class="header__icon" color="accent">task_alt</mat-icon>
+			<h1 class="simply-header__logo">
+				<simply-logo />
 			</h1>
 		</a>
 	} @else {
@@ -29,9 +29,10 @@
 				<button
 					mat-icon-button
 					color="primary"
+					aria-label="Open user account menu"
 					[cdkMenuTriggerFor]="settingsMenu"
 				>
-					<mat-icon>menu</mat-icon>
+					<mat-icon>person</mat-icon>
 				</button>
 				<ng-template #settingsMenu>
 					<mat-card
@@ -41,8 +42,8 @@
 							'simply-header__wide-screen': device() === Devices.WideScreen
 						}"
 					>
-						<div>
-							<h3>Your Simply account:</h3>
+						<div class="simply-header__settings-account">
+							<mat-icon color="primary">person</mat-icon>
 							<p>{{ userEmail() }}</p>
 						</div>
 						<mat-divider class="simply-header__settings-divider"></mat-divider>

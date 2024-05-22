@@ -22,7 +22,6 @@ import {
 	DragDropModule,
 } from '@angular/cdk/drag-drop';
 
-import { NoSpaceDirective } from '../../../base/directives/no-space.directive';
 import { TaskCardComponent } from '../task-card/task-card.component';
 import { Task } from '../../models/task';
 import { UpdateTaskListAndStatus } from '../../models/update-task-list-and-status';
@@ -49,7 +48,6 @@ import {
 		CdkDropList,
 		TaskCardComponent,
 		MatIcon,
-		NoSpaceDirective,
 		NgClass,
 	],
 	templateUrl: './kanban.component.html',

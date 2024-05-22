@@ -19,7 +19,6 @@ import { MatIcon } from '@angular/material/icon';
 import { MatMiniFabButton } from '@angular/material/button';
 
 import { TaskCardComponent } from '../task-card/task-card.component';
-import { NoSpaceDirective } from '../../../base/directives/no-space.directive';
 import { Devices } from '../../../base/models/devices';
 import { Task } from '../../models/task';
 import { UpdateTaskListAndStatus } from '../../models/update-task-list-and-status';
@@ -41,7 +40,6 @@ import { toTabStatus } from '../../helpers/to-tab-status';
 		NgClass,
 		CdkDropListGroup,
 		MatIcon,
-		NoSpaceDirective,
 		CdkDropList,
 		CdkDrag,
 		TaskCardComponent,

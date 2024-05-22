@@ -34,6 +34,8 @@ import { SpaceContentDirective } from '../../../base/directives/space-content.di
 import { AuthenticationMessages } from '../../models/authentication-messages';
 import { SettingsActions } from '../../models/settings-actions.model';
 import { PasswordForm } from '../../models/credentials.model';
+import { TextContentDirective } from '../../../base/directives/text-content.directive';
+import { LogoComponent } from '../../../base/ui/logo/logo.component';
 
 @Component({
 	selector: 'simply-settings',
@@ -51,6 +53,8 @@ import { PasswordForm } from '../../models/credentials.model';
 		NewPasswordComponent,
 		CenterPageComponent,
 		SpaceContentDirective,
+		TextContentDirective,
+		LogoComponent,
 	],
 	templateUrl: './settings.component.html',
 	styleUrl: './settings.component.scss',

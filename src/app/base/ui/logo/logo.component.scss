@@ -1,0 +1,7 @@
+@use 'global';
+
+.simply-logo {
+	&__icon {
+		margin-left: global.space('extra-small');
+	}
+}

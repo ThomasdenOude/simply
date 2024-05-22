@@ -23,4 +23,8 @@
 			min-width: global.width('small');
 		}
 	}
+	&__settings-account {
+		display: flex;
+		gap: global.space('regular');
+	}
 }
