@@ -18,13 +18,13 @@
 	}
 	&__content {
 		width: 100%;
-		&.small {
+		&.center-page__small {
 			max-width: global.width('small');
 		}
-		&.regular {
+		&.center-page__regular {
 			max-width: global.width('regular');
 		}
-		&.large {
+		&.center-page__large {
 			max-width: global.width('large');
 		}
 	}

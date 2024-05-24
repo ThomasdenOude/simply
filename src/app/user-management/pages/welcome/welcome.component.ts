@@ -9,6 +9,7 @@ import { CenterPageComponent } from '../../../base/ui/center-page/center-page.co
 import { Devices } from '../../../base/models/devices';
 import { RouterLink } from '@angular/router';
 import { BaseSizes } from '../../../base/models/style-sizes';
+import { TextContentDirective } from '../../../base/directives/text-content.directive';
 
 @Component({
 	selector: 'simply-welcome',
@@ -19,6 +20,7 @@ import { BaseSizes } from '../../../base/models/style-sizes';
 		NgClass,
 		RouterLink,
 		CenterPageComponent,
+		TextContentDirective,
 	],
 	templateUrl: './welcome.component.html',
 	styleUrl: './welcome.component.scss',

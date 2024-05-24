@@ -1,5 +1,6 @@
 @use '@angular/material' as mat;
 
+@use 'base/colors';
 @use 'global';
 
 @mixin kanban-theme($theme) {
@@ -51,11 +52,14 @@
 }
 
 @mixin kanban-color($theme) {
-	$text: mat.get-theme-color($theme, foreground, text);
+	$type: mat.get-theme-type($theme);
+
+	$simply-primary: mat.get-theme-color($theme, primary, default);
+	$simply-text: if($type == dark, colors.$simply-off-white, $simply-primary);
 
 	.simply-kanban {
 		&__list {
-			border-color: $text;
+			border-color: $simply-text;
 		}
 	}
 }

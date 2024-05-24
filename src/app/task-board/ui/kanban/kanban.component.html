@@ -5,8 +5,8 @@
 	@for (status of taskStatuses; track status) {
 		<div class="simply-kanban__list">
 			<header class="simply-kanban__header">
-				<mat-icon simplyNoSpace>{{ taskStatusIcon.get(status) }}</mat-icon>
-				<h3 simplyNoSpace>{{ status }}</h3>
+				<mat-icon>{{ taskStatusIcon.get(status) }}</mat-icon>
+				<h3>{{ status }}</h3>
 			</header>
 			<div
 				class="simply-kanban__content"

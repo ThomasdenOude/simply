@@ -29,14 +29,13 @@ import {
 import { MatCardModule } from '@angular/material/card';
 import { CdkDrag } from '@angular/cdk/drag-drop';
 
-import { NoSpaceDirective } from '../../../base/directives/no-space.directive';
 import { EventResponse } from '../../models/event-response';
 import { Task } from '../../models/task';
 
 @Component({
 	selector: 'simply-task-card',
 	standalone: true,
-	imports: [MatCardModule, NoSpaceDirective],
+	imports: [MatCardModule],
 	templateUrl: './task-card.component.html',
 	styleUrl: './task-card.component.scss',
 })

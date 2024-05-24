@@ -6,11 +6,14 @@ import {
 	InputSignal,
 	Output,
 	Signal,
+	ViewChild,
 } from '@angular/core';
 import {
 	FormControl,
 	FormGroup,
+	FormGroupDirective,
 	FormsModule,
+	NgForm,
 	ReactiveFormsModule,
 	Validators,
 } from '@angular/forms';
@@ -23,6 +26,8 @@ import { PasswordForm } from '../../models/credentials.model';
 import { MatInput } from '@angular/material/input';
 import { AuthenticationMessages } from '../../models/authentication-messages';
 import { SpaceContentDirective } from '../../../base/directives/space-content.directive';
+import { ErrorStateMatcher } from '@angular/material/core';
+import { SimplyErrorStateMatcher } from '../../../base/matchers/simply-error-state.matcher';
 
 @Component({
 	selector: 'simply-confirm-password',
@@ -46,21 +51,25 @@ export class ConfirmPasswordComponent {
 		password: new FormControl('', Validators.required),
 	});
 
-	public submitErrorMessage: InputSignal<AuthenticationMessages | undefined> =
+	public passwordConfirmError: InputSignal<AuthenticationMessages | undefined> =
 		input<AuthenticationMessages>();
-	protected passwordSubmitError: Signal<AuthenticationMessages> = computed(
-		() => this.submitErrorMessage() ?? AuthenticationMessages.None
+	protected _passwordConfirmError: Signal<AuthenticationMessages> = computed(
+		() => this.passwordConfirmError() ?? AuthenticationMessages.None
 	);
 	@Output()
 	public onPasswordSubmit: EventEmitter<string> = new EventEmitter<string>();
 	@Output()
 	public onErrorClose: EventEmitter<void> = new EventEmitter<void>();
 
+	@ViewChild('form')
+	private form: FormGroupDirective | undefined;
+
 	protected submit(): void {
 		if (this.passwordForm.valid) {
 			const password = this.passwordForm.value.password;
 			if (password) {
 				this.onPasswordSubmit.emit(password);
+				this.reset();
 			}
 		}
 	}
@@ -70,6 +79,8 @@ export class ConfirmPasswordComponent {
 	}
 
 	public reset(): void {
-		this.passwordForm.reset();
+		if (this.form) {
+			this.form.resetForm();
+		}
 	}
 }

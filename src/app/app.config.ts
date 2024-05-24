@@ -19,6 +19,10 @@ import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { environment } from '../environments/environment';
 import { APP_ROUTES } from './app.routes';
+import { DEFAULT_DIALOG_CONFIG } from '@angular/cdk/dialog';
+import { DialogComponent } from './base/ui/dialog/dialog.component';
+import { ErrorStateMatcher } from '@angular/material/core';
+import { SimplyErrorStateMatcher } from './base/matchers/simply-error-state.matcher';
 
 export const appConfig: ApplicationConfig = {
 	providers: [
@@ -53,11 +57,16 @@ export const appConfig: ApplicationConfig = {
 			})
 		),
 		{
-			provide: MAT_DIALOG_DEFAULT_OPTIONS,
+			provide: ErrorStateMatcher,
+			useClass: SimplyErrorStateMatcher,
+		},
+		{
+			provide: DEFAULT_DIALOG_CONFIG,
 			useValue: {
 				disableClose: true,
-				width: '600px',
 				autoFocus: true,
+				hasBackdrop: true,
+				container: DialogComponent,
 			},
 		},
 		{

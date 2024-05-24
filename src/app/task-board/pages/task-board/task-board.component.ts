@@ -16,7 +16,6 @@ import { TaskGroupComponent } from '../../ui/task-group/task-group.component';
 import { EditTaskComponent } from '../edit-task/edit-task.component';
 import { KanbanComponent } from '../../ui/kanban/kanban.component';
 import { TaskCardComponent } from '../../ui/task-card/task-card.component';
-import { NoSpaceDirective } from '../../../base/directives/no-space.directive';
 import { Task } from '../../models/task';
 import { UpdateTaskListAndStatus } from '../../models/update-task-list-and-status';
 import { Devices } from '../../../base/models/devices';
@@ -36,7 +35,6 @@ import { TaskStatus, TaskStatusList } from '../../models/task-status';
 		RouterLink,
 		EditTaskComponent,
 		TaskGroupComponent,
-		NoSpaceDirective,
 		KanbanComponent,
 	],
 	templateUrl: './task-board.component.html',

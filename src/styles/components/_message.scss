@@ -5,13 +5,13 @@
 }
 
 @mixin message-color($theme) {
-	$color: mat.get-theme-color($theme, warn);
+	$warn: mat.get-theme-color($theme, warn);
 	.message {
 		&__container {
-			border-color: $color;
+			border-color: $warn;
 		}
 		&__text {
-			color: $color;
+			color: $warn;
 		}
 	}
 }

@@ -59,6 +59,7 @@
 	@include components.kanban-color($simply-dark-theme);
 	@include components.task-card-color($simply-dark-theme);
 	@include components.simply-scrollbar-color($simply-dark-theme);
+	@include components.simply-dialog-color($simply-dark-theme);
 
 	/*      4 - Include simply global text color       */
 	@include global-typography.global-text-color($simply-dark-theme);

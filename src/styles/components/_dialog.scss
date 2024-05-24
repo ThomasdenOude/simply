@@ -1,0 +1,44 @@
+@use '@angular/material' as mat;
+
+@use 'global';
+
+@mixin simply-dialog-theme($theme) {
+	@include simply-dialog-color($theme);
+	@include simply-dialog-density($theme);
+}
+
+@mixin simply-dialog-color($theme) {
+	$background: mat.get-theme-color($theme, background, dialog);
+
+	.simply-dialog {
+		&__host {
+			background-color: $background;
+		}
+	}
+}
+
+@mixin simply-dialog-density($theme) {
+	$density: mat.get-theme-density($theme);
+
+	@if $density < 0 {
+		$regular: global.space('regular');
+		.simply-dialog {
+			&__host {
+				padding: $regular;
+				margin-left: $regular;
+				margin-right: $regular;
+				border-radius: global.radius('small');
+			}
+		}
+	} @else {
+		.simply-dialog {
+			$large: global.space('large');
+			&__host {
+				padding: $large;
+				margin-left: $large;
+				margin-right: $large;
+				border-radius: global.radius('regular');
+			}
+		}
+	}
+}

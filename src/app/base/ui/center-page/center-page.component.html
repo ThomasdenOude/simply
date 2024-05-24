@@ -4,7 +4,10 @@
 		'center-page__phone-landscape': device() === Devices.HandsetLandscape
 	}"
 >
-	<div class="center-page__content" [ngClass]="maxContentWidth()">
+	<div
+		class="center-page__content"
+		[ngClass]="'center-page__' + maxContentWidth()"
+	>
 		<ng-content></ng-content>
 	</div>
 </div>

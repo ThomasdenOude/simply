@@ -32,6 +32,7 @@ import { FocusInputDirective } from '../../../base/directives/focus-input.direct
 import { Credentials, CredentialsForm } from '../../models/credentials.model';
 import { Devices } from '../../../base/models/devices';
 import { AuthenticationMessages } from '../../models/authentication-messages';
+import { TextContentDirective } from '../../../base/directives/text-content.directive';
 
 @Component({
 	selector: 'simply-login',
@@ -49,6 +50,7 @@ import { AuthenticationMessages } from '../../models/authentication-messages';
 		CenterPageComponent,
 		FocusInputDirective,
 		SpaceContentDirective,
+		TextContentDirective,
 	],
 	templateUrl: './login.component.html',
 	styleUrl: './login.component.scss',
