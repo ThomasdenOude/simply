@@ -19,7 +19,7 @@ import {
 import { MatIcon } from '@angular/material/icon';
 import { MatDivider } from '@angular/material/divider';
 import { MatButton } from '@angular/material/button';
-import { MatDialog } from '@angular/material/dialog';
+import { Dialog, DialogConfig, DialogModule } from '@angular/cdk/dialog';
 
 import { User } from '@angular/fire/auth';
 
@@ -36,6 +36,7 @@ import { SettingsActions } from '../../models/settings-actions.model';
 import { PasswordForm } from '../../models/credentials.model';
 import { TextContentDirective } from '../../../base/directives/text-content.directive';
 import { LogoComponent } from '../../../base/ui/logo/logo.component';
+import { DialogComponent } from '../../../base/ui/dialog/dialog.component';
 
 @Component({
 	selector: 'simply-settings',
@@ -45,6 +46,7 @@ import { LogoComponent } from '../../../base/ui/logo/logo.component';
 		MatIcon,
 		MatDivider,
 		MatButton,
+		DialogModule,
 		MessageComponent,
 		PanelComponent,
 		ConfirmPasswordComponent,
@@ -62,7 +64,7 @@ import { LogoComponent } from '../../../base/ui/logo/logo.component';
 export class SettingsComponent {
 	private authService: AuthenticationService = inject(AuthenticationService);
 	private router: Router = inject(Router);
-	private matDialog: MatDialog = inject(MatDialog);
+	private dialog: Dialog = inject(Dialog);
 
 	protected userEmail: Signal<string> = computed(
 		() => this.authService.user()?.email ?? ''
@@ -138,13 +140,12 @@ export class SettingsComponent {
 	}
 
 	protected openRemoveAccountDialog(): void {
-		const removeDialog = this.matDialog.open<
-			RemoveAccountComponent,
-			null,
-			boolean
-		>(RemoveAccountComponent);
+		const config: DialogConfig = {
+			container: DialogComponent,
+		};
+		const removeDialog = this.dialog.open<boolean>(RemoveAccountComponent);
 
-		removeDialog.afterClosed().subscribe((remove: boolean | undefined) => {
+		removeDialog.closed.subscribe((remove: boolean | undefined) => {
 			if (remove) {
 				const user: User | null = this.authService.user();
 				if (user) {

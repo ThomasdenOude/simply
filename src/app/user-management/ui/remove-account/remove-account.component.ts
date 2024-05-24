@@ -1,26 +1,20 @@
 import { Component, inject, Signal } from '@angular/core';
-import {
-	MatDialogActions,
-	MatDialogContent,
-	MatDialogRef,
-	MatDialogTitle,
-} from '@angular/material/dialog';
 import { MatButton } from '@angular/material/button';
 import { ResponsiveService } from '../../../base/services/responsive.service';
 import { Devices } from '../../../base/models/devices';
+import { DialogRef } from '@angular/cdk/dialog';
+import { TextContentDirective } from '../../../base/directives/text-content.directive';
 
 @Component({
 	selector: 'simply-remove-account',
 	standalone: true,
-	imports: [MatDialogTitle, MatDialogContent, MatDialogActions, MatButton],
+	imports: [MatButton, TextContentDirective],
 	templateUrl: './remove-account.component.html',
 	styleUrl: './remove-account.component.scss',
 })
 export class RemoveAccountComponent {
 	private responsiveService: ResponsiveService = inject(ResponsiveService);
-	private dialogRef: MatDialogRef<RemoveAccountComponent, boolean> = inject(
-		MatDialogRef<RemoveAccountComponent>
-	);
+	private dialogRef: DialogRef<boolean> = inject(DialogRef<boolean>);
 
 	protected Devices = Devices;
 

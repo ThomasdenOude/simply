@@ -69,7 +69,7 @@ $simply-h2: mat.define-typography-level(
 $simply-h3: mat.define-typography-level(
 	$font-family: map.get($simply-fonts, 'main'),
 	$font-weight: map.get($simply-font-weights, 'medium'),
-	$font-size: map.get($simply-font-size, 'regular'),
+	$font-size: map.get($simply-font-size, 'large'),
 	$line-height: map.get($simply-line-height, 'small'),
 	$letter-spacing: normal,
 );

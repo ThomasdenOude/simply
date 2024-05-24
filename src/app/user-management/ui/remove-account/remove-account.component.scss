@@ -1,9 +1,10 @@
 @use 'global';
 
-mat-dialog-actions {
-	.remove-account {
-		&__confirm {
-			margin-left: global.space('regular');
-		}
+.remove-account {
+	&__actions {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: right;
+		gap: global.space('regular');
 	}
 }

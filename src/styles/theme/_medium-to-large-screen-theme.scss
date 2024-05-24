@@ -61,6 +61,7 @@
 	@include components.task-board-density($simply-medium-theme);
 	@include components.task-group-density($simply-medium-theme);
 	@include components.kanban-density($simply-medium-theme);
+	@include components.simply-dialog-density($simply-medium-theme);
 
 	/*      5 - Include global typography     */
 	@include mat.typography-hierarchy(

@@ -1,22 +1,20 @@
-<h3 mat-dialog-title>Remove account</h3>
-<mat-dialog-content>
+<div simplyTextContent>
+	<h3>Remove account</h3>
 	<p>Remove your account with all your saved tasks</p>
 	<p>This action can not be undone</p>
+</div>
 
-	<mat-dialog-actions align="end">
-		<button mat-stroked-button color="primary" (click)="cancel()">
-			Cancel
-		</button>
-		<button
-			mat-flat-button
-			color="primary"
-			class="remove-account__confirm"
-			(click)="removeAccount()"
-		>
-			Remove
-			@if (device() !== Devices.HandsetPortrait) {
-				<span>account</span>
-			}
-		</button>
-	</mat-dialog-actions>
-</mat-dialog-content>
+<div class="remove-account__actions">
+	<button mat-stroked-button color="primary" (click)="cancel()">Cancel</button>
+	<button
+		mat-flat-button
+		color="primary"
+		class="remove-account__confirm"
+		(click)="removeAccount()"
+	>
+		Remove
+		@if (device() !== Devices.HandsetPortrait) {
+			<span>account</span>
+		}
+	</button>
+</div>
