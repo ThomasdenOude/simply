@@ -1,25 +1,12 @@
-import {
-	Component,
-	computed,
-	inject,
-	signal,
-	Signal,
-	WritableSignal,
-} from '@angular/core';
+import { Component, inject, signal, WritableSignal } from '@angular/core';
 import { NgClass } from '@angular/common';
 import { Router } from '@angular/router';
-import {
-	FormControl,
-	FormGroup,
-	FormsModule,
-	ReactiveFormsModule,
-	Validators,
-} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { MatIcon } from '@angular/material/icon';
 import { MatDivider } from '@angular/material/divider';
 import { MatButton } from '@angular/material/button';
-import { Dialog, DialogConfig, DialogModule } from '@angular/cdk/dialog';
+import { Dialog, DialogModule } from '@angular/cdk/dialog';
 
 import { User } from '@angular/fire/auth';
 
@@ -33,10 +20,8 @@ import { CenterPageComponent } from '../../../base/ui/center-page/center-page.co
 import { SpaceContentDirective } from '../../../base/directives/space-content.directive';
 import { AuthenticationMessages } from '../../models/authentication-messages';
 import { SettingsActions } from '../../models/settings-actions.model';
-import { PasswordForm } from '../../models/credentials.model';
 import { TextContentDirective } from '../../../base/directives/text-content.directive';
 import { LogoComponent } from '../../../base/ui/logo/logo.component';
-import { DialogComponent } from '../../../base/ui/dialog/dialog.component';
 
 @Component({
 	selector: 'simply-settings',
@@ -66,25 +51,16 @@ export class SettingsComponent {
 	private router: Router = inject(Router);
 	private dialog: Dialog = inject(Dialog);
 
-	protected userEmail: Signal<string> = computed(
-		() => this.authService.user()?.email ?? ''
-	);
 	protected readonly AuthenticationMessages = AuthenticationMessages;
-	protected passwordConfirmed: WritableSignal<boolean> = signal(false);
+	protected continueRemoveAccount: WritableSignal<boolean> = signal(false);
 	protected changePasswordMessage: WritableSignal<AuthenticationMessages> =
 		signal(AuthenticationMessages.None);
 	protected continuePasswordChange: WritableSignal<boolean> = signal(false);
-	protected invalidChangePassword: WritableSignal<boolean> = signal(false);
 	protected removeAccountError: WritableSignal<AuthenticationMessages> = signal(
 		AuthenticationMessages.None
 	);
 	protected passwordConfirmError: WritableSignal<AuthenticationMessages> =
 		signal(AuthenticationMessages.None);
-
-	protected changePasswordForm: FormGroup<PasswordForm> =
-		new FormGroup<PasswordForm>({
-			password: new FormControl('', Validators.required),
-		});
 
 	protected logout(): void {
 		this.authService
@@ -102,7 +78,6 @@ export class SettingsComponent {
 			this.authService
 				.login(email, password)
 				.then(() => {
-					this.passwordConfirmed.set(true);
 					this.passwordConfirmError.set(AuthenticationMessages.None);
 					if (action === 'RemoveAccount') {
 						this.openRemoveAccountDialog();
@@ -133,16 +108,13 @@ export class SettingsComponent {
 
 	protected resetAll(): void {
 		this.resetPasswordConfirmError();
-		this.resetPasswordConfirmError();
 		this.resetChangePasswordMessage();
+		this.resetRemoveAccountError();
 		this.continuePasswordChange.set(false);
-		this.passwordConfirmed.set(false);
+		this.continueRemoveAccount.set(false);
 	}
 
 	protected openRemoveAccountDialog(): void {
-		const config: DialogConfig = {
-			container: DialogComponent,
-		};
 		const removeDialog = this.dialog.open<boolean>(RemoveAccountComponent);
 
 		removeDialog.closed.subscribe((remove: boolean | undefined) => {
@@ -167,32 +139,28 @@ export class SettingsComponent {
 				this.resetRemoveAccountError();
 			}
 		});
-		this.passwordConfirmed.set(false);
+		this.continueRemoveAccount.set(false);
 	}
 
-	protected submitChangePassword(): void {
-		if (this.changePasswordForm.valid) {
-			const user: User | null = this.authService.user();
-			const newPassword = this.changePasswordForm.value.password;
-			if (user && newPassword) {
-				this.authService
-					.changePassword(user, newPassword)
-					.then(() => {
-						this.changePasswordMessage.set(
-							AuthenticationMessages.SuccessfulPasswordChange
-						);
-					})
-					.catch(error => {
-						this.changePasswordMessage.set(
-							this.authService.getAuthenticationMessage(error)
-						);
-					});
-			} else {
-				this.changePasswordMessage.set(AuthenticationMessages.Default);
-			}
-			this.passwordConfirmed.set(false);
-		} else if (this.continuePasswordChange()) {
-			this.invalidChangePassword.set(true);
+	protected submitChangePassword(changedPassword: string): void {
+		const user: User | null = this.authService.user();
+
+		if (user && changedPassword) {
+			this.authService
+				.changePassword(user, changedPassword)
+				.then(() => {
+					this.changePasswordMessage.set(
+						AuthenticationMessages.SuccessfulPasswordChange
+					);
+				})
+				.catch(error => {
+					this.changePasswordMessage.set(
+						this.authService.getAuthenticationMessage(error)
+					);
+				});
+		} else {
+			this.changePasswordMessage.set(AuthenticationMessages.Default);
 		}
+		this.continueRemoveAccount.set(false);
 	}
 }

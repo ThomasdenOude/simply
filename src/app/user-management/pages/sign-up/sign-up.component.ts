@@ -31,7 +31,12 @@ import { SpaceContentDirective } from '../../../base/directives/space-content.di
 import { NewPasswordComponent } from '../../ui/new-password/new-password.component';
 import { MessageComponent } from '../../../base/ui/message/message.component';
 import { FocusInputDirective } from '../../../base/directives/focus-input.directive';
-import { Credentials, CredentialsForm } from '../../models/credentials.model';
+import {
+	Credentials,
+	CredentialsForm,
+	Email,
+	EmailForm,
+} from '../../models/credentials.model';
 import { Devices } from '../../../base/models/devices';
 import { AuthenticationMessages } from '../../models/authentication-messages';
 import { TextContentDirective } from '../../../base/directives/text-content.directive';
@@ -68,48 +73,41 @@ export class SignUpComponent {
 	protected device: Signal<Devices> = this.responsiveService.device;
 	protected readonly Devices = Devices;
 
+	private email: WritableSignal<string | null> = signal(null);
 	protected continue: WritableSignal<boolean> = signal(false);
 	protected invalidSubmit: WritableSignal<boolean> = signal(false);
 	protected signupError: WritableSignal<AuthenticationMessages> = signal(
 		AuthenticationMessages.None
 	);
 
-	protected signUpForm: FormGroup<CredentialsForm> =
-		new FormGroup<CredentialsForm>({
-			email: new FormControl('', [Validators.required, Validators.email]),
-			password: new FormControl(''),
-		});
+	protected emailForm: FormGroup<EmailForm> = new FormGroup<EmailForm>({
+		email: new FormControl('', [Validators.required, Validators.email]),
+	});
 
-	protected setContinue(): void {
-		const email = this.signUpForm.get('email');
-		if (email?.valid) {
+	protected submitEmail(): void {
+		const valid = this.emailForm.valid;
+		const email: Partial<Email> = this.emailForm.value;
+		if (valid && email.email) {
 			this.continue.set(true);
+			this.email.set(email.email);
 		}
 	}
 
-	protected signUp(): void {
-		if (this.signUpForm.valid) {
-			const form: Partial<Credentials> = this.signUpForm.value;
-			const email = form.email;
-			const password = form.password;
-			if (email && password) {
-				this.authService
-					.creatUser(email, password)
-					.then(() => {
-						// Signed up
-						this.router.navigate(['/task-manager']);
-					})
-					.catch((error: FirebaseError) => {
-						this.signupError.set(
-							this.authService.getAuthenticationMessage(error)
-						);
-					});
-			}
+	protected signUp(newPassword: string): void {
+		const email = this.email();
+		if (email && newPassword) {
+			this.authService
+				.creatUser(email, newPassword)
+				.then(() => {
+					// Signed up
+					this.router.navigate(['/task-manager']);
+				})
+				.catch((error: FirebaseError) => {
+					this.signupError.set(
+						this.authService.getAuthenticationMessage(error)
+					);
+				});
 		}
-		if (this.continue()) {
-			this.invalidSubmit.set(true);
-		}
-		this.setContinue();
 	}
 
 	protected resetError() {

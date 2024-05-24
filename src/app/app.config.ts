@@ -21,6 +21,8 @@ import { environment } from '../environments/environment';
 import { APP_ROUTES } from './app.routes';
 import { DEFAULT_DIALOG_CONFIG } from '@angular/cdk/dialog';
 import { DialogComponent } from './base/ui/dialog/dialog.component';
+import { ErrorStateMatcher } from '@angular/material/core';
+import { SimplyErrorStateMatcher } from './base/matchers/simply-error-state.matcher';
 
 export const appConfig: ApplicationConfig = {
 	providers: [
@@ -54,6 +56,10 @@ export const appConfig: ApplicationConfig = {
 				return auth;
 			})
 		),
+		{
+			provide: ErrorStateMatcher,
+			useClass: SimplyErrorStateMatcher,
+		},
 		{
 			provide: DEFAULT_DIALOG_CONFIG,
 			useValue: {
