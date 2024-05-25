@@ -1,4 +1,8 @@
-import { ApplicationConfig, importProvidersFrom } from '@angular/core';
+import {
+	ApplicationConfig,
+	importProvidersFrom,
+	ImportProvidersSource,
+} from '@angular/core';
 import {
 	PreloadAllModules,
 	provideRouter,
@@ -32,30 +36,24 @@ export const appConfig: ApplicationConfig = {
 			withComponentInputBinding()
 		),
 		provideAnimationsAsync(),
-		importProvidersFrom(
-			provideFirebaseApp(() => initializeApp(environment.firebaseConfig))
-		),
-		importProvidersFrom(
-			provideFirestore(() => {
-				const firestore = getFirestore();
-				if (!environment.production) {
-					connectFirestoreEmulator(firestore, 'localhost', 8080);
-				}
-				return firestore;
-			})
-		),
-		importProvidersFrom(
-			provideAuth(() => {
-				const auth = getAuth();
+		provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
+		provideFirestore(() => {
+			const firestore = getFirestore();
+			if (!environment.production) {
+				connectFirestoreEmulator(firestore, 'localhost', 8080);
+			}
+			return firestore;
+		}),
+		provideAuth(() => {
+			const auth = getAuth();
 
-				if (!environment.production) {
-					connectAuthEmulator(auth, 'http://localhost:9099', {
-						disableWarnings: true,
-					});
-				}
-				return auth;
-			})
-		),
+			if (!environment.production) {
+				connectAuthEmulator(auth, 'http://localhost:9099', {
+					disableWarnings: true,
+				});
+			}
+			return auth;
+		}),
 		{
 			provide: ErrorStateMatcher,
 			useClass: SimplyErrorStateMatcher,
