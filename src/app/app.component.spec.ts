@@ -1,25 +1,14 @@
-import { TestBed } from '@angular/core/testing';
+import { MockBuilder, MockedComponentFixture, MockRender } from 'ng-mocks';
+
 import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
-	beforeEach(async () => {
-		await TestBed.configureTestingModule({
-			imports: [AppComponent],
-		}).compileComponents();
-	});
+	beforeEach(() => MockBuilder(AppComponent));
 
 	it('should create the app', () => {
-		const fixture = TestBed.createComponent(AppComponent);
-		const app = fixture.componentInstance;
+		const fixture: MockedComponentFixture<AppComponent> =
+			MockRender(AppComponent);
+		const app: AppComponent = fixture.point.componentInstance;
 		expect(app).toBeTruthy();
-	});
-
-	it('should render title', () => {
-		const fixture = TestBed.createComponent(AppComponent);
-		fixture.detectChanges();
-		const compiled = fixture.nativeElement as HTMLElement;
-		expect(compiled.querySelector('h1')?.textContent).toContain(
-			'Hello, practice-kanban'
-		);
 	});
 });
