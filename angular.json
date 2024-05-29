@@ -79,6 +79,26 @@
           },
           "defaultConfiguration": "development"
         },
+        "test": {
+          "builder": "@angular-builders/jest",
+          "options": {
+            "main": "src/test.ts",
+            "setupFilesAfterEnv": "./src/setup-jest.ts",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ],
+            "tsConfig": "tsconfig.spec.json",
+            "assets": [
+              "src/favicon.ico",
+              "src/assets"
+            ],
+            "styles": [
+              "src/styles.css"
+            ],
+            "scripts": []
+          }
+        },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {

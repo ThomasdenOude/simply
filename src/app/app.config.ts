@@ -1,8 +1,4 @@
-import {
-	ApplicationConfig,
-	importProvidersFrom,
-	ImportProvidersSource,
-} from '@angular/core';
+import { ApplicationConfig } from '@angular/core';
 import {
 	PreloadAllModules,
 	provideRouter,
@@ -19,7 +15,6 @@ import {
 } from '@angular/fire/firestore';
 import { connectAuthEmulator, getAuth, provideAuth } from '@angular/fire/auth';
 
-import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { environment } from '../environments/environment';
 import { APP_ROUTES } from './app.routes';

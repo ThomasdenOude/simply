@@ -10,6 +10,7 @@
   },
   "files": ["src/setup-jest.ts"],
   "include": [
+    "src/test.ts",
     "src/**/*.spec.ts",
     "src/**/*.d.ts"
   ]
