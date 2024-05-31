@@ -1,5 +1,5 @@
 import { Component, inject, input, InputSignal, Signal } from '@angular/core';
-import { NgClass, NgStyle } from '@angular/common';
+import { NgClass } from '@angular/common';
 
 import { ResponsiveService } from '../../services/responsive.service';
 import { Devices } from '../../models/devices';
@@ -8,7 +8,7 @@ import { BaseSizes } from '../../models/style-sizes';
 @Component({
 	selector: 'simply-center-page',
 	standalone: true,
-	imports: [NgClass, NgStyle],
+	imports: [NgClass],
 	templateUrl: './center-page.component.html',
 	styleUrl: './center-page.component.scss',
 })

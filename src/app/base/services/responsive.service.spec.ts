@@ -1,16 +1,141 @@
-import { TestBed } from '@angular/core/testing';
+import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
+import { Breakpoints } from '@angular/cdk/layout';
+
+import { Subject } from 'rxjs';
+import { MockBuilder, MockRender } from 'ng-mocks';
 
 import { ResponsiveService } from './responsive.service';
+import { Devices } from '../models/devices';
 
 describe('ResponsiveService', () => {
+	let fixture;
 	let service: ResponsiveService;
+	let breakpointState$: Subject<BreakpointState>;
 
 	beforeEach(() => {
-		TestBed.configureTestingModule({});
-		service = TestBed.inject(ResponsiveService);
+		breakpointState$ = new Subject<BreakpointState>();
+
+		return MockBuilder(ResponsiveService).mock(BreakpointObserver, {
+			observe: () => breakpointState$,
+		});
 	});
 
-	it('should be created', () => {
-		expect(service).toBeTruthy();
+	describe('Devices', () => {
+		beforeEach(() => {
+			fixture = MockRender(ResponsiveService);
+			service = fixture.point.componentInstance;
+		});
+
+		it('should be return unknown if no value from BreakpointObserver', () => {
+			expect(service.device()).toBe(Devices.Unknown);
+		});
+
+		it('should return HandsetPortrait', () => {
+			// Act
+			breakpointState$.next({
+				matches: false,
+				breakpoints: {
+					[Breakpoints.HandsetPortrait]: true,
+				},
+			});
+
+			// Assert
+			expect(service.device()).toBe(Devices.HandsetPortrait);
+		});
+
+		it('should return HandsetLandscape', () => {
+			// Act
+			breakpointState$.next({
+				matches: false,
+				breakpoints: {
+					[Breakpoints.HandsetLandscape]: true,
+				},
+			});
+
+			// Assert
+			expect(service.device()).toBe(Devices.HandsetLandscape);
+		});
+
+		it('should return small', () => {
+			// Act
+			breakpointState$.next({
+				matches: false,
+				breakpoints: {
+					[Breakpoints.HandsetLandscape]: false,
+					[Breakpoints.Small]: true,
+				},
+			});
+
+			// Assert
+			expect(service.device()).toBe(Devices.Small);
+		});
+
+		it('should return small', () => {
+			// Act
+			breakpointState$.next({
+				matches: false,
+				breakpoints: {
+					[Breakpoints.HandsetLandscape]: true,
+					[Breakpoints.Small]: true,
+				},
+			});
+
+			// Assert
+			expect(service.device()).toBe(Devices.HandsetLandscape);
+		});
+
+		describe('Widescreen', () => {
+			it('should return widescreen for Medium breakpoint', () => {
+				// Act
+				breakpointState$.next({
+					matches: false,
+					breakpoints: {
+						[Breakpoints.Medium]: true,
+					},
+				});
+
+				// Assert
+				expect(service.device()).toBe(Devices.WideScreen);
+			});
+
+			it('should return widescreen for Medium breakpoint', () => {
+				// Act
+				breakpointState$.next({
+					matches: false,
+					breakpoints: {
+						[Breakpoints.Large]: true,
+					},
+				});
+
+				// Assert
+				expect(service.device()).toBe(Devices.WideScreen);
+			});
+
+			it('should return widescreen for Medium breakpoint', () => {
+				// Act
+				breakpointState$.next({
+					matches: false,
+					breakpoints: {
+						[Breakpoints.XLarge]: true,
+					},
+				});
+
+				// Assert
+				expect(service.device()).toBe(Devices.WideScreen);
+			});
+		});
+
+		it('should return unknown for Devices not listed', () => {
+			// Act
+			breakpointState$.next({
+				matches: false,
+				breakpoints: {
+					[Breakpoints.XSmall]: true,
+				},
+			});
+
+			// Assert
+			expect(service.device()).toBe(Devices.Unknown);
+		});
 	});
 });

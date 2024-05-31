@@ -13,7 +13,7 @@ import { User } from '@angular/fire/auth';
 import { AuthenticationService } from '../../services/authentication.service';
 import { RemoveAccountComponent } from '../../ui/remove-account/remove-account.component';
 import { MessageComponent } from '../../../base/ui/message/message.component';
-import { PanelComponent } from '../../../base/ui/panel/panel.component';
+import { PanelComponent } from '../../ui/panel/panel.component';
 import { ConfirmPasswordComponent } from '../../ui/confirm-password/confirm-password.component';
 import { NewPasswordComponent } from '../../ui/new-password/new-password.component';
 import { CenterPageComponent } from '../../../base/ui/center-page/center-page.component';
