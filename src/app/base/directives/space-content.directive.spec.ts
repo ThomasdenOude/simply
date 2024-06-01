@@ -1,8 +1,9 @@
-import { MockBuilder, MockRender } from 'ng-mocks';
+import { MockBuilder, MockedComponentFixture, MockRender } from 'ng-mocks';
 
 import { SpaceContentDirective } from './space-content.directive';
 
 describe('SpaceContentDirective', () => {
+	let fixture: MockedComponentFixture<SpaceContentDirective>;
 	const width = 'simply-space-content__width';
 	const small = 'simply-space-content__small';
 	const regular = 'simply-space-content__regular';
@@ -11,30 +12,42 @@ describe('SpaceContentDirective', () => {
 	beforeEach(() => MockBuilder(SpaceContentDirective));
 
 	it('should add width and regular class by default', () => {
-		const fixture = MockRender('<div simplySpaceContent></div>');
-		const rendered = fixture.nativeElement.innerHTML;
-
-		expect(rendered).toContain(`class="${width} ${regular}"`);
+		// Arrange
+		fixture = MockRender<SpaceContentDirective>(
+			'<div simplySpaceContent></div>'
+		);
+		const innerHTML = fixture.nativeElement.innerHTML;
+		// Assert
+		expect(innerHTML).toContain(`class="${width} ${regular}"`);
 	});
 
 	it('should add width and small class when input is "small"', () => {
-		const fixture = MockRender('<div simplySpaceContent="small"></div>');
-		const rendered = fixture.nativeElement.innerHTML;
-
-		expect(rendered).toContain(`class="${width} ${small}"`);
+		// Arrange
+		fixture = MockRender<SpaceContentDirective>(
+			'<div simplySpaceContent="small"></div>'
+		);
+		const innerHTML = fixture.nativeElement.innerHTML;
+		// Assert
+		expect(innerHTML).toContain(`class="${width} ${small}"`);
 	});
 
 	it('should add width and regular class when input is "regular"', () => {
-		const fixture = MockRender('<div simplySpaceContent="regular"></div>');
-		const rendered = fixture.nativeElement.innerHTML;
-
-		expect(rendered).toContain(`class="${width} ${regular}"`);
+		// Arrange
+		fixture = MockRender<SpaceContentDirective>(
+			'<div simplySpaceContent="regular"></div>'
+		);
+		const innerHTML = fixture.nativeElement.innerHTML;
+		// Assert
+		expect(innerHTML).toContain(`class="${width} ${regular}"`);
 	});
 
 	it('should add width and large class when input is "large"', () => {
-		const fixture = MockRender('<div simplySpaceContent="large"></div>');
-		const rendered = fixture.nativeElement.innerHTML;
-
-		expect(rendered).toContain(`class="${width} ${large}"`);
+		// Arrange
+		fixture = MockRender<SpaceContentDirective>(
+			'<div simplySpaceContent="large"></div>'
+		);
+		const innerHTML = fixture.nativeElement.innerHTML;
+		// Assert
+		expect(innerHTML).toContain(`class="${width} ${large}"`);
 	});
 });

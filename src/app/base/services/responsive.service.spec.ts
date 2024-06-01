@@ -2,22 +2,25 @@ import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { Breakpoints } from '@angular/cdk/layout';
 
 import { Subject } from 'rxjs';
-import { MockBuilder, MockRender } from 'ng-mocks';
+import { MockBuilder, MockedComponentFixture, MockRender } from 'ng-mocks';
 
 import { ResponsiveService } from './responsive.service';
 import { Devices } from '../models/devices';
 
 describe('ResponsiveService', () => {
-	let fixture;
+	let fixture: MockedComponentFixture<ResponsiveService>;
 	let service: ResponsiveService;
 	let breakpointState$: Subject<BreakpointState>;
 
 	beforeEach(() => {
 		breakpointState$ = new Subject<BreakpointState>();
 
-		return MockBuilder(ResponsiveService).mock(BreakpointObserver, {
-			observe: () => breakpointState$,
-		});
+		return MockBuilder(ResponsiveService, BreakpointObserver).mock(
+			BreakpointObserver,
+			{
+				observe: () => breakpointState$,
+			}
+		);
 	});
 
 	describe('Devices', () => {
@@ -26,7 +29,8 @@ describe('ResponsiveService', () => {
 			service = fixture.point.componentInstance;
 		});
 
-		it('should be return unknown if no value from BreakpointObserver', () => {
+		it('should return unknown if no value from BreakpointObserver', () => {
+			// Assert
 			expect(service.device()).toBe(Devices.Unknown);
 		});
 
@@ -38,7 +42,6 @@ describe('ResponsiveService', () => {
 					[Breakpoints.HandsetPortrait]: true,
 				},
 			});
-
 			// Assert
 			expect(service.device()).toBe(Devices.HandsetPortrait);
 		});
@@ -51,7 +54,6 @@ describe('ResponsiveService', () => {
 					[Breakpoints.HandsetLandscape]: true,
 				},
 			});
-
 			// Assert
 			expect(service.device()).toBe(Devices.HandsetLandscape);
 		});
@@ -65,7 +67,6 @@ describe('ResponsiveService', () => {
 					[Breakpoints.Small]: true,
 				},
 			});
-
 			// Assert
 			expect(service.device()).toBe(Devices.Small);
 		});
@@ -79,7 +80,6 @@ describe('ResponsiveService', () => {
 					[Breakpoints.Small]: true,
 				},
 			});
-
 			// Assert
 			expect(service.device()).toBe(Devices.HandsetLandscape);
 		});
@@ -93,7 +93,6 @@ describe('ResponsiveService', () => {
 						[Breakpoints.Medium]: true,
 					},
 				});
-
 				// Assert
 				expect(service.device()).toBe(Devices.WideScreen);
 			});
@@ -106,7 +105,6 @@ describe('ResponsiveService', () => {
 						[Breakpoints.Large]: true,
 					},
 				});
-
 				// Assert
 				expect(service.device()).toBe(Devices.WideScreen);
 			});
@@ -119,7 +117,6 @@ describe('ResponsiveService', () => {
 						[Breakpoints.XLarge]: true,
 					},
 				});
-
 				// Assert
 				expect(service.device()).toBe(Devices.WideScreen);
 			});
@@ -133,7 +130,6 @@ describe('ResponsiveService', () => {
 					[Breakpoints.XSmall]: true,
 				},
 			});
-
 			// Assert
 			expect(service.device()).toBe(Devices.Unknown);
 		});
