@@ -51,10 +51,11 @@ export class ConfirmPasswordComponent {
 		password: new FormControl('', Validators.required),
 	});
 
-	public passwordConfirmError: InputSignal<AuthenticationMessages | undefined> =
-		input<AuthenticationMessages>();
-	protected _passwordConfirmError: Signal<AuthenticationMessages> = computed(
-		() => this.passwordConfirmError() ?? AuthenticationMessages.None
+	public setPasswordConfirmError: InputSignal<
+		AuthenticationMessages | undefined
+	> = input<AuthenticationMessages>();
+	protected passwordConfirmError: Signal<AuthenticationMessages> = computed(
+		() => this.setPasswordConfirmError() ?? AuthenticationMessages.None
 	);
 	@Output()
 	public onPasswordSubmit: EventEmitter<string> = new EventEmitter<string>();
