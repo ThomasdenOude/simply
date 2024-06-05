@@ -1,34 +1,23 @@
 import {
 	Component,
-	OnDestroy,
-	forwardRef,
 	input,
-	effect,
 	Output,
 	EventEmitter,
 	ViewChild,
-	ElementRef,
-	AfterViewInit,
 	InputSignal,
 } from '@angular/core';
 import {
-	ControlValueAccessor,
 	FormControl,
 	FormGroup,
 	FormGroupDirective,
 	FormsModule,
-	NG_VALIDATORS,
-	NG_VALUE_ACCESSOR,
 	ReactiveFormsModule,
-	ValidationErrors,
 	Validators,
 } from '@angular/forms';
 
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { filter, fromEvent, Subject, takeUntil } from 'rxjs';
 
-import { FocusInputDirective } from '../../../base/directives/focus-input.directive';
 import { matchingPasswordsValidator } from './new-password-validator/matching-passwords-validator';
 import { NewPassword, NewPasswordForm } from '../../models/new-password.model';
 import { SpaceContentDirective } from '../../../base/directives/space-content.directive';
@@ -42,7 +31,6 @@ import { MatButton } from '@angular/material/button';
 		MatInputModule,
 		ReactiveFormsModule,
 		FormsModule,
-		FocusInputDirective,
 		SpaceContentDirective,
 		MatButton,
 	],
@@ -61,6 +49,9 @@ export class NewPasswordComponent {
 	public newPasswordTitle: InputSignal<string> = input('Make a new password');
 	public newPasswordSubmitAction: InputSignal<string> = input('Save');
 
+	@ViewChild('form')
+	protected form: FormGroupDirective | undefined;
+
 	@Output()
 	public isSubmitted: EventEmitter<string> = new EventEmitter<string>();
 
@@ -70,13 +61,13 @@ export class NewPasswordComponent {
 		repeat?.addValidators(matchingPasswordsValidator(this.newPasswordForm));
 	}
 
-	protected submitPassword(form: FormGroupDirective): void {
+	protected submitPassword(): void {
 		const valid = this.newPasswordForm.valid;
 		const formValue: Partial<NewPassword> = this.newPasswordForm.value;
 
 		if (valid && formValue.newPassword) {
-			this.isSubmitted.next(formValue.newPassword);
-			form.resetForm();
+			this.isSubmitted.emit(formValue.newPassword);
+			this.form?.resetForm();
 		}
 	}
 }
