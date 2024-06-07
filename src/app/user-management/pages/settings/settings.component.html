@@ -56,12 +56,10 @@
 			></simply-message>
 		}
 
-		@if (!continueRemoveAccount()) {
-			<simply-confirm-password
-				(onPasswordSubmit)="confirmPassword($event, 'RemoveAccount')"
-				[setPasswordConfirmError]="passwordConfirmError()"
-				(onErrorClose)="resetPasswordConfirmError()"
-			></simply-confirm-password>
-		}
+		<simply-confirm-password
+			(onPasswordSubmit)="confirmPassword($event, 'RemoveAccount')"
+			[setPasswordConfirmError]="passwordConfirmError()"
+			(onErrorClose)="resetPasswordConfirmError()"
+		></simply-confirm-password>
 	</simply-panel>
 </simply-center-page>

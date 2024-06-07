@@ -1,22 +1,119 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { signal } from '@angular/core';
+import { Router, RouterModule } from '@angular/router';
+import { fakeAsync, tick } from '@angular/core/testing';
 
+import {
+	MockBuilder,
+	MockedComponentFixture,
+	MockRender,
+	NG_MOCKS_ROOT_PROVIDERS,
+} from 'ng-mocks';
+import SpyInstance = jest.SpyInstance;
+
+import { AuthenticationService } from '../../services/authentication.service';
+import { ResponsiveService } from '../../../base/services/responsive.service';
 import { LoginComponent } from './login.component';
+import { MockRouter } from '../../../base/test-mocks/mock-router';
+import { Devices } from '../../../base/models/devices';
+import { AuthenticationMessages } from '../../models/authentication-messages';
+import { Credentials } from '../../models/credentials.model';
+import { mockError } from '../../../base/test-mocks/mock-error';
 
 describe('LoginDialogComponent', () => {
 	let component: LoginComponent;
-	let fixture: ComponentFixture<LoginComponent>;
+	let fixture: MockedComponentFixture<LoginComponent>;
+	const mockRouter: MockRouter = new MockRouter();
 
-	beforeEach(async () => {
-		await TestBed.configureTestingModule({
-			imports: [LoginComponent],
-		}).compileComponents();
+	beforeEach(() =>
+		MockBuilder(
+			[LoginComponent, RouterModule, NG_MOCKS_ROOT_PROVIDERS],
+			[AuthenticationService, ResponsiveService]
+		)
+			.mock(Router, mockRouter)
+			.mock(ResponsiveService, {
+				device: signal(Devices.Unknown),
+			})
+	);
 
-		fixture = TestBed.createComponent(LoginComponent);
-		component = fixture.componentInstance;
-		fixture.detectChanges();
+	it('should set default device and loginError', () => {
+		// Arrange
+		fixture = MockRender(LoginComponent);
+		component = fixture.point.componentInstance;
+		// Assert
+		expect(component['device']()).toBe(Devices.Unknown);
+		expect(component['loginError']()).toBe(AuthenticationMessages.None);
 	});
 
-	it('should create', () => {
-		expect(component).toBeTruthy();
+	describe('Login', () => {
+		let spyLogin: SpyInstance;
+		let spyNavigate: SpyInstance;
+		const mockFromValue: Credentials = {
+			email: 'test@mail.com',
+			password: 'mockPassword',
+		};
+
+		beforeEach(() => {
+			// Arrange
+			fixture = MockRender(LoginComponent);
+			component = fixture.point.componentInstance;
+
+			spyLogin = jest.spyOn(component['authService'], 'login');
+			spyNavigate = jest
+				.spyOn(component['router'], 'navigate')
+				.mockResolvedValue(true);
+		});
+
+		afterEach(() => {
+			jest.resetAllMocks();
+		});
+
+		it('should not login when form invalid', () => {
+			//
+			// Assert
+			expect(component['loginForm'].valid).toBe(false);
+			expect(spyLogin).not.toHaveBeenCalled();
+		});
+
+		it('should login and navigate to "task-board" page', fakeAsync(() => {
+			// Arrange
+			spyLogin.mockReturnValue(Promise.resolve());
+			// Act
+			component['loginForm'].patchValue(mockFromValue);
+			component['login']();
+			tick();
+			// Assert
+			expect(component['loginForm'].valid).toBe(true);
+			expect(spyLogin).toHaveBeenCalledTimes(1);
+			expect(spyLogin).toHaveBeenCalledWith(
+				mockFromValue.email,
+				mockFromValue.password
+			);
+			expect(spyNavigate).toHaveBeenCalledTimes(1);
+			expect(spyNavigate).toHaveBeenCalledWith(['/task-board']);
+		}));
+
+		it('should set login error on failed login, and reset login error on reset', fakeAsync(() => {
+			// Arrange
+			const mockErrorMessage: AuthenticationMessages =
+				AuthenticationMessages.Default;
+			spyLogin.mockReturnValue(Promise.reject(mockError));
+			const spyGetAuthMessage: SpyInstance = jest
+				.spyOn(component['authService'], 'getAuthenticationMessage')
+				.mockReturnValue(mockErrorMessage);
+			// Act
+			component['loginForm'].patchValue(mockFromValue);
+			component['login']();
+			tick();
+			// Assert
+			expect(spyLogin).toHaveBeenCalledTimes(1);
+			expect(spyNavigate).not.toHaveBeenCalled();
+			expect(spyGetAuthMessage).toHaveBeenCalledTimes(1);
+			expect(spyGetAuthMessage).toHaveBeenCalledWith(mockError);
+			expect(component['loginError']()).toBe(mockErrorMessage);
+			// Act
+			component['resetError']();
+			// Assert
+			expect(component['loginError']()).toBe(AuthenticationMessages.None);
+		}));
 	});
 });

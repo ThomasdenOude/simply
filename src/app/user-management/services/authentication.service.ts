@@ -1,4 +1,11 @@
-import { computed, inject, Injectable, Signal } from '@angular/core';
+import {
+	computed,
+	inject,
+	Injectable,
+	signal,
+	Signal,
+	WritableSignal,
+} from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 
 import {
@@ -7,10 +14,9 @@ import {
 	createUserWithEmailAndPassword,
 	deleteUser,
 	signInWithEmailAndPassword,
-	updatePassword,
 	signOut,
+	updatePassword,
 	User,
-	UserCredential,
 } from '@angular/fire/auth';
 import { FirebaseError } from '@firebase/util';
 
@@ -39,12 +45,16 @@ export class AuthenticationService {
 		return this._isLoggedIn;
 	}
 
-	public creatUser(email: string, password: string): Promise<UserCredential> {
-		return createUserWithEmailAndPassword(this.auth, email, password);
+	public async creatUser(email: string, password: string): Promise<void> {
+		return createUserWithEmailAndPassword(this.auth, email, password).then(() =>
+			Promise.resolve()
+		);
 	}
 
-	public login(email: string, password: string): Promise<UserCredential> {
-		return signInWithEmailAndPassword(this.auth, email, password);
+	public async login(email: string, password: string): Promise<void> {
+		return signInWithEmailAndPassword(this.auth, email, password).then(() =>
+			Promise.resolve()
+		);
 	}
 
 	public logout(): Promise<void> {

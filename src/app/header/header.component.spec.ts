@@ -2,7 +2,6 @@ import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { signal } from '@angular/core';
 import { fakeAsync, tick } from '@angular/core/testing';
 
-import { Subject } from 'rxjs';
 import {
 	MockBuilder,
 	MockedComponentFixture,
@@ -14,19 +13,13 @@ import { AuthenticationService } from '../user-management/services/authenticatio
 import { ResponsiveService } from '../base/services/responsive.service';
 import { HeaderComponent } from './header.component';
 import { Devices } from '../base/models/devices';
+import { MockRouter } from '../base/test-mocks/mock-router';
+import SpyInstance = jest.SpyInstance;
 
 describe('HeaderComponent', () => {
 	let component: HeaderComponent;
 	let fixture: MockedComponentFixture<HeaderComponent>;
-	const routerEvents$: Subject<NavigationEnd> = new Subject<NavigationEnd>();
-	class MockRouter {
-		navigate(): Promise<boolean> {
-			return new Promise(() => true);
-		}
-		get events() {
-			return routerEvents$.asObservable();
-		}
-	}
+	const mockRouter: MockRouter = new MockRouter();
 
 	beforeEach(() => {
 		return MockBuilder(
@@ -38,14 +31,8 @@ describe('HeaderComponent', () => {
 			})
 			.mock(AuthenticationService, {
 				isLoggedIn: signal(true),
-				logout: jest.fn(
-					() =>
-						new Promise<void>(resolve => {
-							resolve();
-						})
-				),
 			})
-			.mock(Router, new MockRouter());
+			.mock(Router, mockRouter);
 	});
 
 	it('should set device and login state', () => {
@@ -62,7 +49,14 @@ describe('HeaderComponent', () => {
 		fixture = MockRender(HeaderComponent);
 		component = fixture.point.componentInstance;
 		const router = component['router'];
-		const spyNavigate = jest.spyOn(router, 'navigate');
+		const spyLogout: SpyInstance = jest
+			.spyOn(component['authService'], 'logout')
+			.mockReturnValue(
+				new Promise<void>(resolve => {
+					resolve();
+				})
+			);
+		const spyNavigate: SpyInstance = jest.spyOn(router, 'navigate');
 		// Act
 		component['logout']();
 		tick();
@@ -84,7 +78,7 @@ describe('HeaderComponent', () => {
 			'http://localhost:4200/log-in'
 		);
 		// Act
-		routerEvents$.next(event);
+		mockRouter.routerEvents$.next(event);
 		// Assert
 		expect(component['isOnLoginPage']()).toBe(true);
 	});
@@ -101,7 +95,7 @@ describe('HeaderComponent', () => {
 			'http://localhost:4200/settings'
 		);
 		// Act
-		routerEvents$.next(event);
+		mockRouter.routerEvents$.next(event);
 		// Assert
 		expect(component['isOnSettingsPage']()).toBe(true);
 	});

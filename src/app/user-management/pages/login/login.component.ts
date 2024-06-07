@@ -12,13 +12,11 @@ import {
 	ReactiveFormsModule,
 	Validators,
 } from '@angular/forms';
-import { NgClass } from '@angular/common';
 import { Router } from '@angular/router';
 
 import { FirebaseError } from '@firebase/util';
 
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIcon } from '@angular/material/icon';
@@ -32,25 +30,21 @@ import { FocusInputDirective } from '../../../base/directives/focus-input.direct
 import { Credentials, CredentialsForm } from '../../models/credentials.model';
 import { Devices } from '../../../base/models/devices';
 import { AuthenticationMessages } from '../../models/authentication-messages';
-import { TextContentDirective } from '../../../base/directives/text-content.directive';
 
 @Component({
 	selector: 'simply-login',
 	standalone: true,
 	imports: [
-		MatDialogModule,
 		MatFormFieldModule,
 		MatInputModule,
 		MatButtonModule,
 		FormsModule,
 		ReactiveFormsModule,
-		NgClass,
 		MatIcon,
 		MessageComponent,
 		CenterPageComponent,
 		FocusInputDirective,
 		SpaceContentDirective,
-		TextContentDirective,
 	],
 	templateUrl: './login.component.html',
 	styleUrl: './login.component.scss',
@@ -85,7 +79,7 @@ export class LoginComponent {
 					.login(email, password)
 					.then(() => {
 						// Signed in
-						this.router.navigate(['/task-manager']);
+						void this.router.navigate(['/task-board']);
 					})
 					.catch((error: FirebaseError) => {
 						this.loginError.set(

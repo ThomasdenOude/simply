@@ -12,13 +12,11 @@ import {
 	ReactiveFormsModule,
 	Validators,
 } from '@angular/forms';
-import { NgClass } from '@angular/common';
 import { Router } from '@angular/router';
 
 import { FirebaseError } from '@firebase/util';
 
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatDivider } from '@angular/material/divider';
@@ -31,15 +29,9 @@ import { SpaceContentDirective } from '../../../base/directives/space-content.di
 import { NewPasswordComponent } from '../../ui/new-password/new-password.component';
 import { MessageComponent } from '../../../base/ui/message/message.component';
 import { FocusInputDirective } from '../../../base/directives/focus-input.directive';
-import {
-	Credentials,
-	CredentialsForm,
-	Email,
-	EmailForm,
-} from '../../models/credentials.model';
+import { Email, EmailForm } from '../../models/credentials.model';
 import { Devices } from '../../../base/models/devices';
 import { AuthenticationMessages } from '../../models/authentication-messages';
-import { TextContentDirective } from '../../../base/directives/text-content.directive';
 
 @Component({
 	selector: 'simply-sign-up',
@@ -47,19 +39,16 @@ import { TextContentDirective } from '../../../base/directives/text-content.dire
 	imports: [
 		FormsModule,
 		ReactiveFormsModule,
-		MatDialogModule,
 		MatFormFieldModule,
 		MatButtonModule,
 		MatInputModule,
 		MatIconModule,
 		NewPasswordComponent,
-		NgClass,
 		MatDivider,
 		MessageComponent,
 		CenterPageComponent,
 		FocusInputDirective,
 		SpaceContentDirective,
-		TextContentDirective,
 	],
 	templateUrl: './sign-up.component.html',
 	styleUrl: './sign-up.component.scss',
@@ -75,7 +64,6 @@ export class SignUpComponent {
 
 	private email: WritableSignal<string | null> = signal(null);
 	protected continue: WritableSignal<boolean> = signal(false);
-	protected invalidSubmit: WritableSignal<boolean> = signal(false);
 	protected signupError: WritableSignal<AuthenticationMessages> = signal(
 		AuthenticationMessages.None
 	);
@@ -100,7 +88,7 @@ export class SignUpComponent {
 				.creatUser(email, newPassword)
 				.then(() => {
 					// Signed up
-					this.router.navigate(['/task-manager']);
+					void this.router.navigate(['/task-board']);
 				})
 				.catch((error: FirebaseError) => {
 					this.signupError.set(

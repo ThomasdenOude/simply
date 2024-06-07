@@ -67,7 +67,7 @@ export class HeaderComponent {
 			.logout()
 			.then(() => {
 				// Signed out
-				this.router.navigate(['/sign-in']);
+				void this.router.navigate(['/sign-in']).catch();
 			})
 			.catch();
 	}
