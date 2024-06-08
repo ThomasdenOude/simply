@@ -2,7 +2,7 @@ import { Component, Signal, inject, computed } from '@angular/core';
 import { NgClass } from '@angular/common';
 import { NavigationEnd, Router, RouterLink } from '@angular/router';
 
-import { filter, map, Observable } from 'rxjs';
+import { filter, map, Observable, startWith, tap } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 
 import { MatButtonModule } from '@angular/material/button';
@@ -57,7 +57,8 @@ export class HeaderComponent {
 	private isOnPath(path: string): Observable<boolean> {
 		return this.router.events.pipe(
 			filter(event => event instanceof NavigationEnd),
-			map(event => (event as NavigationEnd).url.includes(path))
+			map(event => (event as NavigationEnd).url.includes(path)),
+			startWith(false)
 		);
 	}
 
@@ -66,7 +67,7 @@ export class HeaderComponent {
 			.logout()
 			.then(() => {
 				// Signed out
-				this.router.navigate(['/sign-in']);
+				void this.router.navigate(['/sign-in']).catch();
 			})
 			.catch();
 	}

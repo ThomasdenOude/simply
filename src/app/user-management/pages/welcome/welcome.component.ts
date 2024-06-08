@@ -17,7 +17,6 @@ import { TextContentDirective } from '../../../base/directives/text-content.dire
 	imports: [
 		MatButtonModule,
 		MatIconModule,
-		NgClass,
 		RouterLink,
 		CenterPageComponent,
 		TextContentDirective,

@@ -1,4 +1,4 @@
-import { ApplicationConfig, importProvidersFrom } from '@angular/core';
+import { ApplicationConfig } from '@angular/core';
 import {
 	PreloadAllModules,
 	provideRouter,
@@ -15,7 +15,6 @@ import {
 } from '@angular/fire/firestore';
 import { connectAuthEmulator, getAuth, provideAuth } from '@angular/fire/auth';
 
-import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { environment } from '../environments/environment';
 import { APP_ROUTES } from './app.routes';
@@ -32,30 +31,24 @@ export const appConfig: ApplicationConfig = {
 			withComponentInputBinding()
 		),
 		provideAnimationsAsync(),
-		importProvidersFrom(
-			provideFirebaseApp(() => initializeApp(environment.firebaseConfig))
-		),
-		importProvidersFrom(
-			provideFirestore(() => {
-				const firestore = getFirestore();
-				if (!environment.production) {
-					connectFirestoreEmulator(firestore, 'localhost', 8080);
-				}
-				return firestore;
-			})
-		),
-		importProvidersFrom(
-			provideAuth(() => {
-				const auth = getAuth();
+		provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
+		provideFirestore(() => {
+			const firestore = getFirestore();
+			if (!environment.production) {
+				connectFirestoreEmulator(firestore, 'localhost', 8080);
+			}
+			return firestore;
+		}),
+		provideAuth(() => {
+			const auth = getAuth();
 
-				if (!environment.production) {
-					connectAuthEmulator(auth, 'http://localhost:9099', {
-						disableWarnings: true,
-					});
-				}
-				return auth;
-			})
-		),
+			if (!environment.production) {
+				connectAuthEmulator(auth, 'http://localhost:9099', {
+					disableWarnings: true,
+				});
+			}
+			return auth;
+		}),
 		{
 			provide: ErrorStateMatcher,
 			useClass: SimplyErrorStateMatcher,

@@ -3,6 +3,7 @@ import {
 	Component,
 	EventEmitter,
 	input,
+	InputSignal,
 	OnDestroy,
 	Output,
 } from '@angular/core';
@@ -23,8 +24,8 @@ export class MessageComponent implements AfterViewInit, OnDestroy {
 	private destroy: Subject<void> = new Subject<void>();
 	protected message = '';
 
-	public errorMessage = input.required<string>();
-	public form = input<FormGroup>();
+	public errorMessage: InputSignal<string> = input.required<string>();
+	public form: InputSignal<FormGroup | undefined> = input<FormGroup>();
 
 	@Output()
 	public onClose: EventEmitter<void> = new EventEmitter<void>();

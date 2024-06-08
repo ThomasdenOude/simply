@@ -10,7 +10,8 @@ import {
 } from '@angular/core';
 
 import { MatIcon } from '@angular/material/icon';
-import { ConfirmPasswordComponent } from '../../../user-management/ui/confirm-password/confirm-password.component';
+
+import { ConfirmPasswordComponent } from '../confirm-password/confirm-password.component';
 
 @Component({
 	selector: 'simply-panel',

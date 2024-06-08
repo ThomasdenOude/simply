@@ -1,23 +1,22 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MockBuilder, MockedComponentFixture, MockRender } from 'ng-mocks';
+
+import { DialogConfig } from '@angular/cdk/dialog';
+import { OverlayRef } from '@angular/cdk/overlay';
 
 import { DialogComponent } from './dialog.component';
 
 describe('DialogComponent', () => {
-  let component: DialogComponent;
-  let fixture: ComponentFixture<DialogComponent>;
+	let fixture: MockedComponentFixture<DialogComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [DialogComponent]
-    })
-    .compileComponents();
-    
-    fixture = TestBed.createComponent(DialogComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+	beforeEach(() => MockBuilder(DialogComponent, [OverlayRef, DialogConfig]));
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+	it('should create', () => {
+		// Arrange
+		fixture = MockRender(DialogComponent);
+		const innerHTML = fixture.nativeElement.innerHTML;
+		// Assert
+		expect(innerHTML).toContain(
+			'class="cdk-dialog-container simply-dialog__host"'
+		);
+	});
 });

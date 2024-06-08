@@ -12,13 +12,11 @@ import {
 	ReactiveFormsModule,
 	Validators,
 } from '@angular/forms';
-import { NgClass } from '@angular/common';
 import { Router } from '@angular/router';
 
 import { FirebaseError } from '@firebase/util';
 
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIcon } from '@angular/material/icon';
@@ -29,28 +27,27 @@ import { MessageComponent } from '../../../base/ui/message/message.component';
 import { CenterPageComponent } from '../../../base/ui/center-page/center-page.component';
 import { SpaceContentDirective } from '../../../base/directives/space-content.directive';
 import { FocusInputDirective } from '../../../base/directives/focus-input.directive';
-import { Credentials, CredentialsForm } from '../../models/credentials.model';
+import {
+	BaseCredentials,
+	BaseCredentialsForm,
+} from '../../models/credentials.model';
 import { Devices } from '../../../base/models/devices';
 import { AuthenticationMessages } from '../../models/authentication-messages';
-import { TextContentDirective } from '../../../base/directives/text-content.directive';
 
 @Component({
 	selector: 'simply-login',
 	standalone: true,
 	imports: [
-		MatDialogModule,
 		MatFormFieldModule,
 		MatInputModule,
 		MatButtonModule,
 		FormsModule,
 		ReactiveFormsModule,
-		NgClass,
 		MatIcon,
 		MessageComponent,
 		CenterPageComponent,
 		FocusInputDirective,
 		SpaceContentDirective,
-		TextContentDirective,
 	],
 	templateUrl: './login.component.html',
 	styleUrl: './login.component.scss',
@@ -68,15 +65,15 @@ export class LoginComponent {
 	protected device: Signal<Devices> = this.responsiveService.device;
 	protected readonly Devices = Devices;
 
-	protected loginForm: FormGroup<CredentialsForm> =
-		new FormGroup<CredentialsForm>({
+	protected loginForm: FormGroup<BaseCredentialsForm> =
+		new FormGroup<BaseCredentialsForm>({
 			email: new FormControl('', [Validators.required, Validators.email]),
 			password: new FormControl('', [Validators.required]),
 		});
 
 	protected login(): void {
 		if (this.loginForm.valid) {
-			const user: Partial<Credentials> = this.loginForm.value;
+			const user: Partial<BaseCredentials> = this.loginForm.value;
 			const email = user.email;
 			const password = user.password;
 
@@ -85,7 +82,7 @@ export class LoginComponent {
 					.login(email, password)
 					.then(() => {
 						// Signed in
-						this.router.navigate(['/task-manager']);
+						void this.router.navigate(['/task-board']);
 					})
 					.catch((error: FirebaseError) => {
 						this.loginError.set(

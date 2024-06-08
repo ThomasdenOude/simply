@@ -31,7 +31,7 @@
 		) {
 			<simply-confirm-password
 				(onPasswordSubmit)="confirmPassword($event, 'ChangePassword')"
-				[passwordConfirmError]="passwordConfirmError()"
+				[setPasswordConfirmError]="passwordConfirmError()"
 				(onErrorClose)="resetPasswordConfirmError()"
 			></simply-confirm-password>
 		} @else if (continuePasswordChange()) {
@@ -56,12 +56,10 @@
 			></simply-message>
 		}
 
-		@if (!continueRemoveAccount()) {
-			<simply-confirm-password
-				(onPasswordSubmit)="confirmPassword($event, 'RemoveAccount')"
-				[passwordConfirmError]="passwordConfirmError()"
-				(onErrorClose)="resetPasswordConfirmError()"
-			></simply-confirm-password>
-		}
+		<simply-confirm-password
+			(onPasswordSubmit)="confirmPassword($event, 'RemoveAccount')"
+			[setPasswordConfirmError]="passwordConfirmError()"
+			(onErrorClose)="resetPasswordConfirmError()"
+		></simply-confirm-password>
 	</simply-panel>
 </simply-center-page>

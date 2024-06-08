@@ -21,18 +21,18 @@
 				<mat-error>Fill in a valid email</mat-error>
 			}
 		</mat-form-field>
-	</form>
 
-	@if (!continue()) {
-		<button
-			type="submit"
-			mat-flat-button
-			color="primary"
-			simplySpaceContent="regular"
-		>
-			Continue
-		</button>
-	}
+		@if (!continue()) {
+			<button
+				type="submit"
+				mat-flat-button
+				color="primary"
+				simplySpaceContent="regular"
+			>
+				Continue
+			</button>
+		}
+	</form>
 
 	@if (continue()) {
 		<mat-divider simplySpaceContent="regular"></mat-divider>

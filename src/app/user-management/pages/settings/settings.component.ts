@@ -13,7 +13,7 @@ import { User } from '@angular/fire/auth';
 import { AuthenticationService } from '../../services/authentication.service';
 import { RemoveAccountComponent } from '../../ui/remove-account/remove-account.component';
 import { MessageComponent } from '../../../base/ui/message/message.component';
-import { PanelComponent } from '../../../base/ui/panel/panel.component';
+import { PanelComponent } from '../../ui/panel/panel.component';
 import { ConfirmPasswordComponent } from '../../ui/confirm-password/confirm-password.component';
 import { NewPasswordComponent } from '../../ui/new-password/new-password.component';
 import { CenterPageComponent } from '../../../base/ui/center-page/center-page.component';
@@ -52,7 +52,6 @@ export class SettingsComponent {
 	private dialog: Dialog = inject(Dialog);
 
 	protected readonly AuthenticationMessages = AuthenticationMessages;
-	protected continueRemoveAccount: WritableSignal<boolean> = signal(false);
 	protected changePasswordMessage: WritableSignal<AuthenticationMessages> =
 		signal(AuthenticationMessages.None);
 	protected continuePasswordChange: WritableSignal<boolean> = signal(false);
@@ -67,9 +66,9 @@ export class SettingsComponent {
 			.logout()
 			.then(() => {
 				// Signed out
-				this.router.navigate(['/sign-in']);
+				void this.router.navigate(['/sign-in']);
 			})
-			.catch();
+			.catch(() => {});
 	}
 
 	protected confirmPassword(password: string, action: SettingsActions): void {
@@ -111,7 +110,6 @@ export class SettingsComponent {
 		this.resetChangePasswordMessage();
 		this.resetRemoveAccountError();
 		this.continuePasswordChange.set(false);
-		this.continueRemoveAccount.set(false);
 	}
 
 	protected openRemoveAccountDialog(): void {
@@ -127,7 +125,7 @@ export class SettingsComponent {
 							this.resetRemoveAccountError();
 							this.logout();
 						})
-						.catch(error => {
+						.catch(() => {
 							this.removeAccountError.set(
 								AuthenticationMessages.FailedDeleteUser
 							);
@@ -139,7 +137,6 @@ export class SettingsComponent {
 				this.resetRemoveAccountError();
 			}
 		});
-		this.continueRemoveAccount.set(false);
 	}
 
 	protected submitChangePassword(changedPassword: string): void {
@@ -161,6 +158,5 @@ export class SettingsComponent {
 		} else {
 			this.changePasswordMessage.set(AuthenticationMessages.Default);
 		}
-		this.continueRemoveAccount.set(false);
 	}
 }

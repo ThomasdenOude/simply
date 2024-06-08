@@ -7,6 +7,7 @@ import {
 	InputSignal,
 	Renderer2,
 } from '@angular/core';
+
 import { BaseSizes } from '../models/style-sizes';
 
 @Directive({
@@ -31,6 +32,9 @@ export class SpaceContentDirective implements AfterContentInit {
 				break;
 			case 'large':
 				this.renderer.addClass(host, 'simply-space-content__large');
+				break;
+			default:
+				this.renderer.addClass(host, 'simply-space-content__regular');
 				break;
 		}
 	}
