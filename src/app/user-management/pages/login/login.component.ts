@@ -27,7 +27,10 @@ import { MessageComponent } from '../../../base/ui/message/message.component';
 import { CenterPageComponent } from '../../../base/ui/center-page/center-page.component';
 import { SpaceContentDirective } from '../../../base/directives/space-content.directive';
 import { FocusInputDirective } from '../../../base/directives/focus-input.directive';
-import { Credentials, CredentialsForm } from '../../models/credentials.model';
+import {
+	BaseCredentials,
+	BaseCredentialsForm,
+} from '../../models/credentials.model';
 import { Devices } from '../../../base/models/devices';
 import { AuthenticationMessages } from '../../models/authentication-messages';
 
@@ -62,15 +65,15 @@ export class LoginComponent {
 	protected device: Signal<Devices> = this.responsiveService.device;
 	protected readonly Devices = Devices;
 
-	protected loginForm: FormGroup<CredentialsForm> =
-		new FormGroup<CredentialsForm>({
+	protected loginForm: FormGroup<BaseCredentialsForm> =
+		new FormGroup<BaseCredentialsForm>({
 			email: new FormControl('', [Validators.required, Validators.email]),
 			password: new FormControl('', [Validators.required]),
 		});
 
 	protected login(): void {
 		if (this.loginForm.valid) {
-			const user: Partial<Credentials> = this.loginForm.value;
+			const user: Partial<BaseCredentials> = this.loginForm.value;
 			const email = user.email;
 			const password = user.password;
 

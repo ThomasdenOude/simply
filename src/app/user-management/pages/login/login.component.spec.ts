@@ -16,7 +16,7 @@ import { LoginComponent } from './login.component';
 import { MockRouter } from '../../../base/test-mocks/mock-router';
 import { Devices } from '../../../base/models/devices';
 import { AuthenticationMessages } from '../../models/authentication-messages';
-import { Credentials } from '../../models/credentials.model';
+import { BaseCredentials } from '../../models/credentials.model';
 import { mockError } from '../../../base/test-mocks/mock-error';
 
 describe('LoginDialogComponent', () => {
@@ -47,7 +47,7 @@ describe('LoginDialogComponent', () => {
 	describe('Login', () => {
 		let spyLogin: SpyInstance;
 		let spyNavigate: SpyInstance;
-		const mockFromValue: Credentials = {
+		const mockFromValue: BaseCredentials = {
 			email: 'test@mail.com',
 			password: 'mockPassword',
 		};

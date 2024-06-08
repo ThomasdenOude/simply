@@ -1,8 +1,8 @@
 import { BaseForm } from '../../base/models/base-form.model';
 
-export type Credentials = Password & Email;
+export type BaseCredentials = Password & Email;
 
-export type CredentialsForm = BaseForm<Credentials>;
+export type BaseCredentialsForm = BaseForm<BaseCredentials>;
 
 export type Password = {
 	password: string | null;
