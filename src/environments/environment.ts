@@ -1,11 +1,11 @@
 export const environment = {
 	production: false,
 	firebaseConfig: {
-		apiKey: 'AIzaSyBTNL_PF7tOYmSYPC9MNMxkwkK4JU0yK2I',
-		authDomain: 'practicekanban.firebaseapp.com',
-		projectId: 'practicekanban',
-		storageBucket: 'practicekanban.appspot.com',
-		messagingSenderId: '906007183264',
-		appId: '1:906007183264:web:8149d1b1c863faf9c62ec5',
-	},
+    apiKey: "AIzaSyAzSAXZ827Fm-zmHgK8dJlABUDmQnX_43A",
+    authDomain: "simply-task-board.firebaseapp.com",
+    projectId: "simply-task-board",
+    storageBucket: "simply-task-board.appspot.com",
+    messagingSenderId: "675100270424",
+    appId: "1:675100270424:web:fad3d139a79554093a8f2d"
+  },
 };
