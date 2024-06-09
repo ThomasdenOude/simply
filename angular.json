@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "practice-kanban": {
+    "simply-task-board": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/practice-kanban",
+            "outputPath": "dist/simply-task-board",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -71,10 +71,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "practice-kanban:build:production"
+              "buildTarget": "simply-task-board:build:production"
             },
             "development": {
-              "buildTarget": "practice-kanban:build:development"
+              "buildTarget": "simply-task-board:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -102,7 +102,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "practice-kanban:build"
+            "buildTarget": "simply-task-board:build"
           }
         },
         "deploy": {
@@ -112,12 +112,12 @@
           },
           "configurations": {
             "production": {
-              "buildTarget": "practice-kanban:build:production",
-              "serveTarget": "practice-kanban:serve:production"
+              "buildTarget": "simply-task-board:build:production",
+              "serveTarget": "simply-task-board:serve:production"
             },
             "development": {
-              "buildTarget": "practice-kanban:build:development",
-              "serveTarget": "practice-kanban:serve:development"
+              "buildTarget": "simply-task-board:build:development",
+              "serveTarget": "simply-task-board:serve:development"
             }
           },
           "defaultConfiguration": "production"
