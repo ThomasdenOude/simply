@@ -1,14 +1,14 @@
 {
   "targets": {
-    "practicekanban": {
+    "simply-task-board": {
       "hosting": {
-        "practice-kanban": [
-          "practicekanban"
+        "simply-task-board": [
+          "simply-task-board"
         ]
       }
     }
   },
   "projects": {
-    "default": "practicekanban"
+    "default": "simply-task-board"
   }
 }
