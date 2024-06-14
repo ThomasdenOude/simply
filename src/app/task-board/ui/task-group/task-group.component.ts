@@ -1,11 +1,11 @@
 import {
-	Component,
-	EventEmitter,
-	input,
-	InputSignal,
-	Output,
-	signal,
-	WritableSignal,
+  Component, computed,
+  EventEmitter,
+  input,
+  InputSignal,
+  Output, Signal,
+  signal,
+  WritableSignal,
 } from '@angular/core';
 import { NgClass } from '@angular/common';
 
@@ -63,6 +63,9 @@ export class TaskGroupComponent {
 
 	protected readonly dragEnabledId: WritableSignal<string | null> =
 		signal(null);
+  protected showEditDoneId: Signal<string | null> = computed(() => {
+    return this.dragEnabledId() ? null : this.editDoneId()
+  })
 
 	@Output()
 	public onUpdateTaskList: EventEmitter<UpdateTaskListAndStatus> =
