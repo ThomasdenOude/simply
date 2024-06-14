@@ -12,7 +12,7 @@ import {
 	ReactiveFormsModule,
 	Validators,
 } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 import { FirebaseError } from '@firebase/util';
 
@@ -37,18 +37,19 @@ import { AuthenticationMessages } from '../../models/authentication-messages';
 @Component({
 	selector: 'simply-login',
 	standalone: true,
-	imports: [
-		MatFormFieldModule,
-		MatInputModule,
-		MatButtonModule,
-		FormsModule,
-		ReactiveFormsModule,
-		MatIcon,
-		MessageComponent,
-		CenterPageComponent,
-		FocusInputDirective,
-		SpaceContentDirective,
-	],
+  imports: [
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatIcon,
+    MessageComponent,
+    CenterPageComponent,
+    FocusInputDirective,
+    SpaceContentDirective,
+    RouterLink,
+  ],
 	templateUrl: './login.component.html',
 	styleUrl: './login.component.scss',
 })
