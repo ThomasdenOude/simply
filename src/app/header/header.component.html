@@ -47,15 +47,19 @@
 							<p>{{ userEmail() }}</p>
 						</div>
 						<mat-divider class="simply-header__settings-divider"></mat-divider>
-						<button
-							mat-stroked-button
-							color="primary"
-							class="simply-header__settings-button"
-							routerLink="/settings"
-						>
-							<mat-icon>settings</mat-icon>
-							<span>Settings</span>
-						</button>
+
+            @if (emailVerified()) {
+              <button
+                mat-stroked-button
+                color="primary"
+                class="simply-header__settings-button"
+                routerLink="/settings"
+              >
+                <mat-icon>settings</mat-icon>
+                <span>Settings</span>
+              </button>
+            }
+
 						<button
 							mat-stroked-button
 							(click)="logout()"

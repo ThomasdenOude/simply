@@ -10,7 +10,7 @@
 				(onClose)="resetError()"
 			></simply-message>
 		}
-		<mat-form-field appearance="outline" simplySpaceContent="regular">
+		<mat-form-field simplySpaceContent="regular">
 			<mat-label>Email</mat-label>
 			<input type="text" matInput formControlName="email" simplyFocusInput />
 			@if (loginForm.get('email')?.hasError('required')) {
@@ -21,7 +21,7 @@
 			}
 		</mat-form-field>
 
-		<mat-form-field appearance="outline" simplySpaceContent="regular">
+		<mat-form-field simplySpaceContent="regular">
 			<mat-label>Password</mat-label>
 			<input type="password" matInput formControlName="password" />
 			@if (loginForm.get('password')?.hasError('required')) {

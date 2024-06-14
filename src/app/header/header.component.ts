@@ -43,6 +43,7 @@ export class HeaderComponent {
 	protected readonly Devices = Devices;
 
 	protected isLoggedIn: Signal<boolean> = this.authService.isLoggedIn;
+  protected emailVerified: Signal<boolean> = this.authService.emailVerified;
 	protected isOnLoginPage: Signal<boolean | undefined> = toSignal(
 		this.isOnPath('log-in')
 	);

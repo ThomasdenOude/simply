@@ -34,9 +34,12 @@ export class AuthenticationService {
 		return this._user;
 	}
 
+  public emailVerified: Signal<boolean> = computed(() => this._user()?.emailVerified ?? false)
+
 	public get isLoggedIn(): Signal<boolean> {
 		return this._isLoggedIn;
 	}
+
 
 	public async creatUser(email: string, password: string): Promise<void> {
 		return createUserWithEmailAndPassword(this.auth, email, password).then(() =>
@@ -45,8 +48,9 @@ export class AuthenticationService {
 	}
 
 	public async login(email: string, password: string): Promise<void> {
-		return signInWithEmailAndPassword(this.auth, email, password).then(() =>
-			Promise.resolve()
+		return signInWithEmailAndPassword(this.auth, email, password).then(() => {
+      return 			Promise.resolve()
+      }
 		);
 	}
 

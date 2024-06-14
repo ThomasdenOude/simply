@@ -83,6 +83,7 @@ export class LoginComponent {
 					.login(email, password)
 					.then(() => {
 						// Signed in
+            console.log('logged in');
 						void this.router.navigate(['/task-board']);
 					})
 					.catch((error: FirebaseError) => {

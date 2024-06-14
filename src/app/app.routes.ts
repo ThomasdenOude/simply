@@ -1,17 +1,16 @@
 import { Routes } from '@angular/router';
 
-import {
-	AuthGuard,
-	redirectUnauthorizedTo,
-	redirectLoggedInTo,
-} from '@angular/fire/auth-guard';
+import { AuthGuard } from '@angular/fire/auth-guard';
 
 import { WelcomeComponent } from './user-management/pages/welcome/welcome.component';
 import { SignUpComponent } from './user-management/pages/sign-up/sign-up.component';
 import { LoginComponent } from './user-management/pages/login/login.component';
+import { redirectAfterLoginGenerator, redirectNotAuthorizedGenerator, redirectVerifiedGenerator } from './user-management/guards/auth-guards';
+import { VerifyEmailComponent } from './user-management/pages/verify-email/verify-email.component';
 
-const redirectUnauthorizedToSignUp = () => redirectUnauthorizedTo(['']);
-const redirectLoggedInToTaskBoard = () => redirectLoggedInTo(['task-board']);
+const redirectAfterLogin = () => redirectAfterLoginGenerator(['task-board', 'verify-email'])
+const redirectNotAuthorized = () => redirectNotAuthorizedGenerator(['', 'verify-email'])
+const redirectVerified = () => redirectVerifiedGenerator(['task-board', ''])
 
 export const APP_ROUTES: Routes = [
 	{
@@ -19,20 +18,26 @@ export const APP_ROUTES: Routes = [
 		pathMatch: 'full',
 		component: WelcomeComponent,
 		canActivate: [AuthGuard],
-		data: { authGuardPipe: redirectLoggedInToTaskBoard },
+		data: { authGuardPipe: redirectAfterLogin },
 	},
 	{
 		path: 'sign-up',
 		component: SignUpComponent,
 		canActivate: [AuthGuard],
-		data: { authGuardPipe: redirectLoggedInToTaskBoard },
+		data: { authGuardPipe: redirectAfterLogin },
 	},
 	{
 		path: 'log-in',
 		component: LoginComponent,
 		canActivate: [AuthGuard],
-		data: { authGuardPipe: redirectLoggedInToTaskBoard },
+		data: { authGuardPipe: redirectAfterLogin },
 	},
+  {
+    path: 'verify-email',
+    component: VerifyEmailComponent,
+    canActivate: [AuthGuard],
+    data: { authGuardPipe: redirectVerified },
+  },
 	{
 		path: 'task-board',
 		loadChildren: () =>
@@ -40,7 +45,7 @@ export const APP_ROUTES: Routes = [
 				mod => mod.TASK_BOARD_ROUTES
 			),
 		canActivate: [AuthGuard],
-		data: { authGuardPipe: redirectUnauthorizedToSignUp },
+		data: { authGuardPipe: redirectNotAuthorized },
 	},
 	{
 		path: 'settings',
@@ -49,7 +54,7 @@ export const APP_ROUTES: Routes = [
 				mod => mod.SettingsComponent
 			),
 		canActivate: [AuthGuard],
-		data: { authGuardPipe: redirectUnauthorizedToSignUp },
+		data: { authGuardPipe: redirectNotAuthorizedGenerator },
 	},
 	{
 		path: '**',
