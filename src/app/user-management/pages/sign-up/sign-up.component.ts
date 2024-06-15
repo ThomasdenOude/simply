@@ -12,7 +12,7 @@ import {
 	ReactiveFormsModule,
 	Validators,
 } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 import { FirebaseError } from '@firebase/util';
 import { Observable, Subject, takeUntil } from 'rxjs';
@@ -37,20 +37,21 @@ import { AuthenticationMessages } from '../../models/authentication-messages';
 @Component({
 	selector: 'simply-sign-up',
 	standalone: true,
-	imports: [
-		FormsModule,
-		ReactiveFormsModule,
-		MatFormFieldModule,
-		MatButtonModule,
-		MatInputModule,
-		MatIconModule,
-		NewPasswordComponent,
-		MatDivider,
-		MessageComponent,
-		CenterPageComponent,
-		FocusInputDirective,
-		SpaceContentDirective,
-	],
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatButtonModule,
+    MatInputModule,
+    MatIconModule,
+    NewPasswordComponent,
+    MatDivider,
+    MessageComponent,
+    CenterPageComponent,
+    FocusInputDirective,
+    SpaceContentDirective,
+    RouterLink,
+  ],
 	templateUrl: './sign-up.component.html',
 	styleUrl: './sign-up.component.scss',
 })
@@ -102,6 +103,7 @@ export class SignUpComponent implements OnDestroy {
             })
 				})
 				.catch((error: FirebaseError) => {
+          this.continue.set(false);
 					this.signupError.set(
 						this.authService.getAuthenticationMessage(error)
 					);

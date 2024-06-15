@@ -11,6 +11,16 @@
 			></simply-message>
 		}
 
+    @if (signupError() === AuthenticationMessages.EmailExists) {
+      <div class="simply-sign-up__login" simplySpaceContent="large">
+        <p class="simply-sign-up__login-text">Already have an account?</p>
+        <button mat-flat-button color="primary" routerLink="/log-in">
+          <mat-icon>login</mat-icon>
+          Log in to your account
+        </button>
+      </div>
+    }
+
 		<mat-form-field simplySpaceContent="regular">
 			<mat-label>Email</mat-label>
 			<input type="text" matInput formControlName="email" simplyFocusInput />
