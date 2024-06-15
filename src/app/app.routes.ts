@@ -54,7 +54,7 @@ export const APP_ROUTES: Routes = [
 				mod => mod.SettingsComponent
 			),
 		canActivate: [AuthGuard],
-		data: { authGuardPipe: redirectNotAuthorizedGenerator },
+		data: { authGuardPipe: redirectNotAuthorized },
 	},
 	{
 		path: '**',

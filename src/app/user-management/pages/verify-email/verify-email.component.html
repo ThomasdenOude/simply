@@ -1,11 +1,8 @@
 <simply-center-page>
-  <form>
     <h2>Verify your email address</h2>
-    <p>We sent you an email with a verification code</p>
-    <p>Enter this code here to activate your account</p>
-    <mat-form-field>
-      <mat-label>Verification code</mat-label>
-      <input type="text" matInput simplyFocusInput />
-    </mat-form-field>
-  </form>
+    <p>We sent you an email with a link</p>
+    <p>Follow this link to verify your email address.</p>
+    <mat-divider></mat-divider>
+    <p>Did not receive an email? Send another email link</p>
+    <button mat-flat-button color="primary" (click)="sendVerificationLink()">Send link</button>
 </simply-center-page>

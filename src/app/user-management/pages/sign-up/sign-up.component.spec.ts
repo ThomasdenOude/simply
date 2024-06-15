@@ -83,7 +83,7 @@ describe('SignUpComponent', () => {
 
 		beforeEach(() => {
 			// Arrange
-			spyCreateUser = jest.spyOn(component['authService'], 'creatUser');
+			spyCreateUser = jest.spyOn(component['authService'], 'creatUserAndVerifyEmail');
 			spyNavigate = jest
 				.spyOn(component['router'], 'navigate')
 				.mockResolvedValue(true);

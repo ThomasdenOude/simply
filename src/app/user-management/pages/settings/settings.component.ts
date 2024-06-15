@@ -75,7 +75,7 @@ export class SettingsComponent {
 		const email = this.authService.user()?.email;
 		if (email) {
 			this.authService
-				.login(email, password)
+				.loginAndVerifyEmail(email, password)
 				.then(() => {
 					this.passwordConfirmError.set(AuthenticationMessages.None);
 					if (action === 'RemoveAccount') {

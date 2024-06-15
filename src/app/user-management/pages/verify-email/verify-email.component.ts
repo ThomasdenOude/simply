@@ -1,7 +1,15 @@
-import { Component } from '@angular/core';
-import { CenterPageComponent } from '../../../base/ui/center-page/center-page.component';
+import { Component, inject, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
+
+import { Observable, Subject, takeUntil } from 'rxjs';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
+import { MatDivider } from '@angular/material/divider';
+import { MatButton } from '@angular/material/button';
+
+import { AuthenticationService } from '../../services/authentication.service';
+import { NavigationService } from '../../services/navigation.service';
+import { CenterPageComponent } from '../../../base/ui/center-page/center-page.component';
 import { FocusInputDirective } from '../../../base/directives/focus-input.directive';
 
 @Component({
@@ -13,10 +21,36 @@ import { FocusInputDirective } from '../../../base/directives/focus-input.direct
     MatLabel,
     MatInput,
     FocusInputDirective,
+    MatDivider,
+    MatButton,
   ],
   templateUrl: './verify-email.component.html',
   styleUrl: './verify-email.component.scss'
 })
-export class VerifyEmailComponent {
+export class VerifyEmailComponent implements OnDestroy {
+  private destroy: Subject<void> = new Subject<void>();
 
+  private authService: AuthenticationService = inject(AuthenticationService);
+  private navigationService: NavigationService = inject(NavigationService);
+  private router: Router = inject(Router);
+
+  private browserTabReturned$: Observable<null> = this.navigationService.browserTabReturned$
+
+  protected sendVerificationLink(): void {
+    const user = this.authService.user()
+    if (user) {
+      this.authService.sendEmailVerification(user).then(() => {
+        this.browserTabReturned$
+          .pipe(takeUntil(this.destroy))
+          .subscribe(() => {
+            void this.router.navigate(['/task-board'])
+          })
+      })
+    }
+  }
+
+  ngOnDestroy() {
+    this.destroy.next();
+    this.destroy.complete();
+  }
 }

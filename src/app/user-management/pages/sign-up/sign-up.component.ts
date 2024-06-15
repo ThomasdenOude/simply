@@ -1,9 +1,9 @@
 import {
-	Component,
-	inject,
-	Signal,
-	signal,
-	WritableSignal,
+  Component,
+  inject, OnDestroy,
+  Signal,
+  signal,
+  WritableSignal,
 } from '@angular/core';
 import {
 	FormControl,
@@ -15,13 +15,14 @@ import {
 import { Router } from '@angular/router';
 
 import { FirebaseError } from '@firebase/util';
-
+import { Observable, Subject, takeUntil } from 'rxjs';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatDivider } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 
+import { NavigationService } from '../../services/navigation.service';
 import { AuthenticationService } from '../../services/authentication.service';
 import { ResponsiveService } from '../../../base/services/responsive.service';
 import { CenterPageComponent } from '../../../base/ui/center-page/center-page.component';
@@ -53,12 +54,16 @@ import { AuthenticationMessages } from '../../models/authentication-messages';
 	templateUrl: './sign-up.component.html',
 	styleUrl: './sign-up.component.scss',
 })
-export class SignUpComponent {
-	private authService: AuthenticationService = inject(AuthenticationService);
-	private responsiveService: ResponsiveService = inject(ResponsiveService);
+export class SignUpComponent implements OnDestroy {
+  private destroy: Subject<void> = new Subject<void>();
+
+  private authService: AuthenticationService = inject(AuthenticationService);
+  private navigationService: NavigationService = inject(NavigationService);
+  private responsiveService: ResponsiveService = inject(ResponsiveService);
 	private router: Router = inject(Router);
 
-	protected readonly AuthenticationMessages = AuthenticationMessages;
+  private browserTabReturned$: Observable<null> = this.navigationService.browserTabReturned$
+  protected readonly AuthenticationMessages = AuthenticationMessages;
 	protected device: Signal<Devices> = this.responsiveService.device;
 	protected readonly Devices = Devices;
 
@@ -85,10 +90,16 @@ export class SignUpComponent {
 		const email = this.email();
 		if (email && newPassword) {
 			this.authService
-				.creatUser(email, newPassword)
+				.creatUserAndVerifyEmail(email, newPassword)
 				.then(() => {
 					// Signed up
-					void this.router.navigate(['/task-board']);
+          void this.router.navigate(['verify-email']);
+
+          this.browserTabReturned$
+            .pipe(takeUntil(this.destroy))
+            .subscribe(() => {
+              void this.router.navigate(['/task-board'])
+            })
 				})
 				.catch((error: FirebaseError) => {
 					this.signupError.set(
@@ -101,4 +112,9 @@ export class SignUpComponent {
 	protected resetError() {
 		this.signupError.set(AuthenticationMessages.None);
 	}
+
+  ngOnDestroy() {
+    this.destroy.next();
+    this.destroy.complete();
+  }
 }

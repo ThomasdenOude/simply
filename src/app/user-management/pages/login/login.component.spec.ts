@@ -57,7 +57,7 @@ describe('LoginDialogComponent', () => {
 			fixture = MockRender(LoginComponent);
 			component = fixture.point.componentInstance;
 
-			spyLogin = jest.spyOn(component['authService'], 'login');
+			spyLogin = jest.spyOn(component['authService'], 'loginAndVerifyEmail');
 			spyNavigate = jest
 				.spyOn(component['router'], 'navigate')
 				.mockResolvedValue(true);
