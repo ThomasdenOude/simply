@@ -6,16 +6,16 @@ import {
   WritableSignal,
 } from '@angular/core';
 import {
-	FormControl,
-	FormGroup,
-	FormsModule,
-	ReactiveFormsModule,
-	Validators,
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
 } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 
 import { FirebaseError } from '@firebase/util';
-import { Observable, Subject, takeUntil } from 'rxjs';
+import { map, Observable, Subject, takeUntil } from 'rxjs';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -33,6 +33,7 @@ import { FocusInputDirective } from '../../../base/directives/focus-input.direct
 import { Email, EmailForm } from '../../models/credentials.model';
 import { Devices } from '../../../base/models/devices';
 import { AuthenticationMessages } from '../../models/authentication-messages';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
 	selector: 'simply-sign-up',
@@ -68,30 +69,39 @@ export class SignUpComponent implements OnDestroy {
 	protected device: Signal<Devices> = this.responsiveService.device;
 	protected readonly Devices = Devices;
 
-	private email: WritableSignal<string | null> = signal(null);
+  private readonly emailChange: Signal<string | undefined>;
 	protected continue: WritableSignal<boolean> = signal(false);
 	protected signupError: WritableSignal<AuthenticationMessages> = signal(
 		AuthenticationMessages.None
 	);
 
-	protected emailForm: FormGroup<EmailForm> = new FormGroup<EmailForm>({
-		email: new FormControl('', [Validators.required, Validators.email]),
-	});
+  protected emailForm: FormGroup<EmailForm> = new FormGroup<EmailForm>({
+    email: new FormControl('', [Validators.required, Validators.email]),
+  })
+
+  constructor() {
+    const emailChange$: Observable<string> = this.emailForm.valueChanges
+      .pipe(
+        map((value: Partial<Email>) => value.email ?? '')
+      )
+    this.emailChange = toSignal(emailChange$)
+  }
 
 	protected submitEmail(): void {
 		const valid = this.emailForm.valid;
 		const email: Partial<Email> = this.emailForm.value;
 		if (valid && email.email) {
 			this.continue.set(true);
-			this.email.set(email.email);
 		}
 	}
 
 	protected signUp(newPassword: string): void {
-		const email = this.email();
-		if (email && newPassword) {
+    const emailChange = this.emailChange();
+    const valid = this.emailForm.valid
+
+    if (emailChange && valid) {
 			this.authService
-				.creatUserAndVerifyEmail(email, newPassword)
+				.creatUserAndVerifyEmail(emailChange, newPassword)
 				.then(() => {
 					// Signed up
           void this.router.navigate(['verify-email']);
