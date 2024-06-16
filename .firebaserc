@@ -8,6 +8,9 @@
       "hosting": {
         "production": [
           "simply-task-board"
+        ],
+        "test": [
+          "simply-task-board"
         ]
       }
     },
