@@ -104,7 +104,7 @@ export class SignUpComponent implements OnDestroy {
 				.creatUserAndVerifyEmail(emailChange, newPassword)
 				.then(() => {
 					// Signed up
-          void this.router.navigate(['verify-email']);
+          void this.router.navigate(['/verify-email']);
 
           this.browserTabReturned$
             .pipe(takeUntil(this.destroy))

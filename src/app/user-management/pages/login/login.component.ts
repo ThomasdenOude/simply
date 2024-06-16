@@ -92,7 +92,7 @@ export class LoginComponent implements OnDestroy {
             if (emailVerified) {
               void this.router.navigate(['/task-board']);
             } else {
-              void this.router.navigate(['verify-email']);
+              void this.router.navigate(['/verify-email']);
 
               this.browserTabReturned$
                 .pipe(takeUntil(this.destroy))
