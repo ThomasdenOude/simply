@@ -1,9 +1,45 @@
 {
   "hosting": [
     {
-      "target": "simply-task-board",
+      "target": "production",
       "source": ".",
-      "frameworksBackend": {}
+      "ignore": ["firebase.json", "**/.*", "**/node-modules"],
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ]
+    },
+    {
+      "target": "test",
+      "public": "dist/simply-task-board/browser",
+      "ignore": ["firebase.json", "**/.*", "**/node-modules"],
+      "headers": [
+        {
+          "source": "**",
+          "headers": [
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Access-Control-Allow-Methods",
+              "value": "GET, OPTIONS"
+            },
+            {
+              "key": "Access-Control-Allow-Headers",
+              "value": "*"
+            }
+          ]
+        }
+      ],
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ]
     }
   ],
   "emulators": {

@@ -1,5 +1,6 @@
+export type Environment = Readonly<BaseEnvironment>;
 
-export type Environment = {
+type BaseEnvironment = {
   production: boolean,
   baseUrl: string,
   firebaseConfig: {

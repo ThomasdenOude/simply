@@ -1,14 +1,22 @@
 {
+  "projects": {
+    "default": "simply-task-board",
+    "test": "test-simply-task-board"
+  },
   "targets": {
     "simply-task-board": {
       "hosting": {
-        "simply-task-board": [
+        "production": [
           "simply-task-board"
         ]
       }
+    },
+    "test-simply-task-board": {
+      "hosting": {
+        "test": [
+          "test-simply-task-board"
+        ]
+      }
     }
-  },
-  "projects": {
-    "default": "simply-task-board"
   }
 }
