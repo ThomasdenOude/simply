@@ -46,4 +46,4 @@ git add .
 git commit -m "Upgraded to new version: ${new_version}" && git tag -a "upgrade=${new_version}" -m "Upgraded to new version ${new_version}"
 
 # Deploy app to firebase
-ng build && firebase deploy --project simply-task-board --only hosting:production  && git tag -a "deploy=${new_version}" -m "Deployed new version ${new_version}"
+firebase deploy --project simply-task-board --only hosting:production  && git tag -a "deploy=${new_version}" -m "Deployed new version ${new_version}"
