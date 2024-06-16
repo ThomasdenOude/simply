@@ -1,0 +1,15 @@
+<simply-center-page simplyTextContent>
+    <h2>Verify your email</h2>
+    <p>We sent an email to
+      @if (email()) {
+        <strong>{{ email() }}</strong>
+      } @else {
+        <span>you</span>
+      }
+    </p>
+    <p>Just click on the link in that email to complete your sign up</p>
+    <mat-divider simplySpaceContent="regular"></mat-divider>
+    <p>If you don't see it, you may need to <strong>check your spam</strong> folder</p>
+    <p>Still can't find the email?</p>
+    <button mat-flat-button color="primary" (click)="sendVerificationLink()">Resend Email</button>
+</simply-center-page>

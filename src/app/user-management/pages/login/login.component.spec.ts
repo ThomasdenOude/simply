@@ -19,7 +19,7 @@ import { AuthenticationMessages } from '../../models/authentication-messages';
 import { BaseCredentials } from '../../models/credentials.model';
 import { mockError } from '../../../base/test-mocks/mock-error';
 
-describe('LoginDialogComponent', () => {
+describe('LoginComponent', () => {
 	let component: LoginComponent;
 	let fixture: MockedComponentFixture<LoginComponent>;
 	const mockRouter: MockRouter = new MockRouter();
@@ -57,7 +57,7 @@ describe('LoginDialogComponent', () => {
 			fixture = MockRender(LoginComponent);
 			component = fixture.point.componentInstance;
 
-			spyLogin = jest.spyOn(component['authService'], 'login');
+			spyLogin = jest.spyOn(component['authService'], 'loginAndVerifyEmail');
 			spyNavigate = jest
 				.spyOn(component['router'], 'navigate')
 				.mockResolvedValue(true);
@@ -89,7 +89,7 @@ describe('LoginDialogComponent', () => {
 				mockFromValue.password
 			);
 			expect(spyNavigate).toHaveBeenCalledTimes(1);
-			expect(spyNavigate).toHaveBeenCalledWith(['/task-board']);
+			expect(spyNavigate).toHaveBeenCalledWith(['/verify-email']);
 		}));
 
 		it('should set login error on failed login, and reset login error on reset', fakeAsync(() => {

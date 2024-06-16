@@ -1,9 +1,9 @@
 import {
-	Component,
-	inject,
-	signal,
-	Signal,
-	WritableSignal,
+  Component,
+  inject, OnDestroy,
+  signal,
+  Signal,
+  WritableSignal,
 } from '@angular/core';
 import {
 	FormControl,
@@ -12,15 +12,16 @@ import {
 	ReactiveFormsModule,
 	Validators,
 } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 import { FirebaseError } from '@firebase/util';
-
+import { Observable, Subject, takeUntil } from 'rxjs';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIcon } from '@angular/material/icon';
 
+import { NavigationService } from '../../services/navigation.service';
 import { AuthenticationService } from '../../services/authentication.service';
 import { ResponsiveService } from '../../../base/services/responsive.service';
 import { MessageComponent } from '../../../base/ui/message/message.component';
@@ -37,27 +38,33 @@ import { AuthenticationMessages } from '../../models/authentication-messages';
 @Component({
 	selector: 'simply-login',
 	standalone: true,
-	imports: [
-		MatFormFieldModule,
-		MatInputModule,
-		MatButtonModule,
-		FormsModule,
-		ReactiveFormsModule,
-		MatIcon,
-		MessageComponent,
-		CenterPageComponent,
-		FocusInputDirective,
-		SpaceContentDirective,
-	],
+  imports: [
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatIcon,
+    MessageComponent,
+    CenterPageComponent,
+    FocusInputDirective,
+    SpaceContentDirective,
+    RouterLink,
+  ],
 	templateUrl: './login.component.html',
 	styleUrl: './login.component.scss',
 })
-export class LoginComponent {
-	private authService: AuthenticationService = inject(AuthenticationService);
-	private responsiveService: ResponsiveService = inject(ResponsiveService);
+export class LoginComponent implements OnDestroy {
+  private destroy: Subject<void> = new Subject<void>();
+
+  private authService: AuthenticationService = inject(AuthenticationService);
+  private navigationService: NavigationService = inject(NavigationService);
+  private responsiveService: ResponsiveService = inject(ResponsiveService);
 	private router: Router = inject(Router);
 
-	protected readonly AuthenticationErrors = AuthenticationMessages;
+  private browserTabReturned$: Observable<null> = this.navigationService.browserTabReturned$
+
+  protected readonly AuthenticationErrors = AuthenticationMessages;
 	protected loginError: WritableSignal<AuthenticationMessages> = signal(
 		AuthenticationMessages.None
 	);
@@ -79,10 +86,20 @@ export class LoginComponent {
 
 			if (email && password) {
 				this.authService
-					.login(email, password)
-					.then(() => {
+					.loginAndVerifyEmail(email, password)
+					.then((emailVerified: boolean | void) => {
 						// Signed in
-						void this.router.navigate(['/task-board']);
+            if (emailVerified) {
+              void this.router.navigate(['/task-board']);
+            } else {
+              void this.router.navigate(['/verify-email']);
+
+              this.browserTabReturned$
+                .pipe(takeUntil(this.destroy))
+                .subscribe(() => {
+                  void this.router.navigate(['/task-board'])
+                })
+            }
 					})
 					.catch((error: FirebaseError) => {
 						this.loginError.set(
@@ -96,4 +113,9 @@ export class LoginComponent {
 	protected resetError() {
 		this.loginError.set(AuthenticationMessages.None);
 	}
+
+  ngOnDestroy() {
+    this.destroy.next();
+    this.destroy.complete();
+  }
 }

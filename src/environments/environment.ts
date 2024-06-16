@@ -1,5 +1,8 @@
-export const environment = {
+import { Environment } from '../app/base/models/environment.model';
+
+export const environment: Environment = {
 	production: false,
+  baseUrl: 'http://localhost:4200',
 	firebaseConfig: {
     apiKey: "AIzaSyAzSAXZ827Fm-zmHgK8dJlABUDmQnX_43A",
     authDomain: "simply-task-board.firebaseapp.com",

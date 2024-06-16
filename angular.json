@@ -59,6 +59,27 @@
                 }
               ]
             },
+            "test": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "1mb",
+                  "maximumError": "2mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "outputHashing": "all",
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.test.ts"
+                }
+              ]
+            },
             "development": {
               "optimization": false,
               "extractLicenses": false,
@@ -75,6 +96,9 @@
             },
             "development": {
               "buildTarget": "simply-task-board:build:development"
+            },
+            "test": {
+              "buildTarget": "simply-task-board:build:test"
             }
           },
           "defaultConfiguration": "development"
@@ -118,6 +142,10 @@
             "development": {
               "buildTarget": "simply-task-board:build:development",
               "serveTarget": "simply-task-board:serve:development"
+            },
+            "test": {
+              "buildTarget": "simply-task-board:build:test",
+              "serveTarget": "simply-task-board:serve:test"
             }
           },
           "defaultConfiguration": "production"

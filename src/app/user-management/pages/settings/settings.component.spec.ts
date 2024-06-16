@@ -92,7 +92,7 @@ describe('SettingsComponent', () => {
 		let spyLogin: SpyInstance;
 
 		beforeEach(() => {
-			spyLogin = jest.spyOn(component['authService'], 'login');
+			spyLogin = jest.spyOn(component['authService'], 'loginAndVerifyEmail');
 		});
 
 		it('should open remove account dialog', fakeAsync(() => {

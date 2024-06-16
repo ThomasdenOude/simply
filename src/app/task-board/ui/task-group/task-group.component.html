@@ -43,7 +43,7 @@
 						cdkDragPreviewClass="task-card__drag"
 						[ngClass]="{
 							'task-card__drag': task.id === dragEnabledId(),
-							'task-card__edited': task.id === editDoneId()
+							'task-card__edited': task.id === showEditDoneId()
 						}"
 						[task]="task"
 						[cdkDragStartDelay]="EventResponse.Middle"

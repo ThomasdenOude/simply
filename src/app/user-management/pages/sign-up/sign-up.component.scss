@@ -1,3 +1,14 @@
 @use 'global';
 
 @include global.flex-component;
+
+.simply-sign-up {
+  &__login {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  &__login-text {
+    margin: 0;
+  }
+}

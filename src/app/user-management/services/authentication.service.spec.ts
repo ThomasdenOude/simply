@@ -78,7 +78,7 @@ describe('AuthenticationService', () => {
 		// Arrange
 		mockCreateUser.mockReturnValue(Promise.resolve(mockUserCredential));
 		// Act
-		service.creatUser(mockEmail, mockPassword);
+		service.creatUserAndVerifyEmail(mockEmail, mockPassword);
 		// Assert
 		expect(mockCreateUser).toHaveBeenCalledTimes(1);
 		expect(mockCreateUser).toHaveBeenCalledWith(
@@ -92,7 +92,7 @@ describe('AuthenticationService', () => {
 		// Arrange
 		mockSignIn.mockReturnValue(Promise.resolve(mockUserCredential));
 		// Act
-		service.login(mockEmail, mockPassword);
+		service.loginAndVerifyEmail(mockEmail, mockPassword);
 		// Assert
 		expect(mockSignIn).toHaveBeenCalledTimes(1);
 		expect(mockSignIn).toHaveBeenCalledWith(

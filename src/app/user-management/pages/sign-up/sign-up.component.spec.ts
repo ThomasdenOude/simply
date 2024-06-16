@@ -43,7 +43,7 @@ describe('SignUpComponent', () => {
 	it('should set default values', () => {
 		// Assert
 		expect(component['device']()).toBe(Devices.Unknown);
-		expect(component['email']()).toBe(null);
+		expect(component['emailChange']()).toBeFalsy()
 		expect(component['continue']()).toBe(false);
 		expect(component['signupError']()).toBe(AuthenticationMessages.None);
 	});
@@ -60,7 +60,7 @@ describe('SignUpComponent', () => {
 			// Assert
 			expect(component['emailForm'].valid).toBe(false);
 			expect(component['continue']()).toBe(false);
-			expect(component['email']()).toBe(null);
+			expect(component['emailChange']()).toBeFalsy();
 		});
 
 		it('should continue with email on valid form', () => {
@@ -70,7 +70,7 @@ describe('SignUpComponent', () => {
 			// Assert
 			expect(component['emailForm'].valid).toBe(true);
 			expect(component['continue']()).toBe(true);
-			expect(component['email']()).toBe(mockEmailFormValue.email);
+			expect(component['emailChange']()).toBe(mockEmailFormValue.email);
 		});
 	});
 
@@ -83,7 +83,7 @@ describe('SignUpComponent', () => {
 
 		beforeEach(() => {
 			// Arrange
-			spyCreateUser = jest.spyOn(component['authService'], 'creatUser');
+			spyCreateUser = jest.spyOn(component['authService'], 'creatUserAndVerifyEmail');
 			spyNavigate = jest
 				.spyOn(component['router'], 'navigate')
 				.mockResolvedValue(true);
@@ -97,14 +97,14 @@ describe('SignUpComponent', () => {
 			// Arrange
 			spyCreateUser.mockReturnValue(Promise.resolve());
 			// Act
-			component['email'].set(mockEmail);
+      component['emailForm'].get('email')?.setValue(mockEmail)
 			component['signUp'](mockPassword);
 			tick();
 			// Assert
 			expect(spyCreateUser).toHaveBeenCalledTimes(1);
 			expect(spyCreateUser).toHaveBeenCalledWith(mockEmail, mockPassword);
 			expect(spyNavigate).toHaveBeenCalledTimes(1);
-			expect(spyNavigate).toHaveBeenCalledWith(['/task-board']);
+			expect(spyNavigate).toHaveBeenCalledWith(['/verify-email']);
 		}));
 
 		it('should set error message for failed create user and reset errorMessage on reset', fakeAsync(() => {
@@ -116,7 +116,7 @@ describe('SignUpComponent', () => {
 				.spyOn(component['authService'], 'getAuthenticationMessage')
 				.mockReturnValue(mockErrorMessage);
 			// Act
-			component['email'].set(mockEmail);
+      component['emailForm'].get('email')?.setValue(mockEmail)
 			component['signUp'](mockPassword);
 			tick();
 			// Assert
