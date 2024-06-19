@@ -68,6 +68,7 @@ export class AuthenticateComponent implements OnInit {
 
 	private _sendActionCode(mode: string, actionCode: string): void {
 		if (mode === 'verifyEmail') {
+			this.mode.set(mode);
 			this._authService
 				.confirmEmailVerification(actionCode)
 				.then(() => {
