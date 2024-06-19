@@ -12,7 +12,7 @@ import { MatCard } from '@angular/material/card';
 import { CdkMenu, CdkMenuItem, CdkMenuTrigger } from '@angular/cdk/menu';
 
 import { ResponsiveService } from '../base/services/responsive.service';
-import { AuthenticationService } from '../user-management/services/authentication.service';
+import { AuthenticationService } from '../account/services/authentication.service';
 import { Devices } from '../base/models/devices';
 import { LogoComponent } from '../base/ui/logo/logo.component';
 
@@ -43,18 +43,22 @@ export class HeaderComponent {
 	protected readonly Devices = Devices;
 
 	protected isLoggedIn: Signal<boolean> = this.authService.isLoggedIn;
-  protected emailVerified: Signal<boolean> = this.authService.emailVerified;
+	protected emailVerified: Signal<boolean> = this.authService.emailVerified;
 	protected isOnLoginPage: Signal<boolean | undefined> = toSignal(
 		this.isOnPath('log-in')
 	);
 	protected isOnSettingsPage: Signal<boolean | undefined> = toSignal(
 		this.isOnPath('settings')
 	);
+	protected isOnAuthenticatePage: Signal<boolean | undefined> = toSignal(
+		this.isOnPath('authenticate')
+	);
 
 	protected userEmail: Signal<string> = computed(
 		() => this.authService.user()?.email ?? ''
 	);
 
+	constructor() {}
 	private isOnPath(path: string): Observable<boolean> {
 		return this.router.events.pipe(
 			filter(event => event instanceof NavigationEnd),

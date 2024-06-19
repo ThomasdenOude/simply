@@ -34,6 +34,7 @@ import {
 } from '../../models/credentials.model';
 import { Devices } from '../../../base/models/devices';
 import { AuthenticationMessages } from '../../models/authentication-messages';
+import { TASK_BOARD_ROUTE, VERIFY_EMAIL_ROUTE } from '../../../base/guards/auth-guards';
 
 @Component({
 	selector: 'simply-login',
@@ -90,14 +91,14 @@ export class LoginComponent implements OnDestroy {
 					.then((emailVerified: boolean | void) => {
 						// Signed in
             if (emailVerified) {
-              void this.router.navigate(['/task-board']);
+              void this.router.navigate(TASK_BOARD_ROUTE);
             } else {
-              void this.router.navigate(['/verify-email']);
+              void this.router.navigate(VERIFY_EMAIL_ROUTE);
 
               this.browserTabReturned$
                 .pipe(takeUntil(this.destroy))
                 .subscribe(() => {
-                  void this.router.navigate(['/task-board'])
+                  void this.router.navigate(TASK_BOARD_ROUTE)
                 })
             }
 					})

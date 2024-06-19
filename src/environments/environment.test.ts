@@ -1,7 +1,7 @@
 import { Environment } from '../app/base/models/environment.model';
 
 export const environment: Environment = {
-	production: false,
+	production: true,
   baseUrl: 'https://test-simply-task-board.web.app',
 	firebaseConfig: {
     apiKey: "AIzaSyAPhrtGaTIEU5jUF9mRtAN8ME8wpNB9kpY",

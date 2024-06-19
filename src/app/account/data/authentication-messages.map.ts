@@ -23,4 +23,6 @@ export const authenticationErrorMap: Map<string, AuthenticationMessages> =
 		['auth/wrong-password', AuthenticationMessages.InvalidPassword],
 		['auth/too-many-requests', AuthenticationMessages.TooManyAttempts],
 		['auth/weak-password', AuthenticationMessages.WeakPassword],
+    ['auth/invalid-action-code', AuthenticationMessages.InvalidActionCode],
+    ['auth/expired-action-code', AuthenticationMessages.ExpiredActionCode]
 	]);

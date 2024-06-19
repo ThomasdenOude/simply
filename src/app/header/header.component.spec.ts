@@ -9,7 +9,7 @@ import {
 	NG_MOCKS_ROOT_PROVIDERS,
 } from 'ng-mocks';
 
-import { AuthenticationService } from '../user-management/services/authentication.service';
+import { AuthenticationService } from '../account/services/authentication.service';
 import { ResponsiveService } from '../base/services/responsive.service';
 import { HeaderComponent } from './header.component';
 import { Devices } from '../base/models/devices';

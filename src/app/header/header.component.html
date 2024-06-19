@@ -24,69 +24,73 @@
 		</a>
 	}
 	<nav>
-		@if (isLoggedIn()) {
-			@if (!isOnSettingsPage()) {
+		@if (!isOnAuthenticatePage()) {
+			@if (!isLoggedIn() && !isOnLoginPage()) {
 				<button
-					mat-icon-button
+					mat-flat-button
 					color="primary"
-					aria-label="Open user account menu"
-					[cdkMenuTriggerFor]="settingsMenu"
+					class="header__nav-button"
+					routerLink="/account/log-in"
 				>
-					<mat-icon>person</mat-icon>
+					<mat-icon>login</mat-icon>
+					<span>Log in</span>
 				</button>
-				<ng-template #settingsMenu>
-					<mat-card
-						cdkMenu
-						class="simply-header__settings-menu"
-						[ngClass]="{
-							'simply-header__wide-screen': device() === Devices.WideScreen
-						}"
+			}
+			@if (isLoggedIn()) {
+				@if (isOnSettingsPage()) {
+					<button mat-icon-button color="primary" routerLink="/task-board">
+						<mat-icon>close</mat-icon>
+					</button>
+				} @else {
+					<button
+						mat-icon-button
+						color="primary"
+						aria-label="Open user account menu"
+						[cdkMenuTriggerFor]="settingsMenu"
 					>
-						<div class="simply-header__settings-account">
-							<mat-icon color="primary">person</mat-icon>
-							<p>{{ userEmail() }}</p>
-						</div>
-						<mat-divider class="simply-header__settings-divider"></mat-divider>
-
-            @if (emailVerified()) {
-              <button
-                mat-stroked-button
-                color="primary"
-                class="simply-header__settings-button"
-                routerLink="/settings"
-              >
-                <mat-icon>settings</mat-icon>
-                <span>Settings</span>
-              </button>
-            }
-
-						<button
-							mat-stroked-button
-							(click)="logout()"
-							color="primary"
-							class="settings-menu__button"
+						<mat-icon>person</mat-icon>
+					</button>
+					<ng-template #settingsMenu>
+						<mat-card
+							cdkMenu
+							class="simply-header__settings-menu"
+							[ngClass]="{
+								'simply-header__wide-screen': device() === Devices.WideScreen
+							}"
 						>
-							<span>Log out</span>
-							<mat-icon>logout</mat-icon>
-						</button>
-					</mat-card>
-				</ng-template>
+							<div class="simply-header__settings-account">
+								<mat-icon color="primary">person</mat-icon>
+								<p>{{ userEmail() }}</p>
+							</div>
+							<mat-divider
+								class="simply-header__settings-divider"
+							></mat-divider>
+
+							@if (emailVerified()) {
+								<button
+									mat-stroked-button
+									color="primary"
+									class="simply-header__settings-button"
+									routerLink="/account/settings"
+								>
+									<mat-icon>settings</mat-icon>
+									<span>Settings</span>
+								</button>
+							}
+
+							<button
+								mat-stroked-button
+								(click)="logout()"
+								color="primary"
+								class="settings-menu__button"
+							>
+								<span>Log out</span>
+								<mat-icon>logout</mat-icon>
+							</button>
+						</mat-card>
+					</ng-template>
+				}
 			}
-			@if (isOnSettingsPage()) {
-				<button mat-icon-button color="primary" routerLink="/task-board">
-					<mat-icon>close</mat-icon>
-				</button>
-			}
-		} @else if (!isOnLoginPage()) {
-			<button
-				mat-flat-button
-				color="primary"
-				class="header__nav-button"
-				routerLink="/log-in"
-			>
-				<mat-icon>login</mat-icon>
-				<span>Log in</span>
-			</button>
 		}
 	</nav>
 </header>

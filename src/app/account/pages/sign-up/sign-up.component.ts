@@ -34,6 +34,7 @@ import { Email, EmailForm } from '../../models/credentials.model';
 import { Devices } from '../../../base/models/devices';
 import { AuthenticationMessages } from '../../models/authentication-messages';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { TASK_BOARD_ROUTE, VERIFY_EMAIL_ROUTE } from '../../../base/guards/auth-guards';
 
 @Component({
 	selector: 'simply-sign-up',
@@ -104,12 +105,12 @@ export class SignUpComponent implements OnDestroy {
 				.creatUserAndVerifyEmail(emailChange, newPassword)
 				.then(() => {
 					// Signed up
-          void this.router.navigate(['/verify-email']);
+          void this.router.navigate(VERIFY_EMAIL_ROUTE);
 
           this.browserTabReturned$
             .pipe(takeUntil(this.destroy))
             .subscribe(() => {
-              void this.router.navigate(['/task-board'])
+              void this.router.navigate(TASK_BOARD_ROUTE)
             })
 				})
 				.catch((error: FirebaseError) => {
