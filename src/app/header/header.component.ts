@@ -43,20 +43,22 @@ export class HeaderComponent {
 	protected readonly Devices = Devices;
 
 	protected isLoggedIn: Signal<boolean> = this.authService.isLoggedIn;
-  protected emailVerified: Signal<boolean> = this.authService.emailVerified;
+	protected emailVerified: Signal<boolean> = this.authService.emailVerified;
 	protected isOnLoginPage: Signal<boolean | undefined> = toSignal(
 		this.isOnPath('log-in')
 	);
 	protected isOnSettingsPage: Signal<boolean | undefined> = toSignal(
 		this.isOnPath('settings')
 	);
+	protected isOnAuthenticatePage: Signal<boolean | undefined> = toSignal(
+		this.isOnPath('authenticate')
+	);
 
 	protected userEmail: Signal<string> = computed(
 		() => this.authService.user()?.email ?? ''
 	);
 
-  constructor() {
-  }
+	constructor() {}
 	private isOnPath(path: string): Observable<boolean> {
 		return this.router.events.pipe(
 			filter(event => event instanceof NavigationEnd),

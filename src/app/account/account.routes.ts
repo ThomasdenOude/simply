@@ -6,6 +6,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { SettingsComponent } from './pages/settings/settings.component';
 import { VerifyEmailComponent } from './pages/verify-email/verify-email.component';
 import { redirectAfterLogin, redirectNotAuthorized, redirectVerified } from '../base/guards/auth-guards';
+import { AuthenticateComponent } from './pages/authenticate/authenticate.component';
 
 export const ACCOUNT_ROUTES: Routes = [
   {
@@ -30,6 +31,10 @@ export const ACCOUNT_ROUTES: Routes = [
     component: VerifyEmailComponent,
     canActivate: [AuthGuard],
     data: { authGuardPipe: redirectVerified }
+  },
+  {
+    path: 'authenticate',
+    component: AuthenticateComponent
   },
   {
     path: 'settings',

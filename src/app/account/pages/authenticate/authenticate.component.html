@@ -1,0 +1,46 @@
+<simply-center-page simplyTextContent>
+	<h2>Thank you for signing up to <simply-logo></simply-logo></h2>
+
+	@if (mode() === 'verifyEmail') {
+		@if (!continue()) {
+			<p>We will verify your email address</p>
+		}
+
+		<mat-divider simplySpaceContent="large"></mat-divider>
+
+		@if (continue()) {
+			<p>Email is verified, continue to the app</p>
+			<button mat-flat-button color="primary" (click)="gotToApp()">
+				Continue to app
+			</button>
+		}
+		@if (errorMessage() !== AuthenticationMessages.None) {
+			<simply-message
+				[errorMessage]="errorMessage()"
+				simplySpaceContent="large"
+			></simply-message>
+
+			@if (user(); as user) {
+				<p>We can sent a new email verification</p>
+				<button
+					mat-flat-button
+					color="primary"
+					(click)="sendVerificationLink(user)"
+				>
+					Send new email verification
+				</button>
+			} @else {
+				<p>Please log in to your account again</p>
+				<p>After login you can get a new email verification</p>
+				<button mat-flat-button color="primary" routerLink="/account/login">
+					Log in
+				</button>
+			}
+		}
+	} @else if (errorMessage() !== AuthenticationMessages.None) {
+		<simply-message
+			[errorMessage]="errorMessage()"
+			simplySpaceContent="large"
+		></simply-message>
+	}
+</simply-center-page>

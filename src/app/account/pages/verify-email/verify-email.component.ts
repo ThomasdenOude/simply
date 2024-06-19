@@ -45,7 +45,8 @@ export class VerifyEmailComponent implements OnDestroy {
   private browserTabReturned$: Observable<null> = this.navigationService.browserTabReturned$
 
   protected sendVerificationLink(): void {
-    const user = this.authService.user()
+    const user = this.user()
+
     if (user) {
       this.authService.sendEmailVerification(user).then(() => {
         this.browserTabReturned$

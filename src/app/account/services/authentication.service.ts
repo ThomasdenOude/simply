@@ -2,6 +2,7 @@ import { computed, inject, Injectable, Signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 
 import {
+  applyActionCode,
   Auth,
   authState,
   createUserWithEmailAndPassword,
@@ -43,13 +44,19 @@ export class AuthenticationService {
 	}
 
 	public async creatUserAndVerifyEmail(email: string, password: string): Promise<void> {
+
 		return createUserWithEmailAndPassword(this.auth, email, password)
-      .then((userCredential: UserCredential) => this.sendEmailVerification(userCredential.user));
+      .then((userCredential: UserCredential) => {
+
+        return this.sendEmailVerification(userCredential.user)
+      });
 	}
 
 	public async loginAndVerifyEmail(email: string, password: string): Promise<boolean | void> {
+
     return signInWithEmailAndPassword(this.auth, email, password)
       .then((userCredential: UserCredential): Promise<boolean | void> => {
+
       const user: User = userCredential.user;
 
       if (user.emailVerified) {
@@ -61,9 +68,13 @@ export class AuthenticationService {
   }
 
   public async sendEmailVerification(user: User): Promise<void> {
-    return sendEmailVerification(user, {
-      url: this.baseUrl + '/task-board'
-    })
+
+    return sendEmailVerification(user)
+  }
+
+  public async confirmEmailVerification(actionCode: string): Promise<void> {
+
+    return applyActionCode(this.auth, actionCode)
   }
 
 	public logout(): Promise<void> {

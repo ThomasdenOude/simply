@@ -18,4 +18,6 @@ export enum AuthenticationMessages {
 	FailedDeleteUser = 'FAILED_DELETE_USER',
 	Default = 'SOMETHING_WENT_WRONG',
 	SuccessfulPasswordChange = 'SUCCESSFUL_PASSWORD_CHANGE',
+  InvalidActionCode = 'INVALID_OOB_CODE',
+  ExpiredActionCode = 'EXPIRED_OOB_CODE'
 }
