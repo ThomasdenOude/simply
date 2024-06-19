@@ -12,7 +12,7 @@ import { MatCard } from '@angular/material/card';
 import { CdkMenu, CdkMenuItem, CdkMenuTrigger } from '@angular/cdk/menu';
 
 import { ResponsiveService } from '../base/services/responsive.service';
-import { AuthenticationService } from '../user-management/services/authentication.service';
+import { AuthenticationService } from '../account/services/authentication.service';
 import { Devices } from '../base/models/devices';
 import { LogoComponent } from '../base/ui/logo/logo.component';
 
@@ -55,6 +55,8 @@ export class HeaderComponent {
 		() => this.authService.user()?.email ?? ''
 	);
 
+  constructor() {
+  }
 	private isOnPath(path: string): Observable<boolean> {
 		return this.router.events.pipe(
 			filter(event => event instanceof NavigationEnd),

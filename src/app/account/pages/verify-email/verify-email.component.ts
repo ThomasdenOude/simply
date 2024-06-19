@@ -14,6 +14,7 @@ import { CenterPageComponent } from '../../../base/ui/center-page/center-page.co
 import { FocusInputDirective } from '../../../base/directives/focus-input.directive';
 import { TextContentDirective } from '../../../base/directives/text-content.directive';
 import { SpaceContentDirective } from '../../../base/directives/space-content.directive';
+import { TASK_BOARD_ROUTE } from '../../../base/guards/auth-guards';
 
 @Component({
   selector: 'simply-verify-email',
@@ -50,7 +51,7 @@ export class VerifyEmailComponent implements OnDestroy {
         this.browserTabReturned$
           .pipe(takeUntil(this.destroy))
           .subscribe(() => {
-            void this.router.navigate(['/task-board'])
+            void this.router.navigate(TASK_BOARD_ROUTE)
           })
       })
     }

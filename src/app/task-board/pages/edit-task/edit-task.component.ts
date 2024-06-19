@@ -34,6 +34,7 @@ import { Devices } from '../../../base/models/devices';
 import { TASK_STATUS_LIST } from '../../data/task-status-list';
 import { taskStatusIcon } from '../../data/task-status-icon.map';
 import { TaskStatus, TaskStatusIcons } from '../../models/task-status';
+import { TASK_BOARD_ROUTE } from '../../../base/guards/auth-guards';
 
 @Component({
 	selector: 'simply-edit-task',
@@ -157,7 +158,7 @@ export class EditTaskComponent implements OnInit, OnDestroy {
 	}
 
 	private navigateToTaskBoard(): void {
-		this._router.navigate(['/task-board']);
+		this._router.navigate(TASK_BOARD_ROUTE);
 	}
 
 	protected cancel(): void {
