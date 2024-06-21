@@ -1,9 +1,10 @@
 import {
-  Component,
-  inject, OnDestroy,
-  signal,
-  Signal,
-  WritableSignal,
+	Component,
+	inject,
+	OnDestroy,
+	signal,
+	Signal,
+	WritableSignal,
 } from '@angular/core';
 import {
 	FormControl,
@@ -16,6 +17,7 @@ import { Router, RouterLink } from '@angular/router';
 
 import { FirebaseError } from '@firebase/util';
 import { Observable, Subject, takeUntil } from 'rxjs';
+import { Dialog } from '@angular/cdk/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -25,6 +27,7 @@ import { NavigationService } from '../../services/navigation.service';
 import { AuthenticationService } from '../../services/authentication.service';
 import { ResponsiveService } from '../../../base/services/responsive.service';
 import { MessageComponent } from '../../../base/ui/message/message.component';
+import { ForgotPasswordComponent } from '../../ui/forgot-password/forgot-password.component';
 import { CenterPageComponent } from '../../../base/ui/center-page/center-page.component';
 import { SpaceContentDirective } from '../../../base/directives/space-content.directive';
 import { FocusInputDirective } from '../../../base/directives/focus-input.directive';
@@ -34,38 +37,45 @@ import {
 } from '../../models/credentials.model';
 import { Devices } from '../../../base/models/devices';
 import { AuthenticationMessages } from '../../models/authentication-messages';
-import { TASK_BOARD_ROUTE, VERIFY_EMAIL_ROUTE } from '../../../base/guards/auth-guards';
+import {
+	TASK_BOARD_ROUTE,
+	VERIFY_EMAIL_ROUTE,
+} from '../../../base/guards/auth-guards';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
 	selector: 'simply-login',
 	standalone: true,
-  imports: [
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MatIcon,
-    MessageComponent,
-    CenterPageComponent,
-    FocusInputDirective,
-    SpaceContentDirective,
-    RouterLink,
-  ],
+	imports: [
+		MatFormFieldModule,
+		MatInputModule,
+		MatButtonModule,
+		FormsModule,
+		ReactiveFormsModule,
+		MatIcon,
+		MessageComponent,
+		CenterPageComponent,
+		FocusInputDirective,
+		SpaceContentDirective,
+		RouterLink,
+	],
 	templateUrl: './login.component.html',
 	styleUrl: './login.component.scss',
 })
 export class LoginComponent implements OnDestroy {
-  private destroy: Subject<void> = new Subject<void>();
+	private destroy: Subject<void> = new Subject<void>();
 
-  private authService: AuthenticationService = inject(AuthenticationService);
-  private navigationService: NavigationService = inject(NavigationService);
-  private responsiveService: ResponsiveService = inject(ResponsiveService);
+	private authService: AuthenticationService = inject(AuthenticationService);
+	private navigationService: NavigationService = inject(NavigationService);
+	private responsiveService: ResponsiveService = inject(ResponsiveService);
 	private router: Router = inject(Router);
+	private dialog: Dialog = inject(Dialog);
+	private snackbar: MatSnackBar = inject(MatSnackBar);
 
-  private browserTabReturned$: Observable<null> = this.navigationService.browserTabReturned$
+	private browserTabReturned$: Observable<null> =
+		this.navigationService.browserTabReturned$;
 
-  protected readonly AuthenticationErrors = AuthenticationMessages;
+	protected readonly AuthenticationErrors = AuthenticationMessages;
 	protected loginError: WritableSignal<AuthenticationMessages> = signal(
 		AuthenticationMessages.None
 	);
@@ -90,17 +100,17 @@ export class LoginComponent implements OnDestroy {
 					.loginAndVerifyEmail(email, password)
 					.then((emailVerified: boolean | void) => {
 						// Signed in
-            if (emailVerified) {
-              void this.router.navigate(TASK_BOARD_ROUTE);
-            } else {
-              void this.router.navigate(VERIFY_EMAIL_ROUTE);
+						if (emailVerified) {
+							void this.router.navigate(TASK_BOARD_ROUTE);
+						} else {
+							void this.router.navigate(VERIFY_EMAIL_ROUTE);
 
-              this.browserTabReturned$
-                .pipe(takeUntil(this.destroy))
-                .subscribe(() => {
-                  void this.router.navigate(TASK_BOARD_ROUTE)
-                })
-            }
+							this.browserTabReturned$
+								.pipe(takeUntil(this.destroy))
+								.subscribe(() => {
+									void this.router.navigate(TASK_BOARD_ROUTE);
+								});
+						}
 					})
 					.catch((error: FirebaseError) => {
 						this.loginError.set(
@@ -115,8 +125,38 @@ export class LoginComponent implements OnDestroy {
 		this.loginError.set(AuthenticationMessages.None);
 	}
 
-  ngOnDestroy() {
-    this.destroy.next();
-    this.destroy.complete();
-  }
+	protected openForgotPasswordDialog(): void {
+		const forgotPasswordDialog = this.dialog.open<string | null>(
+			ForgotPasswordComponent,
+			{
+				autoFocus: false,
+			}
+		);
+
+		forgotPasswordDialog.closed.subscribe(email => {
+			if (email) {
+				this.authService
+					.sendPasswordReset(email)
+					.then(() => {
+						this.snackbar.open(
+							`An email to reset your password was send to: ${email}.`,
+							'',
+							{
+								duration: 5000,
+							}
+						);
+					})
+					.catch(() => {
+						this.snackbar.open(`Unable to send email to: ${email}.`, '', {
+							duration: 5000,
+						});
+					});
+			}
+		});
+	}
+
+	ngOnDestroy() {
+		this.destroy.next();
+		this.destroy.complete();
+	}
 }

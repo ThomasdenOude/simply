@@ -1,7 +1,7 @@
 <simply-center-page simplyTextContent>
-	<h2>Thank you for signing up to <simply-logo></simply-logo></h2>
-
 	@if (mode() === 'verifyEmail') {
+		<h2>Thank you for signing up to <simply-logo></simply-logo></h2>
+
 		@if (!continue()) {
 			<p>We will verify your email address</p>
 		}
@@ -10,7 +10,12 @@
 
 		@if (continue()) {
 			<p>Email is verified, continue to the app</p>
-			<button mat-flat-button color="primary" (click)="gotToApp()">
+			<button
+				class="simply-authenticate__button"
+				mat-flat-button
+				color="primary"
+				(click)="gotToApp()"
+			>
 				Continue to app
 			</button>
 		}
@@ -23,6 +28,7 @@
 			@if (user(); as user) {
 				<p>We can sent a new email verification</p>
 				<button
+					class="simply-authenticate__button"
 					mat-flat-button
 					color="primary"
 					(click)="sendVerificationLink(user)"
@@ -32,15 +38,51 @@
 			} @else {
 				<p>Please log in to your account again</p>
 				<p>After login you can get a new email verification</p>
-				<button mat-flat-button color="primary" routerLink="/account/login">
+				<button
+					class="simply-authenticate__button"
+					mat-flat-button
+					color="primary"
+					routerLink="/account/login"
+				>
 					Log in
 				</button>
 			}
 		}
-	} @else if (errorMessage() !== AuthenticationMessages.None) {
-		<simply-message
-			[errorMessage]="errorMessage()"
-			simplySpaceContent="large"
-		></simply-message>
+	}
+
+	@if (mode() === 'resetPassword') {
+		<h2>Password reset</h2>
+
+		@if (errorMessage() !== AuthenticationMessages.None) {
+			<simply-message
+				[errorMessage]="errorMessage()"
+				simplySpaceContent="large"
+			></simply-message>
+		}
+
+		@if (!continue() && !passwordConfirmed()) {
+			<p>We will verify the password reset link</p>
+
+			<mat-divider simplySpaceContent="large"></mat-divider>
+		}
+
+		@if (continue() && !passwordConfirmed()) {
+			<simply-new-password
+				(isSubmitted)="resetPassword($event)"
+				newPasswordSubmitAction="Reset password"
+			></simply-new-password>
+		}
+
+		@if (passwordConfirmed()) {
+			<p>New password is set</p>
+			<button
+				class="simply-authenticate__button"
+				mat-flat-button
+				color="primary"
+				(click)="gotToApp()"
+			>
+				Continue to app
+			</button>
+		}
 	}
 </simply-center-page>

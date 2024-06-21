@@ -1,3 +1,9 @@
 @use 'global';
 
 @include global.flex-component;
+
+.simply-authenticate {
+  &__button {
+    width: 100%;
+  }
+}

@@ -1,36 +1,39 @@
-<div class="simply-kanban__action-menu">
-	<button mat-flat-button color="accent" routerLink="task">Add task</button>
-</div>
-<div class="simply-kanban__container" cdkDropListGroup>
-	@for (status of taskStatuses; track status) {
-		<div class="simply-kanban__list">
-			<header class="simply-kanban__header">
-				<mat-icon>{{ taskStatusIcon.get(status) }}</mat-icon>
-				<h3>{{ status }}</h3>
-			</header>
-			<div
-				class="simply-kanban__content"
-				cdkDropList
-				[id]="status"
-				[cdkDropListData]="taskStatusList[status]()"
-				(cdkDropListDropped)="updateTaskList($event)"
-			>
-				@for (task of taskStatusList[status](); track task.id) {
-					<simply-task-card
-						cdkDrag
-						cdkDragPreviewClass="task-card__drag"
-						[ngClass]="{
-							'task-card__drag': task.id === dragEnabledId(),
-							'task-card__edited': task.id === editDoneId()
-						}"
-						[cdkDragStartDelay]="EventResponse.Middle"
-						[task]="task"
-						(onEditTask)="editTask($event)"
-						(onDragEnabled)="setDragState($event, task)"
-						(cdkDragDropped)="editTaskDone(task)"
-					></simply-task-card>
-				}
+<div class="simply-kanban__container">
+	<div class="simply-kanban__action-menu">
+		<button mat-flat-button color="accent" routerLink="task">Add task</button>
+	</div>
+
+	<div class="simply-kanban__list-container" cdkDropListGroup>
+		@for (status of taskStatuses; track status) {
+			<div class="simply-kanban__list">
+				<header class="simply-kanban__header">
+					<mat-icon>{{ taskStatusIcon.get(status) }}</mat-icon>
+					<h3>{{ status }}</h3>
+				</header>
+				<div
+					class="simply-kanban__content"
+					cdkDropList
+					[id]="status"
+					[cdkDropListData]="taskStatusList[status]()"
+					(cdkDropListDropped)="updateTaskList($event)"
+				>
+					@for (task of taskStatusList[status](); track task.id) {
+						<simply-task-card
+							cdkDrag
+							cdkDragPreviewClass="task-card__drag"
+							[ngClass]="{
+								'task-card__drag': task.id === dragEnabledId(),
+								'task-card__edited': task.id === editDoneId()
+							}"
+							[cdkDragStartDelay]="EventResponse.Middle"
+							[task]="task"
+							(onEditTask)="editTask($event)"
+							(onDragEnabled)="setDragState($event, task)"
+							(cdkDragDropped)="editTaskDone(task)"
+						></simply-task-card>
+					}
+				</div>
 			</div>
-		</div>
-	}
+		}
+	</div>
 </div>
