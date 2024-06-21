@@ -2,15 +2,18 @@ import { computed, inject, Injectable, Signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 
 import {
-  applyActionCode,
-  Auth,
-  authState,
-  createUserWithEmailAndPassword,
-  deleteUser, sendEmailVerification,
-  signInWithEmailAndPassword,
-  signOut,
-  updatePassword,
-  User, UserCredential,
+	applyActionCode,
+	Auth,
+	authState,
+	createUserWithEmailAndPassword,
+	deleteUser,
+	sendEmailVerification,
+	sendPasswordResetEmail,
+	signInWithEmailAndPassword,
+	signOut,
+	updatePassword,
+	User,
+	UserCredential,
 } from '@angular/fire/auth';
 import { FirebaseError } from '@firebase/util';
 
@@ -23,7 +26,7 @@ import { environment } from '../../../environments/environment';
 })
 export class AuthenticationService {
 	private auth: Auth = inject(Auth);
-  private baseUrl = environment.baseUrl;
+	private baseUrl = environment.baseUrl;
 
 	private _authState: Signal<User | null | undefined> = toSignal(
 		authState(this.auth)
@@ -37,45 +40,55 @@ export class AuthenticationService {
 		return this._user;
 	}
 
-  public emailVerified: Signal<boolean> = computed(() => this._user()?.emailVerified ?? false)
+	public emailVerified: Signal<boolean> = computed(
+		() => this._user()?.emailVerified ?? false
+	);
 
 	public get isLoggedIn(): Signal<boolean> {
 		return this._isLoggedIn;
 	}
 
-	public async creatUserAndVerifyEmail(email: string, password: string): Promise<void> {
-
-		return createUserWithEmailAndPassword(this.auth, email, password)
-      .then((userCredential: UserCredential) => {
-
-        return this.sendEmailVerification(userCredential.user)
-      });
+	public async creatUserAndVerifyEmail(
+		email: string,
+		password: string
+	): Promise<void> {
+		return createUserWithEmailAndPassword(this.auth, email, password).then(
+			(userCredential: UserCredential) => {
+				return this.sendEmailVerification(userCredential.user);
+			}
+		);
 	}
 
-	public async loginAndVerifyEmail(email: string, password: string): Promise<boolean | void> {
+	public async loginAndVerifyEmail(
+		email: string,
+		password: string
+	): Promise<boolean | void> {
+		return signInWithEmailAndPassword(this.auth, email, password).then(
+			(userCredential: UserCredential): Promise<boolean | void> => {
+				const user: User = userCredential.user;
 
-    return signInWithEmailAndPassword(this.auth, email, password)
-      .then((userCredential: UserCredential): Promise<boolean | void> => {
+				if (user.emailVerified) {
+					return Promise.resolve(true);
+				} else {
+					return this.sendEmailVerification(user);
+				}
+			}
+		);
+	}
 
-      const user: User = userCredential.user;
+	public async sendEmailVerification(user: User): Promise<void> {
+		return sendEmailVerification(user);
+	}
 
-      if (user.emailVerified) {
-        return Promise.resolve(true);
-      } else {
-        return this.sendEmailVerification(user);
-      }
-    })
-  }
+	public async confirmEmailVerification(actionCode: string): Promise<void> {
+		return applyActionCode(this.auth, actionCode);
+	}
 
-  public async sendEmailVerification(user: User): Promise<void> {
+	public sendPasswordReset(email: string): Promise<void> {
+		console.log(this.auth);
 
-    return sendEmailVerification(user)
-  }
-
-  public async confirmEmailVerification(actionCode: string): Promise<void> {
-
-    return applyActionCode(this.auth, actionCode)
-  }
+		return sendPasswordResetEmail(this.auth, email);
+	}
 
 	public logout(): Promise<void> {
 		return signOut(this.auth);

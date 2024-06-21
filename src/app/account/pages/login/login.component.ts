@@ -41,6 +41,7 @@ import {
 	TASK_BOARD_ROUTE,
 	VERIFY_EMAIL_ROUTE,
 } from '../../../base/guards/auth-guards';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
 	selector: 'simply-login',
@@ -69,6 +70,7 @@ export class LoginComponent implements OnDestroy {
 	private responsiveService: ResponsiveService = inject(ResponsiveService);
 	private router: Router = inject(Router);
 	private dialog: Dialog = inject(Dialog);
+	private snackbar: MatSnackBar = inject(MatSnackBar);
 
 	private browserTabReturned$: Observable<null> =
 		this.navigationService.browserTabReturned$;
@@ -133,6 +135,22 @@ export class LoginComponent implements OnDestroy {
 
 		forgotPasswordDialog.closed.subscribe(email => {
 			if (email) {
+				this.authService
+					.sendPasswordReset(email)
+					.then(() => {
+						this.snackbar.open(
+							`An email to reset your password was send to: ${email}.`,
+							'',
+							{
+								duration: 5000,
+							}
+						);
+					})
+					.catch(() => {
+						this.snackbar.open(`Unable to send email to: ${email}.`, '', {
+							duration: 5000,
+						});
+					});
 			}
 		});
 	}
