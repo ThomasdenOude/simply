@@ -5,6 +5,7 @@ import {
 	applyActionCode,
 	Auth,
 	authState,
+	confirmPasswordReset,
 	createUserWithEmailAndPassword,
 	deleteUser,
 	sendEmailVerification,
@@ -14,6 +15,7 @@ import {
 	updatePassword,
 	User,
 	UserCredential,
+	verifyPasswordResetCode,
 } from '@angular/fire/auth';
 import { FirebaseError } from '@firebase/util';
 
@@ -85,9 +87,18 @@ export class AuthenticationService {
 	}
 
 	public sendPasswordReset(email: string): Promise<void> {
-		console.log(this.auth);
-
 		return sendPasswordResetEmail(this.auth, email);
+	}
+
+	public verifyPasswordReset(actionCode: string): Promise<string> {
+		return verifyPasswordResetCode(this.auth, actionCode);
+	}
+
+	public confirmPasswordReset(
+		actionCode: string,
+		password: string
+	): Promise<void> {
+		return confirmPasswordReset(this.auth, actionCode, password);
 	}
 
 	public logout(): Promise<void> {
