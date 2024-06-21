@@ -18,8 +18,8 @@
 
 	@if $density < 0 {
 		.simply-kanban {
-			&__host,
-			&__container {
+			&__container,
+			&__list-container {
 				gap: global.space('regular');
 			}
 			&__header {
@@ -34,8 +34,8 @@
 		}
 	} @else {
 		.simply-kanban {
-			&__host,
-			&__container {
+			&__container,
+			&__list-container {
 				gap: global.space('large');
 			}
 			&__header {

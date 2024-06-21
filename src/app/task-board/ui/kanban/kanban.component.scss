@@ -2,18 +2,24 @@
 
 :host {
 	display: flex;
-	flex-direction: column;
+  justify-content: center;
 	height: 100%;
 	width: 100%;
-	max-width: 1800px;
 }
 
 .simply-kanban {
+  &__container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    max-width: 1800px;
+  }
 	&__action-menu {
 		display: flex;
 		justify-content: end;
 	}
-	&__container {
+	&__list-container {
 		flex: 1 1 auto;
 		display: flex;
 	}
