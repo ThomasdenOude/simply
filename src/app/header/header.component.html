@@ -2,6 +2,7 @@
 	@if (device() !== Devices.HandsetPortrait) {
 		<a
 			mat-button
+			data-test="header-logo"
 			[routerLink]="isLoggedIn() ? '/task-board' : '/'"
 			[attr.aria-label]="
 				isLoggedIn() ? 'Navigate to task-card board' : 'Navigate to home page'
@@ -28,6 +29,7 @@
 			@if (!isLoggedIn() && !isOnLoginPage()) {
 				<button
 					mat-flat-button
+					data-test="header-log-in"
 					color="primary"
 					class="header__nav-button"
 					routerLink="/account/log-in"
