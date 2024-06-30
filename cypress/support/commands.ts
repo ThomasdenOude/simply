@@ -37,11 +37,33 @@
 // }
 
 declare namespace Cypress {
-	interface Chainable {
-		getByData(dataTestAttribute: string): Chainable<JQuery<HTMLElement>>;
+	interface Chainable<Subject> {
+		getByData(
+			dataTestAttribute: string,
+			args?: any
+		): Chainable<JQuery<HTMLElement>>;
+		emailLogin(email: string, password: string): void;
 	}
 }
 
-Cypress.Commands.add('getByData', selector => {
-	return cy.get(`[data-test=${selector}]`);
+Cypress.Commands.add('getByData', (dataTestAttribute: string, ...args: any) => {
+	return cy.get(`[data-test=${dataTestAttribute}]`, ...args);
+});
+
+Cypress.Commands.add('emailLogin', (email: string, password: string): void => {
+	cy.visit('/');
+
+	cy.location('pathname').then(path => {
+		if (path !== '/') {
+			cy.log('Already logged in');
+		} else {
+			cy.getByData('header-log-in').should('exist').click();
+
+			cy.location('pathname').should('equal', '/account/log-in');
+
+			cy.getByData('email-input').type(email, { log: false });
+			cy.getByData('password-input').type(password, { log: false });
+			cy.getByData('submit-button').click();
+		}
+	});
 });

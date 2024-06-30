@@ -5,10 +5,12 @@ Simply is a basic task app. You can watch a live demo at [Simply](https://simply
 > “You can do anything, but not everything.”  -- David Allen
 
 ## Features
- - Kanban board for managing your tasks
+ - Task board for managing your tasks
  - Works both on laptop and mobile phone
  - Save your tasks on your account
  - Follows your color preference ( light or dark theme )
+
+For more information about the features, take a look at the [application overview](app-overview/README.md)
 
 ---
 

@@ -12,7 +12,13 @@
 		}
 		<mat-form-field simplySpaceContent="regular">
 			<mat-label>Email</mat-label>
-			<input type="text" matInput formControlName="email" simplyFocusInput />
+			<input
+				data-test="email-input"
+				type="text"
+				matInput
+				formControlName="email"
+				simplyFocusInput
+			/>
 			@if (loginForm.get('email')?.hasError('required')) {
 				<mat-error>Fill in your email</mat-error>
 			}
@@ -23,13 +29,19 @@
 
 		<mat-form-field simplySpaceContent="regular">
 			<mat-label>Password</mat-label>
-			<input type="password" matInput formControlName="password" />
+			<input
+				data-test="password-input"
+				type="password"
+				matInput
+				formControlName="password"
+			/>
 			@if (loginForm.get('password')?.hasError('required')) {
 				<mat-error>Fill in your password</mat-error>
 			}
 		</mat-form-field>
 
 		<button
+			data-test="submit-button"
 			type="submit"
 			mat-flat-button
 			color="primary"

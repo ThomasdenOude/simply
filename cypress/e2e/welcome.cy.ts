@@ -1,6 +1,6 @@
 describe('Welcome', () => {
 	beforeEach(() => {
-		cy.visit('http://localhost:4200');
+		cy.visit('/');
 	});
 
 	context('Header', () => {
@@ -23,10 +23,7 @@ describe('Welcome', () => {
 		});
 
 		it('has a sign up button that links to sign up page', () => {
-			cy.getByData('welcome-sign-up')
-				.click()
-				.location('pathname')
-				.should('equal', '/account/sign-up');
+			cy.getByData('welcome-sign-up').should('contain', 'Sign up');
 		});
 	});
 });

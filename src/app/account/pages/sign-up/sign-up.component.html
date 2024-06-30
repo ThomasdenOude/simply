@@ -11,19 +11,25 @@
 			></simply-message>
 		}
 
-    @if (signupError() === AuthenticationMessages.EmailExists) {
-      <div class="simply-sign-up__login" simplySpaceContent="large">
-        <p class="simply-sign-up__login-text">Already have an account?</p>
-        <button mat-flat-button color="primary" routerLink="/account/log-in">
-          <mat-icon>login</mat-icon>
-          Log in to your account
-        </button>
-      </div>
-    }
+		@if (signupError() === AuthenticationMessages.EmailExists) {
+			<div class="simply-sign-up__login" simplySpaceContent="large">
+				<p class="simply-sign-up__login-text">Already have an account?</p>
+				<button mat-flat-button color="primary" routerLink="/account/log-in">
+					<mat-icon>login</mat-icon>
+					Log in to your account
+				</button>
+			</div>
+		}
 
 		<mat-form-field simplySpaceContent="regular">
 			<mat-label>Email</mat-label>
-			<input type="text" matInput formControlName="email" simplyFocusInput />
+			<input
+				data-test="email-input"
+				type="text"
+				matInput
+				formControlName="email"
+				simplyFocusInput
+			/>
 			@if (emailForm.get('email')?.hasError('required')) {
 				<mat-error>Fill in your email</mat-error>
 			}
@@ -34,6 +40,7 @@
 
 		@if (!continue()) {
 			<button
+				data-test="continue-button"
 				type="submit"
 				mat-flat-button
 				color="primary"
