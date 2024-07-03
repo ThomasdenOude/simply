@@ -43,7 +43,9 @@ export class HeaderComponent {
 	protected readonly Devices = Devices;
 
 	protected isLoggedIn: Signal<boolean> = this.authService.isLoggedIn;
-	protected emailVerified: Signal<boolean> = this.authService.emailVerified;
+	protected emailVerified: Signal<boolean> = computed(
+		() => this.authService.user()?.emailVerified ?? false
+	);
 	protected isOnLoginPage: Signal<boolean | undefined> = toSignal(
 		this.isOnPath('log-in')
 	);
@@ -72,7 +74,7 @@ export class HeaderComponent {
 			.logout()
 			.then(() => {
 				// Signed out
-				void this.router.navigate(['/sign-in']);
+				void this.router.navigate(['/']);
 			})
 			.catch();
 	}

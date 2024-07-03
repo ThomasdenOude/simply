@@ -1,8 +1,8 @@
-<header class="simply-header__container">
+<header data-test="header" class="simply-header__container">
 	@if (device() !== Devices.HandsetPortrait) {
 		<a
+			data-test="logo"
 			mat-button
-			data-test="header-logo"
 			[routerLink]="isLoggedIn() ? '/task-board' : '/'"
 			[attr.aria-label]="
 				isLoggedIn() ? 'Navigate to task-card board' : 'Navigate to home page'
@@ -14,6 +14,7 @@
 		</a>
 	} @else {
 		<a
+			data-test="logo-icon"
 			mat-icon-button
 			color="accent"
 			[routerLink]="isLoggedIn() ? '/task-board' : '/'"
@@ -24,75 +25,86 @@
 			<mat-icon class="header__icon">task_alt</mat-icon>
 		</a>
 	}
-	<nav>
+	<div>
 		@if (!isOnAuthenticatePage()) {
-			@if (!isLoggedIn() && !isOnLoginPage()) {
-				<button
-					mat-flat-button
-					data-test="header-log-in"
-					color="primary"
-					class="header__nav-button"
-					routerLink="/account/log-in"
-				>
-					<mat-icon>login</mat-icon>
-					<span>Log in</span>
-				</button>
-			}
-			@if (isLoggedIn()) {
-				@if (isOnSettingsPage()) {
-					<button mat-icon-button color="primary" routerLink="/task-board">
-						<mat-icon>close</mat-icon>
-					</button>
-				} @else {
+			<nav data-test="navigation-menu">
+				@if (!isLoggedIn() && !isOnLoginPage()) {
 					<button
-						mat-icon-button
+						data-test="log-in-button"
+						mat-flat-button
 						color="primary"
-						aria-label="Open user account menu"
-						[cdkMenuTriggerFor]="settingsMenu"
+						class="header__nav-button"
+						routerLink="/account/log-in"
 					>
-						<mat-icon>person</mat-icon>
+						<mat-icon>login</mat-icon>
+						<span>Log in</span>
 					</button>
-					<ng-template #settingsMenu>
-						<mat-card
-							cdkMenu
-							class="simply-header__settings-menu"
-							[ngClass]="{
-								'simply-header__wide-screen': device() === Devices.WideScreen
-							}"
-						>
-							<div class="simply-header__settings-account">
-								<mat-icon color="primary">person</mat-icon>
-								<p>{{ userEmail() }}</p>
-							</div>
-							<mat-divider
-								class="simply-header__settings-divider"
-							></mat-divider>
-
-							@if (emailVerified()) {
-								<button
-									mat-stroked-button
-									color="primary"
-									class="simply-header__settings-button"
-									routerLink="/account/settings"
-								>
-									<mat-icon>settings</mat-icon>
-									<span>Settings</span>
-								</button>
-							}
-
-							<button
-								mat-stroked-button
-								(click)="logout()"
-								color="primary"
-								class="settings-menu__button"
-							>
-								<span>Log out</span>
-								<mat-icon>logout</mat-icon>
-							</button>
-						</mat-card>
-					</ng-template>
 				}
-			}
+				@if (isLoggedIn()) {
+					@if (isOnSettingsPage()) {
+						<button
+							data-test="menu-close-button"
+							mat-icon-button
+							color="primary"
+							routerLink="/task-board"
+						>
+							<mat-icon>close</mat-icon>
+						</button>
+					} @else {
+						<button
+							data-test="menu-open-button"
+							mat-icon-button
+							color="primary"
+							aria-label="Open user account menu"
+							[cdkMenuTriggerFor]="settingsMenu"
+						>
+							<mat-icon>person</mat-icon>
+						</button>
+						<ng-template #settingsMenu>
+							<mat-card
+								data-test="settings-menu"
+								cdkMenu
+								class="simply-header__settings-menu"
+								[ngClass]="{
+									'simply-header__wide-screen': device() === Devices.WideScreen
+								}"
+							>
+								<div class="simply-header__settings-account">
+									<mat-icon color="primary">person</mat-icon>
+									<p data-test="user-email">{{ userEmail() }}</p>
+								</div>
+								<mat-divider
+									class="simply-header__settings-divider"
+								></mat-divider>
+
+								@if (emailVerified()) {
+									<button
+										data-test="settings-button"
+										mat-stroked-button
+										color="primary"
+										class="simply-header__settings-button"
+										routerLink="/account/settings"
+									>
+										<mat-icon>settings</mat-icon>
+										<span>Settings</span>
+									</button>
+								}
+
+								<button
+									data-test="log-out-button"
+									mat-stroked-button
+									(click)="logout()"
+									color="primary"
+									class="settings-menu__button"
+								>
+									<span>Log out</span>
+									<mat-icon>logout</mat-icon>
+								</button>
+							</mat-card>
+						</ng-template>
+					}
+				}
+			</nav>
 		}
-	</nav>
+	</div>
 </header>

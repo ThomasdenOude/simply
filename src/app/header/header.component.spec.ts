@@ -1,102 +1,240 @@
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
-import { signal } from '@angular/core';
-import { fakeAsync, tick } from '@angular/core/testing';
+import { CdkMenuModule, CdkMenuTrigger } from '@angular/cdk/menu';
+import { TestBed } from '@angular/core/testing';
 
 import {
 	MockBuilder,
 	MockedComponentFixture,
 	MockRender,
 	NG_MOCKS_ROOT_PROVIDERS,
+	ngMocks,
 } from 'ng-mocks';
+import { mock, MockProxy } from 'jest-mock-extended';
+import { User } from '@angular/fire/auth';
 
 import { AuthenticationService } from '../account/services/authentication.service';
 import { ResponsiveService } from '../base/services/responsive.service';
 import { HeaderComponent } from './header.component';
 import { Devices } from '../base/models/devices';
+
+import { dataTest, dataTestIf } from '../base/test-helpers/data-test.helper';
 import { MockRouter } from '../base/test-mocks/mock-router';
-import SpyInstance = jest.SpyInstance;
+import { MockAuthenticationService } from '../base/test-mocks/mock-authentication-service';
+import { MockResponsiveService } from '../base/test-mocks/mock-responsive-service';
 
 describe('HeaderComponent', () => {
 	let component: HeaderComponent;
 	let fixture: MockedComponentFixture<HeaderComponent>;
 	const mockRouter: MockRouter = new MockRouter();
+	const mockAuthenticationService: MockAuthenticationService =
+		new MockAuthenticationService();
+	const mockResponsiveService: MockResponsiveService =
+		new MockResponsiveService();
 
 	beforeEach(() => {
 		return MockBuilder(
-			[HeaderComponent, RouterModule, NG_MOCKS_ROOT_PROVIDERS],
-			[ResponsiveService, AuthenticationService]
+			[HeaderComponent, CdkMenuModule, RouterModule, NG_MOCKS_ROOT_PROVIDERS],
+			[ResponsiveService, AuthenticationService, Router]
 		)
-			.mock(ResponsiveService, {
-				device: signal(Devices.Unknown),
-			})
-			.mock(AuthenticationService, {
-				isLoggedIn: signal(true),
-			})
-			.mock(Router, mockRouter);
+			.mock(ResponsiveService, mockResponsiveService)
+			.mock(AuthenticationService, mockAuthenticationService)
+			.mock(Router, mockRouter)
+			.keep(CdkMenuTrigger);
 	});
 
-	it('should set device and login state', () => {
+	beforeEach(() => {
 		// Arrange
 		fixture = MockRender(HeaderComponent);
 		component = fixture.point.componentInstance;
-		// Assert
-		expect(component['device']()).toBe(Devices.Unknown);
-		expect(component['isLoggedIn']()).toBe(true);
 	});
 
-	it('should logout end redirect to sign in page', fakeAsync(() => {
-		// Arrange
-		fixture = MockRender(HeaderComponent);
-		component = fixture.point.componentInstance;
-		const router = component['router'];
-		const spyLogout: SpyInstance = jest
-			.spyOn(component['authService'], 'logout')
-			.mockReturnValue(
-				new Promise<void>(resolve => {
-					resolve();
-				})
+	describe('Logged in, not on mobile phone', () => {
+		const mockUser: MockProxy<User> = mock<User>({
+			email: 'mockEmail',
+			emailVerified: true,
+		});
+
+		beforeEach(() => {
+			// Act
+			mockAuthenticationService.userSignal.set(mockUser);
+			mockAuthenticationService.isLoggedInSignal.set(true);
+			fixture.detectChanges();
+		});
+
+		it('shows full logo that links to task board', () => {
+			// Arrange
+			const logo = dataTest('logo');
+			const link = logo.attributes['ng-reflect-router-link'];
+			const logoIcon = dataTestIf('logo-icon');
+			// Assert
+			expect(logo).toBeTruthy();
+			expect(logoIcon).toBe(false);
+			expect(link).toBe('/task-board');
+		});
+
+		it('only shows menu open button', () => {
+			// Arrange
+			const logInButton = dataTestIf('log-in-button');
+			const menuOpenButton = dataTest('menu-open-button');
+			const menuCloseButton = dataTestIf('menu-close-button');
+			const settingsMenu = dataTestIf('settings-menu');
+			// Login
+			expect(logInButton).toBe(false);
+			// Menu
+			expect(menuOpenButton).toBeTruthy();
+			expect(menuCloseButton).toBe(false);
+			expect(settingsMenu).toBe(false);
+		});
+
+		it('opens menu', () => {
+			const menuOpenButton = dataTest('menu-open-button');
+			// Act
+			menuOpenButton.nativeElement.click();
+			fixture.detectChanges();
+			// Arrange
+			const settingsMenu = dataTestIf('settings-menu');
+			const userEmail = dataTest('user-email');
+			const settingsButton = dataTest('settings-button');
+			// Assert
+			expect(settingsMenu).toBeTruthy();
+			expect(userEmail.nativeElement.textContent).toBe('mockEmail');
+			expect(settingsButton.attributes['ng-reflect-router-link']).toBe(
+				'/account/settings'
 			);
-		const spyNavigate: SpyInstance = jest.spyOn(router, 'navigate');
-		// Act
-		component['logout']();
-		tick();
-		// Assert
-		expect(component['authService'].logout).toHaveBeenCalledTimes(1);
-		expect(spyNavigate).toHaveBeenCalledTimes(1);
-		expect(spyNavigate).toHaveBeenCalledWith(['/sign-in']);
-	}));
+		});
 
-	it('should return true for isOnLogin page after router change to that route', () => {
-		// Assert
-		expect(component['isOnLoginPage']()).toBe(false);
-		// Arrange
-		fixture = MockRender(HeaderComponent);
-		component = fixture.point.componentInstance;
-		const event = new NavigationEnd(
-			0,
-			'http://localhost:4200/log-in',
-			'http://localhost:4200/log-in'
-		);
-		// Act
-		mockRouter.routerEvents$.next(event);
-		// Assert
-		expect(component['isOnLoginPage']()).toBe(true);
+		it('redirects to task-board', () => {
+			const toSettingsPage = new NavigationEnd(
+				0,
+				'http://localhost:4200/account/settings',
+				'http://localhost:4200/account/settings'
+			);
+			// Act
+			mockRouter.eventsSubject.next(toSettingsPage);
+			fixture.detectChanges();
+			// Arrange
+			const menuCloseButton = dataTest('menu-close-button');
+			const menuOpenButton = dataTestIf('menu-open-button');
+			// Assert
+			expect(menuCloseButton).toBeTruthy();
+			expect(menuCloseButton.attributes['ng-reflect-router-link']).toBe(
+				'/task-board'
+			);
+			expect(menuOpenButton).toBe(false);
+		});
+
+		it('logs out and redirects to home page', () => {
+			// Arrange
+			const menuOpenButton = dataTest('menu-open-button');
+			const authService: AuthenticationService = TestBed.inject(
+				AuthenticationService
+			);
+			const router: Router = TestBed.inject(Router);
+			// Act
+			menuOpenButton.nativeElement.click();
+			fixture.detectChanges();
+			// Arrange
+			const logOutButton = dataTest('log-out-button');
+			// Act
+			logOutButton.nativeElement.click();
+			fixture.detectChanges();
+			expect(authService.logout).toHaveBeenCalledTimes(1);
+			expect(router.navigate).toHaveBeenCalledTimes(1);
+			expect(router.navigate).toHaveBeenCalledWith(['/']);
+		});
+
+		it('does not show navigation menu on authentication page', () => {
+			// Arrange
+			const toAuthenticationPage = new NavigationEnd(
+				0,
+				'http://localhost:4200/account/authenticate',
+				'http://localhost:4200/account/authenticate'
+			);
+			// Act
+			mockRouter.eventsSubject.next(toAuthenticationPage);
+			fixture.detectChanges();
+			// Arrange
+			const navigation = dataTestIf('navigation-menu');
+			// Assert
+			expect(navigation).toBe(false);
+		});
 	});
 
-	it('should return true for isOnSettingsPage page after router change to that route', () => {
-		// Assert
-		expect(component['isOnSettingsPage']()).toBe(false);
-		// Arrange
-		fixture = MockRender(HeaderComponent);
-		component = fixture.point.componentInstance;
-		const event = new NavigationEnd(
-			0,
-			'http://localhost:4200/settings',
-			'http://localhost:4200/settings'
-		);
-		// Act
-		mockRouter.routerEvents$.next(event);
-		// Assert
-		expect(component['isOnSettingsPage']()).toBe(true);
+	describe('logged in, email not verified', () => {
+		const mockUser: MockProxy<User> = mock<User>({
+			email: 'mockEmail',
+			emailVerified: false,
+		});
+
+		beforeEach(() => {
+			// Act
+			mockAuthenticationService.userSignal.set(mockUser);
+			mockAuthenticationService.isLoggedInSignal.set(true);
+			fixture.detectChanges();
+		});
+
+		it('does not show settings button in menu', () => {
+			// Arrange
+			const menuOpenButton = dataTest('menu-open-button');
+			// Act
+			menuOpenButton.nativeElement.click();
+			fixture.detectChanges();
+			// Arrange
+			const settingsButton = ngMocks.find(
+				['data-test', 'settings-button'],
+				false
+			);
+			// Assert
+			expect(settingsButton).toBe(false);
+		});
+	});
+
+	describe('Not logged in on device: handset portrait', () => {
+		beforeEach(() => {
+			// Act
+			mockAuthenticationService.userSignal.set(null);
+			mockAuthenticationService.isLoggedInSignal.set(false);
+			mockResponsiveService.deviceSignal.set(Devices.HandsetPortrait);
+			fixture.detectChanges();
+		});
+
+		it('shows logo icon that redirects to welcome page', () => {
+			// Arrange
+			const logo = dataTestIf('logo');
+			const logoIcon = dataTest('logo-icon');
+			// Assert
+			expect(logo).toBe(false);
+			expect(logoIcon).toBeTruthy();
+			expect(logoIcon.attributes['ng-reflect-router-link']).toBe('/');
+		});
+
+		it('shows login in button', () => {
+			// Arrange
+			const logInButton = dataTest('log-in-button');
+			const menuOpenButton = dataTestIf('menu-open-button');
+
+			// Assert
+			expect(logInButton).toBeTruthy();
+			expect(logInButton.attributes['ng-reflect-router-link']).toBe(
+				'/account/log-in'
+			);
+			expect(menuOpenButton).toBe(false);
+		});
+
+		it('does not show login button on login page', () => {
+			// Arrange
+			const toLoginPage = new NavigationEnd(
+				0,
+				'http://localhost:4200/account/log-in',
+				'http://localhost:4200/account/log-in'
+			);
+			// Act
+			mockRouter.eventsSubject.next(toLoginPage);
+			fixture.detectChanges();
+			// Arrange
+			const logInButton = dataTestIf('log-in-button');
+			// Assert
+			expect(logInButton).toBe(false);
+		});
 	});
 });
