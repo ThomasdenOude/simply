@@ -1,10 +1,4 @@
-import {
-	Component,
-	ElementRef,
-	inject,
-	OnInit,
-	Renderer2,
-} from '@angular/core';
+import { Component } from '@angular/core';
 import { CdkDialogContainer } from '@angular/cdk/dialog';
 import { CdkPortalOutlet } from '@angular/cdk/portal';
 
@@ -14,15 +8,8 @@ import { CdkPortalOutlet } from '@angular/cdk/portal';
 	imports: [CdkPortalOutlet],
 	templateUrl: './dialog.component.html',
 	styleUrl: './dialog.component.scss',
+	host: {
+		class: 'simply-dialog__host',
+	},
 })
-export class DialogComponent extends CdkDialogContainer implements OnInit {
-	private elementRef: ElementRef = inject(ElementRef);
-	private renderer: Renderer2 = inject(Renderer2);
-
-	ngOnInit() {
-		this.renderer.addClass(
-			this.elementRef.nativeElement,
-			'simply-dialog__host'
-		);
-	}
-}
+export class DialogComponent extends CdkDialogContainer {}

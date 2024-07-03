@@ -9,6 +9,7 @@ import {
 import SpyInstance = jest.SpyInstance;
 
 import { MessageComponent } from './message.component';
+import { dataTest } from '../../test-helpers/data-test.helper';
 
 describe('MessageComponent', () => {
 	let fixture: MockedComponentFixture<
@@ -30,9 +31,10 @@ describe('MessageComponent', () => {
 		fixture = MockRender<MessageComponent>(MessageComponent, {
 			errorMessage: message,
 		});
-		component = fixture.point.componentInstance;
+		fixture.detectChanges();
+		const messageText = dataTest('message-text');
 		// Assert
-		expect(component.errorMessage()).toBe(message);
+		expect(messageText.nativeElement.textContent).toBe(message);
 	});
 
 	describe('Close message', () => {
@@ -43,10 +45,11 @@ describe('MessageComponent', () => {
 			});
 			component = fixture.point.componentInstance;
 			const onCloseSpy: SpyInstance = jest.spyOn(component.onClose, 'emit');
+			const closeButton = dataTest('close-button');
 			// Assert
 			expect(onCloseSpy).not.toHaveBeenCalled();
 			// Act
-			component['closeMessage']();
+			closeButton.nativeElement.click();
 			fixture.detectChanges();
 			// Assert
 			expect(onCloseSpy).toHaveBeenCalledTimes(1);
