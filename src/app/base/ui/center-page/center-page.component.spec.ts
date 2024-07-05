@@ -4,14 +4,14 @@ import { ResponsiveService } from '../../services/responsive.service';
 import { CenterPageComponent } from './center-page.component';
 import { Devices } from '../../models/devices';
 import { BaseSizes } from '../../models/style-sizes';
-import { MockResponsiveService } from '../../test-mocks/mock-responsive-service';
-import { dataTest } from '../../test-helpers/data-test.helper';
+import { ResponsiveServiceMock } from '../../services/responsive.service.mock';
+import { dataTest } from '../../../jest/test-helpers/data-test.helper';
 
 describe('CenterPageComponent', () => {
 	let fixture: MockedComponentFixture<CenterPageComponent>;
 	let component: CenterPageComponent;
-	const mockResponsiveService: MockResponsiveService =
-		new MockResponsiveService();
+	const mockResponsiveService: ResponsiveServiceMock =
+		new ResponsiveServiceMock();
 
 	beforeEach(() =>
 		MockBuilder(CenterPageComponent, ResponsiveService).mock(

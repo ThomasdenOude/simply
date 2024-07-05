@@ -2,7 +2,7 @@ import { MockBuilder, MockedComponentFixture, MockRender } from 'ng-mocks';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
-import { dataTest } from './base/test-helpers/data-test.helper';
+import { dataTest } from './jest/test-helpers/data-test.helper';
 
 describe('AppComponent', () => {
 	beforeEach(() => MockBuilder(AppComponent, HeaderComponent));

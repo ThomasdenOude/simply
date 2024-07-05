@@ -2,7 +2,7 @@ import { Signal, signal, WritableSignal } from '@angular/core';
 
 import { User } from '@angular/fire/auth';
 
-export class MockAuthenticationService {
+export class AuthenticationServiceMock {
 	// Set mock return values for public methods
 	public userSignal: WritableSignal<User | null> = signal(null);
 	public isLoggedInSignal: WritableSignal<boolean> = signal(false);

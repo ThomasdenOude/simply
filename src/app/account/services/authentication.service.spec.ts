@@ -17,7 +17,7 @@ import { mock, MockProxy } from 'jest-mock-extended';
 import { AuthenticationService } from './authentication.service';
 import { AuthenticationMessages } from '../models/authentication-messages';
 import { authenticationErrorMap } from '../data/authentication-messages.map';
-import { mockError } from '../../base/test-mocks/mock-error';
+import { firebaseErrorMock } from '../../jest/test-mocks/firebase-error.mock';
 
 jest.mock('@angular/fire/auth');
 
@@ -125,7 +125,7 @@ describe('AuthenticationService', () => {
 	it('should return default error message', () => {
 		// Act
 		const message: AuthenticationMessages =
-			service.getAuthenticationMessage(mockError);
+			service.getAuthenticationMessage(firebaseErrorMock);
 		// Assert
 		expect(message).toBe(AuthenticationMessages.Default);
 	});

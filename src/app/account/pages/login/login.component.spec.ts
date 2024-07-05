@@ -13,16 +13,16 @@ import SpyInstance = jest.SpyInstance;
 import { AuthenticationService } from '../../services/authentication.service';
 import { ResponsiveService } from '../../../base/services/responsive.service';
 import { LoginComponent } from './login.component';
-import { MockRouter } from '../../../base/test-mocks/mock-router';
+import { RouterMock } from '../../../jest/test-mocks/router.mock';
 import { Devices } from '../../../base/models/devices';
 import { AuthenticationMessages } from '../../models/authentication-messages';
 import { BaseCredentials } from '../../models/credentials.model';
-import { mockError } from '../../../base/test-mocks/mock-error';
+import { firebaseErrorMock } from '../../../jest/test-mocks/firebase-error.mock';
 
 describe('LoginComponent', () => {
 	let component: LoginComponent;
 	let fixture: MockedComponentFixture<LoginComponent>;
-	const mockRouter: MockRouter = new MockRouter();
+	const mockRouter: RouterMock = new RouterMock();
 
 	beforeEach(() =>
 		MockBuilder(
@@ -96,7 +96,7 @@ describe('LoginComponent', () => {
 			// Arrange
 			const mockErrorMessage: AuthenticationMessages =
 				AuthenticationMessages.Default;
-			spyLogin.mockReturnValue(Promise.reject(mockError));
+			spyLogin.mockReturnValue(Promise.reject(firebaseErrorMock));
 			const spyGetAuthMessage: SpyInstance = jest
 				.spyOn(component['authService'], 'getAuthenticationMessage')
 				.mockReturnValue(mockErrorMessage);
@@ -108,7 +108,7 @@ describe('LoginComponent', () => {
 			expect(spyLogin).toHaveBeenCalledTimes(1);
 			expect(spyNavigate).not.toHaveBeenCalled();
 			expect(spyGetAuthMessage).toHaveBeenCalledTimes(1);
-			expect(spyGetAuthMessage).toHaveBeenCalledWith(mockError);
+			expect(spyGetAuthMessage).toHaveBeenCalledWith(firebaseErrorMock);
 			expect(component['loginError']()).toBe(mockErrorMessage);
 			// Act
 			component['resetError']();

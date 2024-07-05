@@ -13,14 +13,14 @@ import {
 import { AuthenticationService } from '../../services/authentication.service';
 import { ResponsiveService } from '../../../base/services/responsive.service';
 import { SignUpComponent } from './sign-up.component';
-import { MockRouter } from '../../../base/test-mocks/mock-router';
+import { RouterMock } from '../../../jest/test-mocks/router.mock';
 import { Devices } from '../../../base/models/devices';
 import { AuthenticationMessages } from '../../models/authentication-messages';
 import { Email } from '../../models/credentials.model';
-import { mockError } from '../../../base/test-mocks/mock-error';
+import { firebaseErrorMock } from '../../../jest/test-mocks/firebase-error.mock';
 
 describe('SignUpComponent', () => {
-	const mockRouter: MockRouter = new MockRouter();
+	const mockRouter: RouterMock = new RouterMock();
 	let component: SignUpComponent;
 	let fixture: MockedComponentFixture<SignUpComponent>;
 
@@ -43,7 +43,7 @@ describe('SignUpComponent', () => {
 	it('should set default values', () => {
 		// Assert
 		expect(component['device']()).toBe(Devices.Unknown);
-		expect(component['emailChange']()).toBeFalsy()
+		expect(component['emailChange']()).toBeFalsy();
 		expect(component['continue']()).toBe(false);
 		expect(component['signupError']()).toBe(AuthenticationMessages.None);
 	});
@@ -83,7 +83,10 @@ describe('SignUpComponent', () => {
 
 		beforeEach(() => {
 			// Arrange
-			spyCreateUser = jest.spyOn(component['authService'], 'creatUserAndVerifyEmail');
+			spyCreateUser = jest.spyOn(
+				component['authService'],
+				'creatUserAndVerifyEmail'
+			);
 			spyNavigate = jest
 				.spyOn(component['router'], 'navigate')
 				.mockResolvedValue(true);
@@ -97,7 +100,7 @@ describe('SignUpComponent', () => {
 			// Arrange
 			spyCreateUser.mockReturnValue(Promise.resolve());
 			// Act
-      component['emailForm'].get('email')?.setValue(mockEmail)
+			component['emailForm'].get('email')?.setValue(mockEmail);
 			component['signUp'](mockPassword);
 			tick();
 			// Assert
@@ -111,19 +114,19 @@ describe('SignUpComponent', () => {
 			// Arrange
 			const mockErrorMessage: AuthenticationMessages =
 				AuthenticationMessages.Default;
-			spyCreateUser.mockReturnValue(Promise.reject(mockError));
+			spyCreateUser.mockReturnValue(Promise.reject(firebaseErrorMock));
 			const spyGetAuthMessage: SpyInstance = jest
 				.spyOn(component['authService'], 'getAuthenticationMessage')
 				.mockReturnValue(mockErrorMessage);
 			// Act
-      component['emailForm'].get('email')?.setValue(mockEmail)
+			component['emailForm'].get('email')?.setValue(mockEmail);
 			component['signUp'](mockPassword);
 			tick();
 			// Assert
 			expect(spyCreateUser).toHaveBeenCalledTimes(1);
 			expect(spyCreateUser).toHaveBeenCalledWith(mockEmail, mockPassword);
 			expect(spyNavigate).not.toHaveBeenCalledTimes(1);
-			expect(spyGetAuthMessage).toHaveBeenCalledWith(mockError);
+			expect(spyGetAuthMessage).toHaveBeenCalledWith(firebaseErrorMock);
 			expect(component['signupError']()).toBe(mockErrorMessage);
 			// Act
 			component['resetError']();

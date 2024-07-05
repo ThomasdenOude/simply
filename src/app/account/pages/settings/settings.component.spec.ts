@@ -18,7 +18,7 @@ import { AuthenticationService } from '../../services/authentication.service';
 import { SettingsComponent } from './settings.component';
 import { RemoveAccountComponent } from '../../ui/remove-account/remove-account.component';
 import { AuthenticationMessages } from '../../models/authentication-messages';
-import { mockError } from '../../../base/test-mocks/mock-error';
+import { firebaseErrorMock } from '../../../jest/test-mocks/firebase-error.mock';
 
 describe('SettingsComponent', () => {
 	const noErrorMessage: AuthenticationMessages = AuthenticationMessages.None;
@@ -78,7 +78,7 @@ describe('SettingsComponent', () => {
 
 	it('should not navigate after failed logout', fakeAsync(() => {
 		// Arrange
-		spyLogout.mockReturnValue(Promise.reject(mockError));
+		spyLogout.mockReturnValue(Promise.reject(firebaseErrorMock));
 		// Act
 		component['logout']();
 		tick();
@@ -122,7 +122,7 @@ describe('SettingsComponent', () => {
 
 		it('should set passwordConfirmError on failed password confirm', fakeAsync(() => {
 			// Arrange
-			spyLogin.mockReturnValue(Promise.reject(mockError));
+			spyLogin.mockReturnValue(Promise.reject(firebaseErrorMock));
 			const mockAuthMessage: AuthenticationMessages =
 				AuthenticationMessages.InvalidPassword;
 			spyAuthMessage.mockReturnValue(mockAuthMessage);
@@ -168,7 +168,7 @@ describe('SettingsComponent', () => {
 			spyOpen.mockReturnValue({
 				closed: of(true),
 			});
-			spyDelete.mockReturnValue(Promise.reject(mockError));
+			spyDelete.mockReturnValue(Promise.reject(firebaseErrorMock));
 			// Act
 			component['openRemoveAccountDialog']();
 			tick();
@@ -236,14 +236,14 @@ describe('SettingsComponent', () => {
 
 		it('should set error after failed change password', fakeAsync(() => {
 			// Arrange
-			spyChangePassword.mockReturnValue(Promise.reject(mockError));
+			spyChangePassword.mockReturnValue(Promise.reject(firebaseErrorMock));
 			spyAuthMessage.mockReturnValue(AuthenticationMessages.Default);
 			// Act
 			component['submitChangePassword'](mockPassword);
 			tick();
 			// Assert
 			expect(spyChangePassword).toHaveBeenCalledTimes(1);
-			expect(spyAuthMessage).toHaveBeenCalledWith(mockError);
+			expect(spyAuthMessage).toHaveBeenCalledWith(firebaseErrorMock);
 			expect(component['changePasswordMessage']()).toBe(
 				AuthenticationMessages.Default
 			);

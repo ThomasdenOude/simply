@@ -17,19 +17,19 @@ import { ResponsiveService } from '../base/services/responsive.service';
 import { HeaderComponent } from './header.component';
 import { Devices } from '../base/models/devices';
 
-import { dataTest, dataTestIf } from '../base/test-helpers/data-test.helper';
-import { MockRouter } from '../base/test-mocks/mock-router';
-import { MockAuthenticationService } from '../base/test-mocks/mock-authentication-service';
-import { MockResponsiveService } from '../base/test-mocks/mock-responsive-service';
+import { dataTest, dataTestIf } from '../jest/test-helpers/data-test.helper';
+import { RouterMock } from '../jest/test-mocks/router.mock';
+import { AuthenticationServiceMock } from '../account/services/authentication.service.mock';
+import { ResponsiveServiceMock } from '../base/services/responsive.service.mock';
 
 describe('HeaderComponent', () => {
 	let component: HeaderComponent;
 	let fixture: MockedComponentFixture<HeaderComponent>;
-	const mockRouter: MockRouter = new MockRouter();
-	const mockAuthenticationService: MockAuthenticationService =
-		new MockAuthenticationService();
-	const mockResponsiveService: MockResponsiveService =
-		new MockResponsiveService();
+	const mockRouter: RouterMock = new RouterMock();
+	const mockAuthenticationService: AuthenticationServiceMock =
+		new AuthenticationServiceMock();
+	const mockResponsiveService: ResponsiveServiceMock =
+		new ResponsiveServiceMock();
 
 	beforeEach(() => {
 		return MockBuilder(
