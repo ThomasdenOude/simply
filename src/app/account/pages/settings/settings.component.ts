@@ -149,6 +149,7 @@ export class SettingsComponent {
 					this.changePasswordMessage.set(
 						AuthenticationMessages.SuccessfulPasswordChange
 					);
+					this.continuePasswordChange.set(false);
 				})
 				.catch(error => {
 					this.changePasswordMessage.set(

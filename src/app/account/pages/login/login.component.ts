@@ -139,7 +139,7 @@ export class LoginComponent implements OnDestroy {
 					.sendPasswordReset(email)
 					.then(() => {
 						this.snackbar.open(
-							`An email to reset your password was send to: ${email}.`,
+							`An email to reset your password was send to: ${email}`,
 							'',
 							{
 								duration: 5000,
@@ -147,7 +147,7 @@ export class LoginComponent implements OnDestroy {
 						);
 					})
 					.catch(() => {
-						this.snackbar.open(`Unable to send email to: ${email}.`, '', {
+						this.snackbar.open(`Unable to send email to: ${email}`, '', {
 							duration: 5000,
 						});
 					});

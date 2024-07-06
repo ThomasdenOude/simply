@@ -1,5 +1,4 @@
 import { Component, computed, inject, Signal } from '@angular/core';
-import { NgClass } from '@angular/common';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';

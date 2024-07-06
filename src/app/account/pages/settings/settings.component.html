@@ -1,6 +1,9 @@
-<simply-center-page>
-	<h2 simplyTextContent>Your <simply-logo /> account</h2>
+<simply-center-page data-test="settings">
+	<h2 data-test="settings-title" simplyTextContent>
+		Your <simply-logo /> account
+	</h2>
 	<button
+		data-test="logout-button"
 		mat-stroked-button
 		color="primary"
 		simplySpaceContent="large"
@@ -12,6 +15,7 @@
 	<mat-divider simplySpaceContent="large"></mat-divider>
 
 	<simply-panel
+		data-test="change-password-panel"
 		iconName="password"
 		panelTitle="Change password"
 		simplySpaceContent="large"
@@ -19,6 +23,7 @@
 	>
 		@if (changePasswordMessage() !== AuthenticationMessages.None) {
 			<simply-message
+				data-test="change-password-message"
 				[errorMessage]="changePasswordMessage()"
 				(onClose)="resetChangePasswordMessage()"
 				simplySpaceContent="large"
@@ -30,12 +35,14 @@
 				AuthenticationMessages.SuccessfulPasswordChange
 		) {
 			<simply-confirm-password
+				data-test="confirm-password-for-change"
 				(onPasswordSubmit)="confirmPassword($event, 'ChangePassword')"
 				[setPasswordConfirmError]="passwordConfirmError()"
 				(onErrorClose)="resetPasswordConfirmError()"
 			></simply-confirm-password>
 		} @else if (continuePasswordChange()) {
 			<simply-new-password
+				data-test="new-password"
 				newPasswordTitle="Change your password"
 				newPasswordSubmitAction="Change password"
 				(isSubmitted)="submitChangePassword($event)"
@@ -44,12 +51,14 @@
 	</simply-panel>
 
 	<simply-panel
+		data-test="remove-account-panel"
 		iconName="delete"
 		panelTitle="Remove account"
 		(panelOpened)="resetAll()"
 	>
 		@if (removeAccountError() !== AuthenticationMessages.None) {
 			<simply-message
+				data-test="remove-account-message"
 				[errorMessage]="removeAccountError()"
 				(onClose)="resetRemoveAccountError()"
 				simplySpaceContent="large"
@@ -57,6 +66,7 @@
 		}
 
 		<simply-confirm-password
+			data-test="confirm-password-for-remove"
 			(onPasswordSubmit)="confirmPassword($event, 'RemoveAccount')"
 			[setPasswordConfirmError]="passwordConfirmError()"
 			(onErrorClose)="resetPasswordConfirmError()"

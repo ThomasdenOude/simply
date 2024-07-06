@@ -23,7 +23,7 @@ describe('Welcome', () => {
 		});
 
 		it('has a sign up button that links to sign up page', () => {
-			cy.getByData('welcome-sign-up').should('contain', 'Sign up');
+			cy.getByData('sign-up-button').should('contain', 'Sign up');
 		});
 	});
 });

@@ -1,37 +1,41 @@
+import { Router, RouterModule } from '@angular/router';
+import { TestBed } from '@angular/core/testing';
+
+import { of } from 'rxjs';
+import { User } from '@angular/fire/auth';
+
 import {
 	MockBuilder,
 	MockedComponentFixture,
+	MockedDebugElement,
 	MockRender,
 	NG_MOCKS_ROOT_PROVIDERS,
 } from 'ng-mocks';
+import { mock, MockProxy } from 'jest-mock-extended';
 
-import { VerifyEmailComponent } from './verify-email.component';
-import { Router, RouterModule } from '@angular/router';
+import { dataTest } from '../../../jest/test-helpers/data-test.helper';
+import { RouterMock } from '../../../jest/test-mocks/router.mock';
+import { AuthenticationServiceMock } from '../../services/authentication.service.mock';
 import { AuthenticationService } from '../../services/authentication.service';
 import { NavigationService } from '../../services/navigation.service';
-import { mock, MockProxy } from 'jest-mock-extended';
-import { User } from '@angular/fire/auth';
-import { computed, signal, WritableSignal } from '@angular/core';
-import SpyInstance = jest.SpyInstance;
-import { RouterMock } from '../../../jest/test-mocks/router.mock';
-import { of } from 'rxjs';
-import { fakeAsync, tick } from '@angular/core/testing';
+import { VerifyEmailComponent } from './verify-email.component';
 
 describe('VerifyEmailComponent', () => {
 	let component: VerifyEmailComponent;
 	let fixture: MockedComponentFixture<VerifyEmailComponent>;
-	const mockUser: MockProxy<User> = mock<User>();
-	const mockUserSignal: WritableSignal<User | null> = signal(mockUser);
+	const mockUser: MockProxy<User> = mock<User>({
+		email: 'mock@mail.com',
+	});
 	const mockRouter: RouterMock = new RouterMock();
+	const mockAuthService: AuthenticationServiceMock =
+		new AuthenticationServiceMock();
 
 	beforeEach(() =>
 		MockBuilder(
 			[VerifyEmailComponent, RouterModule, NG_MOCKS_ROOT_PROVIDERS],
 			[AuthenticationService, NavigationService]
 		)
-			.mock(AuthenticationService, {
-				user: computed(() => mockUserSignal()),
-			})
+			.mock(AuthenticationService, mockAuthService)
 			.mock(Router, mockRouter)
 			.mock(NavigationService, {
 				browserTabReturned$: of(null),
@@ -42,44 +46,55 @@ describe('VerifyEmailComponent', () => {
 		beforeEach(() => {
 			fixture = MockRender(VerifyEmailComponent);
 			component = fixture.point.componentInstance;
+			mockAuthService.userSignal.set(mockUser);
+			fixture.detectChanges();
 		});
 
-		it('should create', () => {
-			expect(component['user']()).toBe(mockUser);
-			expect(component['email']()).toBe(mockUser.email);
-		});
-
-		it('should null', () => {});
-
-		it('should send email verification', fakeAsync(() => {
-			const spySendEmail: SpyInstance = jest
-				.spyOn(component['authService'], 'sendEmailVerification')
-				.mockReturnValue(Promise.resolve());
-			const spyNavigate: SpyInstance = jest.spyOn(
-				component['router'],
-				'navigate'
-			);
-			// Act
-			component['sendVerificationLink']();
-			tick();
-			// Assert
-			expect(spySendEmail).toHaveBeenCalledTimes(1);
-			expect(spySendEmail).toHaveBeenCalledWith(mockUser);
-			expect(spyNavigate).toHaveBeenCalledTimes(1);
-			expect(spyNavigate).toHaveBeenCalledWith(['/task-board']);
-		}));
-
-		it('should not send email verification if no user provided', fakeAsync(() => {
+		it('shows user email', () => {
 			// Arrange
-			mockUserSignal.set(null);
-			const spySendEmail: SpyInstance = jest
-				.spyOn(component['authService'], 'sendEmailVerification')
-				.mockReturnValue(Promise.resolve());
-			// Act
-			component['sendVerificationLink']();
-			tick();
+			const title = dataTest('verify-email-title');
+			const text = dataTest('verify-email-text');
 			// Assert
-			expect(spySendEmail).not.toHaveBeenCalled();
-		}));
+			expect(component).toBeTruthy();
+			expect(title.nativeElement.textContent).toBe('Verify your email');
+			expect(text.nativeElement.textContent).toContain(mockUser.email);
+		});
+
+		describe('Email verification', () => {
+			let sendVerificationButton: MockedDebugElement;
+			let authService: AuthenticationService;
+			let router: Router;
+
+			beforeEach(() => {
+				// Arrange
+				sendVerificationButton = dataTest('send-verification-button');
+				authService = TestBed.inject(AuthenticationService);
+				router = TestBed.inject(Router);
+			});
+
+			afterEach(() => {
+				jest.resetAllMocks();
+			});
+
+			it('sends email verification', () => {
+				// Act
+				sendVerificationButton.nativeElement.click();
+				// Assert
+				expect(authService.sendEmailVerification).toHaveBeenCalledTimes(1);
+				expect(authService.sendEmailVerification).toHaveBeenCalledWith(
+					mockUser
+				);
+				expect(router.navigate).toHaveBeenCalledTimes(1);
+				expect(router.navigate).toHaveBeenCalledWith(['/task-board']);
+			});
+
+			it('does not send email verification if no user provided', () => {
+				// Act
+				mockAuthService.userSignal.set(null);
+				sendVerificationButton.nativeElement.click();
+				// Assert
+				expect(authService.sendEmailVerification).not.toHaveBeenCalled();
+			});
+		});
 	});
 });

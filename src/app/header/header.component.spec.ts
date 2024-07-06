@@ -31,16 +31,16 @@ describe('HeaderComponent', () => {
 	const mockResponsiveService: ResponsiveServiceMock =
 		new ResponsiveServiceMock();
 
-	beforeEach(() => {
-		return MockBuilder(
+	beforeEach(() =>
+		MockBuilder(
 			[HeaderComponent, CdkMenuModule, RouterModule, NG_MOCKS_ROOT_PROVIDERS],
 			[ResponsiveService, AuthenticationService, Router]
 		)
 			.mock(ResponsiveService, mockResponsiveService)
 			.mock(AuthenticationService, mockAuthenticationService)
 			.mock(Router, mockRouter)
-			.keep(CdkMenuTrigger);
-	});
+			.keep(CdkMenuTrigger)
+	);
 
 	beforeEach(() => {
 		// Arrange
@@ -98,9 +98,7 @@ describe('HeaderComponent', () => {
 			// Assert
 			expect(settingsMenu).toBeTruthy();
 			expect(userEmail.nativeElement.textContent).toBe('mockEmail');
-			expect(settingsButton.attributes['ng-reflect-router-link']).toBe(
-				'/account/settings'
-			);
+			expect(settingsButton.attributes['routerLink']).toBe('/account/settings');
 		});
 
 		it('redirects to task-board', () => {
@@ -117,9 +115,7 @@ describe('HeaderComponent', () => {
 			const menuOpenButton = dataTestIf('menu-open-button');
 			// Assert
 			expect(menuCloseButton).toBeTruthy();
-			expect(menuCloseButton.attributes['ng-reflect-router-link']).toBe(
-				'/task-board'
-			);
+			expect(menuCloseButton.attributes['routerLink']).toBe('/task-board');
 			expect(menuOpenButton).toBe(false);
 		});
 
@@ -134,7 +130,7 @@ describe('HeaderComponent', () => {
 			menuOpenButton.nativeElement.click();
 			fixture.detectChanges();
 			// Arrange
-			const logOutButton = dataTest('log-out-button');
+			const logOutButton = dataTest('logout-button');
 			// Act
 			logOutButton.nativeElement.click();
 			fixture.detectChanges();
@@ -215,9 +211,7 @@ describe('HeaderComponent', () => {
 
 			// Assert
 			expect(logInButton).toBeTruthy();
-			expect(logInButton.attributes['ng-reflect-router-link']).toBe(
-				'/account/log-in'
-			);
+			expect(logInButton.attributes['routerLink']).toBe('/account/log-in');
 			expect(menuOpenButton).toBe(false);
 		});
 

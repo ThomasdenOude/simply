@@ -1,12 +1,16 @@
-<simply-center-page [maxContentWidth]="maxWidth()" simplyTextContent>
+<simply-center-page
+	[maxContentWidth]="maxWidth()"
+	simplyTextContent
+	data-test="welcome"
+>
 	<h2 class="mat-headline-1" data-test="welcome-title">Simply</h2>
-	<p class="mat-headline-2">
+	<p class="mat-headline-2" data-test="welcome-text">
 		Get things done.<br />Focus on what matters most.<br />Clear your mind and
 		work on your goals
 	</p>
 	<button
 		mat-flat-button
-		data-test="welcome-sign-up"
+		data-test="sign-up-button"
 		color="accent"
 		routerLink="/account/sign-up"
 	>

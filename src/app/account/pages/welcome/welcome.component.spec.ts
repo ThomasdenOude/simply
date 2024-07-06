@@ -1,20 +1,31 @@
-import { computed, signal, WritableSignal } from '@angular/core';
+import {
+	MockBuilder,
+	MockedComponentFixture,
+	MockedDebugElement,
+	MockRender,
+	ngMocks,
+} from 'ng-mocks';
 
-import { MockBuilder, MockedComponentFixture, MockRender } from 'ng-mocks';
+import { dataTest } from '../../../jest/test-helpers/data-test.helper';
+import { ResponsiveServiceMock } from '../../../base/services/responsive.service.mock';
 
 import { ResponsiveService } from '../../../base/services/responsive.service';
 import { WelcomeComponent } from './welcome.component';
+import { CenterPageComponent } from '../../../base/ui/center-page/center-page.component';
 import { Devices } from '../../../base/models/devices';
 
 describe('SignInComponent', () => {
 	let component: WelcomeComponent;
+	let centerPageComponent: MockedDebugElement<CenterPageComponent>;
 	let fixture: MockedComponentFixture<WelcomeComponent>;
-	const mockDevice: WritableSignal<Devices> = signal(Devices.Unknown);
+	const mockResponsiveService: ResponsiveServiceMock =
+		new ResponsiveServiceMock();
 
 	beforeEach(() =>
-		MockBuilder(WelcomeComponent, ResponsiveService).mock(ResponsiveService, {
-			device: computed(() => mockDevice()),
-		})
+		MockBuilder(WelcomeComponent, [
+			ResponsiveService,
+			CenterPageComponent,
+		]).mock(ResponsiveService, mockResponsiveService)
 	);
 
 	describe('maxWidth', () => {
@@ -22,20 +33,28 @@ describe('SignInComponent', () => {
 			// Arrange
 			fixture = MockRender(WelcomeComponent);
 			component = fixture.point.componentInstance;
+			centerPageComponent = ngMocks.find(CenterPageComponent);
 		});
 
 		it('should set default values', () => {
+			// Arrange
+			const title = dataTest('welcome-title');
 			// Assert
-			expect(component['device']()).toBe(Devices.Unknown);
-			expect(component['maxWidth']()).toBe('small');
+      expect(component).toBeTruthy();
+			expect(title.nativeElement.textContent).toBe('Simply');
+			expect(centerPageComponent.componentInstance.maxContentWidth).toBe(
+				'small'
+			);
 		});
 
 		it('should set maxWith for widescreen device', () => {
 			// Arrange
-			mockDevice.set(Devices.WideScreen);
+			mockResponsiveService.deviceSignal.set(Devices.WideScreen);
+			fixture.detectChanges();
 			// Assert
-			expect(component['device']()).toBe(Devices.WideScreen);
-			expect(component['maxWidth']()).toBe('regular');
+			expect(centerPageComponent.componentInstance.maxContentWidth).toBe(
+				'regular'
+			);
 		});
 	});
 });
