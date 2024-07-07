@@ -18,6 +18,7 @@ export class AuthenticationServiceMock {
 	public logout = jest.fn(() => Promise.resolve());
 	public sendEmailVerification = jest.fn(() => Promise.resolve());
 	public creatUserAndVerifyEmail = jest.fn(() => Promise.resolve());
+	public confirmEmailVerification = jest.fn(() => Promise.resolve());
 	public loginAndVerifyEmail = jest.fn(() => Promise.resolve(true));
 	public getAuthenticationMessage = jest.fn(() => AuthenticationMessages.None);
 	public changePassword = jest.fn(() => Promise.resolve());
