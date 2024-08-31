@@ -17,9 +17,9 @@ import {
 } from '../../../jest/test-helpers/data-test.helper';
 import { RouterMock } from '../../../jest/test-mocks/router.mock';
 import { ResponsiveServiceMock } from '../../../base/services/responsive.service.mock';
-import { AuthenticationServiceMock } from '../../services/authentication.service.mock';
+import { AuthenticationServiceMock } from '../../services/authentication-service/authentication.service.mock';
 
-import { AuthenticationService } from '../../services/authentication.service';
+import { AuthenticationService } from '../../services/authentication-service/authentication.service';
 import { ResponsiveService } from '../../../base/services/responsive.service';
 import { SignUpComponent } from './sign-up.component';
 import { MessageComponent } from '../../../base/ui/message/message.component';

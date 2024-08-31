@@ -19,7 +19,7 @@ import {
 	updateDoc,
 } from '@angular/fire/firestore';
 
-import { AuthenticationService } from '../../account/services/authentication.service';
+import { AuthenticationService } from '../../account/services/authentication-service/authentication.service';
 import { CreateTask, Task, TaskDto } from '../models/task';
 import { TaskStatus } from '../models/task-status';
 

@@ -17,8 +17,8 @@ import {
 	dataTestIf,
 } from '../../../jest/test-helpers/data-test.helper';
 import { RouterMock } from '../../../jest/test-mocks/router.mock';
-import { AuthenticationServiceMock } from '../../services/authentication.service.mock';
-import { AuthenticationService } from '../../services/authentication.service';
+import { AuthenticationServiceMock } from '../../services/authentication-service/authentication.service.mock';
+import { AuthenticationService } from '../../services/authentication-service/authentication.service';
 import { SettingsComponent } from './settings.component';
 import { CenterPageComponent } from '../../../base/ui/center-page/center-page.component';
 import { PanelComponent } from '../../ui/panel/panel.component';

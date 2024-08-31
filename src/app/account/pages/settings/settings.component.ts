@@ -10,7 +10,7 @@ import { Dialog, DialogModule } from '@angular/cdk/dialog';
 
 import { User } from '@angular/fire/auth';
 
-import { AuthenticationService } from '../../services/authentication.service';
+import { AuthenticationService } from '../../services/authentication-service/authentication.service';
 import { RemoveAccountComponent } from '../../ui/remove-account/remove-account.component';
 import { MessageComponent } from '../../../base/ui/message/message.component';
 import { PanelComponent } from '../../ui/panel/panel.component';

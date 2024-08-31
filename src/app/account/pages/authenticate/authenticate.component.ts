@@ -13,7 +13,7 @@ import { FirebaseError } from '@firebase/util';
 import { MatDivider } from '@angular/material/divider';
 import { MatButton } from '@angular/material/button';
 
-import { AuthenticationService } from '../../services/authentication.service';
+import { AuthenticationService } from '../../services/authentication-service/authentication.service';
 import { CenterPageComponent } from '../../../base/ui/center-page/center-page.component';
 import { NewPasswordComponent } from '../../ui/new-password/new-password.component';
 import { MessageComponent } from '../../../base/ui/message/message.component';

@@ -12,14 +12,14 @@ import {
 import { mock, MockProxy } from 'jest-mock-extended';
 import { User } from '@angular/fire/auth';
 
-import { AuthenticationService } from '../account/services/authentication.service';
+import { AuthenticationService } from '../account/services/authentication-service/authentication.service';
 import { ResponsiveService } from '../base/services/responsive.service';
 import { HeaderComponent } from './header.component';
 import { Devices } from '../base/models/devices';
 
 import { dataTest, dataTestIf } from '../jest/test-helpers/data-test.helper';
 import { RouterMock } from '../jest/test-mocks/router.mock';
-import { AuthenticationServiceMock } from '../account/services/authentication.service.mock';
+import { AuthenticationServiceMock } from '../account/services/authentication-service/authentication.service.mock';
 import { ResponsiveServiceMock } from '../base/services/responsive.service.mock';
 
 describe('HeaderComponent', () => {

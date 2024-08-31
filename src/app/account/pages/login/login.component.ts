@@ -24,7 +24,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIcon } from '@angular/material/icon';
 
 import { NavigationService } from '../../services/navigation.service';
-import { AuthenticationService } from '../../services/authentication.service';
+import { AuthenticationService } from '../../services/authentication-service/authentication.service';
 import { ResponsiveService } from '../../../base/services/responsive.service';
 import { MessageComponent } from '../../../base/ui/message/message.component';
 import { ForgotPasswordComponent } from '../../ui/forgot-password/forgot-password.component';

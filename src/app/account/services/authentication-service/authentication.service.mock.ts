@@ -1,7 +1,7 @@
 import { Signal, signal, WritableSignal } from '@angular/core';
 
 import { User } from '@angular/fire/auth';
-import { AuthenticationMessages } from '../models/authentication-messages';
+import { AuthenticationMessages } from '../../models/authentication-messages';
 
 export class AuthenticationServiceMock {
 	// Set mock return values for public methods

@@ -5,7 +5,7 @@ import {
 	MockInstance,
 	MockRender,
 } from 'ng-mocks';
-import { AuthenticationService } from '../../services/authentication.service';
+import { AuthenticationService } from '../../services/authentication-service/authentication.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CenterPageComponent } from '../../../base/ui/center-page/center-page.component';
 import { MessageComponent } from '../../../base/ui/message/message.component';
@@ -17,7 +17,7 @@ import {
 	WELCOME_ROUTE,
 } from '../../../base/guards/auth-guards';
 import { RouterMock } from '../../../jest/test-mocks/router.mock';
-import { AuthenticationServiceMock } from '../../services/authentication.service.mock';
+import { AuthenticationServiceMock } from '../../services/authentication-service/authentication.service.mock';
 import { User } from '@angular/fire/auth';
 import { mock } from 'jest-mock-extended';
 import {
