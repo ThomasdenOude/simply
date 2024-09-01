@@ -44,9 +44,11 @@ import { SpaceContentDirective } from '../../../base/directives/space-content.di
 })
 export class ConfirmPasswordComponent {
 	protected readonly AuthenticationMessages = AuthenticationMessages;
-	public passwordForm: FormGroup<PasswordForm> = new FormGroup<PasswordForm>({
-		password: new FormControl('', Validators.required),
-	});
+	protected passwordForm: FormGroup<PasswordForm> = new FormGroup<PasswordForm>(
+		{
+			password: new FormControl('', Validators.required),
+		}
+	);
 
 	public setPasswordConfirmError: InputSignal<
 		AuthenticationMessages | undefined
@@ -55,9 +57,9 @@ export class ConfirmPasswordComponent {
 		() => this.setPasswordConfirmError() ?? AuthenticationMessages.None
 	);
 	@Output()
-	public onPasswordSubmit: EventEmitter<string> = new EventEmitter<string>();
+	public passwordSubmit: EventEmitter<string> = new EventEmitter<string>();
 	@Output()
-	public onErrorClose: EventEmitter<void> = new EventEmitter<void>();
+	public closePasswordError: EventEmitter<void> = new EventEmitter<void>();
 
 	@ViewChild('form')
 	private form: FormGroupDirective | undefined;
@@ -67,13 +69,13 @@ export class ConfirmPasswordComponent {
 		const form: Partial<Password> = this.passwordForm.value;
 
 		if (valid && form.password) {
-			this.onPasswordSubmit.emit(form.password);
+			this.passwordSubmit.emit(form.password);
 			this.reset();
 		}
 	}
 
 	protected closeError(): void {
-		this.onErrorClose.emit();
+		this.closePasswordError.emit();
 	}
 
 	public reset(): void {

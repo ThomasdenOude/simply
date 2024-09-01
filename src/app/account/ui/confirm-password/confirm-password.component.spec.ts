@@ -1,7 +1,17 @@
-import { MockBuilder, MockedComponentFixture, MockRender } from 'ng-mocks';
+import {
+	MockBuilder,
+	MockedComponentFixture,
+	MockedDebugElement,
+	MockRender,
+} from 'ng-mocks';
 
 import { ConfirmPasswordComponent } from './confirm-password.component';
 import { FormGroupDirective } from '@angular/forms';
+import { MessageComponent } from '../../../base/ui/message/message.component';
+import {
+	dataTest,
+	dataTestIf,
+} from '../../../jest/test-helpers/data-test.helper';
 
 describe('ConfirmPasswordComponent', () => {
 	let component: ConfirmPasswordComponent;
@@ -11,12 +21,16 @@ describe('ConfirmPasswordComponent', () => {
 		MockBuilder(ConfirmPasswordComponent).keep(FormGroupDirective)
 	);
 
-	it('should have NONE as passwordConfirmError', () => {
+	it('should not show message if there is no password confirm error', () => {
 		// Arrange
 		fixture = MockRender(ConfirmPasswordComponent);
 		component = fixture.point.componentInstance;
+		const message: MockedDebugElement<MessageComponent> | false = dataTestIf(
+			'password-confirm-message'
+		);
 		// Assert
-		expect(component['passwordConfirmError']()).toBe('NONE');
+
+		expect(message).toBe(false);
 	});
 
 	it('should have EMAIL_EXISTS as passwordConfirmError', () => {
@@ -29,44 +43,58 @@ describe('ConfirmPasswordComponent', () => {
 			params
 		);
 		component = fixture.point.componentInstance;
+		const message: MockedDebugElement<MessageComponent> = dataTest(
+			'password-confirm-message'
+		);
 		// Assert
-		expect(component['passwordConfirmError']()).toBe('EMAIL_EXISTS');
+		expect(message.componentInstance.errorMessage).toBe('EMAIL_EXISTS');
 	});
 
 	it('should emit onClose event', () => {
 		// Arrange
-		fixture = MockRender(ConfirmPasswordComponent);
+		const params = {
+			setPasswordConfirmError: 'EMAIL_EXISTS',
+		};
+		const fixture = MockRender<ConfirmPasswordComponent>(
+			ConfirmPasswordComponent,
+			params
+		);
 		component = fixture.point.componentInstance;
-		const spyClose = jest.spyOn(component.onErrorClose, 'emit');
+		const spyClose = jest.spyOn(component.closePasswordError, 'emit');
+		const message: MockedDebugElement<MessageComponent> = dataTest(
+			'password-confirm-message'
+		);
 		// Act
-		component['closeError']();
+		message.componentInstance.onClose.emit();
 		// Assert
 		expect(spyClose).toHaveBeenCalledTimes(1);
 	});
 
-	it('should emit password when form is valid', () => {
+	it('should emit password when form is valid, and reset form values', () => {
 		// Arrange
 		fixture = MockRender(ConfirmPasswordComponent);
 		component = fixture.point.componentInstance;
-		const spyPasswordSubmit = jest.spyOn(component.onPasswordSubmit, 'emit');
-		const form = component['form'];
-		const spyReset = jest.spyOn(form!, 'resetForm');
-		// Assert
-		expect(component.passwordForm.valid).toBe(false);
+		const spyPasswordSubmit = jest.spyOn(component.passwordSubmit, 'emit');
+		const input = dataTest('confirm-password-input');
+		const submit = dataTest('submit-button');
 		// Act
-		component['submit']();
-		// Assert
-		expect(spyPasswordSubmit).not.toHaveBeenCalled();
-		expect(spyReset).not.toHaveBeenCalled();
-		// Act
-		component.passwordForm.get('password')?.setValue('test-password');
-		// Assert
-		expect(component.passwordForm.valid).toBe(true);
-		// Act
-		component['submit']();
+		input.nativeElement.value = 'test-password';
+		input.nativeElement.dispatchEvent(new Event('input'));
+		fixture.detectChanges();
+		submit.nativeElement.click();
 		// Assert
 		expect(spyPasswordSubmit).toHaveBeenCalledTimes(1);
 		expect(spyPasswordSubmit).toHaveBeenCalledWith('test-password');
-		expect(spyReset).toHaveBeenCalledTimes(1);
+		expect(input.nativeElement.value).toBe('');
+	});
+
+	it('should not emit password when form is invalid', () => {
+		fixture = MockRender(ConfirmPasswordComponent);
+		component = fixture.point.componentInstance;
+		const spyPasswordSubmit = jest.spyOn(component.passwordSubmit, 'emit');
+		const submit = dataTest('submit-button');
+		// Act
+		submit.nativeElement.click();
+		expect(spyPasswordSubmit).not.toHaveBeenCalled();
 	});
 });

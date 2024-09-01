@@ -36,9 +36,9 @@
 		) {
 			<simply-confirm-password
 				data-test="confirm-password-for-change"
-				(onPasswordSubmit)="confirmPassword($event, 'ChangePassword')"
+				(passwordSubmit)="confirmPassword($event, 'ChangePassword')"
 				[setPasswordConfirmError]="passwordConfirmError()"
-				(onErrorClose)="resetPasswordConfirmError()"
+				(closePasswordError)="resetPasswordConfirmError()"
 			></simply-confirm-password>
 		} @else if (continuePasswordChange()) {
 			<simply-new-password
@@ -67,9 +67,9 @@
 
 		<simply-confirm-password
 			data-test="confirm-password-for-remove"
-			(onPasswordSubmit)="confirmPassword($event, 'RemoveAccount')"
+			(passwordSubmit)="confirmPassword($event, 'RemoveAccount')"
 			[setPasswordConfirmError]="passwordConfirmError()"
-			(onErrorClose)="resetPasswordConfirmError()"
+			(closePasswordError)="resetPasswordConfirmError()"
 		></simply-confirm-password>
 	</simply-panel>
 </simply-center-page>

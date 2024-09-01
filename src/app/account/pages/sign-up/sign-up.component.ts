@@ -16,14 +16,13 @@ import {
 import { Router, RouterLink } from '@angular/router';
 
 import { FirebaseError } from '@firebase/util';
-import { map, Observable, Subject, takeUntil } from 'rxjs';
+import { map, Observable, Subject } from 'rxjs';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatDivider } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 
-import { NavigationService } from '../../services/navigation.service';
 import { AuthenticationService } from '../../services/authentication-service/authentication.service';
 import { ResponsiveService } from '../../../base/services/responsive.service';
 import { CenterPageComponent } from '../../../base/ui/center-page/center-page.component';
@@ -35,10 +34,7 @@ import { Email, EmailForm } from '../../models/credentials.model';
 import { Devices } from '../../../base/models/devices';
 import { AuthenticationMessages } from '../../models/authentication-messages';
 import { toSignal } from '@angular/core/rxjs-interop';
-import {
-	TASK_BOARD_ROUTE,
-	VERIFY_EMAIL_ROUTE,
-} from '../../../base/guards/auth-guards';
+import { VERIFY_EMAIL_ROUTE } from '../../../base/guards/auth-guards';
 
 @Component({
 	selector: 'simply-sign-up',
@@ -65,12 +61,9 @@ export class SignUpComponent implements OnDestroy {
 	private destroy: Subject<void> = new Subject<void>();
 
 	private authService: AuthenticationService = inject(AuthenticationService);
-	private navigationService: NavigationService = inject(NavigationService);
 	private responsiveService: ResponsiveService = inject(ResponsiveService);
 	private router: Router = inject(Router);
 
-	private browserTabReturned$: Observable<null> =
-		this.navigationService.browserTabReturned$;
 	protected readonly AuthenticationMessages = AuthenticationMessages;
 	protected device: Signal<Devices> = this.responsiveService.device;
 	protected readonly Devices = Devices;
@@ -110,12 +103,6 @@ export class SignUpComponent implements OnDestroy {
 				.then(() => {
 					// Signed up
 					void this.router.navigate(VERIFY_EMAIL_ROUTE);
-
-					this.browserTabReturned$
-						.pipe(takeUntil(this.destroy))
-						.subscribe(() => {
-							void this.router.navigate(TASK_BOARD_ROUTE);
-						});
 				})
 				.catch((error: FirebaseError) => {
 					this.continue.set(false);

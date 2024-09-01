@@ -17,8 +17,9 @@ import { dataTest } from '../../../jest/test-helpers/data-test.helper';
 import { RouterMock } from '../../../jest/test-mocks/router.mock';
 import { AuthenticationServiceMock } from '../../services/authentication-service/authentication.service.mock';
 import { AuthenticationService } from '../../services/authentication-service/authentication.service';
-import { NavigationService } from '../../services/navigation.service';
+import { VisibilityChangesService } from '../../services/visibility-changes.service';
 import { VerifyEmailComponent } from './verify-email.component';
+import { signal } from '@angular/core';
 
 describe('VerifyEmailComponent', () => {
 	let component: VerifyEmailComponent;
@@ -33,12 +34,12 @@ describe('VerifyEmailComponent', () => {
 	beforeEach(() =>
 		MockBuilder(
 			[VerifyEmailComponent, RouterModule, NG_MOCKS_ROOT_PROVIDERS],
-			[AuthenticationService, NavigationService]
+			[AuthenticationService, VisibilityChangesService]
 		)
 			.mock(AuthenticationService, mockAuthService)
 			.mock(Router, mockRouter)
-			.mock(NavigationService, {
-				browserTabReturned$: of(null),
+			.mock(VisibilityChangesService, {
+				browserTabReturned: signal(true),
 			})
 	);
 
@@ -84,8 +85,6 @@ describe('VerifyEmailComponent', () => {
 				expect(authService.sendEmailVerification).toHaveBeenCalledWith(
 					mockUser
 				);
-				expect(router.navigate).toHaveBeenCalledTimes(1);
-				expect(router.navigate).toHaveBeenCalledWith(['/task-board']);
 			});
 
 			it('does not send email verification if no user provided', () => {
