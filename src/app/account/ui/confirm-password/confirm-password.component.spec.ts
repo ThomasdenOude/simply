@@ -12,13 +12,17 @@ import {
 	dataTest,
 	dataTestIf,
 } from '../../../jest/test-helpers/data-test.helper';
+import { SpaceContentDirective } from '../../../base/directives/space-content.directive';
 
 describe('ConfirmPasswordComponent', () => {
 	let component: ConfirmPasswordComponent;
 	let fixture: MockedComponentFixture<ConfirmPasswordComponent>;
 
 	beforeEach(() =>
-		MockBuilder(ConfirmPasswordComponent).keep(FormGroupDirective)
+		MockBuilder(ConfirmPasswordComponent, [
+			MessageComponent,
+			SpaceContentDirective,
+		]).keep(FormGroupDirective)
 	);
 
 	it('should not show message if there is no password confirm error', () => {
@@ -96,5 +100,12 @@ describe('ConfirmPasswordComponent', () => {
 		// Act
 		submit.nativeElement.click();
 		expect(spyPasswordSubmit).not.toHaveBeenCalled();
+		// Arrange
+		const requiredError = dataTest('required-error');
+		// Assert
+		expect(requiredError).toBeTruthy();
+		expect(requiredError.nativeElement.textContent).toBe(
+			'Provide your current password to continue'
+		);
 	});
 });

@@ -32,20 +32,21 @@ export class ConfirmResetPasswordComponent {
 
 	public passwordCodeConfirmed: InputSignal<boolean> =
 		input.required<boolean>();
+	public passwordConfirmed: InputSignal<boolean> = input.required<boolean>();
 	public passwordError: InputSignal<AuthenticationMessages> =
 		input.required<AuthenticationMessages>();
 
 	@Output()
-	public onResetPassword: EventEmitter<string> = new EventEmitter<string>();
+	public resetPassword: EventEmitter<string> = new EventEmitter<string>();
 
 	@Output()
-	public onGoToApp: EventEmitter<void> = new EventEmitter<void>();
+	public goToApp: EventEmitter<void> = new EventEmitter<void>();
 
-	protected resetPassword(newPassword: string): void {
-		this.onResetPassword.emit(newPassword);
+	protected emitResetPassword(newPassword: string): void {
+		this.resetPassword.emit(newPassword);
 	}
 
-	protected goToApp(): void {
-		this.onGoToApp.emit();
+	protected emitGoToApp(): void {
+		this.goToApp.emit();
 	}
 }

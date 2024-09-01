@@ -12,9 +12,10 @@
 	@if (mode() === 'resetPassword') {
 		<simply-confirm-reset-password
 			[passwordCodeConfirmed]="passwordCodeConfirmed()"
+			[passwordConfirmed]="passwordConfirmed()"
 			[passwordError]="passwordError()"
-			(onResetPassword)="resetPassword($event)"
-			(onGoToApp)="goToApp()"
+			(resetPassword)="resetPassword($event)"
+			(goToApp)="goToApp()"
 		/>
 	}
 </simply-center-page>
