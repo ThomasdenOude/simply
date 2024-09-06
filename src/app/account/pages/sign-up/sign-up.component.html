@@ -17,7 +17,7 @@
 		@if (signupError() === AuthenticationMessages.EmailExists) {
 			<div class="simply-sign-up__login" simplySpaceContent="large">
 				<p class="simply-sign-up__login-text">Already have an account?</p>
-				<button
+				<a
 					mat-flat-button
 					color="primary"
 					routerLink="/account/log-in"
@@ -25,7 +25,7 @@
 				>
 					<mat-icon>login</mat-icon>
 					Log in to your account
-				</button>
+				</a>
 			</div>
 		}
 

@@ -29,7 +29,7 @@
 		@if (!isOnAuthenticatePage()) {
 			<nav data-test="navigation-menu">
 				@if (!isLoggedIn() && !isOnLoginPage()) {
-					<button
+					<a
 						data-test="log-in-button"
 						mat-flat-button
 						color="primary"
@@ -38,18 +38,18 @@
 					>
 						<mat-icon>login</mat-icon>
 						<span>Log in</span>
-					</button>
+					</a>
 				}
 				@if (isLoggedIn()) {
 					@if (isOnSettingsPage()) {
-						<button
+						<a
 							data-test="menu-close-button"
 							mat-icon-button
 							color="primary"
 							routerLink="/task-board"
 						>
 							<mat-icon>close</mat-icon>
-						</button>
+						</a>
 					} @else {
 						<button
 							data-test="menu-open-button"
@@ -78,7 +78,7 @@
 								></mat-divider>
 
 								@if (emailVerified()) {
-									<button
+									<a
 										data-test="settings-button"
 										mat-stroked-button
 										color="primary"
@@ -87,7 +87,7 @@
 									>
 										<mat-icon>settings</mat-icon>
 										<span>Settings</span>
-									</button>
+									</a>
 								}
 
 								<button

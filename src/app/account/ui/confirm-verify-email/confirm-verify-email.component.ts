@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
-import { MatButton } from '@angular/material/button';
+import { MatButtonModule } from '@angular/material/button';
 import { MatDivider } from '@angular/material/divider';
 import { User } from '@angular/fire/auth';
 
@@ -21,7 +21,7 @@ import { AuthenticationMessages } from '../../models/authentication-messages';
 	standalone: true,
 	imports: [
 		LogoComponent,
-		MatButton,
+		MatButtonModule,
 		MatDivider,
 		MessageComponent,
 		RouterLink,

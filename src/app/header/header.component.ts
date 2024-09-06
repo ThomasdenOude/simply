@@ -2,7 +2,7 @@ import { Component, Signal, inject, computed } from '@angular/core';
 import { NgClass } from '@angular/common';
 import { NavigationEnd, Router, RouterLink } from '@angular/router';
 
-import { filter, map, Observable, startWith, tap } from 'rxjs';
+import { filter, map, Observable, startWith } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 
 import { MatButtonModule } from '@angular/material/button';
