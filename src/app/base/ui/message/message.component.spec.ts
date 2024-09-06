@@ -9,7 +9,7 @@ import {
 import SpyInstance = jest.SpyInstance;
 
 import { MessageComponent } from './message.component';
-import { dataTest } from '../../../jest/test-helpers/data-test.helper';
+import { dataTest } from '../../../../test/helpers/data-test.helper';
 
 describe('MessageComponent', () => {
 	let fixture: MockedComponentFixture<

@@ -10,7 +10,7 @@ import { mock, MockProxy } from 'jest-mock-extended';
 import { AuthenticationService } from './authentication.service';
 import { AuthenticationMessages } from '../../models/authentication-messages';
 import { authenticationErrorMap } from '../../data/authentication-messages.map';
-import { firebaseErrorMock } from '../../../jest/test-mocks/firebase-error.mock';
+import { firebaseErrorMock } from '../../../../test/mocks/firebase-error.mock';
 import {
 	mockAuthState,
 	mockCreateUser,

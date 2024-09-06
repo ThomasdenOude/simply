@@ -6,7 +6,7 @@ import {
 	ngMocks,
 } from 'ng-mocks';
 
-import { dataTest } from '../../../jest/test-helpers/data-test.helper';
+import { dataTest } from '../../../../test/helpers/data-test.helper';
 import { ResponsiveServiceMock } from '../../../base/services/responsive.service.mock';
 
 import { ResponsiveService } from '../../../base/services/responsive.service';
@@ -40,7 +40,7 @@ describe('SignInComponent', () => {
 			// Arrange
 			const title = dataTest('welcome-title');
 			// Assert
-      expect(component).toBeTruthy();
+			expect(component).toBeTruthy();
 			expect(title.nativeElement.textContent).toBe('Simply');
 			expect(centerPageComponent.componentInstance.maxContentWidth).toBe(
 				'small'

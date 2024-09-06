@@ -13,8 +13,8 @@ import {
 } from 'ng-mocks';
 import { mock, MockProxy } from 'jest-mock-extended';
 
-import { dataTest } from '../../../jest/test-helpers/data-test.helper';
-import { RouterMock } from '../../../jest/test-mocks/router.mock';
+import { dataTest } from '../../../../test/helpers/data-test.helper';
+import { RouterMock } from '../../../../test/mocks/router.mock';
 import { AuthenticationServiceMock } from '../../services/authentication-service/authentication.service.mock';
 import { AuthenticationService } from '../../services/authentication-service/authentication.service';
 import { VisibilityChangesService } from '../../services/visibility-changes.service';

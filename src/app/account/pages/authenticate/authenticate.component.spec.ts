@@ -16,14 +16,14 @@ import {
 	VERIFY_EMAIL_ROUTE,
 	WELCOME_ROUTE,
 } from '../../../base/guards/auth-guards';
-import { RouterMock } from '../../../jest/test-mocks/router.mock';
+import { RouterMock } from '../../../../test/mocks/router.mock';
 import { AuthenticationServiceMock } from '../../services/authentication-service/authentication.service.mock';
 import { User } from '@angular/fire/auth';
 import { mock } from 'jest-mock-extended';
 import {
 	dataTest,
 	dataTestIf,
-} from '../../../jest/test-helpers/data-test.helper';
+} from '../../../../test/helpers/data-test.helper';
 
 describe('AuthenticateComponent', () => {
 	let fixture: MockedComponentFixture<AuthenticateComponent>;
@@ -39,7 +39,7 @@ describe('AuthenticateComponent', () => {
 	): void => {
 		// Set queryParams
 		MockInstance(ActivatedRoute, 'snapshot', jest.fn(), 'get')
-			// using jest.fn.mockReturnValue to customize what the getter returns.
+			// using test.fn.mockReturnValue to customize what the getter returns.
 			.mockReturnValue({
 				queryParamMap: new Map(queryParams),
 			});

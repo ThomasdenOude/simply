@@ -11,7 +11,7 @@ import { MessageComponent } from '../../../base/ui/message/message.component';
 import {
 	dataTest,
 	dataTestIf,
-} from '../../../jest/test-helpers/data-test.helper';
+} from '../../../../test/helpers/data-test.helper';
 import { SpaceContentDirective } from '../../../base/directives/space-content.directive';
 
 describe('ConfirmPasswordComponent', () => {

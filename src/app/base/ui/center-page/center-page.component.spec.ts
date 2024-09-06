@@ -5,7 +5,7 @@ import { CenterPageComponent } from './center-page.component';
 import { Devices } from '../../models/devices';
 import { BaseSizes } from '../../models/style-sizes';
 import { ResponsiveServiceMock } from '../../services/responsive.service.mock';
-import { dataTest } from '../../../jest/test-helpers/data-test.helper';
+import { dataTest } from '../../../../test/helpers/data-test.helper';
 
 describe('CenterPageComponent', () => {
 	let fixture: MockedComponentFixture<CenterPageComponent>;

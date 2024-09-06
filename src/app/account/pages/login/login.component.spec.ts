@@ -18,9 +18,9 @@ import {
 import {
 	dataTest,
 	dataTestIf,
-} from '../../../jest/test-helpers/data-test.helper';
-import { RouterMock } from '../../../jest/test-mocks/router.mock';
-import { firebaseErrorMock } from '../../../jest/test-mocks/firebase-error.mock';
+} from '../../../../test/helpers/data-test.helper';
+import { RouterMock } from '../../../../test/mocks/router.mock';
+import { firebaseErrorMock } from '../../../../test/mocks/firebase-error.mock';
 import { ResponsiveServiceMock } from '../../../base/services/responsive.service.mock';
 import { AuthenticationServiceMock } from '../../services/authentication-service/authentication.service.mock';
 import { AuthenticationService } from '../../services/authentication-service/authentication.service';

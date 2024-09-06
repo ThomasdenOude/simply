@@ -12,7 +12,7 @@ import { AuthenticationMessages } from '../../models/authentication-messages';
 import {
 	dataTest,
 	dataTestIf,
-} from '../../../jest/test-helpers/data-test.helper';
+} from '../../../../test/helpers/data-test.helper';
 import SpyInstance = jest.SpyInstance;
 import { SpaceContentDirective } from '../../../base/directives/space-content.directive';
 

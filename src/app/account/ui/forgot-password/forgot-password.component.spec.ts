@@ -8,11 +8,12 @@ import {
 	ngMocks,
 } from 'ng-mocks';
 
-import { ForgotPasswordComponent } from './forgot-password.component';
 import {
 	dataTest,
 	dataTestIf,
-} from '../../../jest/test-helpers/data-test.helper';
+} from '../../../../test/helpers/data-test.helper';
+import { inputTest } from '../../../../test/helpers/input-test.helper';
+import { ForgotPasswordComponent } from './forgot-password.component';
 import { FocusInputDirective } from '../../../base/directives/focus-input.directive';
 import { SpaceContentDirective } from '../../../base/directives/space-content.directive';
 import { TextContentDirective } from '../../../base/directives/text-content.directive';
@@ -66,8 +67,7 @@ describe('ForgotPasswordComponent', () => {
 
 	it('does not submit when email invalid, shows invalid email error', () => {
 		// Act
-		emailInput.nativeElement.value = 'howdy';
-		emailInput.nativeElement.dispatchEvent(new Event('input'));
+		inputTest(emailInput, 'howdy');
 		fixture.detectChanges();
 		sendEmailButton.nativeElement.click();
 		// Arrange
@@ -83,8 +83,7 @@ describe('ForgotPasswordComponent', () => {
 		// Arrange
 		const mockEmail = 'kees@home.nl';
 		// Act
-		emailInput.nativeElement.value = mockEmail;
-		emailInput.nativeElement.dispatchEvent(new Event('input'));
+		inputTest(emailInput, mockEmail);
 		fixture.detectChanges();
 		sendEmailButton.nativeElement.click();
 		// Arrange
