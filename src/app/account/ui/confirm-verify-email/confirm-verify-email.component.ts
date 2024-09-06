@@ -35,19 +35,19 @@ export class ConfirmVerifyEmailComponent {
 
 	public user: InputSignal<User | null> = input.required<User | null>();
 	public emailCodeConfirmed: InputSignal<boolean> = input.required<boolean>();
-	public emailError: InputSignal<AuthenticationMessages> =
+	public emailVerificationError: InputSignal<AuthenticationMessages> =
 		input.required<AuthenticationMessages>();
 
 	@Output()
-	public onGoToApp: EventEmitter<void> = new EventEmitter<void>();
+	public goToApp: EventEmitter<void> = new EventEmitter<void>();
 
 	@Output()
-	public onSendVerificationLink: EventEmitter<User> = new EventEmitter<User>();
-	protected goToApp(): void {
-		this.onGoToApp.emit();
+	public sendVerificationLink: EventEmitter<User> = new EventEmitter<User>();
+	protected emitGoToApp(): void {
+		this.goToApp.emit();
 	}
 
-	protected sendVerificationLink(user: User): void {
-		this.onSendVerificationLink.emit(user);
+	protected emitSendVerificationLink(user: User): void {
+		this.sendVerificationLink.emit(user);
 	}
 }

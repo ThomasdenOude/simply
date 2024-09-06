@@ -3,7 +3,7 @@
 </h2>
 
 @if (!emailCodeConfirmed()) {
-	<p data-test="emailConfirmed-verify-message">
+	<p data-test="verify-in-progress-message">
 		We will verify your email address
 	</p>
 }
@@ -17,15 +17,15 @@
 		class="simply-authenticate__button"
 		mat-flat-button
 		color="primary"
-		(click)="goToApp()"
+		(click)="emitGoToApp()"
 	>
 		Continue to app
 	</button>
 }
-@if (emailError() !== AuthenticationMessages.None) {
+@if (emailVerificationError() !== AuthenticationMessages.None) {
 	<simply-message
-		data-test="verify-email-message"
-		[errorMessage]="emailError()"
+		data-test="verify-email-error"
+		[errorMessage]="emailVerificationError()"
 		simplySpaceContent="large"
 	></simply-message>
 
@@ -36,7 +36,7 @@
 			class="simply-authenticate__button"
 			mat-flat-button
 			color="primary"
-			(click)="sendVerificationLink(user)"
+			(click)="emitSendVerificationLink(user)"
 		>
 			Send new email verification
 		</button>
@@ -44,7 +44,7 @@
 		<p>Please log in to your account again</p>
 		<p>After login you can get a new email verification</p>
 		<button
-			data-test="login-button"
+			data-test="to-login-button"
 			class="simply-authenticate__button"
 			mat-flat-button
 			color="primary"

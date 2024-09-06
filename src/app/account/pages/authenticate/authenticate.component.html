@@ -3,9 +3,9 @@
 		<simply-confirm-verify-email
 			[user]="user()"
 			[emailCodeConfirmed]="emailCodeConfirmed()"
-			[emailError]="emailError()"
-			(onGoToApp)="goToApp()"
-			(onSendVerificationLink)="sendVerificationLink($event)"
+			[emailVerificationError]="emailError()"
+			(goToApp)="goToApp()"
+			(sendVerificationLink)="sendVerificationLink($event)"
 		/>
 	}
 
