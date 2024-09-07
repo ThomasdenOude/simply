@@ -140,7 +140,7 @@ describe('SettingsComponent', () => {
 				'Change your password'
 			);
 			expect(
-				newPasswordAfterConfirm.componentInstance.newPasswordSubmitAction
+				newPasswordAfterConfirm.componentInstance.newPasswordSubmitText
 			).toBe('Change password');
 			// Act
 			newPasswordAfterConfirm.componentInstance.isSubmitted.emit('newPassword');

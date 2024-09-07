@@ -148,7 +148,7 @@ describe('SignUpComponent', () => {
 			expect(format).toBe(false);
 			expect(continueButtonAfterSubmit).toBe(false);
 			expect(newPassword).toBeTruthy();
-			expect(newPassword.componentInstance.newPasswordSubmitAction).toBe(
+			expect(newPassword.componentInstance.newPasswordSubmitText).toBe(
 				'Sign up'
 			);
 			// Act

@@ -47,7 +47,7 @@ export class NewPasswordComponent {
 	});
 
 	public newPasswordTitle: InputSignal<string> = input('Make a new password');
-	public newPasswordSubmitAction: InputSignal<string> = input('Save');
+	public newPasswordSubmitText: InputSignal<string> = input('Save');
 
 	@ViewChild('form')
 	protected form: FormGroupDirective | undefined;
