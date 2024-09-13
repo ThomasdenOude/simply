@@ -1,9 +1,9 @@
 import {
 	Component,
-	EventEmitter,
 	input,
 	InputSignal,
-	Output,
+	output,
+	OutputEmitterRef,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
@@ -38,11 +38,8 @@ export class ConfirmVerifyEmailComponent {
 	public emailVerificationError: InputSignal<AuthenticationMessages> =
 		input.required<AuthenticationMessages>();
 
-	@Output()
-	public goToApp: EventEmitter<void> = new EventEmitter<void>();
-
-	@Output()
-	public sendVerificationLink: EventEmitter<User> = new EventEmitter<User>();
+	public goToApp: OutputEmitterRef<void> = output<void>();
+	public sendVerificationLink: OutputEmitterRef<User> = output<User>();
 	protected emitGoToApp(): void {
 		this.goToApp.emit();
 	}

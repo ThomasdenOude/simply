@@ -1,4 +1,10 @@
-import { Component, inject, signal, WritableSignal } from '@angular/core';
+import {
+	Component,
+	inject,
+	OutputEmitterRef,
+	signal,
+	WritableSignal,
+} from '@angular/core';
 import { NgClass } from '@angular/common';
 import { Router } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';

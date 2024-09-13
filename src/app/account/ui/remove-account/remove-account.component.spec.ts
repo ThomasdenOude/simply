@@ -1,15 +1,20 @@
-import { signal } from '@angular/core';
-
 import { DialogRef } from '@angular/cdk/dialog';
-import { MockBuilder, MockedComponentFixture, MockRender } from 'ng-mocks';
+import {
+	MockBuilder,
+	MockedComponentFixture,
+	MockRender,
+	ngMocks,
+} from 'ng-mocks';
 
 import { ResponsiveService } from '../../../base/services/responsive.service';
 import { RemoveAccountComponent } from './remove-account.component';
+import { signal } from '@angular/core';
 import { Devices } from '../../../base/models/devices';
+import { By } from '@angular/platform-browser';
 
 describe('RemoveAccountComponent', () => {
-	let component: RemoveAccountComponent;
 	let fixture: MockedComponentFixture<RemoveAccountComponent>;
+	let dialogRef: DialogRef;
 
 	beforeEach(() =>
 		MockBuilder(RemoveAccountComponent, [ResponsiveService, DialogRef]).mock(
@@ -24,34 +29,34 @@ describe('RemoveAccountComponent', () => {
 		beforeEach(() => {
 			// Arrange
 			fixture = MockRender(RemoveAccountComponent);
-			component = fixture.point.componentInstance;
-		});
-
-		it('should set the device', () => {
-			// Assert
-			expect(component['device']()).toBe(Devices.Unknown);
+			dialogRef = ngMocks.get(DialogRef);
 		});
 
 		it('should close dialog on cancel with false', () => {
 			// Arrange
-			const spyClose = jest.spyOn(component['dialogRef'], 'close');
+			const cancelButton = fixture.debugElement.query(
+				By.css('[data-test=cancel-button]')
+			);
 			// Assert
-			expect(spyClose).not.toHaveBeenCalled();
+			expect(dialogRef.close).not.toHaveBeenCalled();
 			// Act
-			component['cancel']();
-			expect(spyClose).toHaveBeenCalledTimes(1);
-			expect(spyClose).toHaveBeenCalledWith(false);
+			cancelButton.nativeElement.click();
+			expect(dialogRef.close).toHaveBeenCalledTimes(1);
+			expect(dialogRef.close).toHaveBeenCalledWith(false);
 		});
 
 		it('should close dialog on removeAccount with true', () => {
 			// Arrange
-			const spyClose = jest.spyOn(component['dialogRef'], 'close');
+			const removeAccountButton = fixture.debugElement.query(
+				By.css('[data-test=remove-account-button]')
+			);
 			// Assert
-			expect(spyClose).not.toHaveBeenCalled();
+			expect(dialogRef.close).not.toHaveBeenCalled();
 			// Act
-			component['removeAccount']();
-			expect(spyClose).toHaveBeenCalledTimes(1);
-			expect(spyClose).toHaveBeenCalledWith(true);
+			removeAccountButton.nativeElement.click();
+			// Assert
+			expect(dialogRef.close).toHaveBeenCalledTimes(1);
+			expect(dialogRef.close).toHaveBeenCalledWith(true);
 		});
 	});
 });

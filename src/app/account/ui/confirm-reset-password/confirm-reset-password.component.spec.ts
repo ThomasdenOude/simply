@@ -131,14 +131,14 @@ describe('ConfirmResetPasswordComponent', () => {
 
 		it('Emits new password if new password is submitted', () => {
 			// Arrange
-			const resetPasswordSpy = jest.spyOn(component.resetPassword, 'emit');
 			const newPassword: MockedDebugElement<NewPasswordComponent> =
 				ngMocks.find(['data-test', 'new-password']);
+			let password: string | undefined;
+			component.resetPassword.subscribe(value => (password = value));
 			// Act
-			newPassword.componentInstance.isSubmitted.emit('mock-password');
+			newPassword.componentInstance.newPassword.emit('mock-password');
 			// Assert
-			expect(resetPasswordSpy).toHaveBeenCalledTimes(1);
-			expect(resetPasswordSpy).toHaveBeenCalledWith('mock-password');
+			expect(password).toBe('mock-password');
 		});
 	});
 
@@ -158,12 +158,13 @@ describe('ConfirmResetPasswordComponent', () => {
 
 		it('emits go to app when continue button clicked', () => {
 			// Arrange
-			const goToAppSpy = jest.spyOn(component.goToApp, 'emit');
 			const button = dataTest('go-to-app-button');
+			let goToAppEmit = false;
+			component.goToApp.subscribe(() => (goToAppEmit = true));
 			// Act
 			button.nativeElement.click();
 			// Assert
-			expect(goToAppSpy).toHaveBeenCalledTimes(1);
+			expect(goToAppEmit).toBe(true);
 		});
 	});
 });

@@ -1,4 +1,5 @@
 <simply-center-page data-test="settings">
+	<simply-confirm-password></simply-confirm-password>
 	<h2 data-test="settings-title" simplyTextContent>
 		Your <simply-logo /> account
 	</h2>
@@ -36,8 +37,8 @@
 		) {
 			<simply-confirm-password
 				data-test="confirm-password-for-change"
-				(passwordSubmit)="confirmPassword($event, 'ChangePassword')"
 				[setPasswordConfirmError]="passwordConfirmError()"
+				(passwordSubmit)="confirmPassword($event, 'ChangePassword')"
 				(closePasswordError)="resetPasswordConfirmError()"
 			></simply-confirm-password>
 		} @else if (continuePasswordChange()) {
@@ -45,7 +46,7 @@
 				data-test="new-password"
 				newPasswordTitle="Change your password"
 				newPasswordSubmitText="Change password"
-				(isSubmitted)="submitChangePassword($event)"
+				(newPassword)="submitChangePassword($event)"
 			></simply-new-password>
 		}
 	</simply-panel>

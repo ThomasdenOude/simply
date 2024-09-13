@@ -43,6 +43,10 @@ import { SpaceContentDirective } from '../../../base/directives/space-content.di
 	styleUrl: './confirm-password.component.scss',
 })
 export class ConfirmPasswordComponent {
+	public passwordSubmit: OutputEmitterRef<string> = output<string>();
+
+	public closePasswordError: OutputEmitterRef<void> = output<void>();
+
 	protected readonly AuthenticationMessages = AuthenticationMessages;
 	protected passwordForm: FormGroup<PasswordForm> = new FormGroup<PasswordForm>(
 		{
@@ -56,8 +60,6 @@ export class ConfirmPasswordComponent {
 	protected passwordConfirmError: Signal<AuthenticationMessages> = computed(
 		() => this.setPasswordConfirmError() ?? AuthenticationMessages.None
 	);
-	public passwordSubmit: OutputEmitterRef<string> = output<string>();
-	public closePasswordError: OutputEmitterRef<void> = output<void>();
 
 	private form: Signal<FormGroupDirective> =
 		viewChild.required<FormGroupDirective>(FormGroupDirective);

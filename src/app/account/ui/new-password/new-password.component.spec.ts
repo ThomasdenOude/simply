@@ -5,8 +5,6 @@ import {
 	MockRender,
 } from 'ng-mocks';
 
-import SpyInstance = jest.SpyInstance;
-
 import { dataTest } from '../../../../test/helpers/data-test.helper';
 import { inputTest } from '../../../../test/helpers/input-test.helper';
 import { NewPasswordComponent } from './new-password.component';
@@ -21,7 +19,7 @@ describe('NewPasswordFormFieldComponent', () => {
 	let repeatPasswordRequiredError: MockedDebugElement | false;
 	let repeatPasswordSameError: MockedDebugElement | false;
 	let submitButton: MockedDebugElement;
-	let spySubmitted: SpyInstance;
+	let newPassword: string | undefined;
 
 	beforeEach(() => MockBuilder(NewPasswordComponent));
 
@@ -55,17 +53,18 @@ describe('NewPasswordFormFieldComponent', () => {
 			newPasswordInput = dataTest('new-password-input');
 			repeatPasswordInput = dataTest('repeat-password-input');
 			submitButton = dataTest('submit-button');
-			spySubmitted = jest.spyOn(component.isSubmitted, 'emit');
+			component.newPassword.subscribe(value => (newPassword = value));
 		});
 
 		it('does not emit newPassword when form is empty', () => {
+			// Arrange
 			// Act
 			submitButton.nativeElement.click();
 			// Arrange
 			newPasswordRequiredError = dataTest('new-password-required-error');
 			repeatPasswordRequiredError = dataTest('repeat-password-required-error');
 			// Assert
-			expect(spySubmitted).not.toHaveBeenCalled();
+			expect(newPassword).toBeUndefined();
 			expect(newPasswordRequiredError.nativeElement.textContent).toContain(
 				'Enter in a new password'
 			);
@@ -84,7 +83,7 @@ describe('NewPasswordFormFieldComponent', () => {
 			newPasswordLengthError = dataTest('new-password-length-error');
 			repeatPasswordSameError = dataTest('repeat-password-same-error');
 			// Assert
-			expect(spySubmitted).not.toHaveBeenCalled();
+			expect(newPassword).toBeUndefined();
 			expect(newPasswordLengthError.nativeElement.textContent).toContain(
 				'Password should be at least 8 characters long'
 			);
@@ -102,8 +101,7 @@ describe('NewPasswordFormFieldComponent', () => {
 			fixture.detectChanges();
 			submitButton.nativeElement.click();
 			// Assert
-			expect(spySubmitted).toHaveBeenCalledTimes(1);
-			expect(spySubmitted).toHaveBeenCalledWith(mockPassword);
+			expect(newPassword).toBe(mockPassword);
 			// Arrange
 			newPasswordInput = dataTest('new-password-input');
 			repeatPasswordInput = dataTest('repeat-password-input');

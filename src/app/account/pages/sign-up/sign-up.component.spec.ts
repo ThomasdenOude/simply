@@ -152,7 +152,7 @@ describe('SignUpComponent', () => {
 				'Sign up'
 			);
 			// Act
-			newPassword.componentInstance.isSubmitted.emit(password);
+			newPassword.componentInstance.newPassword.emit(password);
 			tick();
 			// Assert
 			expect(authService.creatUserAndVerifyEmail).toHaveBeenCalledTimes(1);
@@ -190,7 +190,7 @@ describe('SignUpComponent', () => {
 			const newPassword: MockedDebugElement<NewPasswordComponent> =
 				dataTest('new-password');
 			// Act
-			newPassword.componentInstance.isSubmitted.emit(password);
+			newPassword.componentInstance.newPassword.emit(password);
 			tick();
 			fixture.detectChanges();
 			// Assert

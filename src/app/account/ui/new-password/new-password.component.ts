@@ -1,10 +1,11 @@
 import {
 	Component,
 	input,
-	Output,
-	EventEmitter,
-	ViewChild,
 	InputSignal,
+	Signal,
+	viewChild,
+	OutputEmitterRef,
+	output,
 } from '@angular/core';
 import {
 	FormControl,
@@ -46,14 +47,13 @@ export class NewPasswordComponent {
 		repeatPassword: new FormControl('', [Validators.required]),
 	});
 
+	protected form: Signal<FormGroupDirective> =
+		viewChild.required<FormGroupDirective>(FormGroupDirective);
+
 	public newPasswordTitle: InputSignal<string> = input('Make a new password');
 	public newPasswordSubmitText: InputSignal<string> = input('Save');
 
-	@ViewChild('form')
-	protected form: FormGroupDirective | undefined;
-
-	@Output()
-	public isSubmitted: EventEmitter<string> = new EventEmitter<string>();
+	public newPassword: OutputEmitterRef<string> = output<string>();
 
 	constructor() {
 		const repeat = this.newPasswordForm.get('repeatPassword');
@@ -66,8 +66,8 @@ export class NewPasswordComponent {
 		const formValue: Partial<NewPassword> = this.newPasswordForm.value;
 
 		if (valid && formValue.newPassword) {
-			this.isSubmitted.emit(formValue.newPassword);
-			this.form?.resetForm();
+			this.newPassword.emit(formValue.newPassword);
+			this.form().resetForm();
 		}
 	}
 }

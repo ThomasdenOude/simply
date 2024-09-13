@@ -121,7 +121,7 @@ describe('SettingsComponent', () => {
 			expect(newPassword).toBe(false);
 			expect(confirmPassword).toBeTruthy();
 			// Act
-			confirmPassword.componentInstance.passwordSubmit.emit(mockPassword);
+			confirmPassword.componentInstance.onPasswordSubmit.emit(mockPassword);
 			tick();
 			fixture.detectChanges();
 			// Assert
@@ -143,7 +143,7 @@ describe('SettingsComponent', () => {
 				newPasswordAfterConfirm.componentInstance.newPasswordSubmitText
 			).toBe('Change password');
 			// Act
-			newPasswordAfterConfirm.componentInstance.isSubmitted.emit('newPassword');
+			newPasswordAfterConfirm.componentInstance.newPassword.emit('newPassword');
 			tick();
 			fixture.detectChanges();
 			// Assert
