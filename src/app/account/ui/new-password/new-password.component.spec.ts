@@ -1,10 +1,27 @@
-import { MockBuilder, MockedComponentFixture, MockRender } from 'ng-mocks';
+import {
+	MockBuilder,
+	MockedComponentFixture,
+	MockedDebugElement,
+	MockRender,
+} from 'ng-mocks';
 
+import SpyInstance = jest.SpyInstance;
+
+import { dataTest } from '../../../../test/helpers/data-test.helper';
+import { inputTest } from '../../../../test/helpers/input-test.helper';
 import { NewPasswordComponent } from './new-password.component';
 
 describe('NewPasswordFormFieldComponent', () => {
 	let component: NewPasswordComponent;
 	let fixture: MockedComponentFixture<NewPasswordComponent>;
+	let newPasswordInput: MockedDebugElement;
+	let newPasswordRequiredError: MockedDebugElement | false;
+	let newPasswordLengthError: MockedDebugElement | false;
+	let repeatPasswordInput: MockedDebugElement;
+	let repeatPasswordRequiredError: MockedDebugElement | false;
+	let repeatPasswordSameError: MockedDebugElement | false;
+	let submitButton: MockedDebugElement;
+	let spySubmitted: SpyInstance;
 
 	beforeEach(() => MockBuilder(NewPasswordComponent));
 
@@ -14,49 +31,85 @@ describe('NewPasswordFormFieldComponent', () => {
 		component = fixture.point.componentInstance;
 		// Assert
 		expect(component.newPasswordTitle()).toBe('Make a new password');
-		expect(component.newPasswordSubmitAction()).toBe('Save');
+		expect(component.newPasswordSubmitText()).toBe('Save');
 	});
 
 	it('should set the title and submitAction', () => {
 		// Arrange
 		const params = {
 			newPasswordTitle: 'test title',
-			newPasswordSubmitAction: 'test action',
+			newPasswordSubmitText: 'test action',
 		};
 		const fixture = MockRender(NewPasswordComponent, params);
 		component = fixture.point.componentInstance;
 		// Assert
 		expect(component.newPasswordTitle()).toBe('test title');
-		expect(component.newPasswordSubmitAction()).toBe('test action');
+		expect(component.newPasswordSubmitText()).toBe('test action');
 	});
 
-	it('should emit newPassword when form is valid', () => {
-		// Arrange
-		fixture = MockRender(NewPasswordComponent);
-		component = fixture.point.componentInstance;
-		const spySubmitted = jest.spyOn(component.isSubmitted, 'emit');
-		const form = component['form'];
-		const spyReset = jest.spyOn(form!, 'resetForm');
-		// Assert
-		expect(component['newPasswordForm'].valid).toBe(false);
-		// Act
-		component['submitPassword']();
-		// Assert
-		expect(spySubmitted).not.toHaveBeenCalled();
-		expect(spyReset).not.toHaveBeenCalled();
-		// Act
-		component['newPasswordForm'].patchValue({
-			newPassword: 'youNeverGuess',
-			repeatPassword: 'youNeverGuess',
+	describe('Submit form', () => {
+		beforeEach(() => {
+			// Arrange
+			fixture = MockRender(NewPasswordComponent);
+			component = fixture.point.componentInstance;
+			newPasswordInput = dataTest('new-password-input');
+			repeatPasswordInput = dataTest('repeat-password-input');
+			submitButton = dataTest('submit-button');
+			spySubmitted = jest.spyOn(component.isSubmitted, 'emit');
 		});
-		// Assert
-		expect(component['newPasswordForm'].valid).toBe(true);
-		// Act
-		component['submitPassword']();
-		// Assert
-		expect(spySubmitted).toHaveBeenCalledTimes(1);
-		expect(spySubmitted).toHaveBeenCalledWith('youNeverGuess');
-		expect(spyReset).toHaveBeenCalledTimes(1);
-		expect(component['form']?.submitted).toBeFalsy();
+
+		it('does not emit newPassword when form is empty', () => {
+			// Act
+			submitButton.nativeElement.click();
+			// Arrange
+			newPasswordRequiredError = dataTest('new-password-required-error');
+			repeatPasswordRequiredError = dataTest('repeat-password-required-error');
+			// Assert
+			expect(spySubmitted).not.toHaveBeenCalled();
+			expect(newPasswordRequiredError.nativeElement.textContent).toContain(
+				'Enter in a new password'
+			);
+			expect(repeatPasswordRequiredError.nativeElement.textContent).toContain(
+				'Repeat the same password'
+			);
+		});
+
+		it('does not emit newPassword when newPassword too short or passwords not the same', () => {
+			// Act
+			inputTest(newPasswordInput, 'short');
+			inputTest(repeatPasswordInput, 'long');
+			fixture.detectChanges();
+			submitButton.nativeElement.click();
+			// Arrange
+			newPasswordLengthError = dataTest('new-password-length-error');
+			repeatPasswordSameError = dataTest('repeat-password-same-error');
+			// Assert
+			expect(spySubmitted).not.toHaveBeenCalled();
+			expect(newPasswordLengthError.nativeElement.textContent).toContain(
+				'Password should be at least 8 characters long'
+			);
+			expect(repeatPasswordSameError.nativeElement.textContent).toContain(
+				'Passwords are not the same'
+			);
+		});
+
+		it('emits new password and resets form', () => {
+			// Arrange
+			const mockPassword = 'super-secret';
+			// Act
+			inputTest(newPasswordInput, mockPassword);
+			inputTest(repeatPasswordInput, mockPassword);
+			fixture.detectChanges();
+			submitButton.nativeElement.click();
+			// Assert
+			expect(spySubmitted).toHaveBeenCalledTimes(1);
+			expect(spySubmitted).toHaveBeenCalledWith(mockPassword);
+			// Arrange
+			newPasswordInput = dataTest('new-password-input');
+			repeatPasswordInput = dataTest('repeat-password-input');
+			// Assert
+			expect(newPasswordInput.nativeElement.value).toBe('');
+			expect(repeatPasswordInput.nativeElement.value).toBe('');
+		});
 	});
 });

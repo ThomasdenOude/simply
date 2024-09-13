@@ -1,266 +1,170 @@
-import { RouterModule } from '@angular/router';
-import { signal } from '@angular/core';
-import { fakeAsync, tick } from '@angular/core/testing';
+import { Router, RouterModule } from '@angular/router';
+import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 
-import { of } from 'rxjs';
 import { Dialog } from '@angular/cdk/dialog';
 import {
 	MockBuilder,
 	MockedComponentFixture,
+	MockedDebugElement,
 	MockRender,
 	NG_MOCKS_ROOT_PROVIDERS,
 } from 'ng-mocks';
-import SpyInstance = jest.SpyInstance;
 import { mock, MockProxy } from 'jest-mock-extended';
 import { User } from '@angular/fire/auth';
 
-import { AuthenticationService } from '../../services/authentication.service';
+import {
+	dataTest,
+	dataTestIf,
+} from '../../../../test/helpers/data-test.helper';
+import { RouterMock } from '../../../../test/mocks/router.mock';
+import { AuthenticationServiceMock } from '../../services/authentication-service/authentication.service.mock';
+import { AuthenticationService } from '../../services/authentication-service/authentication.service';
 import { SettingsComponent } from './settings.component';
-import { RemoveAccountComponent } from '../../ui/remove-account/remove-account.component';
+import { CenterPageComponent } from '../../../base/ui/center-page/center-page.component';
+import { PanelComponent } from '../../ui/panel/panel.component';
+import { MessageComponent } from '../../../base/ui/message/message.component';
+import { ConfirmPasswordComponent } from '../../ui/confirm-password/confirm-password.component';
+import { NewPasswordComponent } from '../../ui/new-password/new-password.component';
 import { AuthenticationMessages } from '../../models/authentication-messages';
-import { mockError } from '../../../base/test-mocks/mock-error';
 
 describe('SettingsComponent', () => {
-	const noErrorMessage: AuthenticationMessages = AuthenticationMessages.None;
-	const mockUser: MockProxy<User> = mock<User>();
-	const mockPassword = 'mockPassword';
-	let component: SettingsComponent;
 	let fixture: MockedComponentFixture<SettingsComponent>;
-	let spyNavigate: SpyInstance;
-	let spyLogout: SpyInstance;
-	let spyAuthMessage: SpyInstance;
+	let component: SettingsComponent;
+
+	const mockRouter: RouterMock = new RouterMock();
+	const mockAuthenticationService: AuthenticationServiceMock =
+		new AuthenticationServiceMock();
+	const mockUser: MockProxy<User> = mock<User>({
+		email: 'mock@mail.com',
+	});
+	const mockPassword = 'mockPassword';
+
+	let logoutButton: MockedDebugElement;
+	let changePasswordPanel: MockedDebugElement<PanelComponent>;
+	let removeAccountPanel: MockedDebugElement<PanelComponent>;
+	let authenticationService: AuthenticationService;
+	let router: Router;
 
 	beforeEach(() =>
 		MockBuilder(
 			[SettingsComponent, RouterModule, NG_MOCKS_ROOT_PROVIDERS],
-			[AuthenticationService, Dialog]
-		).mock(AuthenticationService, {
-			user: signal(mockUser),
-		})
+			[
+				AuthenticationService,
+				Router,
+				Dialog,
+				CenterPageComponent,
+				PanelComponent,
+				MessageComponent,
+				ConfirmPasswordComponent,
+				NewPasswordComponent,
+			]
+		)
+			.mock(AuthenticationService, mockAuthenticationService)
+			.mock(Router, mockRouter)
 	);
 
 	beforeEach(() => {
 		fixture = MockRender(SettingsComponent);
 		component = fixture.point.componentInstance;
-		spyNavigate = jest
-			.spyOn(component['router'], 'navigate')
-			.mockResolvedValue(true);
-		spyLogout = jest.spyOn(component['authService'], 'logout');
-		spyAuthMessage = jest.spyOn(
-			component['authService'],
-			'getAuthenticationMessage'
-		);
+		fixture.detectChanges();
+
+		mockAuthenticationService.userSignal.set(mockUser);
+
+		authenticationService = TestBed.inject(AuthenticationService);
+		router = TestBed.inject(Router);
+
+		logoutButton = dataTest('logout-button');
+		changePasswordPanel = dataTest('change-password-panel');
+		removeAccountPanel = dataTest('remove-account-panel');
 	});
 
 	afterEach(() => {
-		jest.resetAllMocks();
+		jest.clearAllMocks();
 	});
 
-	it('should set default values', () => {
+	it('shows both panels', () => {
 		// Assert
-		expect(component['changePasswordMessage']()).toBe(noErrorMessage);
-		expect(component['continuePasswordChange']()).toBe(false);
-		expect(component['removeAccountError']()).toBe(noErrorMessage);
-		expect(component['passwordConfirmError']()).toBe(noErrorMessage);
+		expect(changePasswordPanel.componentInstance.iconName).toBe('password');
+		expect(changePasswordPanel.componentInstance.panelTitle).toBe(
+			'Change password'
+		);
+		expect(removeAccountPanel.componentInstance.iconName).toBe('delete');
+		expect(removeAccountPanel.componentInstance.panelTitle).toBe(
+			'Remove account'
+		);
 	});
 
-	it('should navigate sot "sign in" page on successful logout', fakeAsync(() => {
-		// Arrange
-		spyLogout.mockReturnValue(Promise.resolve());
-		spyNavigate.mockResolvedValue(true);
+	it('logs user out', () => {
 		// Act
-		component['logout']();
-		tick();
+		logoutButton.nativeElement.click();
+		fixture.detectChanges();
 		// Assert
-		expect(spyLogout).toHaveBeenCalledTimes(1);
-		expect(spyNavigate).toHaveBeenCalledWith(['/sign-in']);
-	}));
-
-	it('should not navigate after failed logout', fakeAsync(() => {
-		// Arrange
-		spyLogout.mockReturnValue(Promise.reject(mockError));
-		// Act
-		component['logout']();
-		tick();
-		// Assert
-		expect(spyLogout).toHaveBeenCalledTimes(1);
-		expect(spyNavigate).not.toHaveBeenCalled();
-	}));
-
-	describe('Confirm password', () => {
-		const mockEmail = mockUser.email;
-		let spyLogin: SpyInstance;
-
-		beforeEach(() => {
-			spyLogin = jest.spyOn(component['authService'], 'loginAndVerifyEmail');
-		});
-
-		it('should open remove account dialog', fakeAsync(() => {
-			// Arrange
-			spyLogin.mockReturnValue(Promise.resolve());
-			// Act
-			component['confirmPassword']('mockPassword', 'RemoveAccount');
-			tick();
-			// Assert
-			expect(spyLogin).toHaveBeenCalledTimes(1);
-			expect(spyLogin).toHaveBeenCalledWith(mockEmail, mockPassword);
-			expect(component['dialog'].open).toHaveBeenCalledTimes(1);
-			expect(component['dialog'].open).toHaveBeenCalledWith(
-				RemoveAccountComponent
-			);
-		}));
-
-		it('should set continuePasswordChange to true', fakeAsync(() => {
-			// Arrange
-			spyLogin.mockReturnValue(Promise.resolve());
-			// Act
-			component['confirmPassword']('mockPassword', 'ChangePassword');
-			tick();
-			// Assert
-			expect(component['continuePasswordChange']()).toBe(true);
-		}));
-
-		it('should set passwordConfirmError on failed password confirm', fakeAsync(() => {
-			// Arrange
-			spyLogin.mockReturnValue(Promise.reject(mockError));
-			const mockAuthMessage: AuthenticationMessages =
-				AuthenticationMessages.InvalidPassword;
-			spyAuthMessage.mockReturnValue(mockAuthMessage);
-			// Act
-			component['confirmPassword']('mockPassword', 'ChangePassword');
-			tick();
-			// Assert
-			expect(component['passwordConfirmError']()).toBe(mockAuthMessage);
-		}));
-	});
-
-	describe('Remove account', () => {
-		let spyOpen: SpyInstance;
-		let spyDelete: SpyInstance;
-
-		beforeEach(() => {
-			spyOpen = jest.spyOn(component['dialog'], 'open');
-			spyDelete = jest.spyOn(component['authService'], 'deleteUser');
-		});
-
-		it('should delete user and logout', fakeAsync(() => {
-			// Arrange
-			spyOpen.mockReturnValue({
-				closed: of(true),
-			});
-			spyDelete.mockReturnValue(Promise.resolve());
-			spyLogout.mockReturnValue(Promise.resolve());
-
-			// Act
-			component['openRemoveAccountDialog']();
-			tick();
-			// Assert
-			expect(spyOpen).toHaveBeenCalledTimes(1);
-			expect(spyOpen).toHaveBeenCalledWith(RemoveAccountComponent);
-			expect(spyDelete).toHaveBeenCalledTimes(1);
-			expect(spyDelete).toHaveBeenCalledWith(mockUser);
-			expect(spyLogout).toHaveBeenCalledTimes(1);
-			expect(component['removeAccountError']()).toBe(noErrorMessage);
-		}));
-
-		it('should show failed delete message on failed delete', fakeAsync(() => {
-			// Arrange
-			spyOpen.mockReturnValue({
-				closed: of(true),
-			});
-			spyDelete.mockReturnValue(Promise.reject(mockError));
-			// Act
-			component['openRemoveAccountDialog']();
-			tick();
-			// Assert
-			expect(spyLogout).not.toHaveBeenCalled();
-			expect(component['removeAccountError']()).toBe(
-				AuthenticationMessages.FailedDeleteUser
-			);
-		}));
-
-		it('should show failed delete message when no user available for delete', fakeAsync(() => {
-			// Arrange
-			spyOpen.mockReturnValue({
-				closed: of(true),
-			});
-			spyDelete.mockReturnValue(Promise.resolve());
-			const spyUser: SpyInstance = jest
-				.spyOn(component['authService'], 'user')
-				.mockReturnValue(null);
-			// Act
-			component['openRemoveAccountDialog']();
-			tick();
-			// Assert
-			expect(spyDelete).not.toHaveBeenCalled();
-			expect(component['removeAccountError']()).toBe(
-				AuthenticationMessages.FailedDeleteUser
-			);
-		}));
-
-		it('should not delete when dialog closes with false', () => {
-			// Arrange
-			spyOpen.mockReturnValue({
-				closed: of(false),
-			});
-			// Act
-			component['openRemoveAccountDialog']();
-			// Assert
-			expect(spyDelete).not.toHaveBeenCalled();
-			expect(component['removeAccountError']()).toBe(noErrorMessage);
-		});
+		expect(authenticationService.logout).toHaveBeenCalledTimes(1);
+		expect(router.navigate).toHaveBeenCalledTimes(1);
+		expect(router.navigate).toHaveBeenCalledWith(['/sign-in']);
 	});
 
 	describe('Change password', () => {
-		let spyChangePassword: SpyInstance;
+		let changePasswordMessage: MockedDebugElement | false;
+		let confirmPassword: MockedDebugElement<ConfirmPasswordComponent>;
+		let newPassword: MockedDebugElement | false;
+
 		beforeEach(() => {
-			spyChangePassword = jest.spyOn(
-				component['authService'],
-				'changePassword'
-			);
+			changePasswordMessage = dataTestIf('change-password-message');
+			confirmPassword = dataTest('confirm-password-for-change');
+			newPassword = dataTestIf('new-password');
 		});
 
-		it('should change password and set success message', fakeAsync(() => {
-			// Arrange
-			spyChangePassword.mockReturnValue(Promise.resolve());
-			// Act
-			component['submitChangePassword'](mockPassword);
-			tick();
+		it('changes the password', fakeAsync(() => {
 			// Assert
-			expect(spyChangePassword).toHaveBeenCalledTimes(1);
-			expect(spyChangePassword).toHaveBeenCalledWith(mockUser, mockPassword);
-			expect(component['changePasswordMessage']()).toBe(
+			expect(changePasswordMessage).toBe(false);
+			expect(newPassword).toBe(false);
+			expect(confirmPassword).toBeTruthy();
+			// Act
+			confirmPassword.componentInstance.passwordSubmit.emit(mockPassword);
+			tick();
+			fixture.detectChanges();
+			// Assert
+			expect(authenticationService.loginAndVerifyEmail).toHaveBeenCalledTimes(
+				1
+			);
+			expect(authenticationService.loginAndVerifyEmail).toHaveBeenCalledWith(
+				mockUser.email,
+				mockPassword
+			);
+			// Arrange
+			const newPasswordAfterConfirm: MockedDebugElement<NewPasswordComponent> =
+				dataTest('new-password');
+			// Assert
+			expect(newPasswordAfterConfirm.componentInstance.newPasswordTitle).toBe(
+				'Change your password'
+			);
+			expect(
+				newPasswordAfterConfirm.componentInstance.newPasswordSubmitText
+			).toBe('Change password');
+			// Act
+			newPasswordAfterConfirm.componentInstance.isSubmitted.emit('newPassword');
+			tick();
+			fixture.detectChanges();
+			// Assert
+			expect(authenticationService.changePassword).toHaveBeenCalledTimes(1);
+			expect(authenticationService.changePassword).toHaveBeenCalledWith(
+				mockUser,
+				'newPassword'
+			);
+			// Arrange
+			const newPasswordAfterSubmit = dataTestIf('new-password');
+			const confirmPasswordAfterSubmit = dataTestIf(
+				'confirm-password-for-change'
+			);
+			const successMessage: MockedDebugElement<MessageComponent> = dataTest(
+				'change-password-message'
+			);
+			// Assert
+			expect(newPasswordAfterSubmit).toBe(false);
+			expect(confirmPasswordAfterSubmit).toBe(false);
+			expect(successMessage.componentInstance.errorMessage).toBe(
 				AuthenticationMessages.SuccessfulPasswordChange
-			);
-		}));
-
-		it('should set error after failed change password', fakeAsync(() => {
-			// Arrange
-			spyChangePassword.mockReturnValue(Promise.reject(mockError));
-			spyAuthMessage.mockReturnValue(AuthenticationMessages.Default);
-			// Act
-			component['submitChangePassword'](mockPassword);
-			tick();
-			// Assert
-			expect(spyChangePassword).toHaveBeenCalledTimes(1);
-			expect(spyAuthMessage).toHaveBeenCalledWith(mockError);
-			expect(component['changePasswordMessage']()).toBe(
-				AuthenticationMessages.Default
-			);
-		}));
-
-		it('should set error when no user available for change password', fakeAsync(() => {
-			// Act
-			const spyUser = jest
-				.spyOn(component['authService'], 'user')
-				.mockReturnValue(null);
-			// Act
-			component['submitChangePassword'](mockPassword);
-			tick();
-			// Assert
-			expect(spyChangePassword).not.toHaveBeenCalled();
-			expect(component['changePasswordMessage']()).toBe(
-				AuthenticationMessages.Default
 			);
 		}));
 	});

@@ -1,9 +1,12 @@
-<simply-center-page>
+<simply-center-page data-test="login">
 	<form [formGroup]="loginForm" (ngSubmit)="login()" simplySpaceContent="small">
-		<h2>Log in to Simply <mat-icon color="accent">task_alt</mat-icon></h2>
+		<h2 data-test="login-title">
+			Log in to Simply <mat-icon color="accent">task_alt</mat-icon>
+		</h2>
 
 		@if (loginError() !== AuthenticationErrors.None) {
 			<simply-message
+				data-test="login-message"
 				simplySpaceContent="large"
 				[errorMessage]="loginError()"
 				[form]="loginForm"
@@ -12,24 +15,42 @@
 		}
 		<mat-form-field simplySpaceContent="regular">
 			<mat-label>Email</mat-label>
-			<input type="text" matInput formControlName="email" simplyFocusInput />
+			<input
+				data-test="email-input"
+				type="text"
+				matInput
+				formControlName="email"
+				simplyFocusInput
+			/>
 			@if (loginForm.get('email')?.hasError('required')) {
-				<mat-error>Fill in your email</mat-error>
+				<mat-error data-test="email-required-error"
+					>Fill in your email</mat-error
+				>
 			}
 			@if (loginForm.get('email')?.hasError('email')) {
-				<mat-error>Fill in a valid email</mat-error>
+				<mat-error data-test="email-format-error"
+					>Fill in a valid email</mat-error
+				>
 			}
 		</mat-form-field>
 
 		<mat-form-field simplySpaceContent="regular">
 			<mat-label>Password</mat-label>
-			<input type="password" matInput formControlName="password" />
+			<input
+				data-test="password-input"
+				type="password"
+				matInput
+				formControlName="password"
+			/>
 			@if (loginForm.get('password')?.hasError('required')) {
-				<mat-error>Fill in your password</mat-error>
+				<mat-error data-test="password-required-error"
+					>Fill in your password</mat-error
+				>
 			}
 		</mat-form-field>
 
 		<button
+			data-test="submit-button"
 			type="submit"
 			mat-flat-button
 			color="primary"
@@ -39,10 +60,19 @@
 		</button>
 	</form>
 	<div class="simply-login__alternative-actions">
-		<a mat-button color="primary" routerLink="/account/sign-up"
+		<a
+			mat-button
+			color="primary"
+			routerLink="/account/sign-up"
+			data-test="create-account-link"
 			>Create an account</a
 		>
-		<button mat-button color="primary" (click)="openForgotPasswordDialog()">
+		<button
+			data-test="forgot-password-button"
+			mat-button
+			color="primary"
+			(click)="openForgotPasswordDialog()"
+		>
 			Forgot password?
 		</button>
 	</div>

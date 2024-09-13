@@ -1,6 +1,11 @@
-<div class="message__container">
-	<p class="message__text">{{ errorMessage() }}</p>
-	<button mat-icon-button aria-label="Close message" (click)="closeMessage()">
+<div data-test="message" class="message__container">
+	<p data-test="message-text" class="message__text">{{ errorMessage() }}</p>
+	<button
+		data-test="close-button"
+		mat-icon-button
+		aria-label="Close message"
+		(click)="closeMessage()"
+	>
 		<mat-icon color="warn">close</mat-icon>
 	</button>
 </div>

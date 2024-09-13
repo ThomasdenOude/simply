@@ -1,23 +1,98 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { DialogRef } from '@angular/cdk/dialog';
 
+import {
+	MockBuilder,
+	MockedComponentFixture,
+	MockedDebugElement,
+	MockRender,
+	ngMocks,
+} from 'ng-mocks';
+
+import {
+	dataTest,
+	dataTestIf,
+} from '../../../../test/helpers/data-test.helper';
+import { inputTest } from '../../../../test/helpers/input-test.helper';
 import { ForgotPasswordComponent } from './forgot-password.component';
+import { FocusInputDirective } from '../../../base/directives/focus-input.directive';
+import { SpaceContentDirective } from '../../../base/directives/space-content.directive';
+import { TextContentDirective } from '../../../base/directives/text-content.directive';
 
 describe('ForgotPasswordComponent', () => {
-  let component: ForgotPasswordComponent;
-  let fixture: ComponentFixture<ForgotPasswordComponent>;
+	let fixture: MockedComponentFixture<ForgotPasswordComponent>;
+	let dialogRef: DialogRef;
+	let closeButton: MockedDebugElement;
+	let emailInput: MockedDebugElement;
+	let requiredError: MockedDebugElement;
+	let validEmailError: MockedDebugElement;
+	let sendEmailButton: MockedDebugElement;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [ForgotPasswordComponent]
-    })
-    .compileComponents();
-    
-    fixture = TestBed.createComponent(ForgotPasswordComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+	beforeEach(async () =>
+		MockBuilder(ForgotPasswordComponent, [
+			DialogRef,
+			FocusInputDirective,
+			SpaceContentDirective,
+			TextContentDirective,
+		])
+	);
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+	beforeEach(() => {
+		fixture = MockRender(ForgotPasswordComponent);
+		dialogRef = ngMocks.get(DialogRef);
+
+		closeButton = dataTest('close-button');
+		emailInput = dataTest('email-input');
+		sendEmailButton = dataTest('send-email-button');
+	});
+
+	it('closes the dialog', () => {
+		// Act
+		closeButton.nativeElement.click();
+		// Assert
+		expect(dialogRef.close).toHaveBeenCalledTimes(1);
+		expect(dialogRef.close).toHaveBeenCalledWith(null);
+	});
+
+	it('does not submit when email empty, shows required error', () => {
+		// Act
+		sendEmailButton.nativeElement.click();
+		// Arrange
+		requiredError = dataTest('required-error');
+		// Assert
+		expect(dialogRef.close).not.toHaveBeenCalled();
+		expect(requiredError.nativeElement.textContent).toContain(
+			'Enter a your email'
+		);
+	});
+
+	it('does not submit when email invalid, shows invalid email error', () => {
+		// Act
+		inputTest(emailInput, 'howdy');
+		fixture.detectChanges();
+		sendEmailButton.nativeElement.click();
+		// Arrange
+		validEmailError = dataTest('valid-email-error');
+		// Assert
+		expect(dialogRef.close).not.toHaveBeenCalled();
+		expect(validEmailError.nativeElement.textContent).toContain(
+			'Enter a valid email'
+		);
+	});
+
+	it('closes dialog with submitted valid email', () => {
+		// Arrange
+		const mockEmail = 'kees@home.nl';
+		// Act
+		inputTest(emailInput, mockEmail);
+		fixture.detectChanges();
+		sendEmailButton.nativeElement.click();
+		// Arrange
+		const requiredError = dataTestIf('required-error');
+		const validEmailError = dataTestIf('valid-email-error');
+		// Assert
+		expect(dialogRef.close).toHaveBeenCalledTimes(1);
+		expect(dialogRef.close).toHaveBeenCalledWith(mockEmail);
+		expect(requiredError).toBe(false);
+		expect(validEmailError).toBe(false);
+	});
 });

@@ -1,0 +1,56 @@
+<h2 data-test="verify-email-title">
+	Thank you for signing up to <simply-logo></simply-logo>
+</h2>
+
+@if (!emailCodeConfirmed()) {
+	<p data-test="verify-in-progress-message">
+		We will verify your email address
+	</p>
+}
+
+<mat-divider simplySpaceContent="large"></mat-divider>
+
+@if (emailCodeConfirmed()) {
+	<p>Email is verified, continue to the app</p>
+	<button
+		data-test="email-verified-button"
+		class="simply-authenticate__button"
+		mat-flat-button
+		color="primary"
+		(click)="emitGoToApp()"
+	>
+		Continue to app
+	</button>
+}
+@if (emailVerificationError() !== AuthenticationMessages.None) {
+	<simply-message
+		data-test="verify-email-error"
+		[errorMessage]="emailVerificationError()"
+		simplySpaceContent="large"
+	></simply-message>
+
+	@if (user(); as user) {
+		<p>We can sent a new email verification</p>
+		<button
+			data-test="send-verification-link-button"
+			class="simply-authenticate__button"
+			mat-flat-button
+			color="primary"
+			(click)="emitSendVerificationLink(user)"
+		>
+			Send new email verification
+		</button>
+	} @else {
+		<p>Please log in to your account again</p>
+		<p>After login you can get a new email verification</p>
+		<a
+			data-test="to-login-button"
+			class="simply-authenticate__button"
+			mat-flat-button
+			color="primary"
+			routerLink="/account/login"
+		>
+			Log in
+		</a>
+	}
+}

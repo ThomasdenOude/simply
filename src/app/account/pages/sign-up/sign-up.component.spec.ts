@@ -1,38 +1,55 @@
 import { Router, RouterModule } from '@angular/router';
-import { signal } from '@angular/core';
-import { fakeAsync, tick } from '@angular/core/testing';
+import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 
-import SpyInstance = jest.SpyInstance;
+import { FirebaseError } from '@firebase/util';
 import {
 	MockBuilder,
 	MockedComponentFixture,
+	MockedDebugElement,
 	MockRender,
 	NG_MOCKS_ROOT_PROVIDERS,
+	ngMocks,
 } from 'ng-mocks';
 
-import { AuthenticationService } from '../../services/authentication.service';
+import {
+	dataTest,
+	dataTestIf,
+} from '../../../../test/helpers/data-test.helper';
+import { RouterMock } from '../../../../test/mocks/router.mock';
+import { ResponsiveServiceMock } from '../../../base/services/responsive.service.mock';
+import { AuthenticationServiceMock } from '../../services/authentication-service/authentication.service.mock';
+
+import { AuthenticationService } from '../../services/authentication-service/authentication.service';
 import { ResponsiveService } from '../../../base/services/responsive.service';
 import { SignUpComponent } from './sign-up.component';
-import { MockRouter } from '../../../base/test-mocks/mock-router';
+import { MessageComponent } from '../../../base/ui/message/message.component';
+import { NewPasswordComponent } from '../../ui/new-password/new-password.component';
 import { Devices } from '../../../base/models/devices';
 import { AuthenticationMessages } from '../../models/authentication-messages';
-import { Email } from '../../models/credentials.model';
-import { mockError } from '../../../base/test-mocks/mock-error';
+import { VERIFY_EMAIL_ROUTE } from '../../../base/guards/auth-guards';
 
 describe('SignUpComponent', () => {
-	const mockRouter: MockRouter = new MockRouter();
 	let component: SignUpComponent;
 	let fixture: MockedComponentFixture<SignUpComponent>;
+	const mockRouter: RouterMock = new RouterMock();
+	const mockResponsiveService: ResponsiveServiceMock =
+		new ResponsiveServiceMock();
+	const mockAuthService: AuthenticationServiceMock =
+		new AuthenticationServiceMock();
 
 	beforeEach(() =>
 		MockBuilder(
 			[SignUpComponent, RouterModule, NG_MOCKS_ROOT_PROVIDERS],
-			[AuthenticationService, ResponsiveService]
+			[
+				AuthenticationService,
+				ResponsiveService,
+				MessageComponent,
+				NewPasswordComponent,
+			]
 		)
 			.mock(Router, mockRouter)
-			.mock(ResponsiveService, {
-				device: signal(Devices.Unknown),
-			})
+			.mock(AuthenticationService, mockAuthService)
+			.mock(ResponsiveService, mockResponsiveService)
 	);
 
 	beforeEach(() => {
@@ -40,95 +57,164 @@ describe('SignUpComponent', () => {
 		component = fixture.point.componentInstance;
 	});
 
+	it('renders default component state', () => {
+		// Arrange
+		const title = dataTest('sign-up-title');
+		const error = dataTestIf('sign-up-error');
+		const loginButton = dataTestIf('log-in-button');
+		const continueButton = dataTest('continue-button');
+		const newPassword = dataTestIf('new-password');
+		// Assert
+		expect(title.nativeElement.textContent).toContain('Sign up to Simply');
+		expect(error).toBe(false);
+		expect(loginButton).toBe(false);
+		expect(continueButton).toBeTruthy();
+		expect(continueButton.attributes['type']).toBe('submit');
+		expect(newPassword).toBe(false);
+	});
+
 	it('should set default values', () => {
 		// Assert
 		expect(component['device']()).toBe(Devices.Unknown);
-		expect(component['emailChange']()).toBeFalsy()
+		expect(component['emailChange']()).toBeFalsy();
 		expect(component['continue']()).toBe(false);
 		expect(component['signupError']()).toBe(AuthenticationMessages.None);
 	});
 
 	describe('Email form', () => {
-		// Arrange
-		const mockEmailFormValue: Email = {
-			email: 'mock@email.com',
-		};
-
-		it('should not continue on invalid form', () => {
-			// Act
-			component['submitEmail']();
-			// Assert
-			expect(component['emailForm'].valid).toBe(false);
-			expect(component['continue']()).toBe(false);
-			expect(component['emailChange']()).toBeFalsy();
-		});
-
-		it('should continue with email on valid form', () => {
-			// Act
-			component['emailForm'].patchValue(mockEmailFormValue);
-			component['submitEmail']();
-			// Assert
-			expect(component['emailForm'].valid).toBe(true);
-			expect(component['continue']()).toBe(true);
-			expect(component['emailChange']()).toBe(mockEmailFormValue.email);
-		});
-	});
-
-	describe('Sign up', () => {
-		// Arrange
-		const mockEmail = 'mock@email.com';
-		const mockPassword = 'mockPassword';
-		let spyCreateUser: SpyInstance;
-		let spyNavigate: SpyInstance;
+		let emailInput: MockedDebugElement;
+		let continueButton: MockedDebugElement;
+		let authService: AuthenticationService;
+		let router: Router;
 
 		beforeEach(() => {
-			// Arrange
-			spyCreateUser = jest.spyOn(component['authService'], 'creatUserAndVerifyEmail');
-			spyNavigate = jest
-				.spyOn(component['router'], 'navigate')
-				.mockResolvedValue(true);
+			emailInput = dataTest('email-input');
+			continueButton = dataTest('continue-button');
+			authService = TestBed.inject(AuthenticationService);
+			router = TestBed.inject(Router);
 		});
 
 		afterEach(() => {
-			jest.resetAllMocks();
+			jest.clearAllMocks();
 		});
 
-		it('should sign up with email and password', fakeAsync(() => {
-			// Arrange
-			spyCreateUser.mockReturnValue(Promise.resolve());
+		it('should not continue if no email submitted', () => {
 			// Act
-      component['emailForm'].get('email')?.setValue(mockEmail)
-			component['signUp'](mockPassword);
+			continueButton.nativeElement.click();
+			fixture.detectChanges();
+			// Arrange
+			const required = dataTest('email-required-error');
+			continueButton = dataTest('continue-button');
+			const newPassword = dataTestIf('new-password');
+			// Assert
+			expect(required).toBeTruthy();
+			expect(required.nativeElement.textContent).toContain(
+				'Fill in your email'
+			);
+			expect(continueButton).toBeTruthy();
+			expect(newPassword).toBe(false);
+		});
+
+		it('should not continue if invalid email submitted', () => {
+			// Act
+			emailInput.nativeElement.value = 'mock';
+			ngMocks.trigger(emailInput, 'input');
+			continueButton.nativeElement.click();
+			fixture.detectChanges();
+			// Arrange
+			const format = dataTest('email-format-error');
+			// Assert
+			expect(format).toBeTruthy();
+			expect(format.nativeElement.textContent).toContain(
+				'Fill in a valid email'
+			);
+		});
+
+		it('should continue with email and submit form', fakeAsync(() => {
+			// Arrange
+			const email = 'mock@mail.com';
+			const password = 'mockPassword';
+			// Act
+			emailInput.nativeElement.value = email;
+			ngMocks.trigger(emailInput, 'input');
+			continueButton.nativeElement.click();
+			fixture.detectChanges();
+			// Arrange
+			const format = dataTestIf('email-format-error');
+			const continueButtonAfterSubmit = dataTestIf('continue-button');
+			const newPassword: MockedDebugElement<NewPasswordComponent> =
+				dataTest('new-password');
+			// Assert
+			expect(format).toBe(false);
+			expect(continueButtonAfterSubmit).toBe(false);
+			expect(newPassword).toBeTruthy();
+			expect(newPassword.componentInstance.newPasswordSubmitText).toBe(
+				'Sign up'
+			);
+			// Act
+			newPassword.componentInstance.isSubmitted.emit(password);
 			tick();
 			// Assert
-			expect(spyCreateUser).toHaveBeenCalledTimes(1);
-			expect(spyCreateUser).toHaveBeenCalledWith(mockEmail, mockPassword);
-			expect(spyNavigate).toHaveBeenCalledTimes(1);
-			expect(spyNavigate).toHaveBeenCalledWith(['/verify-email']);
+			expect(authService.creatUserAndVerifyEmail).toHaveBeenCalledTimes(1);
+			expect(authService.creatUserAndVerifyEmail).toHaveBeenCalledWith(
+				email,
+				password
+			);
+			expect(router.navigate).toHaveBeenCalledWith(VERIFY_EMAIL_ROUTE);
 		}));
 
-		it('should set error message for failed create user and reset errorMessage on reset', fakeAsync(() => {
+		it('should show error', fakeAsync(() => {
 			// Arrange
-			const mockErrorMessage: AuthenticationMessages =
-				AuthenticationMessages.Default;
-			spyCreateUser.mockReturnValue(Promise.reject(mockError));
-			const spyGetAuthMessage: SpyInstance = jest
-				.spyOn(component['authService'], 'getAuthenticationMessage')
-				.mockReturnValue(mockErrorMessage);
+			const email = 'mock@mail.com';
+			const password = 'mockPassword';
+			const error = new FirebaseError(
+				'auth/email-already-in-use',
+				'Email already in use'
+			);
+			ngMocks.stubMember(
+				authService,
+				'creatUserAndVerifyEmail',
+				jest.fn(() => Promise.reject(error))
+			);
+			ngMocks.stubMember(
+				authService,
+				'getAuthenticationMessage',
+				jest.fn(() => AuthenticationMessages.EmailExists)
+			);
 			// Act
-      component['emailForm'].get('email')?.setValue(mockEmail)
-			component['signUp'](mockPassword);
+			emailInput.nativeElement.value = email;
+			ngMocks.trigger(emailInput, 'input');
+			continueButton.nativeElement.click();
+			fixture.detectChanges();
+			// Arrange
+			const newPassword: MockedDebugElement<NewPasswordComponent> =
+				dataTest('new-password');
+			// Act
+			newPassword.componentInstance.isSubmitted.emit(password);
 			tick();
+			fixture.detectChanges();
 			// Assert
-			expect(spyCreateUser).toHaveBeenCalledTimes(1);
-			expect(spyCreateUser).toHaveBeenCalledWith(mockEmail, mockPassword);
-			expect(spyNavigate).not.toHaveBeenCalledTimes(1);
-			expect(spyGetAuthMessage).toHaveBeenCalledWith(mockError);
-			expect(component['signupError']()).toBe(mockErrorMessage);
+			expect(authService.creatUserAndVerifyEmail).toHaveBeenCalledTimes(1);
+			expect(authService.creatUserAndVerifyEmail).toHaveBeenCalledWith(
+				email,
+				password
+			);
+			// Arrange
+			const message: MockedDebugElement<MessageComponent> =
+				dataTest('sign-up-error');
+			// Assert
+			expect(authService.getAuthenticationMessage).toHaveBeenCalledWith(error);
+			expect(message).toBeTruthy();
+			expect(message.componentInstance.errorMessage).toBe(
+				AuthenticationMessages.EmailExists
+			);
 			// Act
-			component['resetError']();
+			message.componentInstance.onClose.emit();
+			fixture.detectChanges();
+			// Arrange
+			const messageAfterClose = dataTestIf('sign-up-error');
 			// Assert
-			expect(component['signupError']()).toBe(AuthenticationMessages.None);
+			expect(messageAfterClose).toBe(false);
 		}));
 	});
 });

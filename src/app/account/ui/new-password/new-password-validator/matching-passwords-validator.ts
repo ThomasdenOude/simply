@@ -1,12 +1,8 @@
-import {
-	AbstractControl,
-	FormGroup,
-	ValidationErrors,
-	ValidatorFn,
-} from '@angular/forms';
+import { FormGroup, ValidationErrors } from '@angular/forms';
+import { NewPasswordForm } from '../../../models/new-password.model';
 
 export const matchingPasswordsValidator =
-	(formGroup: FormGroup) => (): ValidationErrors | null => {
+	(formGroup: FormGroup<NewPasswordForm>) => (): ValidationErrors | null => {
 		const newPasswordControl = formGroup.get('newPassword');
 		const repeatPasswordControl = formGroup.get('repeatPassword');
 

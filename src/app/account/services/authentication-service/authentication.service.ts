@@ -19,16 +19,14 @@ import {
 } from '@angular/fire/auth';
 import { FirebaseError } from '@firebase/util';
 
-import { AuthenticationMessages } from '../models/authentication-messages';
-import { authenticationErrorMap } from '../data/authentication-messages.map';
-import { environment } from '../../../environments/environment';
+import { AuthenticationMessages } from '../../models/authentication-messages';
+import { authenticationErrorMap } from '../../data/authentication-messages.map';
 
 @Injectable({
 	providedIn: 'root',
 })
 export class AuthenticationService {
 	private auth: Auth = inject(Auth);
-	private baseUrl = environment.baseUrl;
 
 	private _authState: Signal<User | null | undefined> = toSignal(
 		authState(this.auth)
@@ -41,10 +39,6 @@ export class AuthenticationService {
 	public get user(): Signal<User | null> {
 		return this._user;
 	}
-
-	public emailVerified: Signal<boolean> = computed(
-		() => this._user()?.emailVerified ?? false
-	);
 
 	public get isLoggedIn(): Signal<boolean> {
 		return this._isLoggedIn;

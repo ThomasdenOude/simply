@@ -12,8 +12,8 @@ import { RouterLink } from '@angular/router';
 
 import { Subject } from 'rxjs';
 
-import { MatButton } from '@angular/material/button';
-import { MatIcon } from '@angular/material/icon';
+import { MatButton, MatButtonModule } from '@angular/material/button';
+import { MatIcon, MatIconModule } from '@angular/material/icon';
 import {
 	CdkDrag,
 	CdkDragDrop,
@@ -40,14 +40,14 @@ import {
 	selector: 'simply-kanban',
 	standalone: true,
 	imports: [
-		MatButton,
+		MatButtonModule,
 		RouterLink,
 		DragDropModule,
 		CdkDropListGroup,
 		CdkDrag,
 		CdkDropList,
 		TaskCardComponent,
-		MatIcon,
+		MatIconModule,
 		NgClass,
 	],
 	templateUrl: './kanban.component.html',

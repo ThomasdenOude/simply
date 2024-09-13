@@ -1,39 +1,58 @@
-<simply-center-page>
+<simply-center-page data-test="sign-up">
 	<form [formGroup]="emailForm" (ngSubmit)="submitEmail()">
-		<h2>Sign up to Simply <mat-icon color="accent">task_alt</mat-icon></h2>
+		<h2 data-test="sign-up-title">
+			Sign up to Simply <mat-icon color="accent">task_alt</mat-icon>
+		</h2>
 
 		@if (signupError() !== AuthenticationMessages.None) {
 			<simply-message
 				simplySpaceContent="large"
+				data-test="sign-up-error"
 				[errorMessage]="signupError()"
 				[form]="emailForm"
 				(onClose)="resetError()"
 			></simply-message>
 		}
 
-    @if (signupError() === AuthenticationMessages.EmailExists) {
-      <div class="simply-sign-up__login" simplySpaceContent="large">
-        <p class="simply-sign-up__login-text">Already have an account?</p>
-        <button mat-flat-button color="primary" routerLink="/account/log-in">
-          <mat-icon>login</mat-icon>
-          Log in to your account
-        </button>
-      </div>
-    }
+		@if (signupError() === AuthenticationMessages.EmailExists) {
+			<div class="simply-sign-up__login" simplySpaceContent="large">
+				<p class="simply-sign-up__login-text">Already have an account?</p>
+				<a
+					mat-flat-button
+					color="primary"
+					routerLink="/account/log-in"
+					data-test="log-in-button"
+				>
+					<mat-icon>login</mat-icon>
+					Log in to your account
+				</a>
+			</div>
+		}
 
 		<mat-form-field simplySpaceContent="regular">
 			<mat-label>Email</mat-label>
-			<input type="text" matInput formControlName="email" simplyFocusInput />
+			<input
+				data-test="email-input"
+				type="text"
+				matInput
+				formControlName="email"
+				simplyFocusInput
+			/>
 			@if (emailForm.get('email')?.hasError('required')) {
-				<mat-error>Fill in your email</mat-error>
+				<mat-error data-test="email-required-error"
+					>Fill in your email</mat-error
+				>
 			}
 			@if (emailForm.get('email')?.hasError('email')) {
-				<mat-error>Fill in a valid email</mat-error>
+				<mat-error data-test="email-format-error"
+					>Fill in a valid email</mat-error
+				>
 			}
 		</mat-form-field>
 
 		@if (!continue()) {
 			<button
+				data-test="continue-button"
 				type="submit"
 				mat-flat-button
 				color="primary"
@@ -47,8 +66,9 @@
 	@if (continue()) {
 		<mat-divider simplySpaceContent="regular"></mat-divider>
 		<simply-new-password
+			data-test="new-password"
 			(isSubmitted)="signUp($event)"
-			newPasswordSubmitAction="Sign up"
+			newPasswordSubmitText="Sign up"
 		></simply-new-password>
 	}
 </simply-center-page>

@@ -13,7 +13,7 @@ import { FirebaseError } from '@firebase/util';
 import { MatDivider } from '@angular/material/divider';
 import { MatButton } from '@angular/material/button';
 
-import { AuthenticationService } from '../../services/authentication.service';
+import { AuthenticationService } from '../../services/authentication-service/authentication.service';
 import { CenterPageComponent } from '../../../base/ui/center-page/center-page.component';
 import { NewPasswordComponent } from '../../ui/new-password/new-password.component';
 import { MessageComponent } from '../../../base/ui/message/message.component';
@@ -26,6 +26,8 @@ import {
 	VERIFY_EMAIL_ROUTE,
 	WELCOME_ROUTE,
 } from '../../../base/guards/auth-guards';
+import { ConfirmVerifyEmailComponent } from '../../ui/confirm-verify-email/confirm-verify-email.component';
+import { ConfirmResetPasswordComponent } from '../../ui/confirm-reset-password/confirm-reset-password.component';
 
 @Component({
 	selector: 'simply-authenticate',
@@ -40,6 +42,8 @@ import {
 		RouterLink,
 		SpaceContentDirective,
 		NewPasswordComponent,
+		ConfirmVerifyEmailComponent,
+		ConfirmResetPasswordComponent,
 	],
 	templateUrl: './authenticate.component.html',
 	styleUrl: './authenticate.component.scss',
@@ -50,13 +54,18 @@ export class AuthenticateComponent implements OnInit {
 	private _route: ActivatedRoute = inject(ActivatedRoute);
 
 	protected user: Signal<User | null> = this._authService.user;
-	private email: WritableSignal<string | null> = signal(null);
 	protected mode: WritableSignal<'verifyEmail' | 'resetPassword' | null> =
 		signal(null);
-	private actionCode: WritableSignal<string | null> = signal(null);
-	protected continue: WritableSignal<boolean> = signal(false);
+
+	protected emailCodeConfirmed: WritableSignal<boolean> = signal(false);
+	protected emailError: WritableSignal<AuthenticationMessages> = signal(
+		AuthenticationMessages.None
+	);
+
+	private passwordCode: WritableSignal<string | null> = signal(null);
+	protected passwordCodeConfirmed: WritableSignal<boolean> = signal(false);
 	protected passwordConfirmed: WritableSignal<boolean> = signal(false);
-	protected errorMessage: WritableSignal<AuthenticationMessages> = signal(
+	protected passwordError: WritableSignal<AuthenticationMessages> = signal(
 		AuthenticationMessages.None
 	);
 	protected readonly AuthenticationMessages = AuthenticationMessages;
@@ -77,34 +86,30 @@ export class AuthenticateComponent implements OnInit {
 		switch (mode) {
 			case 'verifyEmail':
 				this.mode.set(mode);
-				this.actionCode.set(actionCode);
-				this.confirmEmailVerification(actionCode);
+				this._confirmEmailVerification(actionCode);
 				break;
 			case 'resetPassword':
 				this.mode.set(mode);
-				this.actionCode.set(actionCode);
-				this.verifyPasswordReset(actionCode);
+				this._verifyPasswordReset(actionCode);
+				this.passwordCode.set(actionCode);
 				break;
 			default:
 				this._redirect();
 		}
 	}
 
-	private confirmEmailVerification(actionCode: string): void {
+	private _confirmEmailVerification(actionCode: string): void {
 		this._authService
 			.confirmEmailVerification(actionCode)
 			.then(() => {
-				this.continue.set(true);
+				this.emailCodeConfirmed.set(true);
 			})
 			.catch((error: FirebaseError) => {
 				const message = this._authService.getAuthenticationMessage(error);
-				this.errorMessage.set(message);
+				this.emailError.set(message);
 			})
 			.finally(() => {
-				// Clear queryParams
-				void this._router.navigate([], {
-					queryParams: {},
-				});
+				this._clearQueryParams();
 			});
 	}
 
@@ -116,26 +121,28 @@ export class AuthenticateComponent implements OnInit {
 			})
 			.catch((error: FirebaseError) => {
 				const message = this._authService.getAuthenticationMessage(error);
-				this.errorMessage.set(message);
+				this.emailError.set(message);
 			});
 	}
 
-	private verifyPasswordReset(actionCode: string): void {
+	private _verifyPasswordReset(actionCode: string): void {
 		this._authService
 			.verifyPasswordReset(actionCode)
 			.then(email => {
-				this.continue.set(true);
-				this.email.set(email);
+				this.passwordCodeConfirmed.set(true);
 			})
 			.catch((error: FirebaseError) => {
-				this.errorMessage.set(
+				this.passwordError.set(
 					this._authService.getAuthenticationMessage(error)
 				);
+			})
+			.finally(() => {
+				this._clearQueryParams();
 			});
 	}
 
 	protected resetPassword(password: string) {
-		const actionCode = this.actionCode();
+		const actionCode = this.passwordCode();
 
 		if (actionCode) {
 			this._authService
@@ -144,15 +151,21 @@ export class AuthenticateComponent implements OnInit {
 					this.passwordConfirmed.set(true);
 				})
 				.catch((error: FirebaseError) => {
-					this.errorMessage.set(
+					this.passwordError.set(
 						this._authService.getAuthenticationMessage(error)
 					);
 				});
 		} else {
-			this.errorMessage.set(AuthenticationMessages.Default);
+			this.passwordError.set(AuthenticationMessages.Default);
 		}
 	}
 
+	private _clearQueryParams(): void {
+		// Stay on page but clear queryParams
+		void this._router.navigate([], {
+			queryParams: {},
+		});
+	}
 	private _redirect(): void {
 		const user = this.user();
 
@@ -167,10 +180,8 @@ export class AuthenticateComponent implements OnInit {
 		}
 	}
 
-	protected gotToApp(): void {
-		const user = this._authService.user();
-
-		if (user) {
+	protected goToApp(): void {
+		if (this.user()) {
 			void this._router.navigate(TASK_BOARD_ROUTE);
 		} else {
 			void this._router.navigate(['/account', 'log-in']);

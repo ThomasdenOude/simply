@@ -2,7 +2,7 @@ import { Component, Signal, inject, computed } from '@angular/core';
 import { NgClass } from '@angular/common';
 import { NavigationEnd, Router, RouterLink } from '@angular/router';
 
-import { filter, map, Observable, startWith, tap } from 'rxjs';
+import { filter, map, Observable, startWith } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 
 import { MatButtonModule } from '@angular/material/button';
@@ -12,7 +12,7 @@ import { MatCard } from '@angular/material/card';
 import { CdkMenu, CdkMenuItem, CdkMenuTrigger } from '@angular/cdk/menu';
 
 import { ResponsiveService } from '../base/services/responsive.service';
-import { AuthenticationService } from '../account/services/authentication.service';
+import { AuthenticationService } from '../account/services/authentication-service/authentication.service';
 import { Devices } from '../base/models/devices';
 import { LogoComponent } from '../base/ui/logo/logo.component';
 
@@ -43,7 +43,9 @@ export class HeaderComponent {
 	protected readonly Devices = Devices;
 
 	protected isLoggedIn: Signal<boolean> = this.authService.isLoggedIn;
-	protected emailVerified: Signal<boolean> = this.authService.emailVerified;
+	protected emailVerified: Signal<boolean> = computed(
+		() => this.authService.user()?.emailVerified ?? false
+	);
 	protected isOnLoginPage: Signal<boolean | undefined> = toSignal(
 		this.isOnPath('log-in')
 	);
@@ -72,7 +74,7 @@ export class HeaderComponent {
 			.logout()
 			.then(() => {
 				// Signed out
-				void this.router.navigate(['/sign-in']);
+				void this.router.navigate(['/']);
 			})
 			.catch();
 	}
