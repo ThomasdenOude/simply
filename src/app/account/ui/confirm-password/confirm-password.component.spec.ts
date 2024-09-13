@@ -64,42 +64,44 @@ describe('ConfirmPasswordComponent', () => {
 			params
 		);
 		component = fixture.point.componentInstance;
-		const spyClose = jest.spyOn(component.closePasswordError, 'emit');
+		let closeEmit = false;
+		component.closePasswordError.subscribe(() => (closeEmit = true));
 		const message: MockedDebugElement<MessageComponent> = dataTest(
 			'password-confirm-message'
 		);
 		// Act
 		message.componentInstance.onClose.emit();
 		// Assert
-		expect(spyClose).toHaveBeenCalledTimes(1);
+		expect(closeEmit).toBe(true);
 	});
 
 	it('should emit password when form is valid, and reset form values', () => {
 		// Arrange
 		fixture = MockRender(ConfirmPasswordComponent);
 		component = fixture.point.componentInstance;
-		const spyPasswordSubmit = jest.spyOn(component.passwordSubmit, 'emit');
 		const input = dataTest('confirm-password-input');
 		const submit = dataTest('submit-button');
+		let password: string | undefined;
+		component.passwordSubmit.subscribe(value => (password = value));
 		// Act
 		input.nativeElement.value = 'test-password';
 		input.nativeElement.dispatchEvent(new Event('input'));
 		fixture.detectChanges();
 		submit.nativeElement.click();
 		// Assert
-		expect(spyPasswordSubmit).toHaveBeenCalledTimes(1);
-		expect(spyPasswordSubmit).toHaveBeenCalledWith('test-password');
+		expect(password).toBe('test-password');
 		expect(input.nativeElement.value).toBe('');
 	});
 
 	it('should not emit password when form is invalid', () => {
 		fixture = MockRender(ConfirmPasswordComponent);
 		component = fixture.point.componentInstance;
-		const spyPasswordSubmit = jest.spyOn(component.passwordSubmit, 'emit');
 		const submit = dataTest('submit-button');
+		let password: string | undefined;
+		component.passwordSubmit.subscribe(value => (password = value));
 		// Act
 		submit.nativeElement.click();
-		expect(spyPasswordSubmit).not.toHaveBeenCalled();
+		expect(password).toBeUndefined();
 		// Arrange
 		const requiredError = dataTest('required-error');
 		// Assert

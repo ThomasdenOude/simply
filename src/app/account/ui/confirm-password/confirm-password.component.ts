@@ -1,12 +1,12 @@
 import {
 	Component,
 	computed,
-	EventEmitter,
 	input,
 	InputSignal,
-	Output,
+	output,
+	OutputEmitterRef,
 	Signal,
-	ViewChild,
+	viewChild,
 } from '@angular/core';
 import {
 	FormControl,
@@ -56,13 +56,11 @@ export class ConfirmPasswordComponent {
 	protected passwordConfirmError: Signal<AuthenticationMessages> = computed(
 		() => this.setPasswordConfirmError() ?? AuthenticationMessages.None
 	);
-	@Output()
-	public passwordSubmit: EventEmitter<string> = new EventEmitter<string>();
-	@Output()
-	public closePasswordError: EventEmitter<void> = new EventEmitter<void>();
+	public passwordSubmit: OutputEmitterRef<string> = output<string>();
+	public closePasswordError: OutputEmitterRef<void> = output<void>();
 
-	@ViewChild('form')
-	private form: FormGroupDirective | undefined;
+	private form: Signal<FormGroupDirective> =
+		viewChild.required<FormGroupDirective>(FormGroupDirective);
 
 	protected submit(): void {
 		const valid: boolean = this.passwordForm.valid;
@@ -79,6 +77,6 @@ export class ConfirmPasswordComponent {
 	}
 
 	public reset(): void {
-		this.form?.resetForm();
+		this.form().resetForm();
 	}
 }
