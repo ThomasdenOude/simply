@@ -18,7 +18,7 @@
 @media (min-width: 599.98px) and (orientation: portrait),
 	(min-width: 959.98px) and (orientation: landscape) {
 	/*    1 - Set typography for medium to large screens    */
-	$simply-medium-theme: mat.define-light-theme(
+	$simply-medium-theme: mat.m2-define-light-theme(
 		(
 			typography: typography.$simply-medium-typography-config,
 			density: 1,
