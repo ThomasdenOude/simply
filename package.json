@@ -14,25 +14,25 @@
     "deploy:test": "npm run build:test && firebase deploy --project test-simply-task-board --only hosting:test"
   },
   "dependencies": {
-    "@angular/animations": "^17.3.8",
+    "@angular/animations": "^18.2.4",
     "@angular/cdk": "^17.3.8",
-    "@angular/common": "^17.3.8",
-    "@angular/compiler": "^17.3.8",
-    "@angular/core": "^17.3.8",
+    "@angular/common": "^18.2.4",
+    "@angular/compiler": "^18.2.4",
+    "@angular/core": "^18.2.4",
     "@angular/fire": "^17.1.0",
-    "@angular/forms": "^17.3.8",
+    "@angular/forms": "^18.2.4",
     "@angular/material": "^17.3.9",
-    "@angular/platform-browser": "^17.3.9",
-    "@angular/platform-browser-dynamic": "^17.3.9",
-    "@angular/router": "^17.3.9",
+    "@angular/platform-browser": "^18.2.4",
+    "@angular/platform-browser-dynamic": "^18.2.4",
+    "@angular/router": "^18.2.4",
     "rxjs": "~7.8.1",
     "tslib": "^2.3.0",
-    "zone.js": "~0.14.3"
+    "zone.js": "~0.14.10"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^17.3.8",
-    "@angular/cli": "^17.3.8",
-    "@angular/compiler-cli": "^17.3.8",
+    "@angular/build": "^18.2.4",
+    "@angular/cli": "^18.2.4",
+    "@angular/compiler-cli": "^18.2.4",
     "@types/jest": "^29.5.12",
     "cypress": "^13.12.0",
     "jest": "^29.7.0",
@@ -40,6 +40,6 @@
     "jest-preset-angular": "^14.1.1",
     "ng-mocks": "^14.12.2",
     "prettier": "3.2.5",
-    "typescript": "~5.3.2"
+    "typescript": "~5.5.4"
   }
 }
