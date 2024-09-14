@@ -156,7 +156,7 @@ describe('LoginComponent', () => {
 				AuthenticationMessages.InvalidPassword
 			);
 			// Act
-			message.componentInstance.onClose.emit();
+			message.componentInstance.closeMessage.emit();
 			fixture.detectChanges();
 			// Arrange
 			const messageAfterClose = dataTestIf('login-message');

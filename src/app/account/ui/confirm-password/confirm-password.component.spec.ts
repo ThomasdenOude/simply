@@ -70,7 +70,7 @@ describe('ConfirmPasswordComponent', () => {
 			'password-confirm-message'
 		);
 		// Act
-		message.componentInstance.onClose.emit();
+		message.componentInstance.closeMessage.emit();
 		// Assert
 		expect(closeEmit).toBe(true);
 	});

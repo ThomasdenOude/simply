@@ -25,7 +25,7 @@
 			<simply-message
 				data-test="change-password-message"
 				[errorMessage]="changePasswordMessage()"
-				(onClose)="resetChangePasswordMessage()"
+				(closeMessage)="resetChangePasswordMessage()"
 				simplySpaceContent="large"
 			></simply-message>
 		}
@@ -60,7 +60,7 @@
 			<simply-message
 				data-test="remove-account-message"
 				[errorMessage]="removeAccountError()"
-				(onClose)="resetRemoveAccountError()"
+				(closeMessage)="resetRemoveAccountError()"
 				simplySpaceContent="large"
 			></simply-message>
 		}

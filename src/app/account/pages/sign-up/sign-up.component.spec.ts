@@ -211,7 +211,7 @@ describe('SignUpComponent', () => {
 				AuthenticationMessages.EmailExists
 			);
 			// Act
-			message.componentInstance.onClose.emit();
+			message.componentInstance.closeMessage.emit();
 			fixture.detectChanges();
 			// Arrange
 			const messageAfterClose = dataTestIf('sign-up-error');

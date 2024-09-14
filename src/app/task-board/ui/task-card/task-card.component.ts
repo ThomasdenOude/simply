@@ -1,14 +1,14 @@
 import {
 	Component,
-	EventEmitter,
 	InputSignal,
-	Output,
 	input,
 	ElementRef,
 	AfterViewInit,
 	OnDestroy,
 	inject,
 	Renderer2,
+	OutputEmitterRef,
+	output,
 } from '@angular/core';
 
 import {
@@ -48,11 +48,8 @@ export class TaskCardComponent implements AfterViewInit, OnDestroy {
 
 	public task: InputSignal<Task> = input.required<Task>();
 
-	@Output()
-	public onEditTask: EventEmitter<Task> = new EventEmitter<Task>();
-
-	@Output()
-	public onDragEnabled: EventEmitter<boolean> = new EventEmitter<boolean>();
+	public editTask: OutputEmitterRef<Task> = output<Task>();
+	public dragEnabled: OutputEmitterRef<boolean> = output<boolean>();
 
 	ngAfterViewInit() {
 		const taskCard = this.elementRef.nativeElement;
@@ -66,9 +63,9 @@ export class TaskCardComponent implements AfterViewInit, OnDestroy {
 		longHold$
 			.pipe(
 				takeUntil(this.destroy),
-				tap(() => this.onDragEnabled.emit(true)),
+				tap(() => this.dragEnabled.emit(true)),
 				switchMap(() => released$),
-				tap(() => this.onDragEnabled.emit(false))
+				tap(() => this.dragEnabled.emit(false))
 			)
 			.subscribe();
 
@@ -78,7 +75,7 @@ export class TaskCardComponent implements AfterViewInit, OnDestroy {
 	}
 
 	protected emitEditTask(): void {
-		this.onEditTask.emit(this.task());
+		this.editTask.emit(this.task());
 	}
 
 	private initEvents(taskCard: any, cdkDrag: CdkDrag) {

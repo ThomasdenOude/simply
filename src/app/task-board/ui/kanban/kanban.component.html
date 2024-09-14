@@ -1,6 +1,8 @@
 <div class="simply-kanban__container">
 	<div class="simply-kanban__action-menu">
-		<a mat-flat-button color="accent" routerLink="task">Add task</a>
+		<a mat-flat-button color="accent" data-test="task-link" routerLink="task"
+			>Add task</a
+		>
 	</div>
 
 	<div class="simply-kanban__list-container" cdkDropListGroup>
@@ -8,28 +10,30 @@
 			<div class="simply-kanban__list">
 				<header class="simply-kanban__header">
 					<mat-icon>{{ taskStatusIcon.get(status) }}</mat-icon>
-					<h3>{{ status }}</h3>
+					<h3 data-test="list-header">{{ status }}</h3>
 				</header>
 				<div
 					class="simply-kanban__content"
 					cdkDropList
+					data-test="list-content"
 					[id]="status"
 					[cdkDropListData]="taskStatusList[status]()"
-					(cdkDropListDropped)="updateTaskList($event)"
+					(cdkDropListDropped)="emitUpdateTaskList($event)"
 				>
 					@for (task of taskStatusList[status](); track task.id) {
 						<simply-task-card
 							cdkDrag
 							cdkDragPreviewClass="task-card__drag"
+							data-test="card"
 							[ngClass]="{
 								'task-card__drag': task.id === dragEnabledId(),
 								'task-card__edited': task.id === editDoneId()
 							}"
 							[cdkDragStartDelay]="EventResponse.Middle"
 							[task]="task"
-							(onEditTask)="editTask($event)"
-							(onDragEnabled)="setDragState($event, task)"
-							(cdkDragDropped)="editTaskDone(task)"
+							(editTask)="emitEditTask($event)"
+							(dragEnabled)="setDragState($event, task)"
+							(cdkDragDropped)="emitEditTaskDone(task)"
 						></simply-task-card>
 					}
 				</div>

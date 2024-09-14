@@ -10,6 +10,7 @@ import {
 	redirectVerified,
 	TASK_BOARD_ROUTE,
 	VERIFY_EMAIL_ROUTE,
+	WELCOME_ROUTE,
 } from './auth-guards';
 
 describe('Auth guards', () => {
@@ -33,7 +34,7 @@ describe('Auth guards', () => {
 			});
 		});
 
-		it('returns task-board route if email verified', () => {
+		it('returns task-board route if email verified for redirectAfterLoginPipe', () => {
 			// Act
 			of(mockUser)
 				.pipe(redirectAfterLoginPipe)
@@ -44,7 +45,18 @@ describe('Auth guards', () => {
 			expect(result).toEqual(TASK_BOARD_ROUTE);
 		});
 
-		it('returns true if email verified', () => {
+		it('returns true if no user for redirectAfterLoginPipe', () => {
+			// Act
+			of(null)
+				.pipe(redirectAfterLoginPipe)
+				.subscribe(path => {
+					result = path;
+				});
+			// Assert
+			expect(result).toEqual(true);
+		});
+
+		it('returns true if email verified for redirectNotAuthorizedPipe', () => {
 			// Act
 			of(mockUser)
 				.pipe(redirectNotAuthorizedPipe)
@@ -55,7 +67,18 @@ describe('Auth guards', () => {
 			expect(result).toBe(true);
 		});
 
-		it('returns task-board route if email verified', () => {
+		it('returns welcome route if no user for for redirectNotAuthorizedPipe', () => {
+			// Act
+			of(null)
+				.pipe(redirectNotAuthorizedPipe)
+				.subscribe(path => {
+					result = path;
+				});
+			// Assert
+			expect(result).toEqual(WELCOME_ROUTE);
+		});
+
+		it('returns task-board route if email verified for redirectVerifiedPipe', () => {
 			// Act
 			of(mockUser)
 				.pipe(redirectVerifiedPipe)
@@ -64,6 +87,17 @@ describe('Auth guards', () => {
 				});
 			// Assert
 			expect(result).toEqual(TASK_BOARD_ROUTE);
+		});
+
+		it('returns welcome route if no user for for redirectVerifiedPipe', () => {
+			// Act
+			of(null)
+				.pipe(redirectVerifiedPipe)
+				.subscribe(path => {
+					result = path;
+				});
+			// Assert
+			expect(result).toEqual(WELCOME_ROUTE);
 		});
 	});
 

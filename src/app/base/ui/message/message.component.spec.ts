@@ -44,15 +44,18 @@ describe('MessageComponent', () => {
 				errorMessage: message,
 			});
 			component = fixture.point.componentInstance;
-			const onCloseSpy: SpyInstance = jest.spyOn(component.onClose, 'emit');
+			let closeMessage = false;
+			component.closeMessage.subscribe(value => {
+				closeMessage = true;
+			});
 			const closeButton = dataTest('close-button');
 			// Assert
-			expect(onCloseSpy).not.toHaveBeenCalled();
+			expect(closeMessage).toBe(false);
 			// Act
 			closeButton.nativeElement.click();
 			fixture.detectChanges();
 			// Assert
-			expect(onCloseSpy).toHaveBeenCalledTimes(1);
+			expect(closeMessage).toBe(true);
 		});
 
 		it('should emit onclose when form value changes', () => {
@@ -62,17 +65,20 @@ describe('MessageComponent', () => {
 				form: form,
 			});
 			component = fixture.point.componentInstance;
-			const onCloseSpy: SpyInstance = jest.spyOn(component.onClose, 'emit');
+			let closeMessage = false;
+			component.closeMessage.subscribe(value => {
+				closeMessage = true;
+			});
 			const formControl = component.form()?.get('test');
 			// Assert
 			expect(formControl?.value).toBe(testValue);
-			expect(onCloseSpy).not.toHaveBeenCalled();
+			expect(closeMessage).toBe(false);
 			// Act
 			formControl?.setValue('new value');
 			fixture.detectChanges();
 			// Assert
 			expect(formControl?.value).toBe('new value');
-			expect(onCloseSpy).toHaveBeenCalledTimes(1);
+			expect(closeMessage).toBe(true);
 		});
 
 		it('should clean up form valueChanges subscription after destroy', () => {
@@ -82,26 +88,21 @@ describe('MessageComponent', () => {
 				form: form,
 			});
 			component = fixture.point.componentInstance;
-			const onCloseSpy: SpyInstance = jest.spyOn(component.onClose, 'emit');
-			const nextSpy: SpyInstance = jest.spyOn(component['destroy'], 'next');
-			const completeSpy: SpyInstance = jest.spyOn(
-				component['destroy'],
-				'complete'
-			);
+			let closeMessage = false;
+			component.closeMessage.subscribe(value => {
+				closeMessage = true;
+			});
 			const formControl = component.form()?.get('test');
 			// Assert
-			expect(onCloseSpy).not.toHaveBeenCalled();
+			expect(closeMessage).toBe(false);
 			// Act
 			fixture.destroy();
-			// Assert
-			expect(nextSpy).toHaveBeenCalledTimes(1);
-			expect(completeSpy).toHaveBeenCalledTimes(1);
 			// Act
 			formControl?.setValue('new value');
 			fixture.detectChanges();
 			// Assert
 			expect(formControl?.value).toBe('new value');
-			expect(onCloseSpy).not.toHaveBeenCalled();
+			expect(closeMessage).toBe(false);
 		});
 	});
 });

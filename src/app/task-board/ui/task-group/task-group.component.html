@@ -47,8 +47,8 @@
 						}"
 						[task]="task"
 						[cdkDragStartDelay]="EventResponse.Middle"
-						(onEditTask)="editTask($event)"
-						(onDragEnabled)="dragEnabled($event, task)"
+						(editTask)="editTask($event)"
+						(dragEnabled)="dragEnabled($event, task)"
 						(cdkDragDropped)="editTaskDone(task)"
 					></simply-task-card>
 				}
