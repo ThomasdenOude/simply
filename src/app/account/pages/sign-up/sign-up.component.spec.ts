@@ -6,6 +6,7 @@ import {
 	MockBuilder,
 	MockedComponentFixture,
 	MockedDebugElement,
+	MockInstance,
 	MockRender,
 	NG_MOCKS_ROOT_PROVIDERS,
 	ngMocks,
@@ -27,6 +28,7 @@ import { NewPasswordComponent } from '../../ui/new-password/new-password.compone
 import { Devices } from '../../../base/models/devices.model';
 import { AuthenticationMessages } from '../../models/authentication-messages';
 import { VERIFY_EMAIL_ROUTE } from '../../../base/guards/auth-guards';
+import { EventEmitter, output, OutputEmitterRef } from '@angular/core';
 
 describe('SignUpComponent', () => {
 	let component: SignUpComponent;

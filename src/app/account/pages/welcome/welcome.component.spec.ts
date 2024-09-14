@@ -56,5 +56,12 @@ describe('SignInComponent', () => {
 				'regular'
 			);
 		});
+
+		it('should link to sign up', () => {
+			// Arrange
+			const signUpButton = dataTest('sign-up-button');
+			// Assert
+			expect(signUpButton.attributes['routerLink']).toBe('/account/sign-up');
+		});
 	});
 });

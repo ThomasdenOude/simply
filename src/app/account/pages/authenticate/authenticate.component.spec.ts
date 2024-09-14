@@ -2,6 +2,7 @@ import { AuthenticateComponent } from './authenticate.component';
 import {
 	MockBuilder,
 	MockedComponentFixture,
+	MockedDebugElement,
 	MockInstance,
 	MockRender,
 } from 'ng-mocks';
@@ -10,7 +11,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CenterPageComponent } from '../../../base/ui/center-page/center-page.component';
 import { MessageComponent } from '../../../base/ui/message/message.component';
 import { NewPasswordComponent } from '../../ui/new-password/new-password.component';
-import { fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { fakeAsync, TestBed } from '@angular/core/testing';
 import {
 	TASK_BOARD_ROUTE,
 	VERIFY_EMAIL_ROUTE,
@@ -24,6 +25,9 @@ import {
 	dataTest,
 	dataTestIf,
 } from '../../../../test/helpers/data-test.helper';
+import { ConfirmVerifyEmailComponent } from '../../ui/confirm-verify-email/confirm-verify-email.component';
+import { AuthenticationMessages } from '../../models/authentication-messages';
+import { ConfirmResetPasswordComponent } from '../../ui/confirm-reset-password/confirm-reset-password.component';
 
 describe('AuthenticateComponent', () => {
 	let fixture: MockedComponentFixture<AuthenticateComponent>;
@@ -104,58 +108,108 @@ describe('AuthenticateComponent', () => {
 
 	describe('Verify email', () => {
 		// Arrange
+		let confirmVerifyEmail: MockedDebugElement<ConfirmVerifyEmailComponent>;
 		const mockUser = mock<User>();
 		const mockCode = 'mockCode';
 		const mockQueryParams: [string, string][] = [
 			['mode', 'verifyEmail'],
 			['oobCode', mockCode],
 		];
-
-		it('sends email verification code', fakeAsync(() => {
+		beforeEach(() => {
 			// Arrange
 			setupWithQueryParamsAndUser(mockQueryParams, mockUser);
-			tick();
 			fixture.detectChanges();
-			const title = dataTest('verify-email-title');
-			const continueMessage = dataTestIf('continue-verify-message');
-			const verifiedButton = dataTest('email-verified-button');
-			const errorMessage = dataTestIf('verify-email-message');
-			const resetPasswordTitle = dataTestIf('reset-password-title');
+			confirmVerifyEmail = dataTest('confirm-verify-email');
+		});
+
+		afterEach(() => {
+			jest.restoreAllMocks();
+		});
+
+		it('shows confirm verify email', () => {
 			// Assert
-			expect(
-				authenticationService.confirmEmailVerification
-			).toHaveBeenCalledTimes(1);
-			expect(
-				authenticationService.confirmEmailVerification
-			).toHaveBeenCalledWith(mockCode);
-			expect(title.nativeElement.textContent).toContain(
-				'Thank you for signing up to'
+			expect(confirmVerifyEmail).toBeTruthy();
+			expect(confirmVerifyEmail.componentInstance.user).toEqual(mockUser);
+			expect(confirmVerifyEmail.componentInstance.emailCodeConfirmed).toBe(
+				false
 			);
-			expect(continueMessage).toBe(false);
-			expect(verifiedButton).toBeTruthy();
-			expect(errorMessage).toBe(false);
-			expect(resetPasswordTitle).toBe(false);
-		}));
+			expect(confirmVerifyEmail.componentInstance.emailVerificationError).toBe(
+				AuthenticationMessages.None
+			);
+		});
 
-		it('navigates to task board', fakeAsync(() => {
-			// Arrange
-			setupWithQueryParamsAndUser(mockQueryParams, mockUser);
-			tick();
-			fixture.detectChanges();
-			// Stay on page but clear query params
-			expect(router.navigate).toHaveBeenCalledWith([], {
-				queryParams: {},
-			});
-			const verifiedButton = dataTest('email-verified-button');
+		it('goes to app', () => {
 			// Act
-			verifiedButton.nativeElement.click();
-			// Assert
-			expect(router.navigate).toHaveBeenCalledTimes(2);
+			confirmVerifyEmail.componentInstance.goToApp.emit();
 			expect(router.navigate).toHaveBeenCalledWith(TASK_BOARD_ROUTE);
+		});
+
+		it('calls send Email verification', () => {
+			// Act
+			confirmVerifyEmail.componentInstance.sendVerificationLink.emit(mockUser);
+			// Assert
+			expect(authenticationService.sendEmailVerification).toHaveBeenCalledTimes(
+				1
+			);
+			expect(authenticationService.sendEmailVerification).toHaveBeenCalledWith(
+				mockUser
+			);
+		});
+	});
+
+	describe('Confirm reset password', () => {
+		// Arrange
+		let confirmResetPassword: MockedDebugElement<ConfirmResetPasswordComponent>;
+		const mockUser = mock<User>({
+			emailVerified: false,
+		});
+		const mockCode = 'mockCode';
+		const mockQueryParams: [string, string][] = [
+			['mode', 'resetPassword'],
+			['oobCode', mockCode],
+		];
+
+		beforeEach(() => {
+			setupWithQueryParamsAndUser(mockQueryParams, mockUser);
+			fixture.detectChanges();
+			confirmResetPassword = dataTest('confirm-reset-password');
+		});
+
+		afterEach(() => {
+			jest.restoreAllMocks();
+		});
+
+		it('shows confirm reset password', fakeAsync(() => {
+			// Assert
+			expect(confirmResetPassword).toBeTruthy();
+			expect(confirmResetPassword.componentInstance.passwordCodeConfirmed).toBe(
+				false
+			);
+			expect(confirmResetPassword.componentInstance.passwordConfirmed).toBe(
+				false
+			);
+			expect(confirmResetPassword.componentInstance.passwordError).toBe(
+				AuthenticationMessages.None
+			);
 		}));
 
-		it('shows error after confirmation error, with sent email link for user', () => {});
+		it('goes to app', () => {
+			// Act
+			confirmResetPassword.componentInstance.goToApp.emit();
+			expect(router.navigate).toHaveBeenCalledWith(TASK_BOARD_ROUTE);
+		});
 
-		it('Ask user to log in again if no credentials available', () => {});
+		it('calls reset password', () => {
+			// Act
+			confirmResetPassword.componentInstance.resetPassword.emit('test');
+			// Assert
+			expect(authenticationService.confirmPasswordReset).toHaveBeenCalledTimes(
+				1
+			);
+			expect(authenticationService.confirmPasswordReset).toHaveBeenCalledWith(
+				mockCode,
+				'test'
+			);
+		});
 	});
 });
