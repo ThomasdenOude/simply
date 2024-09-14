@@ -67,8 +67,7 @@
 		<mat-divider simplySpaceContent="regular"></mat-divider>
 		<simply-new-password
 			data-test="new-password"
-
-			()="signUp($event)"
+			(newPassword)="signUp($event)"
 			newPasswordSubmitText="Sign up"
 		></simply-new-password>
 	}

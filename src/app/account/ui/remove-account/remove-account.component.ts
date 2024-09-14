@@ -1,7 +1,7 @@
 import { Component, inject, Signal } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 import { ResponsiveService } from '../../../base/services/responsive.service';
-import { Devices } from '../../../base/models/devices';
+import { Devices } from '../../../base/models/devices.model';
 import { DialogRef } from '@angular/cdk/dialog';
 import { TextContentDirective } from '../../../base/directives/text-content.directive';
 

@@ -2,8 +2,8 @@ import { MockBuilder, MockedComponentFixture, MockRender } from 'ng-mocks';
 
 import { ResponsiveService } from '../../services/responsive.service';
 import { CenterPageComponent } from './center-page.component';
-import { Devices } from '../../models/devices';
-import { BaseSizes } from '../../models/style-sizes';
+import { Devices } from '../../models/devices.model';
+import { BaseSizes } from '../../models/style-sizes.model';
 import { ResponsiveServiceMock } from '../../services/responsive.service.mock';
 import { dataTest } from '../../../../test/helpers/data-test.helper';
 

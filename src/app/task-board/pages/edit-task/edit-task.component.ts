@@ -30,7 +30,7 @@ import { CenterPageComponent } from '../../../base/ui/center-page/center-page.co
 import { FocusInputDirective } from '../../../base/directives/focus-input.directive';
 import { SpaceContentDirective } from '../../../base/directives/space-content.directive';
 import { CreateTask, CreateTaskForm, Task } from '../../models/task';
-import { Devices } from '../../../base/models/devices';
+import { Devices } from '../../../base/models/devices.model';
 import { TASK_STATUS_LIST } from '../../data/task-status-list';
 import { taskStatusIcon } from '../../data/task-status-icon.map';
 import { TaskStatus, TaskStatusIcons } from '../../models/task-status';

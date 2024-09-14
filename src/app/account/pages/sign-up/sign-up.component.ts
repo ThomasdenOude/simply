@@ -31,7 +31,7 @@ import { NewPasswordComponent } from '../../ui/new-password/new-password.compone
 import { MessageComponent } from '../../../base/ui/message/message.component';
 import { FocusInputDirective } from '../../../base/directives/focus-input.directive';
 import { Email, EmailForm } from '../../models/credentials.model';
-import { Devices } from '../../../base/models/devices';
+import { Devices } from '../../../base/models/devices.model';
 import { AuthenticationMessages } from '../../models/authentication-messages';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { VERIFY_EMAIL_ROUTE } from '../../../base/guards/auth-guards';

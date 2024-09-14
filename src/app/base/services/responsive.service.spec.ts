@@ -5,7 +5,7 @@ import { Subject } from 'rxjs';
 import { MockBuilder, MockedComponentFixture, MockRender } from 'ng-mocks';
 
 import { ResponsiveService } from './responsive.service';
-import { Devices } from '../models/devices';
+import { Devices } from '../models/devices.model';
 
 describe('ResponsiveService', () => {
 	let fixture: MockedComponentFixture<ResponsiveService>;

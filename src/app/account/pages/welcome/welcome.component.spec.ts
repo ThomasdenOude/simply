@@ -12,7 +12,7 @@ import { ResponsiveServiceMock } from '../../../base/services/responsive.service
 import { ResponsiveService } from '../../../base/services/responsive.service';
 import { WelcomeComponent } from './welcome.component';
 import { CenterPageComponent } from '../../../base/ui/center-page/center-page.component';
-import { Devices } from '../../../base/models/devices';
+import { Devices } from '../../../base/models/devices.model';
 
 describe('SignInComponent', () => {
 	let component: WelcomeComponent;

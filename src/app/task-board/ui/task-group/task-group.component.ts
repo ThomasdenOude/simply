@@ -1,11 +1,13 @@
 import {
-  Component, computed,
-  EventEmitter,
-  input,
-  InputSignal,
-  Output, Signal,
-  signal,
-  WritableSignal,
+	Component,
+	computed,
+	EventEmitter,
+	input,
+	InputSignal,
+	Output,
+	Signal,
+	signal,
+	WritableSignal,
 } from '@angular/core';
 import { NgClass } from '@angular/common';
 
@@ -19,7 +21,7 @@ import { MatIcon } from '@angular/material/icon';
 import { MatMiniFabButton } from '@angular/material/button';
 
 import { TaskCardComponent } from '../task-card/task-card.component';
-import { Devices } from '../../../base/models/devices';
+import { Devices } from '../../../base/models/devices.model';
 import { Task } from '../../models/task';
 import { UpdateTaskListAndStatus } from '../../models/update-task-list-and-status';
 import { EventResponse } from '../../models/event-response';
@@ -63,9 +65,9 @@ export class TaskGroupComponent {
 
 	protected readonly dragEnabledId: WritableSignal<string | null> =
 		signal(null);
-  protected showEditDoneId: Signal<string | null> = computed(() => {
-    return this.dragEnabledId() ? null : this.editDoneId()
-  })
+	protected showEditDoneId: Signal<string | null> = computed(() => {
+		return this.dragEnabledId() ? null : this.editDoneId();
+	});
 
 	@Output()
 	public onUpdateTaskList: EventEmitter<UpdateTaskListAndStatus> =

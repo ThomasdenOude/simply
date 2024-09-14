@@ -2,8 +2,8 @@ import { Component, inject, input, InputSignal, Signal } from '@angular/core';
 import { NgClass } from '@angular/common';
 
 import { ResponsiveService } from '../../services/responsive.service';
-import { Devices } from '../../models/devices';
-import { BaseSizes } from '../../models/style-sizes';
+import { Devices } from '../../models/devices.model';
+import { BaseSizes } from '../../models/style-sizes.model';
 
 @Component({
 	selector: 'simply-center-page',

@@ -9,7 +9,7 @@ import {
 import { ResponsiveService } from '../../../base/services/responsive.service';
 import { RemoveAccountComponent } from './remove-account.component';
 import { signal } from '@angular/core';
-import { Devices } from '../../../base/models/devices';
+import { Devices } from '../../../base/models/devices.model';
 import { By } from '@angular/platform-browser';
 
 describe('RemoveAccountComponent', () => {

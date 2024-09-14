@@ -15,7 +15,7 @@ import { User } from '@angular/fire/auth';
 import { AuthenticationService } from '../account/services/authentication-service/authentication.service';
 import { ResponsiveService } from '../base/services/responsive.service';
 import { HeaderComponent } from './header.component';
-import { Devices } from '../base/models/devices';
+import { Devices } from '../base/models/devices.model';
 
 import { dataTest, dataTestIf } from '../../test/helpers/data-test.helper';
 import { RouterMock } from '../../test/mocks/router.mock';

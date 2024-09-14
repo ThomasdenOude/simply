@@ -1,6 +1,7 @@
 import {
 	Component,
 	computed,
+	forwardRef,
 	input,
 	InputSignal,
 	output,
@@ -25,9 +26,12 @@ import { Password, PasswordForm } from '../../models/credentials.model';
 import { MatInput } from '@angular/material/input';
 import { AuthenticationMessages } from '../../models/authentication-messages';
 import { SpaceContentDirective } from '../../../base/directives/space-content.directive';
+import { FormComponent } from '../../../base/models/form-component.class';
 
 @Component({
 	selector: 'simply-confirm-password',
+	templateUrl: './confirm-password.component.html',
+	styleUrl: './confirm-password.component.scss',
 	standalone: true,
 	imports: [
 		MatFormField,
@@ -39,14 +43,14 @@ import { SpaceContentDirective } from '../../../base/directives/space-content.di
 		MessageComponent,
 		SpaceContentDirective,
 	],
-	templateUrl: './confirm-password.component.html',
-	styleUrl: './confirm-password.component.scss',
+	providers: [
+		{
+			provide: FormComponent,
+			useExisting: forwardRef(() => ConfirmPasswordComponent),
+		},
+	],
 })
-export class ConfirmPasswordComponent {
-	public passwordSubmit: OutputEmitterRef<string> = output<string>();
-
-	public closePasswordError: OutputEmitterRef<void> = output<void>();
-
+export class ConfirmPasswordComponent extends FormComponent {
 	protected readonly AuthenticationMessages = AuthenticationMessages;
 	protected passwordForm: FormGroup<PasswordForm> = new FormGroup<PasswordForm>(
 		{
@@ -61,6 +65,9 @@ export class ConfirmPasswordComponent {
 		() => this.setPasswordConfirmError() ?? AuthenticationMessages.None
 	);
 
+	public passwordSubmit: OutputEmitterRef<string> = output<string>();
+	public closePasswordError: OutputEmitterRef<void> = output<void>();
+
 	private form: Signal<FormGroupDirective> =
 		viewChild.required<FormGroupDirective>(FormGroupDirective);
 
@@ -70,7 +77,7 @@ export class ConfirmPasswordComponent {
 
 		if (valid && form.password) {
 			this.passwordSubmit.emit(form.password);
-			this.reset();
+			this.resetForm();
 		}
 	}
 
@@ -78,7 +85,7 @@ export class ConfirmPasswordComponent {
 		this.closePasswordError.emit();
 	}
 
-	public reset(): void {
+	public resetForm(): void {
 		this.form().resetForm();
 	}
 }

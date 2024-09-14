@@ -24,7 +24,7 @@ import { ResponsiveService } from '../../../base/services/responsive.service';
 import { SignUpComponent } from './sign-up.component';
 import { MessageComponent } from '../../../base/ui/message/message.component';
 import { NewPasswordComponent } from '../../ui/new-password/new-password.component';
-import { Devices } from '../../../base/models/devices';
+import { Devices } from '../../../base/models/devices.model';
 import { AuthenticationMessages } from '../../models/authentication-messages';
 import { VERIFY_EMAIL_ROUTE } from '../../../base/guards/auth-guards';
 
