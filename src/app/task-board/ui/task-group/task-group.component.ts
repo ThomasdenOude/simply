@@ -4,7 +4,9 @@ import {
 	EventEmitter,
 	input,
 	InputSignal,
+	output,
 	Output,
+	OutputEmitterRef,
 	Signal,
 	signal,
 	WritableSignal,
@@ -69,40 +71,30 @@ export class TaskGroupComponent {
 		return this.dragEnabledId() ? null : this.editDoneId();
 	});
 
-	@Output()
-	public onUpdateTaskList: EventEmitter<UpdateTaskListAndStatus> =
-		new EventEmitter<UpdateTaskListAndStatus>();
-
-	@Output()
-	public onNewTask: EventEmitter<void> = new EventEmitter<void>();
-
-	@Output()
-	public onEditTask: EventEmitter<Task> = new EventEmitter<Task>();
-
-	@Output()
-	public onEditTaskDone: EventEmitter<Task> = new EventEmitter<Task>();
-
-	@Output()
-	public onStatusChange: EventEmitter<TaskStatus> =
-		new EventEmitter<TaskStatus>();
+	public updateTaskList: OutputEmitterRef<UpdateTaskListAndStatus> =
+		output<UpdateTaskListAndStatus>();
+	public newTask: OutputEmitterRef<void> = output<void>();
+	public editTask: OutputEmitterRef<Task> = output<Task>();
+	public editTaskDone: OutputEmitterRef<Task> = output<Task>();
+	public statusChange: OutputEmitterRef<TaskStatus> = output<TaskStatus>();
 
 	constructor() {
 		this.taskStatusList = setTaskStatusList(this.taskList);
 	}
-	protected selectStatus(status: TaskStatus) {
-		this.onStatusChange.emit(status);
+	protected emitStatusChange(status: TaskStatus) {
+		this.statusChange.emit(status);
 	}
 
-	protected newTask(): void {
-		this.onNewTask.emit();
+	protected emitNewTask(): void {
+		this.newTask.emit();
 	}
 
-	protected editTask(task: Task): void {
-		this.onEditTask.emit(task);
+	protected emitEditTask(task: Task): void {
+		this.editTask.emit(task);
 	}
 
-	protected editTaskDone(task: Task): void {
-		this.onEditTaskDone.emit(task);
+	protected emitEditTaskDone(task: Task): void {
+		this.editTaskDone.emit(task);
 	}
 
 	protected dragEnabled(dragEnabled: boolean, task: Task): void {
@@ -112,7 +104,7 @@ export class TaskGroupComponent {
 			this.dragEnabledId.set(null);
 		}
 	}
-	public updateTaskList(
+	public emitUpdateTaskList(
 		event: CdkDragDrop<Task[]>,
 		targetStatus?: TaskStatus
 	): void {
@@ -122,6 +114,6 @@ export class TaskGroupComponent {
 		if (targetStatus) {
 			updateTaskAndStatus.targetStatus = targetStatus;
 		}
-		this.onUpdateTaskList.emit(updateTaskAndStatus);
+		this.updateTaskList.emit(updateTaskAndStatus);
 	}
 }

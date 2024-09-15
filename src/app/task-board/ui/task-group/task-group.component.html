@@ -4,21 +4,22 @@
 			@for (status of taskStatuses; track status) {
 				<button
 					cdkDropList
+					data-test="status-tab-button"
 					class="simply-task-group__tab"
 					[ngClass]="{
 						'simply-task-group__active-tab': activeList() === status
 					}"
 					[attr.aria-current]="activeList() === status ? status : null"
 					[id]="toTabStatus(status)"
-					(click)="selectStatus(status)"
-					(cdkDropListEntered)="selectStatus(status)"
-					(cdkDropListDropped)="updateTaskList($event, status)"
+					(click)="emitStatusChange(status)"
+					(cdkDropListEntered)="emitStatusChange(status)"
+					(cdkDropListDropped)="emitUpdateTaskList($event, status)"
 				>
 					<mat-icon [attr.aria-label]="status">{{
 						taskStatusIcon.get(status)
 					}}</mat-icon>
 					@if (device() !== Devices.HandsetPortrait) {
-						<h3>{{ status }}</h3>
+						<h3 data-test="status-tab-text">{{ status }}</h3>
 					}
 				</button>
 			}
@@ -29,27 +30,29 @@
 		@for (status of taskStatuses; track status) {
 			<div
 				cdkDropList
+				data-test="task-list"
 				class="simply-task-group__list"
 				[ngClass]="{
 					'simply-task-group__list-hidden': activeList() !== status
 				}"
 				[id]="status"
 				[cdkDropListData]="taskStatusList[status]()"
-				(cdkDropListDropped)="updateTaskList($event)"
+				(cdkDropListDropped)="emitUpdateTaskList($event)"
 			>
 				@for (task of taskStatusList[status](); track task.id) {
 					<simply-task-card
 						cdkDrag
 						cdkDragPreviewClass="task-card__drag"
+						data-test="task-card"
 						[ngClass]="{
 							'task-card__drag': task.id === dragEnabledId(),
 							'task-card__edited': task.id === showEditDoneId()
 						}"
 						[task]="task"
 						[cdkDragStartDelay]="EventResponse.Middle"
-						(editTask)="editTask($event)"
+						(editTask)="emitEditTask($event)"
 						(dragEnabled)="dragEnabled($event, task)"
-						(cdkDragDropped)="editTaskDone(task)"
+						(cdkDragDropped)="emitEditTaskDone(task)"
 					></simply-task-card>
 				}
 			</div>
@@ -59,8 +62,9 @@
 <button
 	mat-mini-fab
 	color="accent"
+	data-test="add-button"
 	class="simply-task-group__add-button"
-	(click)="newTask()"
+	(click)="emitNewTask()"
 >
 	<mat-icon>add</mat-icon>
 </button>

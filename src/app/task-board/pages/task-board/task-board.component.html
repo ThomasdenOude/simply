@@ -5,11 +5,11 @@
 			[activeList]="activeList()"
 			[editDoneId]="editDoneId()"
 			[device]="device()"
-			(onStatusChange)="setActiveList($event)"
-			(onNewTask)="newTask()"
-			(onEditTask)="editTask($event)"
-			(onEditTaskDone)="editTaskDone($event)"
-			(onUpdateTaskList)="updateTaskList($event)"
+			(statusChange)="setActiveList($event)"
+			(newTask)="newTask()"
+			(editTask)="editTask($event)"
+			(editTaskDone)="editTaskDone($event)"
+			(updateTaskList)="updateTaskList($event)"
 		></simply-task-group>
 	} @else {
 		<simply-kanban
