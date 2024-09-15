@@ -15,35 +15,14 @@ import { dataTest } from '../../../../test/helpers/data-test.helper';
 import { TaskCardComponent } from '../task-card/task-card.component';
 import { Task } from '../../models/task';
 import { TaskStatus } from '../../models/task-status';
+import { getMockedTaskList } from '../../test/mocked-data/mocked-task-list';
 
 describe('KanbanComponent', () => {
 	let component: KanbanComponent;
 	let fixture: MockedComponentFixture<KanbanComponent, TestParams>;
 	let listContent: MockedDebugElement<CdkDropList<Task[]>>[];
 	let cards: MockedDebugElement<TaskCardComponent>[];
-	const mockTaskList: Task[] = [
-		{
-			id: 'one',
-			index: 0,
-			title: 'One',
-			description: 'One description',
-			status: TaskStatus.Todo,
-		},
-		{
-			id: 'two',
-			index: 0,
-			title: 'Two',
-			description: 'Two description',
-			status: TaskStatus.Doing,
-		},
-		{
-			id: 'three',
-			index: 0,
-			title: 'Three',
-			description: 'Three description',
-			status: TaskStatus.Done,
-		},
-	];
+	const mockTaskList: Task[] = getMockedTaskList();
 
 	beforeEach(() =>
 		MockBuilder(KanbanComponent, [DragDropModule, TaskCardComponent])

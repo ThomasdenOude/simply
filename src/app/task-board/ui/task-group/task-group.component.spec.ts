@@ -15,6 +15,7 @@ import { TaskStatus } from '../../models/task-status';
 import { TestParams } from '../../../../test/models/test-params.model';
 import { Devices } from '../../../base/models/devices.model';
 import { dataTest } from '../../../../test/helpers/data-test.helper';
+import { getMockedTaskList } from '../../test/mocked-data/mocked-task-list';
 
 describe('TaskBoardGroupComponent', () => {
 	let component: TaskGroupComponent;
@@ -23,30 +24,8 @@ describe('TaskBoardGroupComponent', () => {
 	let statusTabText: MockedDebugElement;
 	let taskLists: MockedDebugElement<CdkDropList>[];
 	let taskCards: MockedDebugElement<TaskCardComponent>[];
+	const mockTaskList: Task[] = getMockedTaskList();
 
-	const mockTaskList: Task[] = [
-		{
-			id: 'one',
-			index: 0,
-			title: 'One',
-			description: 'One description',
-			status: TaskStatus.Todo,
-		},
-		{
-			id: 'two',
-			index: 0,
-			title: 'Two',
-			description: 'Two description',
-			status: TaskStatus.Doing,
-		},
-		{
-			id: 'three',
-			index: 0,
-			title: 'Three',
-			description: 'Three description',
-			status: TaskStatus.Done,
-		},
-	];
 	const params: TestParams = {
 		taskList: [...mockTaskList],
 		activeList: TaskStatus.Doing,

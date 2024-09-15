@@ -43,7 +43,7 @@ export class TaskService {
 	});
 
 	constructor() {
-		this.initTasks();
+		void this.initTasks();
 	}
 
 	public setActiveList(status: TaskStatus): void {
@@ -171,7 +171,7 @@ export class TaskService {
 		const collectionName: string | null = this.collectionName;
 		if (collectionName) {
 			updatedStatusList.forEach(task => {
-				this.postIndex(task.id, task.index, collectionName);
+				void this.postIndex(task.id, task.index, collectionName);
 			});
 		}
 		this.partialTaskListUpdate(editedTask.status, updatedStatusList);
@@ -191,7 +191,7 @@ export class TaskService {
 		const collectionName: string | null = this.collectionName;
 		if (collectionName) {
 			taskStatusList.forEach((task: Task, index: number) => {
-				this.postIndex(task.id, index, collectionName);
+				void this.postIndex(task.id, index, collectionName);
 				task.index = index;
 			});
 			this.partialTaskListUpdate(status, taskStatusList);
@@ -207,12 +207,17 @@ export class TaskService {
 		const collectionName: string | null = this.collectionName;
 		if (collectionName) {
 			currentList.forEach((task: Task, index: number) => {
-				this.postIndexAndStatus(task.id, index, currentStatus, collectionName);
+				void this.postIndexAndStatus(
+					task.id,
+					index,
+					currentStatus,
+					collectionName
+				);
 				task.status = currentStatus;
 				task.index = index;
 			});
 			previousList.forEach((task: Task, index: number) => {
-				this.postIndex(task.id, index, collectionName);
+				void this.postIndex(task.id, index, collectionName);
 				task.index = index;
 			});
 			this._taskList.update(list => {
