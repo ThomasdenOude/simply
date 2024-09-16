@@ -1,6 +1,7 @@
 <div class="simply-task-board__container">
 	@if (device() !== Devices.WideScreen) {
 		<simply-task-group
+			data-test="task-group"
 			[taskList]="taskList()"
 			[activeList]="activeList()"
 			[editDoneId]="editDoneId()"
@@ -13,6 +14,7 @@
 		></simply-task-group>
 	} @else {
 		<simply-kanban
+			data-test="kanban"
 			class="simply-kanban__host"
 			[taskList]="taskList()"
 			[editDoneId]="editDoneId()"

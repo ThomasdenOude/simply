@@ -74,7 +74,7 @@ describe('VerifyEmailComponent', () => {
 			});
 
 			afterEach(() => {
-				jest.resetAllMocks();
+				jest.clearAllMocks();
 			});
 
 			it('sends email verification', () => {

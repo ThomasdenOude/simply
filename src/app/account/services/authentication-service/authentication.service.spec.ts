@@ -53,7 +53,7 @@ describe('AuthenticationService', () => {
 	});
 
 	afterEach(() => {
-		jest.resetAllMocks();
+		jest.clearAllMocks();
 	});
 
 	it('should not be logged in when no user provided', () => {

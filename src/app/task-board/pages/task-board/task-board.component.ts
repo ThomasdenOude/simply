@@ -63,11 +63,11 @@ export class TaskBoardComponent {
 	}
 
 	protected newTask(): void {
-		this._router.navigate(['task'], { relativeTo: this._route });
+		void this._router.navigate(['task'], { relativeTo: this._route });
 	}
 
 	protected editTask(task: Task) {
-		this._router.navigate(['task', task.id], { relativeTo: this._route });
+		void this._router.navigate(['task', task.id], { relativeTo: this._route });
 	}
 
 	protected editTaskDone(task: Task): void {
