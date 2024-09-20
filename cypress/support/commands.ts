@@ -57,7 +57,7 @@ Cypress.Commands.add('emailLogin', (email: string, password: string): void => {
 		if (path !== '/') {
 			cy.log('Already logged in');
 		} else {
-			cy.getByData('header-log-in').should('exist').click();
+			cy.getByData('log-in-button').should('exist').click();
 
 			cy.location('pathname').should('equal', '/account/log-in');
 

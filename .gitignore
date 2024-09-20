@@ -51,4 +51,4 @@ ui-debug.log
 # Cypress
 cypress/videos
 cypress/screenshots
-cypress.env.json
+cypress.config.test.ts

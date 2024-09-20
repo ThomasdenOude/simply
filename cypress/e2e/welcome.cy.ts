@@ -5,11 +5,11 @@ describe('Welcome', () => {
 
 	context('Header', () => {
 		it('has the "Simply" logo', () => {
-			cy.getByData('header-logo').should('contain', 'Simply');
+			cy.getByData('simply-logo').should('contain', 'Simply');
 		});
 
 		it('has log in button that links to login page', () => {
-			cy.getByData('header-log-in')
+			cy.getByData('log-in-button')
 				.should('exist')
 				.click()
 				.location('pathname')

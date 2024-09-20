@@ -10,6 +10,7 @@
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "e2e": "cypress open",
+    "e2e:test": "cypress open --config-file cypress.config.test.ts",
     "build:test": "ng build -c test",
     "deploy": ". ./deploy/deploy.sh",
     "deploy:test": "npm run build:test && firebase deploy --project test-simply-task-board --only hosting:test"
