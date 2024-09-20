@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "start": "firebase emulators:start",
+    "start:seed": "firebase emulators:start --import=firebase-test-data",
     "watch": "ng build --watch --configuration development",
     "test": "jest",
     "test:watch": "jest --watch",
