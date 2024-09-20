@@ -2,8 +2,8 @@ import {
 	Component,
 	computed,
 	inject,
-	Input,
-	OnDestroy,
+	input,
+	InputSignal,
 	OnInit,
 	Signal,
 } from '@angular/core';
@@ -15,8 +15,6 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgClass } from '@angular/common';
-
-import { Subject } from 'rxjs';
 
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
@@ -56,21 +54,28 @@ import { TASK_BOARD_ROUTE } from '../../../base/guards/auth-guards';
 	templateUrl: './edit-task.component.html',
 	styleUrl: './edit-task.component.scss',
 })
-export class EditTaskComponent implements OnInit, OnDestroy {
-	private _destroy: Subject<void> = new Subject<void>();
+export class EditTaskComponent implements OnInit {
 	private _taskService: TaskService = inject(TaskService);
 	private _responsiveService: ResponsiveService = inject(ResponsiveService);
 	private _router: Router = inject(Router);
 
 	protected device: Signal<Devices> = this._responsiveService.device;
-	protected textAreaMinRows: Signal<number>;
-	protected textAreaMaxRows: Signal<number>;
+	protected textAreaMinRows: Signal<number> = computed(() => {
+		if (this.device() === Devices.HandsetLandscape) {
+			return 4;
+		} else if (this.device() === Devices.HandsetPortrait) {
+			return 6;
+		}
+		return 12;
+	});
+	protected textAreaMaxRows: Signal<number> = computed(
+		() => this.textAreaMinRows() * 2
+	);
 	protected activeTaskStatus: Signal<TaskStatus> = this._taskService.activeList;
 	protected availableStatuses: Signal<TaskStatus[]> = computed<TaskStatus[]>(
 		() => TASK_STATUS_LIST.filter(status => status !== this.activeTaskStatus())
 	);
 
-	protected task: Task | undefined;
 	protected readonly taskStatusIcon: TaskStatusIcons = taskStatusIcon;
 	protected readonly Devices = Devices;
 	protected taskForm: FormGroup<CreateTaskForm> = new FormGroup<CreateTaskForm>(
@@ -81,31 +86,25 @@ export class EditTaskComponent implements OnInit, OnDestroy {
 		}
 	);
 
-	@Input()
-	private set id(taskId: string) {
-		this.task = this._taskService.getTask(taskId);
-	}
+	protected id: InputSignal<string | undefined> = input<string>();
 
-	constructor() {
-		this.textAreaMinRows = computed(() => {
-			if (this.device() === Devices.HandsetLandscape) {
-				return 4;
-			} else if (this.device() === Devices.HandsetPortrait) {
-				return 6;
-			}
-			return 12;
-		});
-		this.textAreaMaxRows = computed(() => this.textAreaMinRows() * 2);
-	}
+	protected task: Signal<Task | undefined> = computed(() => {
+		const id = this.id();
+		if (id) {
+			return this._taskService.getTask(id);
+		}
+		return undefined;
+	});
 
 	ngOnInit() {
-		if (this.task) {
+		const task = this.task();
+		if (task) {
 			this.taskForm.patchValue({
-				title: this.task.title,
-				description: this.task.description,
-				status: this.task.status,
+				title: task.title,
+				description: task.description,
+				status: task.status,
 			});
-			this._taskService.setActiveList(this.task.status);
+			this._taskService.setActiveList(task.status);
 		} else {
 			this._taskService.setActiveList(TaskStatus.Todo);
 		}
@@ -113,18 +112,18 @@ export class EditTaskComponent implements OnInit, OnDestroy {
 
 	protected submitTask(): void {
 		const formValue = this.taskForm.value;
-
-		if (this.task) {
-			const status: TaskStatus = formValue.status ?? this.task.status;
+		const task = this.task();
+		if (task) {
+			const status: TaskStatus = formValue.status ?? task.status;
 			const editedTask: Task = {
-				...this.task,
-				title: formValue.title ?? this.task.title,
-				description: formValue.description ?? this.task.description,
+				...task,
+				title: formValue.title ?? task.title,
+				description: formValue.description ?? task.description,
 				status: status,
 			};
 			this._taskService
 				.editTask(editedTask)
-				.then(result => {
+				.then(() => {
 					this._taskService.setActiveList(status);
 					this.navigateToTaskBoard();
 				})
@@ -138,7 +137,7 @@ export class EditTaskComponent implements OnInit, OnDestroy {
 			};
 			this._taskService
 				.addTask(addedTask)
-				.then(result => {
+				.then(() => {
 					this._taskService.setActiveList(status);
 					this.navigateToTaskBoard();
 				})
@@ -147,9 +146,10 @@ export class EditTaskComponent implements OnInit, OnDestroy {
 	}
 
 	protected deleteTask(): void {
-		if (this.task) {
+		const task = this.task();
+		if (task) {
 			this._taskService
-				.deleteTask(this.task)
+				.deleteTask(task)
 				.then(() => {
 					this.navigateToTaskBoard();
 				})
@@ -158,15 +158,10 @@ export class EditTaskComponent implements OnInit, OnDestroy {
 	}
 
 	private navigateToTaskBoard(): void {
-		this._router.navigate(TASK_BOARD_ROUTE);
+		void this._router.navigate(TASK_BOARD_ROUTE);
 	}
 
 	protected cancel(): void {
 		this.navigateToTaskBoard();
-	}
-
-	ngOnDestroy() {
-		this._destroy.next();
-		this._destroy.complete();
 	}
 }
