@@ -1,6 +1,7 @@
 <simply-center-page simplyTextContent data-test="authenticate">
 	@if (mode() === 'verifyEmail') {
 		<simply-confirm-verify-email
+			data-test="confirm-verify-email"
 			[user]="user()"
 			[emailCodeConfirmed]="emailCodeConfirmed()"
 			[emailVerificationError]="emailError()"
@@ -11,6 +12,7 @@
 
 	@if (mode() === 'resetPassword') {
 		<simply-confirm-reset-password
+			data-test="confirm-reset-password"
 			[passwordCodeConfirmed]="passwordCodeConfirmed()"
 			[passwordConfirmed]="passwordConfirmed()"
 			[passwordError]="passwordError()"

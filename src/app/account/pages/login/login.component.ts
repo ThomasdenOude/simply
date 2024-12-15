@@ -34,7 +34,7 @@ import {
 	BaseCredentials,
 	BaseCredentialsForm,
 } from '../../models/credentials.model';
-import { Devices } from '../../../base/models/devices';
+import { Devices } from '../../../base/models/devices.model';
 import { AuthenticationMessages } from '../../models/authentication-messages';
 import {
 	TASK_BOARD_ROUTE,

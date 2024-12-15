@@ -1,19 +1,16 @@
 import {
 	Component,
-	EventEmitter,
 	input,
 	InputSignal,
-	OnDestroy,
-	Output,
+	output,
+	OutputEmitterRef,
 	signal,
 	WritableSignal,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
-import { Subject } from 'rxjs';
-
-import { MatButton, MatButtonModule } from '@angular/material/button';
-import { MatIcon, MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import {
 	CdkDrag,
 	CdkDragDrop,
@@ -53,9 +50,7 @@ import {
 	templateUrl: './kanban.component.html',
 	styleUrl: './kanban.component.scss',
 })
-export class KanbanComponent implements OnDestroy {
-	private _destroy: Subject<void> = new Subject<void>();
-
+export class KanbanComponent {
 	protected readonly taskStatuses: ReadonlyArray<TaskStatus> = TASK_STATUS_LIST;
 	protected readonly taskStatusIcon: TaskStatusIcons = taskStatusIcon;
 	protected readonly EventResponse = EventResponse;
@@ -65,29 +60,21 @@ export class KanbanComponent implements OnDestroy {
 	public editDoneId: InputSignal<string | null> = input.required();
 	protected dragEnabledId: WritableSignal<string | null> = signal(null);
 
-	@Output()
-	public onUpdateTaskList: EventEmitter<UpdateTaskListAndStatus> =
-		new EventEmitter<UpdateTaskListAndStatus>();
-
-	@Output()
-	public onNewTask: EventEmitter<void> = new EventEmitter<void>();
-
-	@Output()
-	public onEditTask: EventEmitter<Task> = new EventEmitter<Task>();
-
-	@Output()
-	public onEditTaskDone: EventEmitter<Task> = new EventEmitter<Task>();
+	public updateTaskList: OutputEmitterRef<UpdateTaskListAndStatus> =
+		output<UpdateTaskListAndStatus>();
+	public editTask: OutputEmitterRef<Task> = output<Task>();
+	public editTaskDone: OutputEmitterRef<Task> = output<Task>();
 
 	constructor() {
 		this.taskStatusList = setTaskStatusList(this.taskList);
 	}
 
-	protected updateTaskList(event: CdkDragDrop<Task[]>): void {
-		this.onUpdateTaskList.emit({ taskDropped: event });
+	protected emitUpdateTaskList(event: CdkDragDrop<Task[]>): void {
+		this.updateTaskList.emit({ taskDropped: event });
 	}
 
-	protected editTask(task: Task): void {
-		this.onEditTask.emit(task);
+	protected emitEditTask(task: Task): void {
+		this.editTask.emit(task);
 	}
 
 	protected setDragState(dragEnabled: boolean, task: Task): void {
@@ -98,12 +85,7 @@ export class KanbanComponent implements OnDestroy {
 		}
 	}
 
-	protected editTaskDone(task: Task): void {
-		this.onEditTaskDone.emit(task);
-	}
-
-	ngOnDestroy() {
-		this._destroy.next();
-		this._destroy.complete();
+	protected emitEditTaskDone(task: Task): void {
+		this.editTaskDone.emit(task);
 	}
 }

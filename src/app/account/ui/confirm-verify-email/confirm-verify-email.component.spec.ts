@@ -9,11 +9,7 @@ import { MessageComponent } from '../../../base/ui/message/message.component';
 import { mock, MockProxy } from 'jest-mock-extended';
 import { User } from '@angular/fire/auth';
 import { AuthenticationMessages } from '../../models/authentication-messages';
-import {
-	dataTest,
-	dataTestIf,
-} from '../../../../test/helpers/data-test.helper';
-import SpyInstance = jest.SpyInstance;
+import { dataTest, dataTestIf } from '../../../test/helpers/data-test.helper';
 import { SpaceContentDirective } from '../../../base/directives/space-content.directive';
 
 describe('ConfirmVerifyEmailComponent', () => {
@@ -66,16 +62,17 @@ describe('ConfirmVerifyEmailComponent', () => {
 			};
 			fixture = MockRender(ConfirmVerifyEmailComponent, params);
 			component = fixture.point.componentInstance;
-			const goToAppSpy: SpyInstance = jest.spyOn(component.goToApp, 'emit');
 			const verifyEmailMessage = dataTestIf('verify-in-progress-message');
 			const emailVerifiedButton = dataTest('email-verified-button');
+			let goToAppEmit = false;
+			component.goToApp.subscribe(() => (goToAppEmit = true));
 			// Assert
 			expect(verifyEmailMessage).toBe(false);
 			expect(emailVerifiedButton).toBeTruthy();
 			// Act
 			emailVerifiedButton.nativeElement.click();
 			// Assert
-			expect(goToAppSpy).toHaveBeenCalledTimes(1);
+			expect(goToAppEmit).toBe(true);
 		});
 	});
 
@@ -108,22 +105,21 @@ describe('ConfirmVerifyEmailComponent', () => {
 			};
 			fixture = MockRender(ConfirmVerifyEmailComponent, params);
 			component = fixture.point.componentInstance;
-			const sendVerificationSpy: SpyInstance = jest.spyOn(
-				component.sendVerificationLink,
-				'emit'
-			);
 			const sendVerificationLinkButton = dataTest(
 				'send-verification-link-button'
 			);
 			const toLoginButton = dataTestIf('to-login-button');
+			let verificationLink: User | undefined;
+			component.sendVerificationLink.subscribe(
+				value => (verificationLink = value)
+			);
 			// Assert
 			expect(toLoginButton).toBe(false);
 			expect(sendVerificationLinkButton).toBeTruthy();
 			// Act
 			sendVerificationLinkButton.nativeElement.click();
 			// Assert
-			expect(sendVerificationSpy).toHaveBeenCalledTimes(1);
-			expect(sendVerificationSpy).toHaveBeenCalledWith(mockUser);
+			expect(verificationLink).toEqual(mockUser);
 		});
 
 		it('can redirect to login if no user available', () => {

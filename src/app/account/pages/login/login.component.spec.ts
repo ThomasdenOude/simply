@@ -15,12 +15,9 @@ import {
 	ngMocks,
 } from 'ng-mocks';
 
-import {
-	dataTest,
-	dataTestIf,
-} from '../../../../test/helpers/data-test.helper';
-import { RouterMock } from '../../../../test/mocks/router.mock';
-import { firebaseErrorMock } from '../../../../test/mocks/firebase-error.mock';
+import { dataTest, dataTestIf } from '../../../test/helpers/data-test.helper';
+import { RouterMock } from '../../../test/mocks/router.mock';
+import { firebaseErrorMock } from '../../../test/mocks/firebase-error.mock';
 import { ResponsiveServiceMock } from '../../../base/services/responsive.service.mock';
 import { AuthenticationServiceMock } from '../../services/authentication-service/authentication.service.mock';
 import { AuthenticationService } from '../../services/authentication-service/authentication.service';
@@ -156,7 +153,7 @@ describe('LoginComponent', () => {
 				AuthenticationMessages.InvalidPassword
 			);
 			// Act
-			message.componentInstance.onClose.emit();
+			message.componentInstance.closeMessage.emit();
 			fixture.detectChanges();
 			// Arrange
 			const messageAfterClose = dataTestIf('login-message');

@@ -18,7 +18,7 @@ import { KanbanComponent } from '../../ui/kanban/kanban.component';
 import { TaskCardComponent } from '../../ui/task-card/task-card.component';
 import { Task } from '../../models/task';
 import { UpdateTaskListAndStatus } from '../../models/update-task-list-and-status';
-import { Devices } from '../../../base/models/devices';
+import { Devices } from '../../../base/models/devices.model';
 import { setTaskStatusList } from '../../helpers/set-task-list';
 import { TaskStatus, TaskStatusList } from '../../models/task-status';
 
@@ -63,11 +63,11 @@ export class TaskBoardComponent {
 	}
 
 	protected newTask(): void {
-		this._router.navigate(['task'], { relativeTo: this._route });
+		void this._router.navigate(['task'], { relativeTo: this._route });
 	}
 
 	protected editTask(task: Task) {
-		this._router.navigate(['task', task.id], { relativeTo: this._route });
+		void this._router.navigate(['task', task.id], { relativeTo: this._route });
 	}
 
 	protected editTaskDone(task: Task): void {

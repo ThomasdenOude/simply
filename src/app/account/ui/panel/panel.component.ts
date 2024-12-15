@@ -1,17 +1,17 @@
 import {
 	Component,
-	ContentChild,
-	EventEmitter,
+	contentChildren,
 	input,
 	InputSignal,
-	Output,
+	output,
+	OutputEmitterRef,
 	signal,
 	WritableSignal,
 } from '@angular/core';
 
 import { MatIcon } from '@angular/material/icon';
 
-import { ConfirmPasswordComponent } from '../confirm-password/confirm-password.component';
+import { FormComponent } from '../../../base/models/form-component.class';
 
 @Component({
 	selector: 'simply-panel',
@@ -26,17 +26,18 @@ export class PanelComponent {
 	public iconName: InputSignal<string | undefined> = input<string>();
 	public panelTitle: InputSignal<string> = input.required<string>();
 
-	@ContentChild(ConfirmPasswordComponent)
-	private confirmPassword?: ConfirmPasswordComponent;
+	private formComponents = contentChildren(FormComponent);
 
-	@Output()
-	public panelOpened: EventEmitter<boolean> = new EventEmitter<boolean>();
+	public panelOpened: OutputEmitterRef<boolean> = output<boolean>();
 
 	protected togglePanel(): void {
 		this.panelIsOpened.update(() => !this.panelIsOpened());
+		console.log('Opened', this.panelIsOpened());
 		this.panelOpened.emit(this.panelIsOpened());
-		if (!this.panelIsOpened() && this.confirmPassword) {
-			this.confirmPassword.reset();
+		if (!this.panelIsOpened() && this.formComponents().length) {
+			this.formComponents().forEach((formComponent: FormComponent) => {
+				formComponent.resetForm();
+			});
 		}
 	}
 }

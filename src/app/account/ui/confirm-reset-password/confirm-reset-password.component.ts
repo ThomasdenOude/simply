@@ -1,9 +1,9 @@
 import {
 	Component,
-	EventEmitter,
 	input,
 	InputSignal,
-	Output,
+	output,
+	OutputEmitterRef,
 } from '@angular/core';
 
 import { MatButton } from '@angular/material/button';
@@ -36,11 +36,8 @@ export class ConfirmResetPasswordComponent {
 	public passwordError: InputSignal<AuthenticationMessages> =
 		input.required<AuthenticationMessages>();
 
-	@Output()
-	public resetPassword: EventEmitter<string> = new EventEmitter<string>();
-
-	@Output()
-	public goToApp: EventEmitter<void> = new EventEmitter<void>();
+	public resetPassword: OutputEmitterRef<string> = output<string>();
+	public goToApp: OutputEmitterRef<void> = output<void>();
 
 	protected emitResetPassword(newPassword: string): void {
 		this.resetPassword.emit(newPassword);

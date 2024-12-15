@@ -10,7 +10,7 @@ import { mock, MockProxy } from 'jest-mock-extended';
 import { AuthenticationService } from './authentication.service';
 import { AuthenticationMessages } from '../../models/authentication-messages';
 import { authenticationErrorMap } from '../../data/authentication-messages.map';
-import { firebaseErrorMock } from '../../../../test/mocks/firebase-error.mock';
+import { firebaseErrorMock } from '../../../test/mocks/firebase-error.mock';
 import {
 	mockAuthState,
 	mockCreateUser,
@@ -53,7 +53,7 @@ describe('AuthenticationService', () => {
 	});
 
 	afterEach(() => {
-		jest.resetAllMocks();
+		jest.clearAllMocks();
 	});
 
 	it('should not be logged in when no user provided', () => {

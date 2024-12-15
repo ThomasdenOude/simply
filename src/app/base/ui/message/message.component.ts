@@ -1,17 +1,22 @@
 import {
 	AfterViewInit,
 	Component,
+	computed,
 	EventEmitter,
 	input,
 	InputSignal,
 	OnDestroy,
+	output,
 	Output,
+	OutputEmitterRef,
+	Signal,
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 import { MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { Subject, takeUntil } from 'rxjs';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
 	selector: 'simply-message',
@@ -27,19 +32,18 @@ export class MessageComponent implements AfterViewInit, OnDestroy {
 	public errorMessage: InputSignal<string> = input.required<string>();
 	public form: InputSignal<FormGroup | undefined> = input<FormGroup>();
 
-	@Output()
-	public onClose: EventEmitter<void> = new EventEmitter<void>();
+	public closeMessage: OutputEmitterRef<void> = output<void>();
 
 	ngAfterViewInit() {
 		if (this.form()) {
 			this.form()
 				?.valueChanges.pipe(takeUntil(this.destroy))
-				.subscribe(() => this.closeMessage());
+				.subscribe(() => this.emitCloseMessage());
 		}
 	}
 
-	protected closeMessage(): void {
-		this.onClose.emit();
+	protected emitCloseMessage(): void {
+		this.closeMessage.emit();
 	}
 
 	ngOnDestroy() {

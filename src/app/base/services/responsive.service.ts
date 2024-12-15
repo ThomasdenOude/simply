@@ -8,7 +8,7 @@ import {
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Observable } from 'rxjs';
 
-import { Devices } from '../models/devices';
+import { Devices } from '../models/devices.model';
 
 @Injectable({
 	providedIn: 'root',

@@ -6,13 +6,13 @@ import {
 	ngMocks,
 } from 'ng-mocks';
 
-import { dataTest } from '../../../../test/helpers/data-test.helper';
+import { dataTest } from '../../../test/helpers/data-test.helper';
 import { ResponsiveServiceMock } from '../../../base/services/responsive.service.mock';
 
 import { ResponsiveService } from '../../../base/services/responsive.service';
 import { WelcomeComponent } from './welcome.component';
 import { CenterPageComponent } from '../../../base/ui/center-page/center-page.component';
-import { Devices } from '../../../base/models/devices';
+import { Devices } from '../../../base/models/devices.model';
 
 describe('SignInComponent', () => {
 	let component: WelcomeComponent;
@@ -55,6 +55,13 @@ describe('SignInComponent', () => {
 			expect(centerPageComponent.componentInstance.maxContentWidth).toBe(
 				'regular'
 			);
+		});
+
+		it('should link to sign up', () => {
+			// Arrange
+			const signUpButton = dataTest('sign-up-button');
+			// Assert
+			expect(signUpButton.attributes['routerLink']).toBe('/account/sign-up');
 		});
 	});
 });

@@ -13,7 +13,7 @@ import { CdkMenu, CdkMenuItem, CdkMenuTrigger } from '@angular/cdk/menu';
 
 import { ResponsiveService } from '../base/services/responsive.service';
 import { AuthenticationService } from '../account/services/authentication-service/authentication.service';
-import { Devices } from '../base/models/devices';
+import { Devices } from '../base/models/devices.model';
 import { LogoComponent } from '../base/ui/logo/logo.component';
 
 @Component({

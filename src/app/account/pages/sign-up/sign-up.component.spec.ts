@@ -6,16 +6,14 @@ import {
 	MockBuilder,
 	MockedComponentFixture,
 	MockedDebugElement,
+	MockInstance,
 	MockRender,
 	NG_MOCKS_ROOT_PROVIDERS,
 	ngMocks,
 } from 'ng-mocks';
 
-import {
-	dataTest,
-	dataTestIf,
-} from '../../../../test/helpers/data-test.helper';
-import { RouterMock } from '../../../../test/mocks/router.mock';
+import { dataTest, dataTestIf } from '../../../test/helpers/data-test.helper';
+import { RouterMock } from '../../../test/mocks/router.mock';
 import { ResponsiveServiceMock } from '../../../base/services/responsive.service.mock';
 import { AuthenticationServiceMock } from '../../services/authentication-service/authentication.service.mock';
 
@@ -24,9 +22,10 @@ import { ResponsiveService } from '../../../base/services/responsive.service';
 import { SignUpComponent } from './sign-up.component';
 import { MessageComponent } from '../../../base/ui/message/message.component';
 import { NewPasswordComponent } from '../../ui/new-password/new-password.component';
-import { Devices } from '../../../base/models/devices';
+import { Devices } from '../../../base/models/devices.model';
 import { AuthenticationMessages } from '../../models/authentication-messages';
 import { VERIFY_EMAIL_ROUTE } from '../../../base/guards/auth-guards';
+import { EventEmitter, output, OutputEmitterRef } from '@angular/core';
 
 describe('SignUpComponent', () => {
 	let component: SignUpComponent;
@@ -152,7 +151,7 @@ describe('SignUpComponent', () => {
 				'Sign up'
 			);
 			// Act
-			newPassword.componentInstance.isSubmitted.emit(password);
+			newPassword.componentInstance.newPassword.emit(password);
 			tick();
 			// Assert
 			expect(authService.creatUserAndVerifyEmail).toHaveBeenCalledTimes(1);
@@ -190,7 +189,7 @@ describe('SignUpComponent', () => {
 			const newPassword: MockedDebugElement<NewPasswordComponent> =
 				dataTest('new-password');
 			// Act
-			newPassword.componentInstance.isSubmitted.emit(password);
+			newPassword.componentInstance.newPassword.emit(password);
 			tick();
 			fixture.detectChanges();
 			// Assert
@@ -209,7 +208,7 @@ describe('SignUpComponent', () => {
 				AuthenticationMessages.EmailExists
 			);
 			// Act
-			message.componentInstance.onClose.emit();
+			message.componentInstance.closeMessage.emit();
 			fixture.detectChanges();
 			// Arrange
 			const messageAfterClose = dataTestIf('sign-up-error');

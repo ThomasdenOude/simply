@@ -1,7 +1,6 @@
 import {
 	Component,
 	inject,
-	OnDestroy,
 	Signal,
 	signal,
 	WritableSignal,
@@ -16,7 +15,7 @@ import {
 import { Router, RouterLink } from '@angular/router';
 
 import { FirebaseError } from '@firebase/util';
-import { map, Observable, Subject } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -31,7 +30,7 @@ import { NewPasswordComponent } from '../../ui/new-password/new-password.compone
 import { MessageComponent } from '../../../base/ui/message/message.component';
 import { FocusInputDirective } from '../../../base/directives/focus-input.directive';
 import { Email, EmailForm } from '../../models/credentials.model';
-import { Devices } from '../../../base/models/devices';
+import { Devices } from '../../../base/models/devices.model';
 import { AuthenticationMessages } from '../../models/authentication-messages';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { VERIFY_EMAIL_ROUTE } from '../../../base/guards/auth-guards';
@@ -57,9 +56,7 @@ import { VERIFY_EMAIL_ROUTE } from '../../../base/guards/auth-guards';
 	templateUrl: './sign-up.component.html',
 	styleUrl: './sign-up.component.scss',
 })
-export class SignUpComponent implements OnDestroy {
-	private destroy: Subject<void> = new Subject<void>();
-
+export class SignUpComponent {
 	private authService: AuthenticationService = inject(AuthenticationService);
 	private responsiveService: ResponsiveService = inject(ResponsiveService);
 	private router: Router = inject(Router);
@@ -115,10 +112,5 @@ export class SignUpComponent implements OnDestroy {
 
 	protected resetError() {
 		this.signupError.set(AuthenticationMessages.None);
-	}
-
-	ngOnDestroy() {
-		this.destroy.next();
-		this.destroy.complete();
 	}
 }

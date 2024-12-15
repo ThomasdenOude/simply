@@ -20,11 +20,11 @@
 @include mat.core();
 
 /*      2 - Set default light theme theme with mobile typography      */
-$simply-primary: mat.define-palette(colors.$dark-blue-palette, 800);
-$simply-accent: mat.define-palette(colors.$orange-palette, 500, 300, 600);
-$simply-warn: mat.define-palette(colors.$green-palette, 600);
+$simply-primary: mat.m2-define-palette(colors.$dark-blue-palette, 800);
+$simply-accent: mat.m2-define-palette(colors.$orange-palette, 500, 300, 600);
+$simply-warn: mat.m2-define-palette(colors.$green-palette, 600);
 
-$simply-light-theme: mat.define-light-theme(
+$simply-light-theme: mat.m2-define-light-theme(
 	(
 		color: (
 			primary: $simply-primary,

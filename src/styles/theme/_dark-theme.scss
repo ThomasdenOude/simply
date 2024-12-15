@@ -16,20 +16,20 @@
 
 /*      1 - Set colors for dark theme       */
 @media (prefers-color-scheme: dark) {
-	$simply-primary-light: mat.define-palette(
-		mat.$light-blue-palette,
+	$simply-primary-light: mat.m2-define-palette(
+		mat.$m2-light-blue-palette,
 		300,
 		200,
 		600
 	);
-	$simply-accent-light: mat.define-palette(
+	$simply-accent-light: mat.m2-define-palette(
 		colors.$orange-palette,
 		400,
 		300,
 		600
 	);
-	$simply-warn-light: mat.define-palette(colors.$green-palette, 300, 200, 700);
-	$simply-dark-theme: mat.define-dark-theme(
+	$simply-warn-light: mat.m2-define-palette(colors.$green-palette, 300, 200, 700);
+	$simply-dark-theme: mat.m2-define-dark-theme(
 		(
 			color: (
 				primary: $simply-primary-light,

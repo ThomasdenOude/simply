@@ -25,7 +25,7 @@
 			<simply-message
 				data-test="change-password-message"
 				[errorMessage]="changePasswordMessage()"
-				(onClose)="resetChangePasswordMessage()"
+				(closeMessage)="resetChangePasswordMessage()"
 				simplySpaceContent="large"
 			></simply-message>
 		}
@@ -36,8 +36,8 @@
 		) {
 			<simply-confirm-password
 				data-test="confirm-password-for-change"
-				(passwordSubmit)="confirmPassword($event, 'ChangePassword')"
 				[setPasswordConfirmError]="passwordConfirmError()"
+				(passwordSubmit)="confirmPassword($event, 'ChangePassword')"
 				(closePasswordError)="resetPasswordConfirmError()"
 			></simply-confirm-password>
 		} @else if (continuePasswordChange()) {
@@ -45,7 +45,7 @@
 				data-test="new-password"
 				newPasswordTitle="Change your password"
 				newPasswordSubmitText="Change password"
-				(isSubmitted)="submitChangePassword($event)"
+				(newPassword)="submitChangePassword($event)"
 			></simply-new-password>
 		}
 	</simply-panel>
@@ -60,7 +60,7 @@
 			<simply-message
 				data-test="remove-account-message"
 				[errorMessage]="removeAccountError()"
-				(onClose)="resetRemoveAccountError()"
+				(closeMessage)="resetRemoveAccountError()"
 				simplySpaceContent="large"
 			></simply-message>
 		}

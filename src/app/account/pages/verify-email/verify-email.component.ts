@@ -1,14 +1,6 @@
-import {
-	Component,
-	computed,
-	effect,
-	inject,
-	OnDestroy,
-	Signal,
-} from '@angular/core';
+import { Component, computed, effect, inject, Signal } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { Observable, Subject, takeUntil } from 'rxjs';
 import { User } from '@angular/fire/auth';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
@@ -40,9 +32,7 @@ import { TASK_BOARD_ROUTE } from '../../../base/guards/auth-guards';
 	templateUrl: './verify-email.component.html',
 	styleUrl: './verify-email.component.scss',
 })
-export class VerifyEmailComponent implements OnDestroy {
-	private destroy: Subject<void> = new Subject<void>();
-
+export class VerifyEmailComponent {
 	private authService: AuthenticationService = inject(AuthenticationService);
 	private visibilityChangesService: VisibilityChangesService = inject(
 		VisibilityChangesService
@@ -70,10 +60,5 @@ export class VerifyEmailComponent implements OnDestroy {
 		if (user) {
 			void this.authService.sendEmailVerification(user);
 		}
-	}
-
-	ngOnDestroy() {
-		this.destroy.next();
-		this.destroy.complete();
 	}
 }

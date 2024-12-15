@@ -5,9 +5,9 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { ResponsiveService } from '../../../base/services/responsive.service';
 import { CenterPageComponent } from '../../../base/ui/center-page/center-page.component';
-import { Devices } from '../../../base/models/devices';
+import { Devices } from '../../../base/models/devices.model';
 import { RouterLink } from '@angular/router';
-import { BaseSizes } from '../../../base/models/style-sizes';
+import { BaseSizes } from '../../../base/models/style-sizes.model';
 import { TextContentDirective } from '../../../base/directives/text-content.directive';
 
 @Component({

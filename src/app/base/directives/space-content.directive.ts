@@ -8,7 +8,7 @@ import {
 	Renderer2,
 } from '@angular/core';
 
-import { BaseSizes } from '../models/style-sizes';
+import { BaseSizes } from '../models/style-sizes.model';
 
 @Directive({
 	selector: '[simplySpaceContent]',

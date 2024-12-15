@@ -5,11 +5,19 @@
 </div>
 
 <div class="remove-account__actions">
-	<button mat-stroked-button color="primary" (click)="cancel()">Cancel</button>
+	<button
+		mat-stroked-button
+		color="primary"
+		data-test="cancel-button"
+		(click)="cancel()"
+	>
+		Cancel
+	</button>
 	<button
 		mat-flat-button
 		color="primary"
 		class="remove-account__confirm"
+		data-test="remove-account-button"
 		(click)="removeAccount()"
 	>
 		Remove

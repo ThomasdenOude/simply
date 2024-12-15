@@ -8,11 +8,8 @@ import {
 	ngMocks,
 } from 'ng-mocks';
 
-import {
-	dataTest,
-	dataTestIf,
-} from '../../../../test/helpers/data-test.helper';
-import { inputTest } from '../../../../test/helpers/input-test.helper';
+import { dataTest, dataTestIf } from '../../../test/helpers/data-test.helper';
+import { inputTest } from '../../../test/helpers/input-test.helper';
 import { ForgotPasswordComponent } from './forgot-password.component';
 import { FocusInputDirective } from '../../../base/directives/focus-input.directive';
 import { SpaceContentDirective } from '../../../base/directives/space-content.directive';
