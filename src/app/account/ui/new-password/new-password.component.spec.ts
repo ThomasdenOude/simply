@@ -5,8 +5,8 @@ import {
 	MockRender,
 } from 'ng-mocks';
 
-import { dataTest } from '../../../../test/helpers/data-test.helper';
-import { inputTest } from '../../../../test/helpers/input-test.helper';
+import { dataTest } from '../../../test/helpers/data-test.helper';
+import { inputTest } from '../../../test/helpers/input-test.helper';
 import { NewPasswordComponent } from './new-password.component';
 
 describe('NewPasswordFormFieldComponent', () => {

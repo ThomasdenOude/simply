@@ -12,11 +12,8 @@ import {
 	ngMocks,
 } from 'ng-mocks';
 
-import {
-	dataTest,
-	dataTestIf,
-} from '../../../../test/helpers/data-test.helper';
-import { RouterMock } from '../../../../test/mocks/router.mock';
+import { dataTest, dataTestIf } from '../../../test/helpers/data-test.helper';
+import { RouterMock } from '../../../test/mocks/router.mock';
 import { ResponsiveServiceMock } from '../../../base/services/responsive.service.mock';
 import { AuthenticationServiceMock } from '../../services/authentication-service/authentication.service.mock';
 

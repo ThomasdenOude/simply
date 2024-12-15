@@ -17,11 +17,11 @@ import {
 	VERIFY_EMAIL_ROUTE,
 	WELCOME_ROUTE,
 } from '../../../base/guards/auth-guards';
-import { RouterMock } from '../../../../test/mocks/router.mock';
+import { RouterMock } from '../../../test/mocks/router.mock';
 import { AuthenticationServiceMock } from '../../services/authentication-service/authentication.service.mock';
 import { User } from '@angular/fire/auth';
 import { mock } from 'jest-mock-extended';
-import { dataTest } from '../../../../test/helpers/data-test.helper';
+import { dataTest } from '../../../test/helpers/data-test.helper';
 import { ConfirmVerifyEmailComponent } from '../../ui/confirm-verify-email/confirm-verify-email.component';
 import { AuthenticationMessages } from '../../models/authentication-messages';
 import { ConfirmResetPasswordComponent } from '../../ui/confirm-reset-password/confirm-reset-password.component';

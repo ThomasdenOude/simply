@@ -2,8 +2,8 @@ import { MockBuilder, MockedComponentFixture, MockRender } from 'ng-mocks';
 
 import { CdkDrag } from '@angular/cdk/drag-drop';
 
-import { dataTest } from '../../../../test/helpers/data-test.helper';
-import { TestParams } from '../../../../test/models/test-params.model';
+import { dataTest } from '../../../test/helpers/data-test.helper';
+import { TestParams } from '../../../test/models/test-params.model';
 
 import { TaskCardComponent } from './task-card.component';
 import { Task } from '../../models/task';

@@ -6,11 +6,8 @@ import {
 	ngMocks,
 } from 'ng-mocks';
 
-import { TestParams } from '../../../../test/models/test-params.model';
-import {
-	dataTest,
-	dataTestIf,
-} from '../../../../test/helpers/data-test.helper';
+import { TestParams } from '../../../test/models/test-params.model';
+import { dataTest, dataTestIf } from '../../../test/helpers/data-test.helper';
 
 import { ConfirmResetPasswordComponent } from './confirm-reset-password.component';
 import { MessageComponent } from '../../../base/ui/message/message.component';

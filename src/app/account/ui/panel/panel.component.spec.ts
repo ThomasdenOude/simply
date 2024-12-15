@@ -7,7 +7,7 @@ import {
 	ngMocks,
 } from 'ng-mocks';
 
-import { dataTest } from '../../../../test/helpers/data-test.helper';
+import { dataTest } from '../../../test/helpers/data-test.helper';
 
 import { PanelComponent } from './panel.component';
 import { ConfirmPasswordComponent } from '../confirm-password/confirm-password.component';

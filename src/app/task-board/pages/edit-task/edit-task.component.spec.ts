@@ -5,12 +5,9 @@ import { TestBed } from '@angular/core/testing';
 import { MockBuilder, MockedDebugElement, MockRender, ngMocks } from 'ng-mocks';
 
 import { ResponsiveServiceMock } from '../../../base/services/responsive.service.mock';
-import { RouterMock } from '../../../../test/mocks/router.mock';
-import {
-	dataTest,
-	dataTestIf,
-} from '../../../../test/helpers/data-test.helper';
-import { TestParams } from '../../../../test/models/test-params.model';
+import { RouterMock } from '../../../test/mocks/router.mock';
+import { dataTest, dataTestIf } from '../../../test/helpers/data-test.helper';
+import { TestParams } from '../../../test/models/test-params.model';
 
 import { ResponsiveService } from '../../../base/services/responsive.service';
 import { EditTaskComponent } from './edit-task.component';

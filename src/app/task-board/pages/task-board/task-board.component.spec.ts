@@ -7,12 +7,9 @@ import { MockBuilder, MockedComponentFixture, MockRender } from 'ng-mocks';
 import { mock } from 'jest-mock-extended';
 
 import { ResponsiveServiceMock } from '../../../base/services/responsive.service.mock';
-import { RouterMock } from '../../../../test/mocks/router.mock';
+import { RouterMock } from '../../../test/mocks/router.mock';
 import { getMockedTaskList } from '../../test/mocked-data/mocked-task-list';
-import {
-	dataTest,
-	dataTestIf,
-} from '../../../../test/helpers/data-test.helper';
+import { dataTest, dataTestIf } from '../../../test/helpers/data-test.helper';
 
 import { TaskService } from '../../services/task.service';
 import { ResponsiveService } from '../../../base/services/responsive.service';

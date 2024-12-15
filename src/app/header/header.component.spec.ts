@@ -17,8 +17,8 @@ import { ResponsiveService } from '../base/services/responsive.service';
 import { HeaderComponent } from './header.component';
 import { Devices } from '../base/models/devices.model';
 
-import { dataTest, dataTestIf } from '../../test/helpers/data-test.helper';
-import { RouterMock } from '../../test/mocks/router.mock';
+import { dataTest, dataTestIf } from '../test/helpers/data-test.helper';
+import { RouterMock } from '../test/mocks/router.mock';
 import { AuthenticationServiceMock } from '../account/services/authentication-service/authentication.service.mock';
 import { ResponsiveServiceMock } from '../base/services/responsive.service.mock';
 

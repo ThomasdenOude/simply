@@ -6,7 +6,7 @@ import {
 	ngMocks,
 } from 'ng-mocks';
 
-import { dataTest } from '../../../../test/helpers/data-test.helper';
+import { dataTest } from '../../../test/helpers/data-test.helper';
 import { ResponsiveServiceMock } from '../../../base/services/responsive.service.mock';
 
 import { ResponsiveService } from '../../../base/services/responsive.service';

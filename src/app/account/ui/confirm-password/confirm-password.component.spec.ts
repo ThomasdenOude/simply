@@ -8,10 +8,7 @@ import {
 import { ConfirmPasswordComponent } from './confirm-password.component';
 import { FormGroupDirective } from '@angular/forms';
 import { MessageComponent } from '../../../base/ui/message/message.component';
-import {
-	dataTest,
-	dataTestIf,
-} from '../../../../test/helpers/data-test.helper';
+import { dataTest, dataTestIf } from '../../../test/helpers/data-test.helper';
 import { SpaceContentDirective } from '../../../base/directives/space-content.directive';
 
 describe('ConfirmPasswordComponent', () => {

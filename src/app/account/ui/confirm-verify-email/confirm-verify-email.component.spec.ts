@@ -9,10 +9,7 @@ import { MessageComponent } from '../../../base/ui/message/message.component';
 import { mock, MockProxy } from 'jest-mock-extended';
 import { User } from '@angular/fire/auth';
 import { AuthenticationMessages } from '../../models/authentication-messages';
-import {
-	dataTest,
-	dataTestIf,
-} from '../../../../test/helpers/data-test.helper';
+import { dataTest, dataTestIf } from '../../../test/helpers/data-test.helper';
 import { SpaceContentDirective } from '../../../base/directives/space-content.directive';
 
 describe('ConfirmVerifyEmailComponent', () => {

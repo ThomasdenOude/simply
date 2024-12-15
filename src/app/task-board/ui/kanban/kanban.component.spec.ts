@@ -9,8 +9,8 @@ import {
 
 import { CdkDropList, DragDropModule } from '@angular/cdk/drag-drop';
 
-import { TestParams } from '../../../../test/models/test-params.model';
-import { dataTest } from '../../../../test/helpers/data-test.helper';
+import { TestParams } from '../../../test/models/test-params.model';
+import { dataTest } from '../../../test/helpers/data-test.helper';
 
 import { TaskCardComponent } from '../task-card/task-card.component';
 import { Task } from '../../models/task';

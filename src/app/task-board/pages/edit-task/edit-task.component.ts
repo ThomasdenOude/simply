@@ -5,6 +5,8 @@ import {
 	input,
 	InputSignal,
 	OnInit,
+	output,
+	OutputEmitterRef,
 	Signal,
 } from '@angular/core';
 import {
@@ -55,6 +57,7 @@ import { TASK_BOARD_ROUTE } from '../../../base/guards/auth-guards';
 	styleUrl: './edit-task.component.scss',
 })
 export class EditTaskComponent implements OnInit {
+	private test = 'test';
 	private _taskService: TaskService = inject(TaskService);
 	private _responsiveService: ResponsiveService = inject(ResponsiveService);
 	private _router: Router = inject(Router);
@@ -86,7 +89,8 @@ export class EditTaskComponent implements OnInit {
 		}
 	);
 
-	protected id: InputSignal<string | undefined> = input<string>();
+	public id: InputSignal<string> = input.required<string>();
+	public out: OutputEmitterRef<string> = output<string>();
 
 	protected task: Signal<Task | undefined> = computed(() => {
 		const id = this.id();
@@ -110,6 +114,9 @@ export class EditTaskComponent implements OnInit {
 		}
 	}
 
+	public goFish(): string {
+		return this.test;
+	}
 	protected submitTask(): void {
 		const formValue = this.taskForm.value;
 		const task = this.task();

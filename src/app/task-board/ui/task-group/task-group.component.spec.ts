@@ -12,9 +12,9 @@ import { TaskGroupComponent } from './task-group.component';
 import { TaskCardComponent } from '../task-card/task-card.component';
 import { Task } from '../../models/task';
 import { TaskStatus } from '../../models/task-status';
-import { TestParams } from '../../../../test/models/test-params.model';
+import { TestParams } from '../../../test/models/test-params.model';
 import { Devices } from '../../../base/models/devices.model';
-import { dataTest } from '../../../../test/helpers/data-test.helper';
+import { dataTest } from '../../../test/helpers/data-test.helper';
 import { getMockedTaskList } from '../../test/mocked-data/mocked-task-list';
 
 describe('TaskBoardGroupComponent', () => {
