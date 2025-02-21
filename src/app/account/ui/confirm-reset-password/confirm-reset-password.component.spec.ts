@@ -10,7 +10,7 @@ import { TestParams } from '../../../test/models/test-params.model';
 import { dataTest, dataTestIf } from '../../../test/helpers/data-test.helper';
 
 import { ConfirmResetPasswordComponent } from './confirm-reset-password.component';
-import { MessageComponent } from '../../../base/ui/message/message.component';
+import { SubmitErrorComponent } from '../../../base/ui/submit-error/submit-error.component';
 import { NewPasswordComponent } from '../new-password/new-password.component';
 import { SpaceContentDirective } from '../../../base/directives/space-content.directive';
 import { AuthenticationMessages } from '../../models/authentication-messages';
@@ -24,7 +24,7 @@ describe('ConfirmResetPasswordComponent', () => {
 
 	beforeEach(() =>
 		MockBuilder(ConfirmResetPasswordComponent, [
-			MessageComponent,
+			SubmitErrorComponent,
 			NewPasswordComponent,
 			SpaceContentDirective,
 		])
@@ -45,14 +45,14 @@ describe('ConfirmResetPasswordComponent', () => {
 
 		it('does not show any error if no error is set', () => {
 			// Arrange
-			const message = dataTestIf('reset-password-message');
+			const message = dataTestIf('reset-password-submit-error');
 			// Assert
 			expect(message).toBe(false);
 		});
 
-		it('shows verify message', () => {
+		it('shows verify submit-error', () => {
 			// Arrange
-			const verifyMessage = dataTest('verifying-message');
+			const verifyMessage = dataTest('verifying-submit-error');
 			// Assert
 			expect(verifyMessage).toBeTruthy();
 			expect(verifyMessage.nativeElement.textContent).toBe(
@@ -70,7 +70,7 @@ describe('ConfirmResetPasswordComponent', () => {
 		});
 	});
 
-	describe('Error message', () => {
+	describe('Error submit-error', () => {
 		beforeEach(() => {
 			const params = {
 				passwordCodeConfirmed: false,
@@ -83,11 +83,11 @@ describe('ConfirmResetPasswordComponent', () => {
 			);
 		});
 
-		it('shows the password error message', () => {
+		it('shows the password error submit-error', () => {
 			// Arrange
-			const message: MockedDebugElement<MessageComponent> = ngMocks.find([
+			const message: MockedDebugElement<SubmitErrorComponent> = ngMocks.find([
 				'data-test',
-				'password-message',
+				'password-submit-error',
 			]);
 			// Assert
 			expect(message.componentInstance.errorMessage).toBe(
@@ -110,9 +110,9 @@ describe('ConfirmResetPasswordComponent', () => {
 			component = fixture.point.componentInstance;
 		});
 
-		it('does not show verify message', () => {
+		it('does not show verify submit-error', () => {
 			// Arrange
-			const verifyMessage = dataTestIf('verifying-message');
+			const verifyMessage = dataTestIf('verifying-submit-error');
 			// Assert
 			expect(verifyMessage).toBe(false);
 		});

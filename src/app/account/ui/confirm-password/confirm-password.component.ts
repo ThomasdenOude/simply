@@ -20,13 +20,14 @@ import {
 
 import { MatError, MatFormField } from '@angular/material/form-field';
 import { MatButton } from '@angular/material/button';
-
-import { MessageComponent } from '../../../base/ui/message/message.component';
-import { Password, PasswordForm } from '../../models/credentials.model';
 import { MatInput } from '@angular/material/input';
+
+import { Password, PasswordForm } from '../../models/credentials.model';
 import { AuthenticationMessages } from '../../models/authentication-messages';
 import { SpaceContentDirective } from '../../../base/directives/space-content.directive';
 import { FormComponent } from '../../../base/models/form-component.class';
+import { SubmitErrorComponent } from '../../../async-data/submit-data/submit-error/submit-error.component';
+import { SubmitDataComponent } from '../../../async-data/submit-data/submit-data.component';
 
 @Component({
 	selector: 'simply-confirm-password',
@@ -40,8 +41,10 @@ import { FormComponent } from '../../../base/models/form-component.class';
 		ReactiveFormsModule,
 		MatInput,
 		MatError,
-		MessageComponent,
+		SubmitErrorComponent,
 		SpaceContentDirective,
+		SubmitErrorComponent,
+		SubmitDataComponent,
 	],
 	providers: [
 		{

@@ -20,7 +20,7 @@ import { AuthenticationServiceMock } from '../../services/authentication-service
 import { AuthenticationService } from '../../services/authentication-service/authentication.service';
 import { ResponsiveService } from '../../../base/services/responsive.service';
 import { SignUpComponent } from './sign-up.component';
-import { MessageComponent } from '../../../base/ui/message/message.component';
+import { SubmitErrorComponent } from '../../../base/ui/submit-error/submit-error.component';
 import { NewPasswordComponent } from '../../ui/new-password/new-password.component';
 import { Devices } from '../../../base/models/devices.model';
 import { AuthenticationMessages } from '../../models/authentication-messages';
@@ -42,7 +42,7 @@ describe('SignUpComponent', () => {
 			[
 				AuthenticationService,
 				ResponsiveService,
-				MessageComponent,
+				SubmitErrorComponent,
 				NewPasswordComponent,
 			]
 		)
@@ -199,7 +199,7 @@ describe('SignUpComponent', () => {
 				password
 			);
 			// Arrange
-			const message: MockedDebugElement<MessageComponent> =
+			const message: MockedDebugElement<SubmitErrorComponent> =
 				dataTest('sign-up-error');
 			// Assert
 			expect(authService.getAuthenticationMessage).toHaveBeenCalledWith(error);

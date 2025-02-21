@@ -1,64 +1,57 @@
 <simply-center-page data-test="login">
-	<form [formGroup]="loginForm" (ngSubmit)="login()" simplySpaceContent="small">
-		<h2 data-test="login-title">
-			Log in to Simply <mat-icon color="accent">task_alt</mat-icon>
-		</h2>
-
-		@if (loginError() !== AuthenticationErrors.None) {
-			<simply-message
-				data-test="login-message"
-				simplySpaceContent="large"
-				[errorMessage]="loginError()"
-				[form]="loginForm"
-				(closeMessage)="resetError()"
-			></simply-message>
-		}
-		<mat-form-field simplySpaceContent="regular">
-			<mat-label>Email</mat-label>
-			<input
-				data-test="email-input"
-				type="text"
-				matInput
-				formControlName="email"
-				simplyFocusInput
-			/>
-			@if (loginForm.get('email')?.hasError('required')) {
-				<mat-error data-test="email-required-error"
-					>Fill in your email</mat-error
-				>
-			}
-			@if (loginForm.get('email')?.hasError('email')) {
-				<mat-error data-test="email-format-error"
-					>Fill in a valid email</mat-error
-				>
-			}
-		</mat-form-field>
-
-		<mat-form-field simplySpaceContent="regular">
-			<mat-label>Password</mat-label>
-			<input
-				data-test="password-input"
-				type="password"
-				matInput
-				formControlName="password"
-			/>
-			@if (loginForm.get('password')?.hasError('required')) {
-				<mat-error data-test="password-required-error"
-					>Fill in your password</mat-error
-				>
-			}
-		</mat-form-field>
-
-		<button
-			data-test="submit-button"
-			type="submit"
-			mat-flat-button
-			color="primary"
-			simplySpaceContent="regular"
+	<simply-submit-data
+		[submitData]="loginAction | observe"
+		(submitResult)="redirectAfterLogin($event)"
+	>
+		<form
+			[formGroup]="loginForm"
+			(ngSubmit)="login()"
+			simplySpaceContent="small"
 		>
-			Log in
-		</button>
-	</form>
+			<h2 data-test="login-title">
+				Log in to Simply <mat-icon color="accent">task_alt</mat-icon>
+			</h2>
+
+			<mat-form-field simplySpaceContent="regular">
+				<mat-label>Email</mat-label>
+				<input
+					data-test="email-input"
+					type="text"
+					matInput
+					formControlName="email"
+					simplyFocusInput
+				/>
+				@if (loginForm.get('email')?.hasError('required')) {
+					<mat-error data-test="email-required-error"
+						>Fill in your email</mat-error
+					>
+				}
+				@if (loginForm.get('email')?.hasError('email')) {
+					<mat-error data-test="email-format-error"
+						>Fill in a valid email</mat-error
+					>
+				}
+			</mat-form-field>
+
+			<mat-form-field simplySpaceContent="regular">
+				<mat-label>Password</mat-label>
+				<input
+					data-test="password-input"
+					type="password"
+					matInput
+					formControlName="password"
+				/>
+				@if (loginForm.get('password')?.hasError('required')) {
+					<mat-error data-test="password-required-error"
+						>Fill in your password</mat-error
+					>
+				}
+			</mat-form-field>
+
+			<simply-submit-button buttonLabel="Log in" simplySpaceContent="regular" />
+		</form>
+	</simply-submit-data>
+
 	<div class="simply-login__alternative-actions">
 		<a
 			mat-button

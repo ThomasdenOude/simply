@@ -7,7 +7,7 @@ import {
 
 import { ConfirmPasswordComponent } from './confirm-password.component';
 import { FormGroupDirective } from '@angular/forms';
-import { MessageComponent } from '../../../base/ui/message/message.component';
+import { SubmitErrorComponent } from '../../../base/ui/submit-error/submit-error.component';
 import { dataTest, dataTestIf } from '../../../test/helpers/data-test.helper';
 import { SpaceContentDirective } from '../../../base/directives/space-content.directive';
 
@@ -17,18 +17,17 @@ describe('ConfirmPasswordComponent', () => {
 
 	beforeEach(() =>
 		MockBuilder(ConfirmPasswordComponent, [
-			MessageComponent,
+			SubmitErrorComponent,
 			SpaceContentDirective,
 		]).keep(FormGroupDirective)
 	);
 
-	it('should not show message if there is no password confirm error', () => {
+	it('should not show submit-error if there is no password confirm error', () => {
 		// Arrange
 		fixture = MockRender(ConfirmPasswordComponent);
 		component = fixture.point.componentInstance;
-		const message: MockedDebugElement<MessageComponent> | false = dataTestIf(
-			'password-confirm-message'
-		);
+		const message: MockedDebugElement<SubmitErrorComponent> | false =
+			dataTestIf('password-confirm-submit-error');
 		// Assert
 
 		expect(message).toBe(false);
@@ -44,8 +43,8 @@ describe('ConfirmPasswordComponent', () => {
 			params
 		);
 		component = fixture.point.componentInstance;
-		const message: MockedDebugElement<MessageComponent> = dataTest(
-			'password-confirm-message'
+		const message: MockedDebugElement<SubmitErrorComponent> = dataTest(
+			'password-confirm-submit-error'
 		);
 		// Assert
 		expect(message.componentInstance.errorMessage).toBe('EMAIL_EXISTS');
@@ -63,8 +62,8 @@ describe('ConfirmPasswordComponent', () => {
 		component = fixture.point.componentInstance;
 		let closeEmit = false;
 		component.closePasswordError.subscribe(() => (closeEmit = true));
-		const message: MockedDebugElement<MessageComponent> = dataTest(
-			'password-confirm-message'
+		const message: MockedDebugElement<SubmitErrorComponent> = dataTest(
+			'password-confirm-submit-error'
 		);
 		// Act
 		message.componentInstance.closeMessage.emit();

@@ -23,11 +23,11 @@
 	</button>
 }
 @if (emailVerificationError() !== AuthenticationMessages.None) {
-	<simply-message
+	<simply-submit-error
 		data-test="verify-email-error"
-		[errorMessage]="emailVerificationError()"
+		[submitMessage]="emailVerificationError()"
 		simplySpaceContent="large"
-	></simply-message>
+	></simply-submit-error>
 
 	@if (user(); as user) {
 		<p>We can sent a new email verification</p>

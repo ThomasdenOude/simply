@@ -1,0 +1,12 @@
+<button
+	mat-flat-button
+	color="primary"
+	type="submit"
+	data-test="submit-button"
+	[disabled]="isLoading()"
+>
+	@if (isLoading()) {
+		<mat-icon matPrefix><mat-spinner diameter="12"></mat-spinner></mat-icon>
+	}
+	{{ buttonLabel() }}
+</button>

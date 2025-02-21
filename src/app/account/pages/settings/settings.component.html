@@ -22,12 +22,12 @@
 		(panelOpened)="resetAll()"
 	>
 		@if (changePasswordMessage() !== AuthenticationMessages.None) {
-			<simply-message
+			<simply-submit-error
 				data-test="change-password-message"
-				[errorMessage]="changePasswordMessage()"
+				[submitMessage]="changePasswordMessage()"
 				(closeMessage)="resetChangePasswordMessage()"
 				simplySpaceContent="large"
-			></simply-message>
+			></simply-submit-error>
 		}
 		@if (
 			!continuePasswordChange() &&
@@ -57,12 +57,12 @@
 		(panelOpened)="resetAll()"
 	>
 		@if (removeAccountError() !== AuthenticationMessages.None) {
-			<simply-message
+			<simply-submit-error
 				data-test="remove-account-message"
-				[errorMessage]="removeAccountError()"
+				[submitMessage]="removeAccountError()"
 				(closeMessage)="resetRemoveAccountError()"
 				simplySpaceContent="large"
-			></simply-message>
+			></simply-submit-error>
 		}
 
 		<simply-confirm-password

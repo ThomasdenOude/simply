@@ -12,7 +12,6 @@ import { User } from '@angular/fire/auth';
 
 import { AuthenticationService } from '../../services/authentication-service/authentication.service';
 import { RemoveAccountComponent } from '../../ui/remove-account/remove-account.component';
-import { MessageComponent } from '../../../base/ui/message/message.component';
 import { PanelComponent } from '../../ui/panel/panel.component';
 import { ConfirmPasswordComponent } from '../../ui/confirm-password/confirm-password.component';
 import { NewPasswordComponent } from '../../ui/new-password/new-password.component';
@@ -22,17 +21,17 @@ import { AuthenticationMessages } from '../../models/authentication-messages';
 import { SettingsActions } from '../../models/settings-actions.model';
 import { TextContentDirective } from '../../../base/directives/text-content.directive';
 import { LogoComponent } from '../../../base/ui/logo/logo.component';
+import { SubmitErrorComponent } from '../../../async-data/submit-data/submit-error/submit-error.component';
 
 @Component({
 	selector: 'simply-settings',
 	standalone: true,
 	imports: [
-		NgClass,
 		MatIcon,
 		MatDivider,
 		MatButton,
 		DialogModule,
-		MessageComponent,
+		SubmitErrorComponent,
 		PanelComponent,
 		ConfirmPasswordComponent,
 		ReactiveFormsModule,
@@ -42,6 +41,7 @@ import { LogoComponent } from '../../../base/ui/logo/logo.component';
 		SpaceContentDirective,
 		TextContentDirective,
 		LogoComponent,
+		SubmitErrorComponent,
 	],
 	templateUrl: './settings.component.html',
 	styleUrl: './settings.component.scss',

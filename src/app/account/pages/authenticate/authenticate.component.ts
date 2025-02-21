@@ -16,7 +16,7 @@ import { MatButton } from '@angular/material/button';
 import { AuthenticationService } from '../../services/authentication-service/authentication.service';
 import { CenterPageComponent } from '../../../base/ui/center-page/center-page.component';
 import { NewPasswordComponent } from '../../ui/new-password/new-password.component';
-import { MessageComponent } from '../../../base/ui/message/message.component';
+import { SubmitErrorComponent } from '../../../async-data/submit-data/submit-error/submit-error.component';
 import { LogoComponent } from '../../../base/ui/logo/logo.component';
 import { TextContentDirective } from '../../../base/directives/text-content.directive';
 import { SpaceContentDirective } from '../../../base/directives/space-content.directive';
@@ -35,13 +35,6 @@ import { ConfirmResetPasswordComponent } from '../../ui/confirm-reset-password/c
 	imports: [
 		CenterPageComponent,
 		TextContentDirective,
-		LogoComponent,
-		MatDivider,
-		MatButton,
-		MessageComponent,
-		RouterLink,
-		SpaceContentDirective,
-		NewPasswordComponent,
 		ConfirmVerifyEmailComponent,
 		ConfirmResetPasswordComponent,
 	],

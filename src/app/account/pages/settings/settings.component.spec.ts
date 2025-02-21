@@ -19,7 +19,7 @@ import { AuthenticationService } from '../../services/authentication-service/aut
 import { SettingsComponent } from './settings.component';
 import { CenterPageComponent } from '../../../base/ui/center-page/center-page.component';
 import { PanelComponent } from '../../ui/panel/panel.component';
-import { MessageComponent } from '../../../base/ui/message/message.component';
+import { SubmitErrorComponent } from '../../../base/ui/submit-error/submit-error.component';
 import { ConfirmPasswordComponent } from '../../ui/confirm-password/confirm-password.component';
 import { NewPasswordComponent } from '../../ui/new-password/new-password.component';
 import { AuthenticationMessages } from '../../models/authentication-messages';
@@ -51,7 +51,7 @@ describe('SettingsComponent', () => {
 				Dialog,
 				CenterPageComponent,
 				PanelComponent,
-				MessageComponent,
+				SubmitErrorComponent,
 				ConfirmPasswordComponent,
 				NewPasswordComponent,
 			]
@@ -107,7 +107,7 @@ describe('SettingsComponent', () => {
 		let newPassword: MockedDebugElement | false;
 
 		beforeEach(() => {
-			changePasswordMessage = dataTestIf('change-password-message');
+			changePasswordMessage = dataTestIf('change-password-submit-error');
 			confirmPassword = dataTest('confirm-password-for-change');
 			newPassword = dataTestIf('new-password');
 		});
@@ -154,8 +154,8 @@ describe('SettingsComponent', () => {
 			const confirmPasswordAfterSubmit = dataTestIf(
 				'confirm-password-for-change'
 			);
-			const successMessage: MockedDebugElement<MessageComponent> = dataTest(
-				'change-password-message'
+			const successMessage: MockedDebugElement<SubmitErrorComponent> = dataTest(
+				'change-password-submit-error'
 			);
 			// Assert
 			expect(newPasswordAfterSubmit).toBe(false);

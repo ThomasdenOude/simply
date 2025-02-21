@@ -13,6 +13,7 @@ import {
 	Validators,
 } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 import { FirebaseError } from '@firebase/util';
 import { map, Observable } from 'rxjs';
@@ -27,12 +28,11 @@ import { ResponsiveService } from '../../../base/services/responsive.service';
 import { CenterPageComponent } from '../../../base/ui/center-page/center-page.component';
 import { SpaceContentDirective } from '../../../base/directives/space-content.directive';
 import { NewPasswordComponent } from '../../ui/new-password/new-password.component';
-import { MessageComponent } from '../../../base/ui/message/message.component';
+import { SubmitErrorComponent } from '../../../async-data/submit-data/submit-error/submit-error.component';
 import { FocusInputDirective } from '../../../base/directives/focus-input.directive';
 import { Email, EmailForm } from '../../models/credentials.model';
 import { Devices } from '../../../base/models/devices.model';
 import { AuthenticationMessages } from '../../models/authentication-messages';
-import { toSignal } from '@angular/core/rxjs-interop';
 import { VERIFY_EMAIL_ROUTE } from '../../../base/guards/auth-guards';
 
 @Component({
@@ -47,11 +47,12 @@ import { VERIFY_EMAIL_ROUTE } from '../../../base/guards/auth-guards';
 		MatIconModule,
 		NewPasswordComponent,
 		MatDivider,
-		MessageComponent,
+		SubmitErrorComponent,
 		CenterPageComponent,
 		FocusInputDirective,
 		SpaceContentDirective,
 		RouterLink,
+		SubmitErrorComponent,
 	],
 	templateUrl: './sign-up.component.html',
 	styleUrl: './sign-up.component.scss',

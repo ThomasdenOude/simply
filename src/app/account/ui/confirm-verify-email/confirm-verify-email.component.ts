@@ -13,7 +13,7 @@ import { User } from '@angular/fire/auth';
 
 import { SpaceContentDirective } from '../../../base/directives/space-content.directive';
 import { LogoComponent } from '../../../base/ui/logo/logo.component';
-import { MessageComponent } from '../../../base/ui/message/message.component';
+import { SubmitErrorComponent } from '../../../async-data/submit-data/submit-error/submit-error.component';
 import { AuthenticationMessages } from '../../models/authentication-messages';
 
 @Component({
@@ -23,7 +23,7 @@ import { AuthenticationMessages } from '../../models/authentication-messages';
 		LogoComponent,
 		MatButtonModule,
 		MatDivider,
-		MessageComponent,
+		SubmitErrorComponent,
 		RouterLink,
 		SpaceContentDirective,
 	],

@@ -13,7 +13,7 @@ import {
 
 import { Observable, Subscribable, Unsubscribable } from 'rxjs';
 
-import { ObserveValues } from './models/observe-values.model';
+import { ObserveValues } from '../models/observe-values.model';
 
 /**
  * From {@link https://github.com/angular/angular/blob/main/packages/common/src/pipes/async_pipe.ts}
