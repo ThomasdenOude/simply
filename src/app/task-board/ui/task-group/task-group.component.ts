@@ -1,11 +1,9 @@
 import {
 	Component,
 	computed,
-	EventEmitter,
 	input,
 	InputSignal,
 	output,
-	Output,
 	OutputEmitterRef,
 	Signal,
 	signal,
@@ -38,19 +36,18 @@ import {
 import { toTabStatus } from '../../helpers/to-tab-status';
 
 @Component({
-	selector: 'simply-task-group',
-	standalone: true,
-	imports: [
-		NgClass,
-		CdkDropListGroup,
-		MatIcon,
-		CdkDropList,
-		CdkDrag,
-		TaskCardComponent,
-		MatMiniFabButton,
-	],
-	templateUrl: './task-group.component.html',
-	styleUrl: './task-group.component.scss',
+    selector: 'simply-task-group',
+    imports: [
+        NgClass,
+        CdkDropListGroup,
+        MatIcon,
+        CdkDropList,
+        CdkDrag,
+        TaskCardComponent,
+        MatMiniFabButton,
+    ],
+    templateUrl: './task-group.component.html',
+    styleUrl: './task-group.component.scss'
 })
 export class TaskGroupComponent {
 	protected readonly Devices = Devices;

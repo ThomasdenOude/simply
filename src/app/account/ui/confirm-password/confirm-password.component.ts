@@ -30,28 +30,27 @@ import { SubmitErrorComponent } from '../../../async-data/submit-data/submit-err
 import { SubmitDataComponent } from '../../../async-data/submit-data/submit-data.component';
 
 @Component({
-	selector: 'simply-confirm-password',
-	templateUrl: './confirm-password.component.html',
-	styleUrl: './confirm-password.component.scss',
-	standalone: true,
-	imports: [
-		MatFormField,
-		MatButton,
-		FormsModule,
-		ReactiveFormsModule,
-		MatInput,
-		MatError,
-		SubmitErrorComponent,
-		SpaceContentDirective,
-		SubmitErrorComponent,
-		SubmitDataComponent,
-	],
-	providers: [
-		{
-			provide: FormComponent,
-			useExisting: forwardRef(() => ConfirmPasswordComponent),
-		},
-	],
+    selector: 'simply-confirm-password',
+    templateUrl: './confirm-password.component.html',
+    styleUrl: './confirm-password.component.scss',
+    imports: [
+        MatFormField,
+        MatButton,
+        FormsModule,
+        ReactiveFormsModule,
+        MatInput,
+        MatError,
+        SubmitErrorComponent,
+        SpaceContentDirective,
+        SubmitErrorComponent,
+        SubmitDataComponent,
+    ],
+    providers: [
+        {
+            provide: FormComponent,
+            useExisting: forwardRef(() => ConfirmPasswordComponent),
+        },
+    ]
 })
 export class ConfirmPasswordComponent extends FormComponent {
 	protected readonly AuthenticationMessages = AuthenticationMessages;

@@ -6,11 +6,10 @@ import { Devices } from '../../models/devices.model';
 import { BaseSizes } from '../../models/style-sizes.model';
 
 @Component({
-	selector: 'simply-center-page',
-	standalone: true,
-	imports: [NgClass],
-	templateUrl: './center-page.component.html',
-	styleUrl: './center-page.component.scss',
+    selector: 'simply-center-page',
+    imports: [NgClass],
+    templateUrl: './center-page.component.html',
+    styleUrl: './center-page.component.scss'
 })
 export class CenterPageComponent {
 	private responsiveService: ResponsiveService = inject(ResponsiveService);

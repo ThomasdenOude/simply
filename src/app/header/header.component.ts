@@ -9,7 +9,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDivider } from '@angular/material/divider';
 import { MatCard } from '@angular/material/card';
-import { CdkMenu, CdkMenuItem, CdkMenuTrigger } from '@angular/cdk/menu';
+import { CdkMenu, CdkMenuTrigger } from '@angular/cdk/menu';
 
 import { ResponsiveService } from '../base/services/responsive.service';
 import { AuthenticationService } from '../account/services/authentication-service/authentication.service';
@@ -17,22 +17,20 @@ import { Devices } from '../base/models/devices.model';
 import { LogoComponent } from '../base/ui/logo/logo.component';
 
 @Component({
-	selector: 'simply-header',
-	standalone: true,
-	imports: [
-		MatButtonModule,
-		MatIconModule,
-		RouterLink,
-		CdkMenuTrigger,
-		MatDivider,
-		CdkMenuItem,
-		CdkMenu,
-		MatCard,
-		NgClass,
-		LogoComponent,
-	],
-	templateUrl: './header.component.html',
-	styleUrl: './header.component.scss',
+    selector: 'simply-header',
+    imports: [
+        MatButtonModule,
+        MatIconModule,
+        RouterLink,
+        CdkMenuTrigger,
+        MatDivider,
+        CdkMenu,
+        MatCard,
+        NgClass,
+        LogoComponent,
+    ],
+    templateUrl: './header.component.html',
+    styleUrl: './header.component.scss'
 })
 export class HeaderComponent {
 	private authService: AuthenticationService = inject(AuthenticationService);

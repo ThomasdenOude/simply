@@ -14,11 +14,10 @@ import { MatIcon } from '@angular/material/icon';
 import { FormComponent } from '../../../base/models/form-component.class';
 
 @Component({
-	selector: 'simply-panel',
-	standalone: true,
-	imports: [MatIcon],
-	templateUrl: './panel.component.html',
-	styleUrl: './panel.component.scss',
+    selector: 'simply-panel',
+    imports: [MatIcon],
+    templateUrl: './panel.component.html',
+    styleUrl: './panel.component.scss'
 })
 export class PanelComponent {
 	protected panelIsOpened: WritableSignal<boolean> = signal(false);

@@ -2,35 +2,27 @@ import { Component, computed, effect, inject, Signal } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { User } from '@angular/fire/auth';
-import { MatFormField, MatLabel } from '@angular/material/form-field';
-import { MatInput } from '@angular/material/input';
 import { MatDivider } from '@angular/material/divider';
 import { MatButton } from '@angular/material/button';
 
 import { AuthenticationService } from '../../services/authentication-service/authentication.service';
 import { VisibilityChangesService } from '../../services/visibility-changes.service';
 import { CenterPageComponent } from '../../../base/ui/center-page/center-page.component';
-import { FocusInputDirective } from '../../../base/directives/focus-input.directive';
 import { TextContentDirective } from '../../../base/directives/text-content.directive';
 import { SpaceContentDirective } from '../../../base/directives/space-content.directive';
 import { TASK_BOARD_ROUTE } from '../../../base/guards/auth-guards';
 
 @Component({
-	selector: 'simply-verify-email',
-	standalone: true,
-	imports: [
-		CenterPageComponent,
-		MatFormField,
-		MatLabel,
-		MatInput,
-		FocusInputDirective,
-		MatDivider,
-		MatButton,
-		TextContentDirective,
-		SpaceContentDirective,
-	],
-	templateUrl: './verify-email.component.html',
-	styleUrl: './verify-email.component.scss',
+    selector: 'simply-verify-email',
+    imports: [
+        CenterPageComponent,
+        MatDivider,
+        MatButton,
+        TextContentDirective,
+        SpaceContentDirective,
+    ],
+    templateUrl: './verify-email.component.html',
+    styleUrl: './verify-email.component.scss'
 })
 export class VerifyEmailComponent {
 	private authService: AuthenticationService = inject(AuthenticationService);

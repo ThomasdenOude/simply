@@ -1,6 +1,5 @@
 import { Component, inject, Signal } from '@angular/core';
-import { NgClass, NgStyle } from '@angular/common';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import {
 	DragDropModule,
@@ -13,9 +12,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { ResponsiveService } from '../../../base/services/responsive.service';
 import { TaskService } from '../../services/task.service';
 import { TaskGroupComponent } from '../../ui/task-group/task-group.component';
-import { EditTaskComponent } from '../edit-task/edit-task.component';
 import { KanbanComponent } from '../../ui/kanban/kanban.component';
-import { TaskCardComponent } from '../../ui/task-card/task-card.component';
 import { Task } from '../../models/task';
 import { UpdateTaskListAndStatus } from '../../models/update-task-list-and-status';
 import { Devices } from '../../../base/models/devices.model';
@@ -23,22 +20,16 @@ import { setTaskStatusList } from '../../helpers/set-task-list';
 import { TaskStatus, TaskStatusList } from '../../models/task-status';
 
 @Component({
-	selector: 'simply-task-board',
-	standalone: true,
-	imports: [
-		TaskCardComponent,
-		NgClass,
-		NgStyle,
-		MatButtonModule,
-		MatIconModule,
-		DragDropModule,
-		RouterLink,
-		EditTaskComponent,
-		TaskGroupComponent,
-		KanbanComponent,
-	],
-	templateUrl: './task-board.component.html',
-	styleUrl: './task-board.component.scss',
+    selector: 'simply-task-board',
+    imports: [
+        MatButtonModule,
+        MatIconModule,
+        DragDropModule,
+        TaskGroupComponent,
+        KanbanComponent,
+    ],
+    templateUrl: './task-board.component.html',
+    styleUrl: './task-board.component.scss'
 })
 export class TaskBoardComponent {
 	private _taskService: TaskService = inject(TaskService);

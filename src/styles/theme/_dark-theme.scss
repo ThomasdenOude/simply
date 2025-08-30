@@ -2,7 +2,7 @@
 
 @use 'base/colors';
 @use 'base/typography';
-@use 'global-typography';
+@use './global-typography';
 @use 'components';
 
 /*
@@ -16,6 +16,9 @@
 
 /*      1 - Set colors for dark theme       */
 @media (prefers-color-scheme: dark) {
+  .\.simply-background {
+    background-color: colors.$simply-dark-blue-grey;
+  }
 	$simply-primary-light: mat.m2-define-palette(
 		mat.$m2-light-blue-palette,
 		300,
@@ -41,16 +44,7 @@
 
 	/*      2 - Include colors for material components       */
 	@include mat.core-color($simply-dark-theme);
-	@include mat.button-color($simply-dark-theme);
-	@include mat.icon-button-color($simply-dark-theme);
-	@include mat.fab-color($simply-dark-theme);
-	@include mat.tabs-color($simply-dark-theme);
-	@include mat.icon-color($simply-dark-theme);
-	@include mat.card-color($simply-dark-theme);
-	@include mat.dialog-color($simply-dark-theme);
-	@include mat.form-field-color($simply-dark-theme);
-	@include mat.tooltip-color($simply-dark-theme);
-	@include mat.select-color($simply-dark-theme);
+  @include mat.all-component-colors($simply-dark-theme);
 
 	/*      3 - Include colors for custom components       */
 	@include components.message-color($simply-dark-theme);

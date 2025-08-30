@@ -26,18 +26,17 @@ import { MatButton } from '@angular/material/button';
 import { FormComponent } from '../../../base/models/form-component.class';
 
 @Component({
-	selector: 'simply-new-password',
-	standalone: true,
-	imports: [
-		MatFormFieldModule,
-		MatInputModule,
-		ReactiveFormsModule,
-		FormsModule,
-		SpaceContentDirective,
-		MatButton,
-	],
-	templateUrl: './new-password.component.html',
-	styleUrl: './new-password.component.scss',
+    selector: 'simply-new-password',
+    imports: [
+        MatFormFieldModule,
+        MatInputModule,
+        ReactiveFormsModule,
+        FormsModule,
+        SpaceContentDirective,
+        MatButton,
+    ],
+    templateUrl: './new-password.component.html',
+    styleUrl: './new-password.component.scss'
 })
 export class NewPasswordComponent extends FormComponent {
 	protected newPasswordForm: FormGroup<NewPasswordForm> = new FormGroup({

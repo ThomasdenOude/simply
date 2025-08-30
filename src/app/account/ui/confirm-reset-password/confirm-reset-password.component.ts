@@ -15,17 +15,16 @@ import { AuthenticationMessages } from '../../models/authentication-messages';
 import { SubmitErrorComponent } from '../../../async-data/submit-data/submit-error/submit-error.component';
 
 @Component({
-	selector: 'simply-confirm-reset-password',
-	standalone: true,
-	imports: [
-		MatButton,
-		MatDivider,
-		NewPasswordComponent,
-		SpaceContentDirective,
-		SubmitErrorComponent,
-	],
-	templateUrl: './confirm-reset-password.component.html',
-	styleUrl: './confirm-reset-password.component.scss',
+    selector: 'simply-confirm-reset-password',
+    imports: [
+        MatButton,
+        MatDivider,
+        NewPasswordComponent,
+        SpaceContentDirective,
+        SubmitErrorComponent,
+    ],
+    templateUrl: './confirm-reset-password.component.html',
+    styleUrl: './confirm-reset-password.component.scss'
 })
 export class ConfirmResetPasswordComponent {
 	protected readonly AuthenticationMessages = AuthenticationMessages;

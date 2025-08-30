@@ -11,17 +11,16 @@ import { BaseSizes } from '../../../base/models/style-sizes.model';
 import { TextContentDirective } from '../../../base/directives/text-content.directive';
 
 @Component({
-	selector: 'simply-welcome',
-	standalone: true,
-	imports: [
-		MatButtonModule,
-		MatIconModule,
-		RouterLink,
-		CenterPageComponent,
-		TextContentDirective,
-	],
-	templateUrl: './welcome.component.html',
-	styleUrl: './welcome.component.scss',
+    selector: 'simply-welcome',
+    imports: [
+        MatButtonModule,
+        MatIconModule,
+        RouterLink,
+        CenterPageComponent,
+        TextContentDirective,
+    ],
+    templateUrl: './welcome.component.html',
+    styleUrl: './welcome.component.scss'
 })
 export class WelcomeComponent {
 	private responsiveService: ResponsiveService = inject(ResponsiveService);

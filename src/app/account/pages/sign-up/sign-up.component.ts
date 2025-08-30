@@ -36,26 +36,25 @@ import { AuthenticationMessages } from '../../models/authentication-messages';
 import { VERIFY_EMAIL_ROUTE } from '../../../base/guards/auth-guards';
 
 @Component({
-	selector: 'simply-sign-up',
-	standalone: true,
-	imports: [
-		FormsModule,
-		ReactiveFormsModule,
-		MatFormFieldModule,
-		MatButtonModule,
-		MatInputModule,
-		MatIconModule,
-		NewPasswordComponent,
-		MatDivider,
-		SubmitErrorComponent,
-		CenterPageComponent,
-		FocusInputDirective,
-		SpaceContentDirective,
-		RouterLink,
-		SubmitErrorComponent,
-	],
-	templateUrl: './sign-up.component.html',
-	styleUrl: './sign-up.component.scss',
+    selector: 'simply-sign-up',
+    imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatButtonModule,
+        MatInputModule,
+        MatIconModule,
+        NewPasswordComponent,
+        MatDivider,
+        SubmitErrorComponent,
+        CenterPageComponent,
+        FocusInputDirective,
+        SpaceContentDirective,
+        RouterLink,
+        SubmitErrorComponent,
+    ],
+    templateUrl: './sign-up.component.html',
+    styleUrl: './sign-up.component.scss'
 })
 export class SignUpComponent {
 	private authService: AuthenticationService = inject(AuthenticationService);

@@ -6,11 +6,10 @@ import { DialogRef } from '@angular/cdk/dialog';
 import { TextContentDirective } from '../../../base/directives/text-content.directive';
 
 @Component({
-	selector: 'simply-remove-account',
-	standalone: true,
-	imports: [MatButton, TextContentDirective],
-	templateUrl: './remove-account.component.html',
-	styleUrl: './remove-account.component.scss',
+    selector: 'simply-remove-account',
+    imports: [MatButton, TextContentDirective],
+    templateUrl: './remove-account.component.html',
+    styleUrl: './remove-account.component.scss'
 })
 export class RemoveAccountComponent {
 	private responsiveService: ResponsiveService = inject(ResponsiveService);
