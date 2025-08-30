@@ -9,7 +9,7 @@ import {
 import { AuthenticationService } from '../../services/authentication-service/authentication.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CenterPageComponent } from '../../../base/ui/center-page/center-page.component';
-import { MessageComponent } from '../../../base/ui/message/message.component';
+import { SubmitErrorComponent } from '../../../base/ui/submit-error/submit-error.component';
 import { NewPasswordComponent } from '../../ui/new-password/new-password.component';
 import { fakeAsync, TestBed } from '@angular/core/testing';
 import {
@@ -58,7 +58,7 @@ describe('AuthenticateComponent', () => {
 			Router,
 			ActivatedRoute,
 			CenterPageComponent,
-			MessageComponent,
+			SubmitErrorComponent,
 			NewPasswordComponent,
 		])
 			.mock(Router, mockRouter)

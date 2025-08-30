@@ -5,7 +5,7 @@ import {
 	MockedDebugElement,
 	MockRender,
 } from 'ng-mocks';
-import { MessageComponent } from '../../../base/ui/message/message.component';
+import { SubmitErrorComponent } from '../../../base/ui/submit-error/submit-error.component';
 import { mock, MockProxy } from 'jest-mock-extended';
 import { User } from '@angular/fire/auth';
 import { AuthenticationMessages } from '../../models/authentication-messages';
@@ -25,7 +25,7 @@ describe('ConfirmVerifyEmailComponent', () => {
 
 	beforeEach(async () =>
 		MockBuilder(ConfirmVerifyEmailComponent, [
-			MessageComponent,
+			SubmitErrorComponent,
 			SpaceContentDirective,
 		])
 	);
@@ -33,7 +33,7 @@ describe('ConfirmVerifyEmailComponent', () => {
 	describe('No email verification error', () => {
 		const noErrorMessage = AuthenticationMessages.None;
 
-		it('shows message if email code not yet confirmed', () => {
+		it('shows submit-error if email code not yet confirmed', () => {
 			// Arrange
 			const params: Params = {
 				user: mockUser,
@@ -41,7 +41,7 @@ describe('ConfirmVerifyEmailComponent', () => {
 				emailVerificationError: noErrorMessage,
 			};
 			fixture = MockRender(ConfirmVerifyEmailComponent, params);
-			const verifyEmailMessage = dataTest('verify-in-progress-message');
+			const verifyEmailMessage = dataTest('verify-in-progress-submit-error');
 			const emailVerifiedButton = dataTestIf('email-verified-button');
 			const verifyEmailError = dataTestIf('verify-email-error');
 			// Asser
@@ -62,7 +62,7 @@ describe('ConfirmVerifyEmailComponent', () => {
 			};
 			fixture = MockRender(ConfirmVerifyEmailComponent, params);
 			component = fixture.point.componentInstance;
-			const verifyEmailMessage = dataTestIf('verify-in-progress-message');
+			const verifyEmailMessage = dataTestIf('verify-in-progress-submit-error');
 			const emailVerifiedButton = dataTest('email-verified-button');
 			let goToAppEmit = false;
 			component.goToApp.subscribe(() => (goToAppEmit = true));
@@ -79,7 +79,7 @@ describe('ConfirmVerifyEmailComponent', () => {
 	describe('Email verification error', () => {
 		const unverifiedEmailMessage = AuthenticationMessages.UnverifiedEmail;
 
-		it('shows error message', () => {
+		it('shows error submit-error', () => {
 			// Arrange
 			const params: Params = {
 				user: mockUser,
@@ -87,7 +87,7 @@ describe('ConfirmVerifyEmailComponent', () => {
 				emailVerificationError: unverifiedEmailMessage,
 			};
 			MockRender(ConfirmVerifyEmailComponent, params);
-			const errorMessage: MockedDebugElement<MessageComponent> =
+			const errorMessage: MockedDebugElement<SubmitErrorComponent> =
 				dataTest('verify-email-error');
 			// Assert
 			expect(errorMessage).toBeTruthy();

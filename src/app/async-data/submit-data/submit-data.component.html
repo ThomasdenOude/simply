@@ -1,0 +1,9 @@
+@if (submitData()?.error; as error) {
+	<simply-submit-error
+		data-test="submit-error"
+		[submitError]="error"
+		(closeMessage)="resetSubmitData()"
+	></simply-submit-error>
+}
+
+<ng-content></ng-content>

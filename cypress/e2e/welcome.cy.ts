@@ -17,7 +17,7 @@ describe('Welcome', () => {
 		});
 	});
 
-	context('Welcome message', () => {
+	context('Welcome submit-error', () => {
 		it('has the welcome title', () => {
 			cy.getByData('welcome-title').should('contain', 'Simply');
 		});

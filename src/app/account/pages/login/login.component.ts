@@ -1,11 +1,4 @@
-import {
-	Component,
-	inject,
-	OnDestroy,
-	signal,
-	Signal,
-	WritableSignal,
-} from '@angular/core';
+import { Component, inject, OnDestroy, Signal } from '@angular/core';
 import {
 	FormControl,
 	FormGroup,
@@ -15,17 +8,16 @@ import {
 } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 
-import { FirebaseError } from '@firebase/util';
 import { Subject } from 'rxjs';
 import { Dialog } from '@angular/cdk/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIcon } from '@angular/material/icon';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { AuthenticationService } from '../../services/authentication-service/authentication.service';
 import { ResponsiveService } from '../../../base/services/responsive.service';
-import { MessageComponent } from '../../../base/ui/message/message.component';
 import { ForgotPasswordComponent } from '../../ui/forgot-password/forgot-password.component';
 import { CenterPageComponent } from '../../../base/ui/center-page/center-page.component';
 import { SpaceContentDirective } from '../../../base/directives/space-content.directive';
@@ -35,12 +27,14 @@ import {
 	BaseCredentialsForm,
 } from '../../models/credentials.model';
 import { Devices } from '../../../base/models/devices.model';
-import { AuthenticationMessages } from '../../models/authentication-messages';
 import {
 	TASK_BOARD_ROUTE,
 	VERIFY_EMAIL_ROUTE,
 } from '../../../base/guards/auth-guards';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { SubmitDataComponent } from '../../../async-data/submit-data/submit-data.component';
+import { coerceBooleanProperty } from '@angular/cdk/coercion';
+import { ObservePipe } from '../../../async-data/observe-pipe/observe.pipe';
+import { SubmitButtonComponent } from '../../../async-data/submit-data/submit-button/submit-button.component';
 
 @Component({
 	selector: 'simply-login',
@@ -52,11 +46,13 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 		FormsModule,
 		ReactiveFormsModule,
 		MatIcon,
-		MessageComponent,
 		CenterPageComponent,
 		FocusInputDirective,
 		SpaceContentDirective,
 		RouterLink,
+		SubmitDataComponent,
+		ObservePipe,
+		SubmitButtonComponent,
 	],
 	templateUrl: './login.component.html',
 	styleUrl: './login.component.scss',
@@ -70,11 +66,6 @@ export class LoginComponent implements OnDestroy {
 	private dialog: Dialog = inject(Dialog);
 	private snackbar: MatSnackBar = inject(MatSnackBar);
 
-	protected readonly AuthenticationErrors = AuthenticationMessages;
-	protected loginError: WritableSignal<AuthenticationMessages> = signal(
-		AuthenticationMessages.None
-	);
-
 	protected device: Signal<Devices> = this.responsiveService.device;
 	protected readonly Devices = Devices;
 
@@ -84,6 +75,8 @@ export class LoginComponent implements OnDestroy {
 			password: new FormControl('', [Validators.required]),
 		});
 
+	protected loginAction: Promise<boolean> | null = null;
+
 	protected login(): void {
 		if (this.loginForm.valid) {
 			const user: Partial<BaseCredentials> = this.loginForm.value;
@@ -91,55 +84,38 @@ export class LoginComponent implements OnDestroy {
 			const password = user.password;
 
 			if (email && password) {
-				this.authService
+				this.loginAction = this.authService
 					.loginAndVerifyEmail(email, password)
-					.then((emailVerified: boolean | void) => {
-						// Signed in
-						if (emailVerified) {
-							void this.router.navigate(TASK_BOARD_ROUTE);
-						} else {
-							void this.router.navigate(VERIFY_EMAIL_ROUTE);
-						}
-					})
-					.catch((error: FirebaseError) => {
-						this.loginError.set(
-							this.authService.getAuthenticationMessage(error)
-						);
-					});
+					.then(coerceBooleanProperty);
 			}
 		}
 	}
 
-	protected resetError() {
-		this.loginError.set(AuthenticationMessages.None);
+	protected redirectAfterLogin(emailVerified: boolean): void {
+		if (emailVerified) {
+			void this.router.navigate(TASK_BOARD_ROUTE);
+		} else {
+			void this.router.navigate(VERIFY_EMAIL_ROUTE);
+		}
 	}
 
 	protected openForgotPasswordDialog(): void {
-		const forgotPasswordDialog = this.dialog.open<string | null>(
+		const forgotPasswordDialog = this.dialog.open<boolean>(
 			ForgotPasswordComponent,
 			{
 				autoFocus: false,
 			}
 		);
 
-		forgotPasswordDialog.closed.subscribe(email => {
-			if (email) {
-				this.authService
-					.sendPasswordReset(email)
-					.then(() => {
-						this.snackbar.open(
-							`An email to reset your password was send to: ${email}`,
-							'',
-							{
-								duration: 5000,
-							}
-						);
-					})
-					.catch(() => {
-						this.snackbar.open(`Unable to send email to: ${email}`, '', {
-							duration: 5000,
-						});
-					});
+		forgotPasswordDialog.closed.subscribe(resetForEmail => {
+			if (resetForEmail) {
+				this.snackbar.open(
+					`An email to reset your password was send to: ${resetForEmail}`,
+					'',
+					{
+						duration: 5000,
+					}
+				);
 			}
 		});
 	}

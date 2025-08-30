@@ -39,7 +39,7 @@ describe('ForgotPasswordComponent', () => {
 
 		closeButton = dataTest('close-button');
 		emailInput = dataTest('email-input');
-		sendEmailButton = dataTest('send-email-button');
+		sendEmailButton = dataTest('submit-button');
 	});
 
 	it('closes the dialog', () => {

@@ -10,9 +10,9 @@ import { MatButton } from '@angular/material/button';
 import { MatDivider } from '@angular/material/divider';
 
 import { SpaceContentDirective } from '../../../base/directives/space-content.directive';
-import { MessageComponent } from '../../../base/ui/message/message.component';
 import { NewPasswordComponent } from '../new-password/new-password.component';
 import { AuthenticationMessages } from '../../models/authentication-messages';
+import { SubmitErrorComponent } from '../../../async-data/submit-data/submit-error/submit-error.component';
 
 @Component({
 	selector: 'simply-confirm-reset-password',
@@ -20,9 +20,9 @@ import { AuthenticationMessages } from '../../models/authentication-messages';
 	imports: [
 		MatButton,
 		MatDivider,
-		MessageComponent,
 		NewPasswordComponent,
 		SpaceContentDirective,
+		SubmitErrorComponent,
 	],
 	templateUrl: './confirm-reset-password.component.html',
 	styleUrl: './confirm-reset-password.component.scss',

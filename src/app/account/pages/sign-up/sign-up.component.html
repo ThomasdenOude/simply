@@ -5,13 +5,12 @@
 		</h2>
 
 		@if (signupError() !== AuthenticationMessages.None) {
-			<simply-message
+			<simply-submit-error
 				simplySpaceContent="large"
 				data-test="sign-up-error"
-				[errorMessage]="signupError()"
-				[form]="emailForm"
+				[submitMessage]="signupError()"
 				(closeMessage)="resetError()"
-			></simply-message>
+			></simply-submit-error>
 		}
 
 		@if (signupError() === AuthenticationMessages.EmailExists) {

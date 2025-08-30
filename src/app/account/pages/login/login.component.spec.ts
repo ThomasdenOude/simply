@@ -24,7 +24,7 @@ import { AuthenticationService } from '../../services/authentication-service/aut
 import { ResponsiveService } from '../../../base/services/responsive.service';
 import { LoginComponent } from './login.component';
 import { AuthenticationMessages } from '../../models/authentication-messages';
-import { MessageComponent } from '../../../base/ui/message/message.component';
+import { SubmitErrorComponent } from '../../../async-data/submit-data/submit-error/submit-error.component';
 import { CenterPageComponent } from '../../../base/ui/center-page/center-page.component';
 import {
 	TASK_BOARD_ROUTE,
@@ -54,7 +54,7 @@ describe('LoginComponent', () => {
 				Router,
 				AuthenticationService,
 				ResponsiveService,
-				MessageComponent,
+				SubmitErrorComponent,
 				CenterPageComponent,
 				Dialog,
 				DialogRef,
@@ -81,10 +81,10 @@ describe('LoginComponent', () => {
 		submitButton = dataTest('submit-button');
 	});
 
-	it('shows title and no message', () => {
+	it('shows title and no submit-error', () => {
 		// Arrange
 		const title = dataTest('login-title');
-		const message = dataTestIf('login-message');
+		const message = dataTestIf('login-submit-error');
 		// Assert
 		expect(title.nativeElement.textContent).toContain('Log in to Simply');
 		expect(message).toBe(false);
@@ -129,7 +129,7 @@ describe('LoginComponent', () => {
 			expect(router.navigate).toHaveBeenCalledWith(VERIFY_EMAIL_ROUTE);
 		});
 
-		it('shows message on login error', () => {
+		it('shows submit-error on login error', () => {
 			// Arrange
 			ngMocks.stubMember(
 				authenticationService,
@@ -145,8 +145,8 @@ describe('LoginComponent', () => {
 			submitButton.nativeElement.click();
 			fixture.detectChanges();
 			// Arrange
-			const message: MockedDebugElement<MessageComponent> =
-				dataTest('login-message');
+			const message: MockedDebugElement<SubmitErrorComponent> =
+				dataTest('login-submit-error');
 			// Assert
 			expect(router.navigate).not.toHaveBeenCalled();
 			expect(message.componentInstance.errorMessage).toBe(
@@ -156,7 +156,7 @@ describe('LoginComponent', () => {
 			message.componentInstance.closeMessage.emit();
 			fixture.detectChanges();
 			// Arrange
-			const messageAfterClose = dataTestIf('login-message');
+			const messageAfterClose = dataTestIf('login-submit-error');
 			// Assert
 			expect(messageAfterClose).toBe(false);
 		});

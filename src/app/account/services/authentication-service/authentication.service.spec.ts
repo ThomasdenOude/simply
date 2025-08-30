@@ -113,7 +113,7 @@ describe('AuthenticationService', () => {
 		expect(mockUpdatePassword).toHaveBeenCalledWith(mockUser, mockPassword);
 	});
 
-	it('should return default error message', () => {
+	it('should return default error submit-error', () => {
 		// Act
 		const message: AuthenticationMessages =
 			service.getAuthenticationMessage(firebaseErrorMock);
@@ -121,7 +121,7 @@ describe('AuthenticationService', () => {
 		expect(message).toBe(AuthenticationMessages.Default);
 	});
 
-	it('should return corresponding error message', () => {
+	it('should return corresponding error submit-error', () => {
 		// Act
 		for (const [key, value] of authenticationErrorMap) {
 			const error = new FirebaseError(key, 'mockError');

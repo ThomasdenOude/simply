@@ -8,39 +8,39 @@ import {
 } from 'ng-mocks';
 import SpyInstance = jest.SpyInstance;
 
-import { MessageComponent } from './message.component';
+import { SubmitErrorComponent } from './submit-error.component';
 import { dataTest } from '../../../test/helpers/data-test.helper';
 
 describe('MessageComponent', () => {
 	let fixture: MockedComponentFixture<
-		MessageComponent,
-		DefaultRenderComponent<Partial<MessageComponent>>
+		SubmitErrorComponent,
+		DefaultRenderComponent<Partial<SubmitErrorComponent>>
 	>;
-	let component: MessageComponent;
+	let component: SubmitErrorComponent;
 
-	const message = 'test error message';
+	const message = 'test error submit-error';
 	const testValue = 'test value';
 	const form: FormGroup = new FormGroup({
 		test: new FormControl(testValue),
 	});
 
-	beforeEach(() => MockBuilder(MessageComponent));
+	beforeEach(() => MockBuilder(SubmitErrorComponent));
 
 	it('should set errorMessage', () => {
 		// Arrange
-		fixture = MockRender<MessageComponent>(MessageComponent, {
+		fixture = MockRender<SubmitErrorComponent>(SubmitErrorComponent, {
 			errorMessage: message,
 		});
 		fixture.detectChanges();
-		const messageText = dataTest('message-text');
+		const messageText = dataTest('submit-error-text');
 		// Assert
 		expect(messageText.nativeElement.textContent).toBe(message);
 	});
 
-	describe('Close message', () => {
+	describe('Close submit-error', () => {
 		it('should emit onClose when closeMessage is called', () => {
 			// Arrange
-			fixture = MockRender<MessageComponent>(MessageComponent, {
+			fixture = MockRender<SubmitErrorComponent>(SubmitErrorComponent, {
 				errorMessage: message,
 			});
 			component = fixture.point.componentInstance;
@@ -60,7 +60,7 @@ describe('MessageComponent', () => {
 
 		it('should emit onclose when form value changes', () => {
 			// Arrange
-			fixture = MockRender<MessageComponent>(MessageComponent, {
+			fixture = MockRender<SubmitErrorComponent>(SubmitErrorComponent, {
 				errorMessage: message,
 				form: form,
 			});
@@ -83,7 +83,7 @@ describe('MessageComponent', () => {
 
 		it('should clean up form valueChanges subscription after destroy', () => {
 			// Arrange
-			fixture = MockRender<MessageComponent>(MessageComponent, {
+			fixture = MockRender<SubmitErrorComponent>(SubmitErrorComponent, {
 				errorMessage: message,
 				form: form,
 			});
