@@ -1,5 +1,5 @@
 [tools]
 java = "17"
-node = "20"
+node = "24"
 python = "3.12.2"
 
