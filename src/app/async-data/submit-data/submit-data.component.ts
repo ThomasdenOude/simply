@@ -1,9 +1,6 @@
 import {
-	AfterViewInit,
 	Component,
-	computed,
 	contentChild,
-	effect,
 	model,
 	ModelSignal,
 	OnChanges,
@@ -17,11 +14,10 @@ import { SubmitErrorComponent } from './submit-error/submit-error.component';
 import { SubmitButtonComponent } from './submit-button/submit-button.component';
 
 @Component({
-	selector: 'simply-submit-data',
-	standalone: true,
-	imports: [SubmitErrorComponent],
-	templateUrl: './submit-data.component.html',
-	styleUrl: './submit-data.component.scss',
+    selector: 'simply-submit-data',
+    imports: [SubmitErrorComponent],
+    templateUrl: './submit-data.component.html',
+    styleUrl: './submit-data.component.scss'
 })
 export class SubmitDataComponent<T> implements OnChanges {
 	public submitData: ModelSignal<ObserveValues<T> | null> =

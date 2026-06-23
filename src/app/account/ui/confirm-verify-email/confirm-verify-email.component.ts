@@ -17,18 +17,17 @@ import { SubmitErrorComponent } from '../../../async-data/submit-data/submit-err
 import { AuthenticationMessages } from '../../models/authentication-messages';
 
 @Component({
-	selector: 'simply-confirm-verify-email',
-	standalone: true,
-	imports: [
-		LogoComponent,
-		MatButtonModule,
-		MatDivider,
-		SubmitErrorComponent,
-		RouterLink,
-		SpaceContentDirective,
-	],
-	templateUrl: './confirm-verify-email.component.html',
-	styleUrl: './confirm-verify-email.component.scss',
+    selector: 'simply-confirm-verify-email',
+    imports: [
+        LogoComponent,
+        MatButtonModule,
+        MatDivider,
+        SubmitErrorComponent,
+        RouterLink,
+        SpaceContentDirective,
+    ],
+    templateUrl: './confirm-verify-email.component.html',
+    styleUrl: './confirm-verify-email.component.scss'
 })
 export class ConfirmVerifyEmailComponent {
 	protected readonly AuthenticationMessages = AuthenticationMessages;

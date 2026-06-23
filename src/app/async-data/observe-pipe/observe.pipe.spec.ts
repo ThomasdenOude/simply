@@ -23,8 +23,8 @@ import { ObservePipe } from './observe.pipe';
 import { dataTestIf } from '../../test/helpers/data-test.helper';
 
 @Component({
-	selector: 'test',
-	template: `
+    selector: 'test',
+    template: `
     @let value = value$ | observe;
 
     @if (value?.loading) {
@@ -44,8 +44,7 @@ import { dataTestIf } from '../../test/helpers/data-test.helper';
       <p data-test="error">{{ value.error.message }}</p>
     }
   `,
-	standalone: true,
-	imports: [ObservePipe],
+    imports: [ObservePipe]
 })
 class TestComponent {
 	public value$:

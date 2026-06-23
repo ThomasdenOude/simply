@@ -7,7 +7,7 @@ import {
 	Validators,
 } from '@angular/forms';
 
-import { MatButton, MatIconButton } from '@angular/material/button';
+import {  MatIconButton } from '@angular/material/button';
 import { MatDivider } from '@angular/material/divider';
 import { MatIcon } from '@angular/material/icon';
 import { DialogRef } from '@angular/cdk/dialog';
@@ -23,26 +23,25 @@ import { ObservePipe } from '../../../async-data/observe-pipe/observe.pipe';
 import { SubmitButtonComponent } from '../../../async-data/submit-data/submit-button/submit-button.component';
 
 @Component({
-	selector: 'simply-forgot-password',
-	standalone: true,
-	imports: [
-		FocusInputDirective,
-		FormsModule,
-		MatError,
-		MatFormField,
-		MatInput,
-		MatLabel,
-		ReactiveFormsModule,
-		SpaceContentDirective,
-		MatDivider,
-		MatIconButton,
-		MatIcon,
-		SubmitDataComponent,
-		ObservePipe,
-		SubmitButtonComponent,
-	],
-	templateUrl: './forgot-password.component.html',
-	styleUrl: './forgot-password.component.scss',
+    selector: 'simply-forgot-password',
+    imports: [
+        FocusInputDirective,
+        FormsModule,
+        MatError,
+        MatFormField,
+        MatInput,
+        MatLabel,
+        ReactiveFormsModule,
+        SpaceContentDirective,
+        MatDivider,
+        MatIconButton,
+        MatIcon,
+        SubmitDataComponent,
+        ObservePipe,
+        SubmitButtonComponent,
+    ],
+    templateUrl: './forgot-password.component.html',
+    styleUrl: './forgot-password.component.scss'
 })
 export class ForgotPasswordComponent {
 	private dialogRef: DialogRef<string> = inject(DialogRef<string>);

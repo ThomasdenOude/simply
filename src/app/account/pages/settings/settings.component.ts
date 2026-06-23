@@ -1,5 +1,4 @@
 import { Component, inject, signal, WritableSignal } from '@angular/core';
-import { NgClass } from '@angular/common';
 import { Router } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -24,27 +23,26 @@ import { LogoComponent } from '../../../base/ui/logo/logo.component';
 import { SubmitErrorComponent } from '../../../async-data/submit-data/submit-error/submit-error.component';
 
 @Component({
-	selector: 'simply-settings',
-	standalone: true,
-	imports: [
-		MatIcon,
-		MatDivider,
-		MatButton,
-		DialogModule,
-		SubmitErrorComponent,
-		PanelComponent,
-		ConfirmPasswordComponent,
-		ReactiveFormsModule,
-		FormsModule,
-		NewPasswordComponent,
-		CenterPageComponent,
-		SpaceContentDirective,
-		TextContentDirective,
-		LogoComponent,
-		SubmitErrorComponent,
-	],
-	templateUrl: './settings.component.html',
-	styleUrl: './settings.component.scss',
+    selector: 'simply-settings',
+    imports: [
+        MatIcon,
+        MatDivider,
+        MatButton,
+        DialogModule,
+        SubmitErrorComponent,
+        PanelComponent,
+        ConfirmPasswordComponent,
+        ReactiveFormsModule,
+        FormsModule,
+        NewPasswordComponent,
+        CenterPageComponent,
+        SpaceContentDirective,
+        TextContentDirective,
+        LogoComponent,
+        SubmitErrorComponent,
+    ],
+    templateUrl: './settings.component.html',
+    styleUrl: './settings.component.scss'
 })
 export class SettingsComponent {
 	private authService: AuthenticationService = inject(AuthenticationService);

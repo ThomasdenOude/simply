@@ -34,21 +34,20 @@ import {
 } from '../../models/task-status';
 
 @Component({
-	selector: 'simply-kanban',
-	standalone: true,
-	imports: [
-		MatButtonModule,
-		RouterLink,
-		DragDropModule,
-		CdkDropListGroup,
-		CdkDrag,
-		CdkDropList,
-		TaskCardComponent,
-		MatIconModule,
-		NgClass,
-	],
-	templateUrl: './kanban.component.html',
-	styleUrl: './kanban.component.scss',
+    selector: 'simply-kanban',
+    imports: [
+        MatButtonModule,
+        RouterLink,
+        DragDropModule,
+        CdkDropListGroup,
+        CdkDrag,
+        CdkDropList,
+        TaskCardComponent,
+        MatIconModule,
+        NgClass,
+    ],
+    templateUrl: './kanban.component.html',
+    styleUrl: './kanban.component.scss'
 })
 export class KanbanComponent {
 	protected readonly taskStatuses: ReadonlyArray<TaskStatus> = TASK_STATUS_LIST;

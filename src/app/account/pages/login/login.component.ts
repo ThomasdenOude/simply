@@ -37,25 +37,24 @@ import { ObservePipe } from '../../../async-data/observe-pipe/observe.pipe';
 import { SubmitButtonComponent } from '../../../async-data/submit-data/submit-button/submit-button.component';
 
 @Component({
-	selector: 'simply-login',
-	standalone: true,
-	imports: [
-		MatFormFieldModule,
-		MatInputModule,
-		MatButtonModule,
-		FormsModule,
-		ReactiveFormsModule,
-		MatIcon,
-		CenterPageComponent,
-		FocusInputDirective,
-		SpaceContentDirective,
-		RouterLink,
-		SubmitDataComponent,
-		ObservePipe,
-		SubmitButtonComponent,
-	],
-	templateUrl: './login.component.html',
-	styleUrl: './login.component.scss',
+    selector: 'simply-login',
+    imports: [
+        MatFormFieldModule,
+        MatInputModule,
+        MatButtonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        MatIcon,
+        CenterPageComponent,
+        FocusInputDirective,
+        SpaceContentDirective,
+        RouterLink,
+        SubmitDataComponent,
+        ObservePipe,
+        SubmitButtonComponent,
+    ],
+    templateUrl: './login.component.html',
+    styleUrl: './login.component.scss'
 })
 export class LoginComponent implements OnDestroy {
 	private destroy: Subject<void> = new Subject<void>();

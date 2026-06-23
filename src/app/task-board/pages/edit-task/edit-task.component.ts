@@ -27,7 +27,6 @@ import { MatOption, MatSelect } from '@angular/material/select';
 import { TaskService } from '../../services/task.service';
 import { ResponsiveService } from '../../../base/services/responsive.service';
 import { CenterPageComponent } from '../../../base/ui/center-page/center-page.component';
-import { FocusInputDirective } from '../../../base/directives/focus-input.directive';
 import { SpaceContentDirective } from '../../../base/directives/space-content.directive';
 import { CreateTask, CreateTaskForm, Task } from '../../models/task';
 import { Devices } from '../../../base/models/devices.model';
@@ -37,24 +36,22 @@ import { TaskStatus, TaskStatusIcons } from '../../models/task-status';
 import { TASK_BOARD_ROUTE } from '../../../base/guards/auth-guards';
 
 @Component({
-	selector: 'simply-edit-task',
-	standalone: true,
-	imports: [
-		FormsModule,
-		ReactiveFormsModule,
-		MatInputModule,
-		MatIconModule,
-		MatFormFieldModule,
-		MatButtonModule,
-		NgClass,
-		CenterPageComponent,
-		MatSelect,
-		MatOption,
-		FocusInputDirective,
-		SpaceContentDirective,
-	],
-	templateUrl: './edit-task.component.html',
-	styleUrl: './edit-task.component.scss',
+    selector: 'simply-edit-task',
+    imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        MatInputModule,
+        MatIconModule,
+        MatFormFieldModule,
+        MatButtonModule,
+        NgClass,
+        CenterPageComponent,
+        MatSelect,
+        MatOption,
+        SpaceContentDirective,
+    ],
+    templateUrl: './edit-task.component.html',
+    styleUrl: './edit-task.component.scss'
 })
 export class EditTaskComponent implements OnInit {
 	private test = 'test';

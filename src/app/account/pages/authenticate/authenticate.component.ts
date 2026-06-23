@@ -6,20 +6,14 @@ import {
 	signal,
 	WritableSignal,
 } from '@angular/core';
-import { ActivatedRoute, ParamMap, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 
 import { User } from '@angular/fire/auth';
 import { FirebaseError } from '@firebase/util';
-import { MatDivider } from '@angular/material/divider';
-import { MatButton } from '@angular/material/button';
 
 import { AuthenticationService } from '../../services/authentication-service/authentication.service';
 import { CenterPageComponent } from '../../../base/ui/center-page/center-page.component';
-import { NewPasswordComponent } from '../../ui/new-password/new-password.component';
-import { SubmitErrorComponent } from '../../../async-data/submit-data/submit-error/submit-error.component';
-import { LogoComponent } from '../../../base/ui/logo/logo.component';
 import { TextContentDirective } from '../../../base/directives/text-content.directive';
-import { SpaceContentDirective } from '../../../base/directives/space-content.directive';
 import { AuthenticationMessages } from '../../models/authentication-messages';
 import {
 	TASK_BOARD_ROUTE,
@@ -30,16 +24,15 @@ import { ConfirmVerifyEmailComponent } from '../../ui/confirm-verify-email/confi
 import { ConfirmResetPasswordComponent } from '../../ui/confirm-reset-password/confirm-reset-password.component';
 
 @Component({
-	selector: 'simply-authenticate',
-	standalone: true,
-	imports: [
-		CenterPageComponent,
-		TextContentDirective,
-		ConfirmVerifyEmailComponent,
-		ConfirmResetPasswordComponent,
-	],
-	templateUrl: './authenticate.component.html',
-	styleUrl: './authenticate.component.scss',
+    selector: 'simply-authenticate',
+    imports: [
+        CenterPageComponent,
+        TextContentDirective,
+        ConfirmVerifyEmailComponent,
+        ConfirmResetPasswordComponent,
+    ],
+    templateUrl: './authenticate.component.html',
+    styleUrl: './authenticate.component.scss'
 })
 export class AuthenticateComponent implements OnInit {
 	private _authService: AuthenticationService = inject(AuthenticationService);
@@ -121,7 +114,7 @@ export class AuthenticateComponent implements OnInit {
 	private _verifyPasswordReset(actionCode: string): void {
 		this._authService
 			.verifyPasswordReset(actionCode)
-			.then(email => {
+			.then(() => {
 				this.passwordCodeConfirmed.set(true);
 			})
 			.catch((error: FirebaseError) => {

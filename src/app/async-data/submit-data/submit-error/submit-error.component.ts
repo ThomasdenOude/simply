@@ -16,11 +16,10 @@ import { authenticationErrorMap } from '../../../account/data/authentication-mes
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
-	selector: 'simply-submit-error',
-	standalone: true,
-	imports: [MatIconButton, MatIcon],
-	templateUrl: './submit-error.component.html',
-	styleUrl: './submit-error.component.scss',
+    selector: 'simply-submit-error',
+    imports: [MatIconButton, MatIcon],
+    templateUrl: './submit-error.component.html',
+    styleUrl: './submit-error.component.scss'
 })
 export class SubmitErrorComponent {
 	public submitError: InputSignal<

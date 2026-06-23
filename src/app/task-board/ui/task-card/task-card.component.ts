@@ -33,11 +33,10 @@ import { EventResponse } from '../../models/event-response';
 import { Task } from '../../models/task';
 
 @Component({
-	selector: 'simply-task-card',
-	standalone: true,
-	imports: [MatCardModule],
-	templateUrl: './task-card.component.html',
-	styleUrl: './task-card.component.scss',
+    selector: 'simply-task-card',
+    imports: [MatCardModule],
+    templateUrl: './task-card.component.html',
+    styleUrl: './task-card.component.scss'
 })
 export class TaskCardComponent implements AfterViewInit, OnDestroy {
 	private elementRef: ElementRef = inject(ElementRef);
@@ -111,7 +110,7 @@ export class TaskCardComponent implements AfterViewInit, OnDestroy {
 
 		const longHold$ = startPointerDelayed$.pipe(
 			combineLatestWith(endPointer$),
-			map(([start, end]) => start > end),
+			map(([start, end]: [number, number]) => start > end),
 			filter(isLongHold => isLongHold),
 			map(() => null)
 		);
